@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notifications - LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#155eef,#4f8cff);
+    color:white;
+    padding:20px 18px 28px;
+    border-radius:0 0 25px 25px;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.back{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+    cursor:pointer;
+}
+
+.header-content{
+    flex:1;
+}
+
+.header h2{
+    font-size:20px;
+}
+
+.header p{
+    margin-top:5px;
+    font-size:12px;
+    opacity:.85;
+}
+
+/* NOTIFICATION COUNT */
+
+.count{
+    min-width:24px;
+    height:24px;
+
+    padding:0 6px;
+
+    border-radius:20px;
+
+    background:white;
+    color:#155eef;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:10px;
+    font-weight:bold;
+}
+
+
+/* FILTER BAR */
+
+.filter-wrap{
+    padding:15px;
+}
+
+.filter-bar{
+    background:white;
+    padding:5px;
+
+    border-radius:12px;
+
+    display:flex;
+    gap:5px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.filter-btn{
+
+    flex:1;
+
+    height:35px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:transparent;
+
+    color:#737d8e;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.filter-btn.active{
+
+    background:#eef3ff;
+
+    color:#155eef;
+
+}
+
+
+/* NOTIFICATION SECTION */
+
+.section{
+    padding:0 15px 15px;
+}
+
+.section-heading{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.section-heading h3{
+    font-size:15px;
+}
+
+.mark-read{
+
+    border:none;
+
+    background:transparent;
+
+    color:#155eef;
+
+    font-size:9px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* NOTIFICATION CARD */
+
+.notification{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:14px;
+
+    margin-bottom:9px;
+
+    display:flex;
+
+    gap:11px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+
+    position:relative;
+
+    cursor:pointer;
+}
+
+.notification.unread{
+
+    background:#f8faff;
+
+}
+
+.notification.unread::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    bottom:0;
+
+    width:3px;
+
+    background:#155eef;
+
+    border-radius:10px 0 0 10px;
+}
+
+
+/* ICON */
+
+.notification-icon{
+
+    width:42px;
+    height:42px;
+
+    flex-shrink:0;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:19px;
+
+    background:#eef3ff;
+}
+
+
+/* TYPES */
+
+.icon-green{
+    background:#e7f8ef;
+}
+
+.icon-orange{
+    background:#fff4dd;
+}
+
+.icon-red{
+    background:#ffe9e9;
+}
+
+.icon-purple{
+    background:#f0eaff;
+}
+
+
+/* CONTENT */
+
+.notification-content{
+    flex:1;
+}
+
+.notification-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:8px;
+}
+
+.notification-title{
+
+    font-size:11px;
+
+    font-weight:bold;
+}
+
+.notification-time{
+
+    font-size:8px;
+
+    color:#929aaa;
+
+    white-space:nowrap;
+}
+
+.notification-message{
+
+    margin-top:5px;
+
+    font-size:9px;
+
+    color:#737d8e;
+
+    line-height:1.5;
+}
+
+
+/* DOT */
+
+.unread-dot{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#155eef;
+
+    margin-top:5px;
+}
+
+
+/* EMPTY */
+
+.empty{
+
+    display:none;
+
+    background:white;
+
+    border-radius:17px;
+
+    padding:40px 20px;
+
+    text-align:center;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.empty-icon{
+
+    font-size:38px;
+}
+
+.empty h3{
+
+    margin-top:12px;
+
+    font-size:15px;
+}
+
+.empty p{
+
+    margin-top:6px;
+
+    font-size:9px;
+
+    color:#7c8596;
+}
+
+
+/* DETAIL MODAL */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    z-index:500;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal-box{
+
+    width:100%;
+
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:23px;
+}
+
+.modal-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+}
+
+.modal-icon{
+
+    width:44px;
+    height:44px;
+
+    border-radius:12px;
+
+    background:#eef3ff;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+}
+
+.modal-title{
+
+    font-size:14px;
+
+    font-weight:bold;
+}
+
+.modal-time{
+
+    margin-top:4px;
+
+    font-size:8px;
+
+    color:#8b94a3;
+}
+
+.modal-message{
+
+    margin-top:18px;
+
+    background:#f6f8fb;
+
+    padding:14px;
+
+    border-radius:11px;
+
+    color:#697385;
+
+    font-size:10px;
+
+    line-height:1.6;
+}
+
+.close-btn{
+
+    width:100%;
+
+    height:43px;
+
+    margin-top:16px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:#155eef;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:360px){
+
+    .notification-time{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-top">
+
+            <div
+                class="back"
+                onclick="go('index.html')"
+            >
+                ←
+            </div>
+
+
+            <div class="header-content">
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <p>
+                    Stay updated about your account
+                </p>
+
+            </div>
+
+
+            <div
+                class="count"
+                id="headerCount"
+            >
+                4
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <div class="filter-wrap">
+
+        <div class="filter-bar">
+
+            <button
+                class="filter-btn active"
+                data-filter="all"
+                onclick="filterNotifications('all',this)"
+            >
+                All
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="unread"
+                onclick="filterNotifications('unread',this)"
+            >
+                Unread
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="loan"
+                onclick="filterNotifications('loan',this)"
+            >
+                Loans
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="payment"
+                onclick="filterNotifications('payment',this)"
+            >
+                Payments
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- NOTIFICATIONS -->
+
+    <div class="section">
+
+
+        <div class="section-heading">
+
+            <h3>
+                Recent Notifications
+            </h3>
+
+            <button
+                class="mark-read"
+                onclick="markAllRead()"
+            >
+                Mark all as read
+            </button>
+
+        </div>
+
+
+        <!-- 1 -->
+
+        <div
+            class="notification unread loan"
+            data-id="1"
+            onclick="openNotification(this)"
+        >
+
+            <div class="notification-icon icon-green">
+                ✓
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+                        KYC Verification Updated
+                    </div>
+
+                    <div class="notification-time">
+                        10 min ago
+                    </div>
+
+                </div>
+
+
+                <div class="notification-message">
+
+                    Your KYC verification status has been updated.
+                    Check your profile for more information.
+
+                </div>
+
+            </div>
+
+
+            <div class="unread-dot"></div>
+
+        </div>
+
+
+        <!-- 2 -->
+
+        <div
+            class="notification unread loan"
+            data-id="2"
+            onclick="openNotification(this)"
+        >
+
+            <div class="notification-icon">
+                💰
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+                        Loan Application Received
+                    </div>
+
+                    <div class="notification-time">
+                        1 hour ago
+                    </div>
+
+                </div>
+
+
+                <div class="notification-message">
+
+                    Your loan application has been received and is
+                    currently being reviewed.
+
+                </div>
+
+            </div>
+
+
+            <div class="unread-dot"></div>
+
+        </div>
+
+
+        <!-- 3 -->
+
+        <div
+            class="notification unread payment"
+            data-id="3"
+            onclick="openNotification(this)"
+        >
+
+            <div class="notification-icon icon-orange">
+                📅
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+                        EMI Payment Reminder
+                    </div>
+
+                    <div class="notification-time">
+                        3 hours ago
+                    </div>
+
+                </div>
+
+
+                <div class="notification-message">
+
+                    Your upcoming EMI payment is due soon.
+                    Please check your repayment schedule.
+
+                </div>
+
+            </div>
+
+
+            <div class="unread-dot"></div>
+
+        </div>
+
+
+        <!-- 4 -->
+
+        <div
+            class="notification unread payment"
+            data-id="4"
+            onclick="openNotification(this)"
+        >
+
+            <div class="notification-icon icon-green">
+                ₹
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+                        Payment Successful
+                    </div>
+
+                    <div class="notification-time">
+                        Yesterday
+                    </div>
+
+                </div>
+
+
+                <div class="notification-message">
+
+                    Your repayment was successfully received.
+                    Your payment record has been updated.
+
+                </div>
+
+            </div>
+
+
+            <div class="unread-dot"></div>
+
+        </div>
+
+
+        <!-- 5 -->
+
+        <div
+            class="notification loan"
+            data-id="5"
+            onclick="openNotification(this)"
+        >
+
+            <div class="notification-icon icon-purple">
+                📄
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+                        Loan Documents Available
+                    </div>
+
+                    <div class="notification-time">
+                        2 days ago
+                    </div>
+
+                </div>
+
+
+                <div class="notification-message">
+
+                    Your loan documents are available in the
+                    Documents section.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 6 -->
+
+        <div
+            class="notification"
+            data-id="6"
+            onclick="openNotification(this)"
+        >
+
+            <div class="notification-icon icon-orange">
+                🎫
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+                        Support Ticket Updated
+                    </div>
+
+                    <div class="notification-time">
+                        3 days ago
+                    </div>
+
+                </div>
+
+
+                <div class="notification-message">
+
+                    Your support ticket has received a new update.
+                    Open Support to view the response.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="empty"
+            id="emptyState"
+        >
+
+            <div class="empty-icon">
+                🔔
+            </div>
+
+            <h3>
+                No Notifications
+            </h3>
+
+            <p>
+                There are no notifications in this category.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- DETAIL MODAL -->
+
+<div
+    class="modal"
+    id="notificationModal"
+>
+
+    <div class="modal-box">
+
+
+        <div class="modal-top">
+
+            <div
+                class="modal-icon"
+                id="modalIcon"
+            >
+                🔔
+            </div>
+
+
+            <div>
+
+                <div
+                    class="modal-title"
+                    id="modalTitle"
+                >
+                    Notification
+                </div>
+
+                <div
+                    class="modal-time"
+                    id="modalTime"
+                >
+                    Just now
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="modal-message"
+            id="modalMessage"
+        >
+            Notification details.
+        </div>
+
+
+        <button
+            class="close-btn"
+            onclick="closeNotification()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* OPEN NOTIFICATION */
+
+function openNotification(element){
+
+    const title =
+        element.querySelector(
+            ".notification-title"
+        ).innerText;
+
+    const time =
+        element.querySelector(
+            ".notification-time"
+        ).innerText;
+
+    const message =
+        element.querySelector(
+            ".notification-message"
+        ).innerText;
+
+    const icon =
+        element.querySelector(
+            ".notification-icon"
+        ).innerText;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText = title;
+
+
+    document.getElementById(
+        "modalTime"
+    ).innerText = time;
+
+
+    document.getElementById(
+        "modalMessage"
+    ).innerText = message;
+
+
+    document.getElementById(
+        "modalIcon"
+    ).innerText = icon;
+
+
+    document.getElementById(
+        "notificationModal"
+    ).style.display = "flex";
+
+
+    /* Mark individual notification as read */
+
+    if(
+        element.classList.contains("unread")
+    ){
+
+        element.classList.remove("unread");
+
+        const dot =
+            element.querySelector(".unread-dot");
+
+        if(dot){
+            dot.remove();
+        }
+
+        updateCount();
+
+    }
+
+}
+
+
+/* CLOSE */
+
+function closeNotification(){
+
+    document.getElementById(
+        "notificationModal"
+    ).style.display = "none";
+
+}
+
+
+/* MARK ALL READ */
+
+function markAllRead(){
+
+    document
+        .querySelectorAll(".notification.unread")
+        .forEach(function(item){
+
+            item.classList.remove("unread");
+
+            const dot =
+                item.querySelector(".unread-dot");
+
+            if(dot){
+                dot.remove();
+            }
+
+        });
+
+
+    updateCount();
+
+}
+
+
+/* UPDATE COUNT */
+
+function updateCount(){
+
+    const count =
+        document.querySelectorAll(
+            ".notification.unread"
+        ).length;
+
+
+    document.getElementById(
+        "headerCount"
+    ).innerText = count;
+
+}
+
+
+/* FILTER */
+
+function filterNotifications(
+    type,
+    button
+){
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(function(btn){
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    const notifications =
+        document.querySelectorAll(
+            ".notification"
+        );
+
+
+    let visible = 0;
+
+
+    notifications.forEach(function(item){
+
+        let show = false;
+
+
+        if(type === "all"){
+
+            show = true;
+
+        }
+
+
+        if(type === "unread"){
+
+            show =
+                item.classList.contains(
+                    "unread"
+                );
+
+        }
+
+
+        if(type === "loan"){
+
+            show =
+                item.classList.contains(
+                    "loan"
+                );
+
+        }
+
+
+        if(type === "payment"){
+
+            show =
+                item.classList.contains(
+                    "payment"
+                );
+
+        }
+
+
+        if(show){
+
+            item.style.display = "flex";
+
+            visible++;
+
+        }else{
+
+            item.style.display = "none";
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        visible === 0
+        ? "block"
+        : "none";
+
+}
+
+</script>
+
+</body>
+</html>

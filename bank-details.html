@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bank Details - LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:35px;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#155eef,#4f8cff);
+    color:white;
+    padding:20px 18px 28px;
+    border-radius:0 0 25px 25px;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.back{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.header h2{
+    font-size:20px;
+}
+
+.header p{
+    margin-top:5px;
+    font-size:12px;
+    opacity:.85;
+}
+
+/* SECURITY INFO */
+
+.security{
+    margin:15px;
+    background:#eaf8f0;
+    border-radius:14px;
+    padding:13px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.security-icon{
+    width:35px;
+    height:35px;
+    border-radius:9px;
+    background:#d5f2e2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.security h4{
+    font-size:11px;
+    color:#176b43;
+}
+
+.security p{
+    margin-top:4px;
+    color:#5c806d;
+    font-size:9px;
+    line-height:1.5;
+}
+
+/* SECTION */
+
+.section{
+    padding:0 15px 15px;
+}
+
+.section-title{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.card{
+    background:white;
+    border-radius:17px;
+    padding:18px;
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    color:#667085;
+    font-size:10px;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    height:44px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    padding:0 11px;
+    outline:none;
+    font-size:12px;
+    background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#155eef;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* ACCOUNT */
+
+.account-box{
+    background:#f6f8fb;
+    border-radius:12px;
+    padding:13px;
+    margin-bottom:15px;
+}
+
+.account-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.account-bank{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.verified{
+    background:#e3f7ec;
+    color:#168352;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:8px;
+    font-weight:bold;
+}
+
+.account-number{
+    margin-top:13px;
+    font-size:19px;
+    letter-spacing:2px;
+}
+
+.account-bottom{
+    display:flex;
+    justify-content:space-between;
+    margin-top:12px;
+    color:#7c8596;
+    font-size:9px;
+}
+
+/* CHECK */
+
+.check-box{
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+    margin-top:4px;
+}
+
+.check-box input{
+    margin-top:2px;
+}
+
+.check-box label{
+    color:#687384;
+    font-size:9px;
+    line-height:1.5;
+}
+
+/* BUTTON */
+
+.save-btn{
+    width:100%;
+    height:47px;
+    border:none;
+    border-radius:10px;
+    background:#155eef;
+    color:white;
+    font-size:13px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save-btn:disabled{
+    background:#aeb8c8;
+    cursor:not-allowed;
+}
+
+/* NOTE */
+
+.note{
+    margin-top:10px;
+    background:#fff8e8;
+    color:#80672a;
+    padding:13px;
+    border-radius:11px;
+    font-size:9px;
+    line-height:1.5;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.success-icon{
+    width:65px;
+    height:65px;
+    margin:auto;
+    border-radius:50%;
+    background:#e4f8ed;
+    color:#168352;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+}
+
+.modal-box h3{
+    margin-top:14px;
+    font-size:18px;
+}
+
+.modal-box p{
+    margin-top:8px;
+    color:#7b8494;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.done-btn{
+    width:100%;
+    height:43px;
+    border:none;
+    border-radius:9px;
+    background:#155eef;
+    color:white;
+    font-weight:bold;
+    margin-top:17px;
+    cursor:pointer;
+}
+
+@media(max-width:360px){
+
+    .row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-top">
+
+            <div
+                class="back"
+                onclick="go('profile.html')"
+            >
+                ←
+            </div>
+
+            <div>
+                <h2>Bank Details</h2>
+                <p>Manage your repayment account</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECURITY -->
+
+    <div class="security">
+
+        <div class="security-icon">
+            🔐
+        </div>
+
+        <div>
+
+            <h4>
+                Your banking information is protected
+            </h4>
+
+            <p>
+                Never share your banking PIN, OTP or password.
+                Only provide account details through the secure
+                loan application.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- CURRENT ACCOUNT -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Current Bank Account
+        </div>
+
+        <div class="card">
+
+            <div class="account-box">
+
+                <div class="account-top">
+
+                    <div class="account-bank">
+                        State Bank
+                    </div>
+
+                    <div class="verified">
+                        ✓ Verified
+                    </div>
+
+                </div>
+
+                <div class="account-number">
+                    •••• •••• 4587
+                </div>
+
+                <div class="account-bottom">
+
+                    <span>
+                        Amit Kumar
+                    </span>
+
+                    <span>
+                        IFSC: SBIN000XXXX
+                    </span>
+
+                </div>
+
+            </div>
+
+            <p style="
+                font-size:9px;
+                color:#7b8494;
+                line-height:1.5;
+            ">
+                If your bank details have changed, enter the new
+                information below.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- BANK FORM -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Update Bank Account
+        </div>
+
+        <div class="card">
+
+            <div class="form-group">
+
+                <label>
+                    Account Holder Name
+                </label>
+
+                <input
+                    type="text"
+                    id="holderName"
+                    placeholder="Enter account holder name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    id="bankName"
+                    placeholder="Enter bank name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Account Number
+                </label>
+
+                <input
+                    type="password"
+                    id="accountNumber"
+                    inputmode="numeric"
+                    maxlength="18"
+                    placeholder="Enter account number"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Confirm Account Number
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmAccount"
+                    inputmode="numeric"
+                    maxlength="18"
+                    placeholder="Re-enter account number"
+                >
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label>
+                        IFSC Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="ifsc"
+                        maxlength="11"
+                        placeholder="SBIN0001234"
+                        style="text-transform:uppercase"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Account Type
+                    </label>
+
+                    <select id="accountType">
+
+                        <option value="">
+                            Select
+                        </option>
+
+                        <option value="Savings">
+                            Savings
+                        </option>
+
+                        <option value="Current">
+                            Current
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONSENT -->
+
+            <div class="check-box">
+
+                <input
+                    type="checkbox"
+                    id="confirm"
+                    onchange="checkForm()"
+                >
+
+                <label for="confirm">
+
+                    I confirm that this bank account belongs to me
+                    and the information entered above is correct.
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SAVE -->
+
+    <div class="section">
+
+        <button
+            class="save-btn"
+            id="saveBtn"
+            disabled
+            onclick="saveBank()"
+        >
+            Save Bank Details
+        </button>
+
+
+        <div class="note">
+
+            <strong>Security:</strong>
+            The real version should validate the account and IFSC
+            through a secure backend before marking the account as
+            verified. Do not store sensitive banking information
+            directly in browser localStorage.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SUCCESS MODAL -->
+
+<div
+    class="modal"
+    id="successModal"
+>
+
+    <div class="modal-box">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h3>
+            Details Submitted
+        </h3>
+
+        <p>
+            Your bank account details have been submitted for
+            verification.
+        </p>
+
+        <button
+            class="done-btn"
+            onclick="go('profile.html')"
+        >
+            Back to Profile
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* FORM VALIDATION */
+
+function checkForm(){
+
+    const holder =
+        document.getElementById("holderName").value.trim();
+
+    const bank =
+        document.getElementById("bankName").value.trim();
+
+    const account =
+        document.getElementById("accountNumber").value.trim();
+
+    const confirmAccount =
+        document.getElementById("confirmAccount").value.trim();
+
+    const ifsc =
+        document.getElementById("ifsc").value.trim().toUpperCase();
+
+    const type =
+        document.getElementById("accountType").value;
+
+    const checked =
+        document.getElementById("confirm").checked;
+
+
+    /*
+       Basic frontend validation only.
+       Actual verification must happen on backend.
+    */
+
+    const accountValid =
+        /^[0-9]{9,18}$/.test(account);
+
+    const sameAccount =
+        account === confirmAccount;
+
+    const ifscValid =
+        /^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc);
+
+
+    const valid =
+        holder &&
+        bank &&
+        accountValid &&
+        sameAccount &&
+        ifscValid &&
+        type &&
+        checked;
+
+
+    document.getElementById("saveBtn").disabled =
+        !valid;
+
+}
+
+
+/* IFSC UPPERCASE */
+
+document
+    .getElementById("ifsc")
+    .addEventListener("input",function(){
+
+        this.value =
+            this.value.toUpperCase();
+
+        checkForm();
+
+    });
+
+
+/* INPUT EVENTS */
+
+document
+    .querySelectorAll("input,select")
+    .forEach(function(element){
+
+        element.addEventListener(
+            "input",
+            checkForm
+        );
+
+        element.addEventListener(
+            "change",
+            checkForm
+        );
+
+    });
+
+
+/* SAVE */
+
+function saveBank(){
+
+    if(
+        document.getElementById("saveBtn").disabled
+    ){
+        return;
+    }
+
+
+    const account =
+        document.getElementById("accountNumber").value;
+
+
+    /*
+       Demo:
+       Real backend integration will be added later.
+    */
+
+    console.log(
+        "Bank account submitted:",
+        account
+    );
+
+
+    document.getElementById("successModal").style.display =
+        "flex";
+
+}
+
+</script>
+
+</body>
+</html>

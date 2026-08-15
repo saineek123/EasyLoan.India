@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | EasyLoan India</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --text-primary: #1a237e;
+            --text-secondary: #455a64;
+            --bg: #f0f4f8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text-secondary);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .navbar .brand i {
+            font-size: 28px;
+        }
+        .navbar .brand h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .navbar .brand small {
+            display: block;
+            font-size: 10px;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+        }
+        .navbar .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card h2 {
+            color: var(--text-primary);
+            font-size: 22px;
+            margin: 30px 0 15px;
+        }
+
+        .content-card h2:first-child {
+            margin-top: 0;
+        }
+
+        .content-card p {
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .content-card ul {
+            margin: 10px 0 10px 25px;
+        }
+
+        .content-card ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .content-card .update-date {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .footer {
+            background: #0d47a1;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 30px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 360px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            background: #2e7d32;
+        }
+        .toast.error {
+            background: #c62828;
+        }
+        .toast.info {
+            background: #0288d1;
+        }
+
+        @media(max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+            .navbar .nav-links.open {
+                display: flex;
+            }
+            .navbar .mobile-toggle {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-building-columns"></i>
+            <div>
+                <h1>EasyLoan</h1>
+                <small>India's Trusted Lender</small>
+            </div>
+        </a>
+
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" style="background:var(--primary);color:white !important;padding:8px 20px;border-radius:50px;">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🔒 Privacy Policy</h1>
+            <p>Learn about how we collect, use, and protect your personal data.</p>
+        </div>
+
+        <div class="content-card">
+            <h2>1. Introduction</h2>
+            <p>
+                At EasyLoan India, we take your privacy seriously. This Privacy Policy explains how we collect,
+                use, disclose, and safeguard your personal information when you use our website and services.
+            </p>
+
+            <h2>2. Information We Collect</h2>
+            <p>We collect the following types of information:</p>
+            <ul>
+                <li><strong>Personal Information:</strong> Name, email address, phone number, date of birth, PAN number, Aadhaar number, and address.</li>
+                <li><strong>Financial Information:</strong> Bank statements, salary slips, income details, credit history, and loan repayment history.</li>
+                <li><strong>Device Information:</strong> IP address, browser type, device type, and operating system.</li>
+                <li><strong>Usage Data:</strong> Pages visited, time spent, features used, and interactions with our platform.</li>
+            </ul>
+
+            <h2>3. How We Use Your Information</h2>
+            <p>We use your information for the following purposes:</p>
+            <ul>
+                <li>Processing and approving loan applications</li>
+                <li>Verifying your identity and eligibility</li>
+                <li>Communicating with you about your loan status</li>
+                <li>Providing customer support</li>
+                <li>Improving our services</li>
+                <li>Complying with legal and regulatory requirements</li>
+            </ul>
+
+            <h2>4. Data Security</h2>
+            <p>
+                We implement bank-grade 256-bit encryption and industry-standard security measures to protect your
+                personal and financial information. Your data is stored on secure servers with restricted access.
+                We regularly review and update our security protocols to ensure your data remains safe.
+            </p>
+
+            <h2>5. Data Sharing</h2>
+            <p>
+                We do not sell, trade, or rent your personal information to third parties. However, we may share
+                your data with:
+            </p>
+            <ul>
+                <li>Credit bureaus for credit assessment</li>
+                <li>Regulatory authorities as required by law</li>
+                <li>Service providers who assist us in operations</li>
+                <li>Third parties with your explicit consent</li>
+            </ul>
+
+            <h2>6. Data Retention</h2>
+            <p>
+                We retain your personal information for as long as necessary to provide our services and comply
+                with legal obligations. After your loan is closed, we may retain certain information for
+                regulatory and record-keeping purposes.
+            </p>
+
+            <h2>7. Your Rights</h2>
+            <p>You have the following rights regarding your personal data:</p>
+            <ul>
+                <li><strong>Right to Access:</strong> You can request a copy of your data.</li>
+                <li><strong>Right to Rectification:</strong> You can correct inaccurate data.</li>
+                <li><strong>Right to Erasure:</strong> You can request deletion of your data.</li>
+                <li><strong>Right to Restrict:</strong> You can limit how we use your data.</li>
+                <li><strong>Right to Portability:</strong> You can request your data in a portable format.</li>
+            </ul>
+
+            <h2>8. Cookies</h2>
+            <p>
+                We use cookies to enhance your experience on our website. Cookies help us remember your
+                preferences and analyze usage patterns. You can control cookie settings through your browser.
+            </p>
+
+            <h2>9. Third-Party Links</h2>
+            <p>
+                Our website may contain links to third-party websites. We are not responsible for the privacy
+                practices of these external sites. We encourage you to read their privacy policies.
+            </p>
+
+            <h2>10. Changes to This Policy</h2>
+            <p>
+                We may update this Privacy Policy from time to time. We will notify you of any significant
+                changes by posting the new policy on this page. We encourage you to review this policy regularly.
+            </p>
+
+            <h2>11. Contact Us</h2>
+            <p>
+                If you have any questions about this Privacy Policy, please contact us at:
+                <strong>support@easyloanindia.com</strong> or call us at <strong>+91 1800-123-4567</strong>.
+            </p>
+
+            <div class="update-date">
+                <strong>Last Updated:</strong> January 1, 2025
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 EasyLoan India. All rights reserved. | Made with ❤️ in India</p>
+    </footer>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+            authDomain: "easyloan-india.firebaseapp.com",
+            projectId: "easyloan-india",
+            storageBucket: "easyloan-india.firebasestorage.app",
+            messagingSenderId: "925263655882",
+            appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        auth.onAuthStateChanged((user) => {
+            const navLinks = document.getElementById('navLinks');
+            if (user) {
+                navLinks.innerHTML = `
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+                    <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
+                `;
+                document.getElementById('logoutNavBtn')?.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        showToast('✅ Logged out', 'success');
+                        setTimeout(() => window.location.reload(), 1000);
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

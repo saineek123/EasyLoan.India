@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments | EasyLoan India</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --success: #2e7d32;
+            --danger: #c62828;
+            --warning: #f57c00;
+            --text-primary: #1a237e;
+            --text-secondary: #455a64;
+            --bg: #f0f4f8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text-secondary);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .navbar .brand i {
+            font-size: 28px;
+        }
+        .navbar .brand h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .navbar .brand small {
+            display: block;
+            font-size: 10px;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+        }
+        .navbar .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .page-header .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .payment-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .payment-summary .summary-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px 25px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .payment-summary .summary-card .amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .payment-summary .summary-card .label {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .payment-summary .summary-card .amount.due {
+            color: var(--danger);
+        }
+        .payment-summary .summary-card .amount.paid {
+            color: var(--success);
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+
+        .payment-card .card-title {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .payment-card .card-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .payment-card .emi-list .emi-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .payment-card .emi-list .emi-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-card .emi-list .emi-item .emi-info .emi-number {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .payment-card .emi-list .emi-item .emi-info .emi-date {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .payment-card .emi-list .emi-item .emi-amount {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .payment-card .emi-list .emi-item .emi-status {
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .payment-card .emi-list .emi-item .emi-status.paid {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+
+        .payment-card .emi-list .emi-item .emi-status.pending {
+            background: #fff3e0;
+            color: var(--warning);
+        }
+
+        .payment-card .emi-list .emi-item .emi-status.overdue {
+            background: #ffebee;
+            color: var(--danger);
+        }
+
+        .payment-card .emi-list .emi-item .emi-status.upcoming {
+            background: #e3f2fd;
+            color: var(--primary);
+        }
+
+        .pay-btn {
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .pay-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .pay-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-methods .method {
+            background: #f8f9fa;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-methods .method:hover {
+            border-color: var(--primary);
+            background: #e3f2fd;
+        }
+
+        .payment-methods .method.selected {
+            border-color: var(--primary);
+            background: #e3f2fd;
+        }
+
+        .payment-methods .method i {
+            font-size: 28px;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .payment-methods .method span {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .amount-input {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .amount-input label {
+            font-weight: 600;
+        }
+
+        .amount-input input {
+            padding: 12px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            font-size: 16px;
+            width: 200px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .amount-input input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 14px 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 360px;
+            font-size: 14px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            background: var(--success);
+        }
+        .toast.error {
+            background: var(--danger);
+        }
+        .toast.info {
+            background: var(--primary);
+        }
+
+        /* Loading */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        .loader i {
+            font-size: 48px;
+            color: var(--primary);
+        }
+
+        @media(max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+            .navbar .nav-links.open {
+                display: flex;
+            }
+            .navbar .mobile-toggle {
+                display: block;
+            }
+
+            .payment-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .payment-card {
+                padding: 20px;
+            }
+
+            .payment-card .emi-list .emi-item {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+            .btn-group button {
+                justify-content: center;
+            }
+
+            .amount-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .amount-input input {
+                width: 100%;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-building-columns"></i>
+            <div>
+                <h1>EasyLoan</h1>
+                <small>India's Trusted Lender</small>
+            </div>
+        </a>
+
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-loans.html">My Loans</a>
+            <a href="apply-loan.html">Apply</a>
+            <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+            <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <a href="my-loans.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Back to My Loans
+            </a>
+            <h1>💳 Make Payment</h1>
+            <p>Pay your EMI securely and manage your loan repayments.</p>
+        </div>
+
+        <!-- Loading -->
+        <div class="loader" id="loader">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+
+        <!-- Payment Content -->
+        <div id="paymentContent" style="display:none;">
+
+            <!-- Summary -->
+            <div class="payment-summary">
+                <div class="summary-card">
+                    <div class="amount" id="totalDue">₹0</div>
+                    <div class="label">Total Due</div>
+                </div>
+                <div class="summary-card">
+                    <div class="amount paid" id="totalPaid">₹0</div>
+                    <div class="label">Total Paid</div>
+                </div>
+                <div class="summary-card">
+                    <div class="amount due" id="remainingDue">₹0</div>
+                    <div class="label">Remaining Balance</div>
+                </div>
+            </div>
+
+            <!-- EMI Schedule -->
+            <div class="payment-card">
+                <div class="card-title"><i class="fa-solid fa-list"></i> EMI Schedule</div>
+                <div class="emi-list" id="emiList">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- Make Payment -->
+            <div class="payment-card">
+                <div class="card-title"><i class="fa-solid fa-credit-card"></i> Make Payment</div>
+
+                <div class="payment-methods" id="paymentMethods">
+                    <div class="method selected" data-method="card">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>Card</span>
+                    </div>
+                    <div class="method" data-method="upi">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>UPI</span>
+                    </div>
+                    <div class="method" data-method="netbanking">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>Net Banking</span>
+                    </div>
+                    <div class="method" data-method="wallet">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Wallet</span>
+                    </div>
+                </div>
+
+                <div class="amount-input">
+                    <label>Amount to Pay:</label>
+                    <input type="number" id="payAmount" placeholder="Enter amount">
+                    <span style="font-size:14px;color:#999;">Min: ₹100</span>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-primary" id="payNowBtn">
+                        <i class="fa-solid fa-lock"></i> Pay Now
+                    </button>
+                    <button class="btn-secondary" id="payAllBtn">
+                        <i class="fa-solid fa-check-double"></i> Pay All Due
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+            authDomain: "easyloan-india.firebaseapp.com",
+            projectId: "easyloan-india",
+            storageBucket: "easyloan-india.firebasestorage.app",
+            messagingSenderId: "925263655882",
+            appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        let currentLoan = null;
+        let currentLoanId = null;
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ============================================================
+        // MOBILE NAV
+        // ============================================================
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // ============================================================
+        // AUTH STATE
+        // ============================================================
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                const params = new URLSearchParams(window.location.search);
+                const loanId = params.get('loanId');
+                if (loanId) {
+                    currentLoanId = loanId;
+                    loadPaymentData(loanId);
+                } else {
+                    showToast('⚠️ No loan selected', 'error');
+                    window.location.href = 'my-loans.html';
+                }
+            }
+        });
+
+        document.getElementById('logoutNavBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                showToast('✅ Logged out', 'success');
+                setTimeout(() => window.location.href = 'login.html', 1000);
+            });
+        });
+
+        // ============================================================
+        // PAYMENT METHOD SELECTION
+        // ============================================================
+        document.querySelectorAll('.payment-methods .method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-methods .method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // ============================================================
+        // LOAD PAYMENT DATA
+        // ============================================================
+        function loadPaymentData(loanId) {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('paymentContent');
+
+            loader.style.display = 'flex';
+            content.style.display = 'none';
+
+            database.ref('loans/' + loanId).once('value')
+                .then((snapshot) => {
+                    const loan = snapshot.val();
+
+                    if (!loan) {
+                        showToast('❌ Loan not found', 'error');
+                        window.location.href = 'my-loans.html';
+                        return;
+                    }
+
+                    if (loan.userId !== auth.currentUser.uid) {
+                        showToast('❌ Unauthorized access', 'error');
+                        window.location.href = 'my-loans.html';
+                        return;
+                    }
+
+                    currentLoan = loan;
+                    displayPaymentData(loan);
+                })
+                .catch((error) => {
+                    console.error('Error loading loan:', error);
+                    showToast('❌ Error loading payment data', 'error');
+                })
+                .finally(() => {
+                    loader.style.display = 'none';
+                    content.style.display = 'block';
+                });
+        }
+
+        // ============================================================
+        // DISPLAY PAYMENT DATA
+        // ============================================================
+        function displayPaymentData(loan) {
+            const totalMonths = loan.tenure || 12;
+            const emiAmount = loan.emiAmount || 0;
+            const totalAmount = emiAmount * totalMonths;
+
+            // Generate EMI schedule
+            const emiList = document.getElementById('emiList');
+            const emiData = [];
+
+            // For demo, generate 12 EMIs
+            const emiCount = Math.min(totalMonths, 12);
+
+            for (let i = 1; i <= emiCount; i++) {
+                const date = new Date();
+                date.setMonth(date.getMonth() + i);
+                const status = i <= 3 ? 'paid' : (i === 4 ? 'pending' : 'upcoming');
+
+                emiData.push({
+                    number: i,
+                    amount: emiAmount,
+                    date: date,
+                    status: status
+                });
+            }
+
+            // Calculate totals
+            const paidEMIs = emiData.filter(e => e.status === 'paid');
+            const pendingEMIs = emiData.filter(e => e.status === 'pending' || e.status === 'overdue');
+
+            document.getElementById('totalDue').textContent = '₹' + (pendingEMIs.length * emiAmount).toLocaleString();
+            document.getElementById('totalPaid').textContent = '₹' + (paidEMIs.length * emiAmount).toLocaleString();
+            document.getElementById('remainingDue').textContent = '₹' + ((pendingEMIs.length) * emiAmount).toLocaleString();
+
+            // Set pay amount to pending EMI
+            if (pendingEMIs.length > 0) {
+                document.getElementById('payAmount').value = emiAmount;
+            }
+
+            // Render EMI list
+            emiList.innerHTML = emiData.map(emi => {
+                const statusLabel = {
+                    'paid': '✅ Paid',
+                    'pending': '⏳ Pending',
+                    'overdue': '⚠️ Overdue',
+                    'upcoming': '📅 Upcoming'
+                }[emi.status] || emi.status;
+
+                const statusClass = emi.status;
+
+                return `
+                    <div class="emi-item">
+                        <div class="emi-info">
+                            <div class="emi-number">EMI #${emi.number}</div>
+                            <div class="emi-date">${emi.date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+                        </div>
+                        <div class="emi-amount">₹${emi.amount.toLocaleString()}</div>
+                        <span class="emi-status ${statusClass}">${statusLabel}</span>
+                        ${emi.status === 'pending' || emi.status === 'overdue' ? 
+                            `<button class="pay-btn" onclick="payEMI(${emi.number})">Pay Now</button>` : ''
+                        }
+                    </div>
+                `;
+            }).join('');
+
+            // Pay All button
+            document.getElementById('payAllBtn').onclick = function() {
+                const pendingEMIs = emiData.filter(e => e.status === 'pending' || e.status === 'overdue');
+                if (pendingEMIs.length === 0) {
+                    showToast('✅ No pending payments!', 'success');
+                    return;
+                }
+                const total = pendingEMIs.length * emiAmount;
+                document.getElementById('payAmount').value = total;
+                showToast('💳 Paying all due EMIs: ₹' + total.toLocaleString(), 'info');
+            };
+        }
+
+        // ============================================================
+        // PAY EMI
+        // ============================================================
+        function payEMI(emiNumber) {
+            showToast('💳 Redirecting to payment gateway for EMI #' + emiNumber + '...', 'info');
+            // In real app, redirect to payment gateway
+            setTimeout(() => {
+                showToast('✅ Payment successful for EMI #' + emiNumber, 'success');
+                loadPaymentData(currentLoanId);
+            }, 2000);
+        }
+
+        // ============================================================
+        // PAY NOW
+        // ============================================================
+        document.getElementById('payNowBtn').addEventListener('click', function() {
+            const amount = parseInt(document.getElementById('payAmount').value);
+
+            if (!amount || amount < 100) {
+                showToast('⚠️ Please enter a valid amount (min ₹100)', 'error');
+                return;
+            }
+
+            const method = document.querySelector('.payment-methods .method.selected');
+            const methodName = method ? method.dataset.method : 'card';
+
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+            // Simulate payment
+            setTimeout(() => {
+                showToast('✅ Payment of ₹' + amount.toLocaleString() + ' successful via ' + methodName.toUpperCase(), 'success');
+
+                // Save payment to Firebase
+                const paymentData = {
+                    loanId: currentLoanId,
+                    userId: auth.currentUser.uid,
+                    amount: amount,
+                    method: methodName,
+                    status: 'completed',
+                    createdAt: firebase.database.ServerValue.TIMESTAMP
+                };
+
+                database.ref('payments').push(paymentData)
+                    .then(() => {
+                        // Update loan status
+                        // In real app, update EMI paid status
+                        loadPaymentData(currentLoanId);
+                    })
+                    .catch((error) => {
+                        console.error('Error saving payment:', error);
+                    });
+
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-lock"></i> Pay Now';
+                document.getElementById('payAmount').value = '';
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>

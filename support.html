@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Support - LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#155eef,#4f8cff);
+    color:white;
+    padding:20px 18px 28px;
+    border-radius:0 0 25px 25px;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.back{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+    cursor:pointer;
+}
+
+.header h2{
+    font-size:20px;
+}
+
+.header p{
+    margin-top:5px;
+    font-size:12px;
+    opacity:.85;
+}
+
+/* QUICK SUPPORT */
+
+.quick-support{
+    margin:15px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+}
+
+.quick-card{
+    background:white;
+    border-radius:15px;
+    padding:16px;
+
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.quick-card:active{
+    transform:scale(.97);
+}
+
+.quick-icon{
+    width:38px;
+    height:38px;
+
+    border-radius:10px;
+
+    background:#eef3ff;
+    color:#155eef;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:19px;
+}
+
+.quick-card h4{
+    margin-top:10px;
+    font-size:12px;
+}
+
+.quick-card p{
+    margin-top:4px;
+    color:#7c8596;
+    font-size:9px;
+}
+
+/* SECTION */
+
+.section{
+    padding:0 15px 15px;
+}
+
+.section-title{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.card{
+    background:white;
+    border-radius:17px;
+    padding:17px;
+
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+/* FAQ */
+
+.faq{
+    border-bottom:1px solid #edf0f4;
+}
+
+.faq:last-child{
+    border-bottom:none;
+}
+
+.faq-question{
+    padding:15px 3px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    font-size:11px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.faq-arrow{
+    color:#7c8596;
+    font-size:15px;
+}
+
+.faq-answer{
+    display:none;
+
+    padding:0 3px 15px;
+
+    color:#737d8e;
+
+    font-size:9px;
+
+    line-height:1.6;
+}
+
+/* TICKET */
+
+.ticket{
+    border:1px solid #edf0f4;
+
+    border-radius:12px;
+
+    padding:13px;
+
+    margin-bottom:10px;
+}
+
+.ticket-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.ticket-id{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.ticket-status{
+    font-size:8px;
+    font-weight:bold;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+}
+
+.open{
+    background:#fff4d9;
+    color:#9a721d;
+}
+
+.closed{
+    background:#e8f7ee;
+    color:#168352;
+}
+
+.ticket-title{
+    margin-top:10px;
+    font-size:11px;
+}
+
+.ticket-date{
+    margin-top:5px;
+    font-size:8px;
+    color:#8a93a2;
+}
+
+/* BUTTON */
+
+.primary-btn{
+
+    width:100%;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#155eef;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+/* MODAL */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    z-index:500;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal-box{
+
+    width:100%;
+
+    max-width:420px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:22px;
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+}
+
+.modal-header h3{
+    font-size:17px;
+}
+
+.close{
+
+    width:32px;
+    height:32px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f0f2f5;
+
+    cursor:pointer;
+
+    font-size:18px;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+
+    display:block;
+
+    color:#667085;
+
+    font-size:9px;
+
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
+    border:1px solid #dfe3e9;
+
+    border-radius:9px;
+
+    padding:10px;
+
+    outline:none;
+
+    font-size:11px;
+
+    background:white;
+}
+
+.form-group input,
+.form-group select{
+    height:43px;
+}
+
+.form-group textarea{
+    height:85px;
+    resize:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#155eef;
+}
+
+.submit-btn{
+
+    width:100%;
+
+    height:44px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:#155eef;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.submit-btn:disabled{
+    background:#adb7c7;
+}
+
+/* SUCCESS */
+
+.success{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    z-index:600;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.success-box{
+
+    width:100%;
+
+    max-width:400px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    text-align:center;
+}
+
+.success-icon{
+
+    width:65px;
+    height:65px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#e4f8ed;
+
+    color:#168352;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:30px;
+}
+
+.success-box h3{
+
+    margin-top:14px;
+
+    font-size:18px;
+}
+
+.success-box p{
+
+    margin-top:8px;
+
+    color:#7b8494;
+
+    font-size:10px;
+
+    line-height:1.5;
+}
+
+.done-btn{
+
+    width:100%;
+
+    height:43px;
+
+    margin-top:17px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:#155eef;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-top">
+
+            <div
+                class="back"
+                onclick="go('index.html')"
+            >
+                ←
+            </div>
+
+            <div>
+
+                <h2>Help & Support</h2>
+
+                <p>
+                    We are here to help you
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK SUPPORT -->
+
+    <div class="quick-support">
+
+
+        <div
+            class="quick-card"
+            onclick="openTicket()"
+        >
+
+            <div class="quick-icon">
+                🎫
+            </div>
+
+            <h4>
+                Create Ticket
+            </h4>
+
+            <p>
+                Report a problem
+            </p>
+
+        </div>
+
+
+        <div
+            class="quick-card"
+            onclick="scrollToFAQ()"
+        >
+
+            <div class="quick-icon">
+                ❓
+            </div>
+
+            <h4>
+                FAQs
+            </h4>
+
+            <p>
+                Find quick answers
+            </p>
+
+        </div>
+
+
+        <div
+            class="quick-card"
+            onclick="showContact()"
+        >
+
+            <div class="quick-icon">
+                📞
+            </div>
+
+            <h4>
+                Contact Support
+            </h4>
+
+            <p>
+                Get help from our team
+            </p>
+
+        </div>
+
+
+        <div
+            class="quick-card"
+            onclick="showTicketHistory()"
+        >
+
+            <div class="quick-icon">
+                📋
+            </div>
+
+            <h4>
+                My Tickets
+            </h4>
+
+            <p>
+                Check ticket status
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FAQ -->
+
+    <div
+        class="section"
+        id="faqSection"
+    >
+
+        <div class="section-title">
+            Frequently Asked Questions
+        </div>
+
+
+        <div class="card">
+
+
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(0)"
+                >
+
+                    <span>
+                        How do I apply for a loan?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow0"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer0"
+                >
+
+                    Open the loan section, choose an eligible
+                    loan product, enter the required information
+                    and submit your application.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(1)"
+                >
+
+                    <span>
+                        How can I check my loan status?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow1"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer1"
+                >
+
+                    Go to the My Loans section to see your
+                    application and current loan status.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(2)"
+                >
+
+                    <span>
+                        Why is KYC required?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow2"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer2"
+                >
+
+                    KYC helps verify the applicant's identity.
+                    The actual requirements depend on the
+                    applicable lending and verification process.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(3)"
+                >
+
+                    <span>
+                        How do I make an EMI payment?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow3"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer3"
+                >
+
+                    Open your active loan and select the
+                    available repayment option to continue.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(4)"
+                >
+
+                    <span>
+                        What if my loan application is rejected?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow4"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer4"
+                >
+
+                    The application status will show the relevant
+                    information available to you. You can contact
+                    support if you need help understanding the status.
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- MY TICKETS -->
+
+    <div
+        class="section"
+        id="ticketsSection"
+    >
+
+        <div class="section-title">
+            Recent Support Tickets
+        </div>
+
+
+        <div class="card">
+
+
+            <div class="ticket">
+
+                <div class="ticket-top">
+
+                    <div class="ticket-id">
+                        #LP10245
+                    </div>
+
+                    <div class="ticket-status open">
+                        Open
+                    </div>
+
+                </div>
+
+                <div class="ticket-title">
+                    KYC verification related query
+                </div>
+
+                <div class="ticket-date">
+                    Created: 14 Aug 2026
+                </div>
+
+            </div>
+
+
+            <div class="ticket">
+
+                <div class="ticket-top">
+
+                    <div class="ticket-id">
+                        #LP10189
+                    </div>
+
+                    <div class="ticket-status closed">
+                        Resolved
+                    </div>
+
+                </div>
+
+                <div class="ticket-title">
+                    Bank account update request
+                </div>
+
+                <div class="ticket-date">
+                    Closed: 10 Aug 2026
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary-btn"
+                onclick="openTicket()"
+            >
+                Create New Support Ticket
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CREATE TICKET MODAL -->
+
+<div
+    class="modal"
+    id="ticketModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Create Support Ticket
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeTicket()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Issue Category
+            </label>
+
+            <select id="category">
+
+                <option value="">
+                    Select category
+                </option>
+
+                <option>
+                    Loan Application
+                </option>
+
+                <option>
+                    KYC Verification
+                </option>
+
+                <option>
+                    Bank Details
+                </option>
+
+                <option>
+                    EMI / Repayment
+                </option>
+
+                <option>
+                    Payment Issue
+                </option>
+
+                <option>
+                    Account Issue
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Subject
+            </label>
+
+            <input
+                type="text"
+                id="subject"
+                placeholder="Enter issue subject"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Loan/Application ID (Optional)
+            </label>
+
+            <input
+                type="text"
+                id="loanId"
+                placeholder="Example: LN10025"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Describe Your Issue
+            </label>
+
+            <textarea
+                id="message"
+                placeholder="Explain your problem..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Attach Screenshot (Optional)
+            </label>
+
+            <input
+                type="file"
+                id="attachment"
+                accept="image/*,.pdf"
+            >
+
+        </div>
+
+
+        <button
+            class="submit-btn"
+            id="submitTicketBtn"
+            disabled
+            onclick="submitTicket()"
+        >
+            Submit Ticket
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CONTACT MODAL -->
+
+<div
+    class="modal"
+    id="contactModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Contact Support
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeContact()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="quick-card"
+             style="margin-bottom:10px">
+
+            <div class="quick-icon">
+                📧
+            </div>
+
+            <h4>
+                Email Support
+            </h4>
+
+            <p>
+                support@example.com
+            </p>
+
+        </div>
+
+
+        <div class="quick-card">
+
+            <div class="quick-icon">
+                🕘
+            </div>
+
+            <h4>
+                Support Hours
+            </h4>
+
+            <p>
+                Monday - Saturday
+                <br>
+                9:00 AM - 6:00 PM
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div
+    class="success"
+    id="successModal"
+>
+
+    <div class="success-box">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h3>
+            Ticket Submitted
+        </h3>
+
+        <p>
+            Your support request has been submitted successfully.
+            Our support team can review it and update the ticket status.
+        </p>
+
+        <button
+            class="done-btn"
+            onclick="closeSuccess()"
+        >
+            Done
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* FAQ */
+
+function toggleFAQ(index){
+
+    const answer =
+        document.getElementById(
+            "answer" + index
+        );
+
+    const arrow =
+        document.getElementById(
+            "arrow" + index
+        );
+
+
+    if(answer.style.display === "block"){
+
+        answer.style.display = "none";
+
+        arrow.innerText = "+";
+
+    }else{
+
+        answer.style.display = "block";
+
+        arrow.innerText = "−";
+
+    }
+
+}
+
+
+/* SCROLL FAQ */
+
+function scrollToFAQ(){
+
+    document
+        .getElementById("faqSection")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* OPEN TICKET */
+
+function openTicket(){
+
+    document
+        .getElementById("ticketModal")
+        .style.display = "flex";
+
+}
+
+
+/* CLOSE TICKET */
+
+function closeTicket(){
+
+    document
+        .getElementById("ticketModal")
+        .style.display = "none";
+
+}
+
+
+/* CONTACT */
+
+function showContact(){
+
+    document
+        .getElementById("contactModal")
+        .style.display = "flex";
+
+}
+
+function closeContact(){
+
+    document
+        .getElementById("contactModal")
+        .style.display = "none";
+
+}
+
+
+/* TICKET HISTORY */
+
+function showTicketHistory(){
+
+    document
+        .getElementById("ticketsSection")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* VALIDATION */
+
+function checkTicket(){
+
+    const category =
+        document.getElementById("category").value;
+
+    const subject =
+        document.getElementById("subject").value.trim();
+
+    const message =
+        document.getElementById("message").value.trim();
+
+
+    const valid =
+        category &&
+        subject &&
+        message;
+
+
+    document
+        .getElementById("submitTicketBtn")
+        .disabled = !valid;
+
+}
+
+
+/* INPUT EVENTS */
+
+document
+    .querySelectorAll(
+        "#ticketModal input,#ticketModal select,#ticketModal textarea"
+    )
+    .forEach(function(element){
+
+        element.addEventListener(
+            "input",
+            checkTicket
+        );
+
+        element.addEventListener(
+            "change",
+            checkTicket
+        );
+
+    });
+
+
+/* SUBMIT */
+
+function submitTicket(){
+
+    if(
+        document
+        .getElementById("submitTicketBtn")
+        .disabled
+    ){
+
+        return;
+
+    }
+
+
+    closeTicket();
+
+
+    document
+        .getElementById("successModal")
+        .style.display = "flex";
+
+}
+
+
+/* CLOSE SUCCESS */
+
+function closeSuccess(){
+
+    document
+        .getElementById("successModal")
+        .style.display = "none";
+
+}
+
+</script>
+
+</body>
+</html>

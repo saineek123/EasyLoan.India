@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | EasyLoan India</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --text-primary: #1a237e;
+            --text-secondary: #455a64;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: var(--text-secondary);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .navbar .brand i {
+            font-size: 28px;
+        }
+        .navbar .brand h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .navbar .brand small {
+            display: block;
+            font-size: 10px;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .navbar .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 40px;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        .about-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .about-section h2 {
+            color: var(--text-primary);
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .about-section p {
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .about-section .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .value-card {
+            background: #f8f9fa;
+            padding: 30px 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .value-card i {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .value-card h4 {
+            color: var(--text-primary);
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .value-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .team-card {
+            text-align: center;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: var(--radius);
+        }
+
+        .team-card .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .team-card h4 {
+            color: var(--text-primary);
+        }
+
+        .team-card small {
+            color: #999;
+            font-size: 13px;
+        }
+
+        .footer {
+            background: #0d47a1;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 30px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 360px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: #2e7d32;
+        }
+        .toast.error {
+            background: #c62828;
+        }
+        .toast.info {
+            background: #0288d1;
+        }
+
+        @media(max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+
+            .navbar .nav-links.open {
+                display: flex;
+            }
+
+            .navbar .mobile-toggle {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .about-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-building-columns"></i>
+            <div>
+                <h1>EasyLoan</h1>
+                <small>India's Trusted Lender</small>
+            </div>
+        </a>
+
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" style="background:var(--primary);color:white !important;padding:8px 20px;border-radius:50px;">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <div class="container">
+        <div class="page-header">
+            <h1>About EasyLoan India</h1>
+            <p>Empowering India with fast, transparent, and accessible loan solutions.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>
+                At <span class="highlight">EasyLoan India</span>, our mission is to make borrowing simple, 
+                transparent, and accessible to every Indian. We believe that financial inclusion is the key 
+                to unlocking India's true potential, and we're committed to providing fast, fair, and 
+                affordable loan solutions to individuals and businesses across the country.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h4>Trust & Transparency</h4>
+                    <p>We believe in clear communication and honest dealings with our customers.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fa-solid fa-bolt"></i>
+                    <h4>Speed & Efficiency</h4>
+                    <p>Quick approvals and fast disbursement to meet your urgent needs.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fa-solid fa-people-group"></i>
+                    <h4>Customer First</h4>
+                    <p>Every customer is unique and deserves personalized attention.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fa-solid fa-star"></i>
+                    <h4>Excellence</h4>
+                    <p>Striving for the highest quality in service and solutions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Why EasyLoan India?</h2>
+            <p>
+                With over <span class="highlight">₹500 Crore+</span> in loans disbursed and 
+                <span class="highlight">50,000+</span> happy customers, EasyLoan India has emerged as 
+                one of India's most trusted digital lending platforms. Our <span class="highlight">98%</span> 
+                approval rate and <span class="highlight">24-hour</span> disbursement commitment set us 
+                apart from traditional banks.
+            </p>
+            <br>
+            <p>
+                We leverage cutting-edge AI technology to evaluate creditworthiness, enabling us to 
+                offer loans to individuals who may not have traditional credit histories. Whether 
+                you're a salaried professional, a small business owner, or a student, EasyLoan India 
+                is here to help you achieve your dreams.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Leadership Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="avatar">AK</div>
+                    <h4>Amit Kumar</h4>
+                    <small>CEO & Co-Founder</small>
+                </div>
+                <div class="team-card">
+                    <div class="avatar">PS</div>
+                    <h4>Priya Singh</h4>
+                    <small>CTO & Co-Founder</small>
+                </div>
+                <div class="team-card">
+                    <div class="avatar">RJ</div>
+                    <h4>Rajesh Jain</h4>
+                    <small>Head of Operations</small>
+                </div>
+                <div class="team-card">
+                    <div class="avatar">SM</div>
+                    <h4>Sunita Mehta</h4>
+                    <small>Head of Customer Experience</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 EasyLoan India. All rights reserved. | Made with ❤️ in India</p>
+    </footer>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+            authDomain: "easyloan-india.firebaseapp.com",
+            projectId: "easyloan-india",
+            storageBucket: "easyloan-india.firebasestorage.app",
+            messagingSenderId: "925263655882",
+            appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        auth.onAuthStateChanged((user) => {
+            const navLinks = document.getElementById('navLinks');
+            if (user) {
+                navLinks.innerHTML = `
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+                    <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
+                `;
+                document.getElementById('logoutNavBtn')?.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        showToast('✅ Logged out', 'success');
+                        setTimeout(() => window.location.reload(), 1000);
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

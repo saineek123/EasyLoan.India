@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Settings | LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#111827;
+    color:white;
+    padding:20px 14px;
+    z-index:100;
+}
+
+.logo{
+    padding:5px 10px 25px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo span{
+    color:#7f8ba0;
+    font-size:9px;
+}
+
+.admin-box{
+    background:#1c2535;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.admin-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.admin-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.admin-role{
+    margin-top:3px;
+    color:#8792a5;
+    font-size:8px;
+}
+
+.nav-title{
+    color:#69758a;
+    font-size:7px;
+    font-weight:bold;
+    margin:15px 10px 7px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    height:43px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:0 11px;
+    color:#aab4c4;
+    font-size:10px;
+    cursor:pointer;
+    margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1d4ed8;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+    font-size:14px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #e7eaf0;
+    padding:0 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border:none;
+    background:#f0f3f8;
+    border-radius:9px;
+    font-size:18px;
+}
+
+.page-title h1{
+    font-size:19px;
+}
+
+.page-title p{
+    margin-top:4px;
+    color:#8a93a2;
+    font-size:9px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e5e8ed;
+    background:white;
+    border-radius:9px;
+}
+
+/* CONTENT */
+
+.content{
+    padding:22px 25px;
+}
+
+.settings-layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:18px;
+}
+
+/* SETTINGS MENU */
+
+.settings-menu{
+    background:white;
+    border-radius:15px;
+    padding:10px;
+    height:max-content;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.setting-tab{
+    width:100%;
+    height:43px;
+    border:none;
+    background:white;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 11px;
+    color:#667085;
+    font-size:9px;
+    text-align:left;
+    cursor:pointer;
+}
+
+.setting-tab:hover,
+.setting-tab.active{
+    background:#eef3ff;
+    color:#155eef;
+    font-weight:bold;
+}
+
+/* PANEL */
+
+.settings-content{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.panel{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.panel-header{
+    padding-bottom:15px;
+    border-bottom:1px solid #edf0f4;
+}
+
+.panel-header h2{
+    font-size:14px;
+}
+
+.panel-header p{
+    margin-top:5px;
+    color:#8992a1;
+    font-size:8px;
+    line-height:1.5;
+}
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    font-size:8px;
+    color:#596476;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    outline:none;
+    padding:0 11px;
+    font-size:9px;
+    color:#172033;
+    background:white;
+}
+
+textarea{
+    height:90px;
+    resize:vertical;
+    padding-top:10px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#155eef;
+}
+
+/* SWITCH */
+
+.switch-row{
+    min-height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #edf0f4;
+    gap:15px;
+}
+
+.switch-row:last-child{
+    border-bottom:none;
+}
+
+.switch-title{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.switch-desc{
+    margin-top:4px;
+    color:#8992a1;
+    font-size:7px;
+    line-height:1.4;
+}
+
+.switch{
+    position:relative;
+    width:42px;
+    height:23px;
+    flex-shrink:0;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#d5dae2;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    width:17px;
+    height:17px;
+    left:3px;
+    top:3px;
+    background:white;
+    border-radius:50%;
+    transition:.2s;
+}
+
+.switch input:checked + .slider{
+    background:#155eef;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(19px);
+}
+
+/* BUTTONS */
+
+.actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:18px;
+}
+
+.btn{
+    height:40px;
+    padding:0 18px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#155eef;
+    color:white;
+}
+
+.btn-secondary{
+    background:#f0f2f5;
+    color:#596476;
+}
+
+/* SECURITY */
+
+.security-box{
+    margin-top:16px;
+    padding:13px;
+    background:#f7f8fa;
+    border-radius:10px;
+}
+
+.security-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #e7eaf0;
+}
+
+.security-row:last-child{
+    border-bottom:none;
+}
+
+.security-name{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.security-desc{
+    margin-top:3px;
+    font-size:7px;
+    color:#8992a1;
+}
+
+.badge{
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.enabled{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.warning{
+    background:#fff4dd;
+    color:#b96c00;
+}
+
+/* ALERT */
+
+.notice{
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    background:#fff8e8;
+    border:1px solid #ffe6a8;
+    color:#795c13;
+    font-size:8px;
+    line-height:1.5;
+}
+
+/* MOBILE */
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:90;
+}
+
+@media(max-width:900px){
+
+    .settings-layout{
+        grid-template-columns:1fr;
+    }
+
+    .settings-menu{
+        display:flex;
+        overflow-x:auto;
+        gap:5px;
+    }
+
+    .setting-tab{
+        min-width:max-content;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+    .content{
+        padding:18px 14px;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .panel{
+        padding:15px;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+></div>
+
+
+<!-- SIDEBAR -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="logo">
+
+        <h2>LoanApp</h2>
+
+        <span>
+            ADMIN PANEL
+        </span>
+
+    </div>
+
+
+    <div class="admin-box">
+
+        <div class="admin-avatar">
+            AD
+        </div>
+
+        <div>
+
+            <div class="admin-name">
+                Admin
+            </div>
+
+            <div class="admin-role">
+                Super Administrator
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Main
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin.html')"
+    >
+        <div class="nav-icon">
+            📊
+        </div>
+        Dashboard
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-users.html')"
+    >
+        <div class="nav-icon">
+            👥
+        </div>
+        Users
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-applications.html')"
+    >
+        <div class="nav-icon">
+            📝
+        </div>
+        Loan Applications
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-kyc.html')"
+    >
+        <div class="nav-icon">
+            🪪
+        </div>
+        KYC Verification
+    </div>
+
+
+    <div class="nav-title">
+        Finance
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-loans.html')"
+    >
+        <div class="nav-icon">
+            💰
+        </div>
+        Active Loans
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-payments.html')"
+    >
+        <div class="nav-icon">
+            💳
+        </div>
+        Payments
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-overdue.html')"
+    >
+        <div class="nav-icon">
+            ⚠️
+        </div>
+        Overdue EMIs
+    </div>
+
+
+    <div class="nav-title">
+        Management
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-support.html')"
+    >
+        <div class="nav-icon">
+            🎧
+        </div>
+        Support Tickets
+    </div>
+
+
+    <div
+        class="nav-item active"
+        onclick="go('admin-settings.html')"
+    >
+        <div class="nav-icon">
+            ⚙️
+        </div>
+        Settings
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="adminLogout()"
+    >
+        <div class="nav-icon">
+            ↪
+        </div>
+        Logout
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button
+            class="menu-toggle"
+            onclick="openSidebar()"
+        >
+            ☰
+        </button>
+
+
+        <div class="page-title">
+
+            <h1>
+                Settings
+            </h1>
+
+            <p>
+                Manage LoanApp configuration and admin preferences
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button class="notification">
+        🔔
+    </button>
+
+</header>
+
+
+<div class="content">
+
+
+<div class="settings-layout">
+
+
+<!-- SETTINGS MENU -->
+
+<div class="settings-menu">
+
+    <button
+        class="setting-tab active"
+        onclick="showSection('loan')"
+    >
+        💰 Loan Settings
+    </button>
+
+
+    <button
+        class="setting-tab"
+        onclick="showSection('fees')"
+    >
+        💳 Fees & Charges
+    </button>
+
+
+    <button
+        class="setting-tab"
+        onclick="showSection('notification')"
+    >
+        🔔 Notifications
+    </button>
+
+
+    <button
+        class="setting-tab"
+        onclick="showSection('security')"
+    >
+        🔐 Security
+    </button>
+
+
+    <button
+        class="setting-tab"
+        onclick="showSection('company')"
+    >
+        🏢 Company
+    </button>
+
+</div>
+
+
+<!-- SETTINGS CONTENT -->
+
+<div class="settings-content">
+
+
+<!-- LOAN SETTINGS -->
+
+<section
+    class="panel setting-section"
+    id="loan"
+>
+
+    <div class="panel-header">
+
+        <h2>
+            Loan Settings
+        </h2>
+
+        <p>
+            Configure the loan products and repayment limits
+            available in your application.
+        </p>
+
+    </div>
+
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>
+                Minimum Loan Amount
+            </label>
+
+            <input
+                id="minLoan"
+                type="number"
+                value="1000"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Maximum Loan Amount
+            </label>
+
+            <input
+                id="maxLoan"
+                type="number"
+                value="500000"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Minimum Tenure (Months)
+            </label>
+
+            <input
+                id="minTenure"
+                type="number"
+                value="3"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Maximum Tenure (Months)
+            </label>
+
+            <input
+                id="maxTenure"
+                type="number"
+                value="36"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Annual Interest Rate (%)
+            </label>
+
+            <input
+                id="interest"
+                type="number"
+                step="0.01"
+                value="18"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Processing Fee (%)
+            </label>
+
+            <input
+                id="processingFee"
+                type="number"
+                step="0.01"
+                value="2"
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="notice">
+
+        ⚠️ Demo setting: Real lending rules, pricing,
+        disclosures and eligibility should be configured
+        according to your applicable laws/regulatory
+        requirements before production use.
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-secondary"
+            onclick="resetLoanSettings()"
+        >
+            Reset
+        </button>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="saveLoanSettings()"
+        >
+            Save Changes
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- FEES -->
+
+<section
+    class="panel setting-section"
+    id="fees"
+    style="display:none"
+>
+
+    <div class="panel-header">
+
+        <h2>
+            Fees & Charges
+        </h2>
+
+        <p>
+            Manage configurable repayment-related charges.
+        </p>
+
+    </div>
+
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>
+                Late Payment Fee (₹)
+            </label>
+
+            <input
+                id="lateFee"
+                type="number"
+                value="250"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Bounce Charge (₹)
+            </label>
+
+            <input
+                id="bounceFee"
+                type="number"
+                value="500"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Foreclosure Charge (%)
+            </label>
+
+            <input
+                id="foreclosureFee"
+                type="number"
+                step="0.01"
+                value="4"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                GST / Tax Handling
+            </label>
+
+            <select id="taxHandling">
+
+                <option>
+                    As Applicable
+                </option>
+
+                <option>
+                    Included in displayed fee
+                </option>
+
+                <option>
+                    Excluded from displayed fee
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="notice">
+
+        Charges should be clearly disclosed to customers
+        before they accept a loan or repayment obligation.
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            onclick="saveFees()"
+        >
+            Save Changes
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section
+    class="panel setting-section"
+    id="notification"
+    style="display:none"
+>
+
+    <div class="panel-header">
+
+        <h2>
+            Notification Settings
+        </h2>
+
+        <p>
+            Control customer notification preferences.
+        </p>
+
+    </div>
+
+
+    <div style="margin-top:15px">
+
+
+        <div class="switch-row">
+
+            <div>
+
+                <div class="switch-title">
+                    EMI Due Reminder
+                </div>
+
+                <div class="switch-desc">
+                    Send customers a reminder before an EMI due date.
+                </div>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    id="emiReminder"
+                    type="checkbox"
+                    checked
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="switch-row">
+
+            <div>
+
+                <div class="switch-title">
+                    Payment Confirmation
+                </div>
+
+                <div class="switch-desc">
+                    Notify customer after a payment is successfully recorded.
+                </div>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    id="paymentNotification"
+                    type="checkbox"
+                    checked
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="switch-row">
+
+            <div>
+
+                <div class="switch-title">
+                    Loan Status Updates
+                </div>
+
+                <div class="switch-desc">
+                    Notify customers when application status changes.
+                </div>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    id="loanNotification"
+                    type="checkbox"
+                    checked
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="switch-row">
+
+            <div>
+
+                <div class="switch-title">
+                    Support Ticket Updates
+                </div>
+
+                <div class="switch-desc">
+                    Notify customers about support replies.
+                </div>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    id="supportNotification"
+                    type="checkbox"
+                    checked
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            onclick="saveNotifications()"
+        >
+            Save Changes
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- SECURITY -->
+
+<section
+    class="panel setting-section"
+    id="security"
+    style="display:none"
+>
+
+    <div class="panel-header">
+
+        <h2>
+            Security Settings
+        </h2>
+
+        <p>
+            Manage important admin security controls.
+        </p>
+
+    </div>
+
+
+    <div class="security-box">
+
+
+        <div class="security-row">
+
+            <div>
+
+                <div class="security-name">
+                    Admin 2FA
+                </div>
+
+                <div class="security-desc">
+                    Require an additional verification step for admin login.
+                </div>
+
+            </div>
+
+            <span class="badge enabled">
+                Enabled
+            </span>
+
+        </div>
+
+
+        <div class="security-row">
+
+            <div>
+
+                <div class="security-name">
+                    Session Protection
+                </div>
+
+                <div class="security-desc">
+                    Automatically expire inactive admin sessions.
+                </div>
+
+            </div>
+
+            <span class="badge enabled">
+                Enabled
+            </span>
+
+        </div>
+
+
+        <div class="security-row">
+
+            <div>
+
+                <div class="security-name">
+                    Login Alerts
+                </div>
+
+                <div class="security-desc">
+                    Notify admins about new login activity.
+                </div>
+
+            </div>
+
+            <span class="badge enabled">
+                Enabled
+            </span>
+
+        </div>
+
+
+        <div class="security-row">
+
+            <div>
+
+                <div class="security-name">
+                    API Security
+                </div>
+
+                <div class="security-desc">
+                    Backend APIs should use authentication and authorization.
+                </div>
+
+            </div>
+
+            <span class="badge warning">
+                Review
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            onclick="securityCheck()"
+        >
+            Review Security
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- COMPANY -->
+
+<section
+    class="panel setting-section"
+    id="company"
+    style="display:none"
+>
+
+    <div class="panel-header">
+
+        <h2>
+            Company Information
+        </h2>
+
+        <p>
+            Basic information displayed throughout the application.
+        </p>
+
+    </div>
+
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>
+                Company / App Name
+            </label>
+
+            <input
+                id="companyName"
+                type="text"
+                value="LoanApp"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Support Email
+            </label>
+
+            <input
+                id="supportEmail"
+                type="email"
+                value="support@example.com"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Support Phone
+            </label>
+
+            <input
+                id="supportPhone"
+                type="text"
+                value="+91 XXXXX XXXXX"
+            >
+
+        </div>
+
+
+        <div class="form-group full">
+
+            <label>
+                Company Address
+            </label>
+
+            <textarea id="companyAddress">Your registered business address</textarea>
+
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            onclick="saveCompany()"
+        >
+            Save Changes
+        </button>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* NAVIGATION */
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* SIDEBAR */
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/* SETTINGS TABS */
+
+function showSection(sectionId){
+
+    const sections =
+        document.querySelectorAll(
+            ".setting-section"
+        );
+
+    sections.forEach(function(section){
+
+        section.style.display = "none";
+
+    });
+
+
+    document.getElementById(
+        sectionId
+    ).style.display = "block";
+
+
+    const tabs =
+        document.querySelectorAll(
+            ".setting-tab"
+        );
+
+    tabs.forEach(function(tab){
+
+        tab.classList.remove("active");
+
+    });
+
+
+    event.currentTarget.classList.add(
+        "active"
+    );
+
+}
+
+
+/* SAVE LOAN */
+
+function saveLoanSettings(){
+
+    const minLoan =
+        document.getElementById("minLoan").value;
+
+    const maxLoan =
+        document.getElementById("maxLoan").value;
+
+    const minTenure =
+        document.getElementById("minTenure").value;
+
+    const maxTenure =
+        document.getElementById("maxTenure").value;
+
+    const interest =
+        document.getElementById("interest").value;
+
+
+    if(
+        !minLoan ||
+        !maxLoan ||
+        !minTenure ||
+        !maxTenure ||
+        !interest
+    ){
+
+        alert(
+            "Please sabhi required fields fill karein."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        Number(minLoan) >= Number(maxLoan)
+    ){
+
+        alert(
+            "Maximum loan amount minimum se bada hona chahiye."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        Number(minTenure) >= Number(maxTenure)
+    ){
+
+        alert(
+            "Maximum tenure minimum tenure se bada hona chahiye."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Loan settings successfully saved (Demo)."
+    );
+
+}
+
+
+/* RESET */
+
+function resetLoanSettings(){
+
+    document.getElementById(
+        "minLoan"
+    ).value = 1000;
+
+    document.getElementById(
+        "maxLoan"
+    ).value = 500000;
+
+    document.getElementById(
+        "minTenure"
+    ).value = 3;
+
+    document.getElementById(
+        "maxTenure"
+    ).value = 36;
+
+    document.getElementById(
+        "interest"
+    ).value = 18;
+
+    document.getElementById(
+        "processingFee"
+    ).value = 2;
+
+}
+
+
+/* FEES */
+
+function saveFees(){
+
+    alert(
+        "Fees & charges saved successfully (Demo)."
+    );
+
+}
+
+
+/* NOTIFICATIONS */
+
+function saveNotifications(){
+
+    alert(
+        "Notification settings saved successfully (Demo)."
+    );
+
+}
+
+
+/* SECURITY */
+
+function securityCheck(){
+
+    alert(
+        "Security review opened.\n\n" +
+        "Production app me admin authentication, " +
+        "role-based authorization, secure sessions " +
+        "aur backend access controls zaroor implement karein."
+    );
+
+}
+
+
+/* COMPANY */
+
+function saveCompany(){
+
+    const name =
+        document.getElementById(
+            "companyName"
+        ).value.trim();
+
+    const email =
+        document.getElementById(
+            "supportEmail"
+        ).value.trim();
+
+
+    if(!name || !email){
+
+        alert(
+            "Company name aur support email required hai."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Company information saved successfully (Demo)."
+    );
+
+}
+
+
+/* LOGOUT */
+
+function adminLogout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

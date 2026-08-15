@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | EasyLoan India</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --text-primary: #1a237e;
+            --text-secondary: #455a64;
+            --bg: #f0f4f8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text-secondary);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .navbar .brand i {
+            font-size: 28px;
+        }
+        .navbar .brand h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .navbar .brand small {
+            display: block;
+            font-size: 10px;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+        }
+        .navbar .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .faq-item .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .faq-item .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-item .faq-question h3 {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .faq-item .faq-question i {
+            color: var(--primary);
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .faq-item .faq-question i.rotated {
+            transform: rotate(180deg);
+        }
+
+        .faq-item .faq-answer {
+            padding: 0 25px 20px;
+            display: none;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .faq-item .faq-answer.open {
+            display: block;
+        }
+
+        .faq-item .faq-answer ul {
+            margin: 10px 0 10px 20px;
+        }
+
+        .faq-item .faq-answer ul li {
+            margin-bottom: 6px;
+        }
+
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 50px;
+            padding: 4px 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary);
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 14px 12px;
+            font-size: 16px;
+            width: 100%;
+            background: transparent;
+        }
+
+        .search-box i {
+            color: #999;
+            font-size: 18px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .category-tabs .tab {
+            padding: 8px 22px;
+            border-radius: 50px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .category-tabs .tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .category-tabs .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .footer {
+            background: #0d47a1;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 30px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 360px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            background: #2e7d32;
+        }
+        .toast.error {
+            background: #c62828;
+        }
+        .toast.info {
+            background: #0288d1;
+        }
+
+        @media(max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+            .navbar .nav-links.open {
+                display: flex;
+            }
+            .navbar .mobile-toggle {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .faq-item .faq-question {
+                padding: 16px 18px;
+            }
+
+            .faq-item .faq-question h3 {
+                font-size: 14px;
+            }
+
+            .faq-item .faq-answer {
+                padding: 0 18px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-building-columns"></i>
+            <div>
+                <h1>EasyLoan</h1>
+                <small>India's Trusted Lender</small>
+            </div>
+        </a>
+
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faq.html" style="color:var(--primary);font-weight:600;">FAQ</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" style="background:var(--primary);color:white !important;padding:8px 20px;border-radius:50px;">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>❓ Frequently Asked Questions</h1>
+            <p>Find answers to the most common questions about EasyLoan India.</p>
+        </div>
+
+        <div class="search-box">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" id="faqSearch" placeholder="Search FAQs...">
+        </div>
+
+        <div class="category-tabs">
+            <button class="tab active" data-category="all">All</button>
+            <button class="tab" data-category="general">General</button>
+            <button class="tab" data-category="application">Application</button>
+            <button class="tab" data-category="payments">Payments</button>
+            <button class="tab" data-category="account">Account</button>
+        </div>
+
+        <div id="faqList">
+            <!-- FAQ items will be rendered here -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 EasyLoan India. All rights reserved. | Made with ❤️ in India</p>
+    </footer>
+
+    <script>
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+            authDomain: "easyloan-india.firebaseapp.com",
+            projectId: "easyloan-india",
+            storageBucket: "easyloan-india.firebasestorage.app",
+            messagingSenderId: "925263655882",
+            appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // ============================================================
+        // FAQ DATA
+        // ============================================================
+        const faqData = [{
+            id: 1,
+            category: 'general',
+            question: 'What is EasyLoan India?',
+            answer: 'EasyLoan India is a digital lending platform that provides fast, transparent, and accessible loan solutions to individuals and businesses across India. We offer personal loans, home loans, car loans, education loans, and business loans with competitive interest rates and minimal documentation.'
+        }, {
+            id: 2,
+            category: 'general',
+            question: 'Is EasyLoan India RBI registered?',
+            answer: 'Yes, EasyLoan India is a fully RBI-registered NBFC (Non-Banking Financial Company). We comply with all regulatory requirements and follow strict guidelines to ensure the safety and security of our customers\' data and funds.'
+        }, {
+            id: 3,
+            category: 'application',
+            question: 'How do I apply for a loan?',
+            answer: 'Applying for a loan is simple:\n1. Create an account on EasyLoan India\n2. Click on "Apply Loan" from your dashboard\n3. Fill in your personal and loan details\n4. Review and submit your application\n5. Our team will review and get back to you within 24 hours'
+        }, {
+            id: 4,
+            category: 'application',
+            question: 'What documents are required?',
+            answer: 'We require the following documents:\n• PAN Card\n• Aadhaar Card\n• Last 3 months bank statements\n• Last 3 months salary slips (for salaried)\n• Business proof (for business loans)\n• Address proof'
+        }, {
+            id: 5,
+            category: 'application',
+            question: 'What is the loan approval time?',
+            answer: 'We provide instant in-principle approval within minutes. Final approval and disbursement typically take 24-48 hours after document verification. In some cases, it can be as fast as 2 hours for existing customers.'
+        }, {
+            id: 6,
+            category: 'payments',
+            question: 'How can I pay my EMI?',
+            answer: 'You can pay your EMI through multiple methods:\n• Credit/Debit Card\n• UPI (Google Pay, PhonePe, Paytm)\n• Net Banking\n• Digital Wallets\n• Auto-debit from your bank account\n\nYou can make payments from the "Payments" section in your dashboard.'
+        }, {
+            id: 7,
+            category: 'payments',
+            question: 'What happens if I miss an EMI payment?',
+            answer: 'If you miss an EMI payment, we will send you reminders via email and SMS. Late payment may result in:\n• Late payment fees\n• Impact on credit score\n• Interest on the overdue amount\n\nWe recommend contacting our support team immediately if you anticipate difficulty in making a payment.'
+        }, {
+            id: 8,
+            category: 'payments',
+            question: 'Can I prepay my loan?',
+            answer: 'Yes, you can prepay your loan at any time with no additional charges. Prepayment reduces your total interest burden and helps you become debt-free sooner. You can make prepayments from the "Payments" section or by contacting our support team.'
+        }, {
+            id: 9,
+            category: 'account',
+            question: 'How do I update my profile?',
+            answer: 'You can update your profile by:\n1. Logging into your account\n2. Going to "Profile" in the sidebar\n3. Updating your personal information\n4. Clicking "Save Changes"\n\nYour profile information is secure and will be used only for loan processing purposes.'
+        }, {
+            id: 10,
+            category: 'account',
+            question: 'How do I reset my password?',
+            answer: 'To reset your password:\n1. Go to the login page\n2. Click on "Forgot Password"\n3. Enter your registered email address\n4. You will receive a password reset link\n5. Click the link and set a new password\n\nIf you don\'t receive the email, check your spam folder or contact our support team.'
+        }, {
+            id: 11,
+            category: 'general',
+            question: 'What are the interest rates?',
+            answer: 'Our interest rates start from 8.5% per annum for personal loans and go up to 15% based on your credit score, loan amount, and tenure. We offer competitive rates and complete transparency with no hidden charges. Your final rate will be displayed before you accept the loan offer.'
+        }, {
+            id: 12,
+            category: 'general',
+            question: 'Is my data safe with EasyLoan India?',
+            answer: 'Absolutely! We use bank-grade 256-bit encryption to protect your data. We are compliant with RBI guidelines and adhere to strict data privacy standards. Your personal and financial information is never shared with third parties without your explicit consent.'
+        }];
+
+        // ============================================================
+        // RENDER FAQ
+        // ============================================================
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        function renderFAQ() {
+            const container = document.getElementById('faqList');
+
+            let filtered = faqData;
+
+            // Filter by category
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(f => f.category === currentCategory);
+            }
+
+            // Filter by search
+            if (searchTerm.trim()) {
+                const term = searchTerm.toLowerCase().trim();
+                filtered = filtered.filter(f =>
+                    f.question.toLowerCase().includes(term) ||
+                    f.answer.toLowerCase().includes(term)
+                );
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:60px 20px;background:white;border-radius:var(--radius);box-shadow:var(--shadow);">
+                        <i class="fa-solid fa-search" style="font-size:48px;color:#ccc;margin-bottom:16px;display:block;"></i>
+                        <h3 style="color:var(--text-primary);">No results found</h3>
+                        <p style="color:var(--text-secondary);">Try adjusting your search or filter.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(faq => `
+                <div class="faq-item" data-category="${faq.category}">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>${faq.question}</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ${faq.answer.replace(/\n/g, '<br>').replace(/•/g, '•')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // TOGGLE FAQ
+        // ============================================================
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+
+            if (answer.classList.contains('open')) {
+                answer.classList.remove('open');
+                icon.classList.remove('rotated');
+            } else {
+                // Close all other answers
+                document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+                document.querySelectorAll('.faq-question i').forEach(i => i.classList.remove('rotated'));
+
+                answer.classList.add('open');
+                icon.classList.add('rotated');
+            }
+        }
+
+        // ============================================================
+        // CATEGORY TABS
+        // ============================================================
+        document.querySelectorAll('.category-tabs .tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.category-tabs .tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                renderFAQ();
+            });
+        });
+
+        // ============================================================
+        // SEARCH
+        // ============================================================
+        document.getElementById('faqSearch').addEventListener('input', function() {
+            searchTerm = this.value;
+            renderFAQ();
+        });
+
+        // ============================================================
+        // MOBILE NAV
+        // ============================================================
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        renderFAQ();
+
+        // ============================================================
+        // AUTH STATE - Update navbar
+        // ============================================================
+        auth.onAuthStateChanged((user) => {
+            const navLinks = document.getElementById('navLinks');
+            if (user) {
+                navLinks.innerHTML = `
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="faq.html" style="color:var(--primary);font-weight:600;">FAQ</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+                    <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
+                `;
+                document.getElementById('logoutNavBtn')?.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        showToast('✅ Logged out', 'success');
+                        setTimeout(() => window.location.reload(), 1000);
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

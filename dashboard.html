@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#172033;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:235px;
+    background:#111827;
+    color:white;
+    padding:20px 14px;
+    z-index:200;
+    transition:.25s;
+}
+
+.logo{
+    padding:5px 10px 25px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo span{
+    color:#7f8ba0;
+    font-size:8px;
+}
+
+.profile-box{
+    background:#1c2535;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.profile-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.profile-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.profile-mobile{
+    color:#8992a1;
+    font-size:7px;
+    margin-top:3px;
+}
+
+.nav-title{
+    color:#69758a;
+    font-size:7px;
+    font-weight:bold;
+    margin:15px 10px 7px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    height:43px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:0 11px;
+    color:#aab4c4;
+    font-size:10px;
+    cursor:pointer;
+    margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1d4ed8;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+    font-size:14px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:235px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #e7eaf0;
+    padding:0 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:9px;
+    background:#f0f3f8;
+    font-size:18px;
+}
+
+.greeting h1{
+    font-size:18px;
+}
+
+.greeting p{
+    margin-top:4px;
+    font-size:8px;
+    color:#8992a1;
+}
+
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    width:38px;
+    height:38px;
+    border:1px solid #e2e6ec;
+    background:white;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+/* CONTENT */
+
+.content{
+    padding:22px 25px;
+}
+
+/* LOAN HERO */
+
+.loan-hero{
+    background:linear-gradient(
+        135deg,
+        #155eef,
+        #1746b8
+    );
+    color:white;
+    border-radius:18px;
+    padding:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    box-shadow:0 8px 25px rgba(21,94,239,.15);
+}
+
+.hero-text h2{
+    font-size:21px;
+}
+
+.hero-text p{
+    margin-top:7px;
+    color:#dbe7ff;
+    font-size:9px;
+    line-height:1.6;
+}
+
+.hero-button{
+    height:42px;
+    padding:0 18px;
+    border:none;
+    border-radius:9px;
+    background:white;
+    color:#155eef;
+    font-size:9px;
+    font-weight:bold;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+.hero-button:hover{
+    background:#f1f5ff;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-top:18px;
+}
+
+.stat{
+    background:white;
+    padding:16px;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.stat-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#eef3ff;
+    color:#155eef;
+}
+
+.stat:nth-child(2) .stat-icon{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.stat:nth-child(3) .stat-icon{
+    background:#fff4dd;
+    color:#b96c00;
+}
+
+.stat:nth-child(4) .stat-icon{
+    background:#f1eaff;
+    color:#7544d8;
+}
+
+.stat-label{
+    margin-top:12px;
+    color:#8992a1;
+    font-size:8px;
+}
+
+.stat-value{
+    margin-top:5px;
+    font-size:19px;
+    font-weight:bold;
+}
+
+/* GRID */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.4fr .9fr;
+    gap:18px;
+    margin-top:18px;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.card-header h3{
+    font-size:13px;
+}
+
+.view-all{
+    border:none;
+    background:none;
+    color:#155eef;
+    font-size:8px;
+    cursor:pointer;
+}
+
+/* CURRENT LOAN */
+
+.loan-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.loan-item{
+    padding:12px;
+    border-radius:10px;
+    background:#f7f8fa;
+}
+
+.loan-item span{
+    display:block;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.loan-item strong{
+    display:block;
+    margin-top:5px;
+    font-size:11px;
+}
+
+.progress-box{
+    margin-top:15px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:8px;
+    color:#667085;
+}
+
+.progress{
+    margin-top:7px;
+    height:8px;
+    background:#e8ebf0;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:38%;
+    background:#155eef;
+    border-radius:20px;
+}
+
+.progress-note{
+    margin-top:6px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+/* NEXT EMI */
+
+.emi-card{
+    background:#f7f9ff;
+    border:1px solid #e1e9ff;
+}
+
+.emi-date{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.emi-date h4{
+    font-size:11px;
+}
+
+.days-badge{
+    padding:6px 8px;
+    background:#fff4dd;
+    color:#b96c00;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.emi-amount{
+    margin-top:15px;
+}
+
+.emi-amount span{
+    display:block;
+    color:#8992a1;
+    font-size:8px;
+}
+
+.emi-amount strong{
+    display:block;
+    margin-top:4px;
+    font-size:24px;
+}
+
+.pay-btn{
+    width:100%;
+    height:40px;
+    margin-top:15px;
+    border:none;
+    border-radius:9px;
+    background:#155eef;
+    color:white;
+    font-size:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* QUICK ACTIONS */
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px;
+}
+
+.quick{
+    border:1px solid #e7eaf0;
+    background:white;
+    border-radius:10px;
+    padding:13px 8px;
+    cursor:pointer;
+    text-align:center;
+}
+
+.quick:hover{
+    border-color:#155eef;
+    background:#f7f9ff;
+}
+
+.quick-icon{
+    font-size:19px;
+}
+
+.quick span{
+    display:block;
+    margin-top:7px;
+    font-size:8px;
+    color:#596476;
+}
+
+/* APPLICATION */
+
+.application{
+    margin-top:18px;
+}
+
+.application-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.application-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.application-text{
+    flex:1;
+}
+
+.application-text strong{
+    font-size:9px;
+}
+
+.application-text p{
+    margin-top:4px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.status{
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.status.approved{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.status.pending{
+    background:#fff4dd;
+    color:#b96c00;
+}
+
+/* TRANSACTIONS */
+
+.transaction{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.transaction:last-child{
+    border-bottom:none;
+}
+
+.transaction-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.transaction-info{
+    flex:1;
+}
+
+.transaction-info strong{
+    font-size:8px;
+}
+
+.transaction-info p{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.transaction-amount{
+    font-size:9px;
+    font-weight:bold;
+    color:#168352;
+}
+
+/* KYC */
+
+.kyc{
+    margin-top:18px;
+    padding:14px;
+    background:#fff8e8;
+    border:1px solid #ffe8ae;
+    border-radius:12px;
+}
+
+.kyc-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.kyc-icon{
+    width:36px;
+    height:36px;
+    border-radius:9px;
+    background:#fff0c9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.kyc-text strong{
+    font-size:9px;
+}
+
+.kyc-text p{
+    margin-top:4px;
+    font-size:7px;
+    color:#7e6b34;
+}
+
+.kyc-button{
+    margin-top:11px;
+    height:34px;
+    padding:0 13px;
+    border:none;
+    border-radius:8px;
+    background:#d99000;
+    color:white;
+    font-size:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* OVERLAY */
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:150;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+    .content{
+        padding:18px 14px;
+    }
+
+    .loan-hero{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .hero-button{
+        width:100%;
+    }
+
+}
+
+@media(max-width:520px){
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat{
+        padding:12px;
+    }
+
+    .stat-value{
+        font-size:16px;
+    }
+
+    .loan-info{
+        grid-template-columns:1fr;
+    }
+
+    .quick-actions{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .greeting h1{
+        font-size:15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+></div>
+
+
+<!-- SIDEBAR -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="logo">
+
+        <h2>LoanApp</h2>
+
+        <span>
+            CUSTOMER PORTAL
+        </span>
+
+    </div>
+
+
+    <div class="profile-box">
+
+        <div class="profile-avatar">
+            AS
+        </div>
+
+        <div>
+
+            <div class="profile-name">
+                Amit Saini
+            </div>
+
+            <div class="profile-mobile">
+                +91 XXXXX XXXXX
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Main
+    </div>
+
+
+    <div
+        class="nav-item active"
+        onclick="go('dashboard.html')"
+    >
+
+        <div class="nav-icon">
+            🏠
+        </div>
+
+        Dashboard
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('apply-loan.html')"
+    >
+
+        <div class="nav-icon">
+            💰
+        </div>
+
+        Apply Loan
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('my-loans.html')"
+    >
+
+        <div class="nav-icon">
+            📋
+        </div>
+
+        My Loans
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('repayment.html')"
+    >
+
+        <div class="nav-icon">
+            💳
+        </div>
+
+        Repayment
+
+    </div>
+
+
+    <div class="nav-title">
+        Account
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('profile.html')"
+    >
+
+        <div class="nav-icon">
+            👤
+        </div>
+
+        Profile
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('kyc.html')"
+    >
+
+        <div class="nav-icon">
+            🪪
+        </div>
+
+        KYC Verification
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('transactions.html')"
+    >
+
+        <div class="nav-icon">
+            🧾
+        </div>
+
+        Transactions
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('support.html')"
+    >
+
+        <div class="nav-icon">
+            🎧
+        </div>
+
+        Support
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="logout()"
+    >
+
+        <div class="nav-icon">
+            ↪
+        </div>
+
+        Logout
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button
+            class="menu-toggle"
+            onclick="openSidebar()"
+        >
+            ☰
+        </button>
+
+
+        <div class="greeting">
+
+            <h1>
+                Welcome back, Amit 👋
+            </h1>
+
+            <p>
+                Manage your loan and repayments from here.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <button
+            class="icon-btn"
+            onclick="go('notifications.html')"
+        >
+            🔔
+        </button>
+
+        <button
+            class="icon-btn"
+            onclick="go('profile.html')"
+        >
+            👤
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- HERO -->
+
+<section class="loan-hero">
+
+    <div class="hero-text">
+
+        <h2>
+            Need a new loan?
+        </h2>
+
+        <p>
+            Check your eligibility and apply for a loan
+            in a few simple steps.
+        </p>
+
+    </div>
+
+
+    <button
+        class="hero-button"
+        onclick="go('apply-loan.html')"
+    >
+        Apply for Loan →
+    </button>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="stats">
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            💰
+        </div>
+
+        <div class="stat-label">
+            Active Loan
+        </div>
+
+        <div class="stat-value">
+            ₹82,500
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            ✓
+        </div>
+
+        <div class="stat-label">
+            Amount Repaid
+        </div>
+
+        <div class="stat-value">
+            ₹47,500
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            📅
+        </div>
+
+        <div class="stat-label">
+            Next EMI
+        </div>
+
+        <div class="stat-value">
+            ₹8,250
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            📊
+        </div>
+
+        <div class="stat-label">
+            Credit Profile
+        </div>
+
+        <div class="stat-value">
+            Good
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MAIN GRID -->
+
+<div class="dashboard-grid">
+
+
+<!-- CURRENT LOAN -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Current Loan
+        </h3>
+
+        <button
+            class="view-all"
+            onclick="go('my-loans.html')"
+        >
+            View Details
+        </button>
+
+    </div>
+
+
+    <div class="loan-info">
+
+
+        <div class="loan-item">
+
+            <span>
+                Loan ID
+            </span>
+
+            <strong>
+                LN-10243
+            </strong>
+
+        </div>
+
+
+        <div class="loan-item">
+
+            <span>
+                Loan Amount
+            </span>
+
+            <strong>
+                ₹1,00,000
+            </strong>
+
+        </div>
+
+
+        <div class="loan-item">
+
+            <span>
+                Outstanding
+            </span>
+
+            <strong>
+                ₹52,500
+            </strong>
+
+        </div>
+
+
+        <div class="loan-item">
+
+            <span>
+                Interest Rate
+            </span>
+
+            <strong>
+                18% p.a.
+            </strong>
+
+        </div>
+
+
+        <div class="loan-item">
+
+            <span>
+                Tenure
+            </span>
+
+            <strong>
+                12 Months
+            </strong>
+
+        </div>
+
+
+        <div class="loan-item">
+
+            <span>
+                EMI
+            </span>
+
+            <strong>
+                ₹8,250 / month
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="progress-box">
+
+        <div class="progress-top">
+
+            <span>
+                Repayment Progress
+            </span>
+
+            <strong>
+                47.5%
+            </strong>
+
+        </div>
+
+
+        <div class="progress">
+
+            <div class="progress-bar"></div>
+
+        </div>
+
+
+        <div class="progress-note">
+            ₹47,500 repaid out of ₹1,00,000 principal.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NEXT EMI -->
+
+<section class="card emi-card">
+
+    <div class="card-header">
+
+        <h3>
+            Upcoming EMI
+        </h3>
+
+    </div>
+
+
+    <div class="emi-date">
+
+        <h4>
+            10 September 2026
+        </h4>
+
+        <span class="days-badge">
+            25 Days Left
+        </span>
+
+    </div>
+
+
+    <div class="emi-amount">
+
+        <span>
+            EMI Amount
+        </span>
+
+        <strong>
+            ₹8,250
+        </strong>
+
+    </div>
+
+
+    <button
+        class="pay-btn"
+        onclick="go('repayment.html')"
+    >
+        Pay EMI
+    </button>
+
+</section>
+
+
+</div>
+
+
+<!-- QUICK ACTIONS -->
+
+<section class="card" style="margin-top:18px">
+
+    <div class="card-header">
+
+        <h3>
+            Quick Actions
+        </h3>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+
+        <button
+            class="quick"
+            onclick="go('apply-loan.html')"
+        >
+
+            <div class="quick-icon">
+                💰
+            </div>
+
+            <span>
+                Apply Loan
+            </span>
+
+        </button>
+
+
+        <button
+            class="quick"
+            onclick="go('repayment.html')"
+        >
+
+            <div class="quick-icon">
+                💳
+            </div>
+
+            <span>
+                Pay EMI
+            </span>
+
+        </button>
+
+
+        <button
+            class="quick"
+            onclick="go('transactions.html')"
+        >
+
+            <div class="quick-icon">
+                🧾
+            </div>
+
+            <span>
+                Transactions
+            </span>
+
+        </button>
+
+
+        <button
+            class="quick"
+            onclick="go('support.html')"
+        >
+
+            <div class="quick-icon">
+                🎧
+            </div>
+
+            <span>
+                Get Support
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- LOWER GRID -->
+
+<div class="dashboard-grid">
+
+
+<!-- APPLICATION STATUS -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Application Status
+        </h3>
+
+        <button
+            class="view-all"
+            onclick="go('my-applications.html')"
+        >
+            View All
+        </button>
+
+    </div>
+
+
+    <div class="application-item">
+
+        <div class="application-icon">
+            📝
+        </div>
+
+
+        <div class="application-text">
+
+            <strong>
+                Personal Loan
+            </strong>
+
+            <p>
+                Application ID: APP-20481
+            </p>
+
+        </div>
+
+
+        <span class="status approved">
+            Approved
+        </span>
+
+    </div>
+
+
+    <div
+        class="application-item"
+        style="margin-top:15px"
+    >
+
+        <div class="application-icon">
+            📄
+        </div>
+
+
+        <div class="application-text">
+
+            <strong>
+                KYC Verification
+            </strong>
+
+            <p>
+                Documents submitted successfully
+            </p>
+
+        </div>
+
+
+        <span class="status pending">
+            Pending
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- RECENT TRANSACTIONS -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Recent Transactions
+        </h3>
+
+        <button
+            class="view-all"
+            onclick="go('transactions.html')"
+        >
+            View All
+        </button>
+
+    </div>
+
+
+    <div class="transaction">
+
+        <div class="transaction-icon">
+            ✓
+        </div>
+
+        <div class="transaction-info">
+
+            <strong>
+                EMI Payment
+            </strong>
+
+            <p>
+                10 Aug 2026
+            </p>
+
+        </div>
+
+        <div class="transaction-amount">
+            -₹8,250
+        </div>
+
+    </div>
+
+
+    <div class="transaction">
+
+        <div class="transaction-icon">
+            ✓
+        </div>
+
+        <div class="transaction-info">
+
+            <strong>
+                EMI Payment
+            </strong>
+
+            <p>
+                10 Jul 2026
+            </p>
+
+        </div>
+
+        <div class="transaction-amount">
+            -₹8,250
+        </div>
+
+    </div>
+
+
+    <div class="transaction">
+
+        <div class="transaction-icon">
+            ✓
+        </div>
+
+        <div class="transaction-info">
+
+            <strong>
+                Loan Disbursement
+            </strong>
+
+            <p>
+                10 May 2026
+            </p>
+
+        </div>
+
+        <div
+            class="transaction-amount"
+            style="color:#155eef"
+        >
+            +₹1,00,000
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- KYC -->
+
+<section class="kyc">
+
+    <div class="kyc-top">
+
+        <div class="kyc-icon">
+            🪪
+        </div>
+
+
+        <div class="kyc-text">
+
+            <strong>
+                Complete your KYC
+            </strong>
+
+            <p>
+                Complete verification to continue using
+                all loan services.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="kyc-button"
+        onclick="go('kyc.html')"
+    >
+        Complete KYC
+    </button>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<script>
+
+/* NAVIGATION */
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* SIDEBAR */
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    if(
+        confirm(
+            "Kya aap logout karna chahte hain?"
+        )
+    ){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

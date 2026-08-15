@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | EasyLoan India</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --text-primary: #1a237e;
+            --text-secondary: #455a64;
+            --bg: #f0f4f8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text-secondary);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .navbar .brand i {
+            font-size: 28px;
+        }
+        .navbar .brand h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .navbar .brand small {
+            display: block;
+            font-size: 10px;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+        }
+        .navbar .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card h2 {
+            color: var(--text-primary);
+            font-size: 22px;
+            margin: 30px 0 15px;
+        }
+
+        .content-card h2:first-child {
+            margin-top: 0;
+        }
+
+        .content-card p {
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .content-card ul {
+            margin: 10px 0 10px 25px;
+        }
+
+        .content-card ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .content-card .update-date {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .footer {
+            background: #0d47a1;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 30px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 360px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            background: #2e7d32;
+        }
+        .toast.error {
+            background: #c62828;
+        }
+        .toast.info {
+            background: #0288d1;
+        }
+
+        @media(max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+            .navbar .nav-links.open {
+                display: flex;
+            }
+            .navbar .mobile-toggle {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-building-columns"></i>
+            <div>
+                <h1>EasyLoan</h1>
+                <small>India's Trusted Lender</small>
+            </div>
+        </a>
+
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" style="background:var(--primary);color:white !important;padding:8px 20px;border-radius:50px;">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>📜 Terms & Conditions</h1>
+            <p>Read our terms and conditions carefully before using our services.</p>
+        </div>
+
+        <div class="content-card">
+            <h2>1. Acceptance of Terms</h2>
+            <p>
+                By using EasyLoan India's website and services, you agree to be bound by these Terms & Conditions.
+                If you do not agree to these terms, please do not use our services.
+            </p>
+
+            <h2>2. Eligibility</h2>
+            <p>
+                To use our services, you must be at least 18 years of age and a resident of India. You must have
+                the legal capacity to enter into a binding agreement. We reserve the right to verify your identity
+                and eligibility at any time.
+            </p>
+
+            <h2>3. Loan Application Process</h2>
+            <p>
+                When you apply for a loan with EasyLoan India, you agree to:
+            </p>
+            <ul>
+                <li>Provide accurate and complete information</li>
+                <li>Submit all required documents promptly</li>
+                <li>Respond to our inquiries in a timely manner</li>
+                <li>Allow us to verify your information with third parties</li>
+                <li>Review and accept the loan offer before disbursement</li>
+            </ul>
+
+            <h2>4. Loan Terms</h2>
+            <p>
+                All loan offers are subject to our approval and credit assessment. The interest rate, tenure,
+                and repayment terms will be communicated to you in the loan offer. By accepting the loan offer,
+                you agree to:
+            </p>
+            <ul>
+                <li>Repay the loan as per the agreed schedule</li>
+                <li>Pay all applicable interest, fees, and charges</li>
+                <li>Inform us immediately of any change in your circumstances</li>
+                <li>Allow us to auto-debit EMI payments from your bank account</li>
+            </ul>
+
+            <h2>5. Repayment Obligations</h2>
+            <p>
+                You are obligated to repay the loan amount along with interest and fees as per the agreed schedule.
+                Late payments may result in additional charges, penalties, and negative impact on your credit score.
+                In case of default, we reserve the right to take legal action to recover the dues.
+            </p>
+
+            <h2>6. Fees and Charges</h2>
+            <p>
+                Our fee structure is transparent and will be disclosed to you before you accept the loan offer.
+                This may include:
+            </p>
+            <ul>
+                <li>Processing fees</li>
+                <li>Late payment penalties</li>
+                <li>Prepayment charges (if applicable)</li>
+                <li>Legal fees (in case of default)</li>
+            </ul>
+
+            <h2>7. Privacy and Data Protection</h2>
+            <p>
+                We collect and process your personal information in accordance with our Privacy Policy. By using
+                our services, you consent to the collection, use, and disclosure of your information as described
+                in our Privacy Policy.
+            </p>
+
+            <h2>8. Intellectual Property</h2>
+            <p>
+                All content on our website, including text, graphics, logos, and software, is the property of
+                EasyLoan India and is protected by intellectual property laws. You may not reproduce, distribute,
+                or modify any content without our express written consent.
+            </p>
+
+            <h2>9. Limitation of Liability</h2>
+            <p>
+                EasyLoan India provides its services on an "as is" and "as available" basis. We make no warranties
+                regarding the accuracy, reliability, or availability of our services. We shall not be liable for
+                any indirect, incidental, special, or consequential damages arising from your use of our services.
+            </p>
+
+            <h2>10. Termination</h2>
+            <p>
+                We reserve the right to terminate or suspend your account at any time for any reason, including
+                violation of these terms. You may also terminate your account by contacting our support team.
+            </p>
+
+            <h2>11. Governing Law</h2>
+            <p>
+                These Terms & Conditions are governed by the laws of India. Any disputes arising from these terms
+                shall be subject to the exclusive jurisdiction of the courts in New Delhi, India.
+            </p>
+
+            <h2>12. Changes to Terms</h2>
+            <p>
+                We may update these Terms & Conditions from time to time. We will notify you of any significant
+                changes by posting the new terms on this page. Continued use of our services constitutes
+                acceptance of the updated terms.
+            </p>
+
+            <h2>13. Contact Us</h2>
+            <p>
+                If you have any questions about these Terms & Conditions, please contact us at:
+                <strong>support@easyloanindia.com</strong> or call us at <strong>+91 1800-123-4567</strong>.
+            </p>
+
+            <div class="update-date">
+                <strong>Last Updated:</strong> January 1, 2025
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 EasyLoan India. All rights reserved. | Made with ❤️ in India</p>
+    </footer>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+            authDomain: "easyloan-india.firebaseapp.com",
+            projectId: "easyloan-india",
+            storageBucket: "easyloan-india.firebasestorage.app",
+            messagingSenderId: "925263655882",
+            appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        auth.onAuthStateChanged((user) => {
+            const navLinks = document.getElementById('navLinks');
+            if (user) {
+                navLinks.innerHTML = `
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+                    <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
+                `;
+                document.getElementById('logoutNavBtn')?.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        showToast('✅ Logged out', 'success');
+                        setTimeout(() => window.location.reload(), 1000);
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

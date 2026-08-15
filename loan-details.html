@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Loan Details - LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#155eef,#4f8cff);
+    color:white;
+    padding:20px 18px 30px;
+    border-radius:0 0 25px 25px;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.back{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+    cursor:pointer;
+}
+
+.header-content{
+    flex:1;
+}
+
+.header h2{
+    font-size:20px;
+}
+
+.header p{
+    margin-top:5px;
+    font-size:11px;
+    opacity:.85;
+}
+
+
+/* LOAN CARD */
+
+.loan-card{
+    margin:15px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+
+.loan-card-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.loan-id{
+    font-size:9px;
+    color:#858e9e;
+}
+
+.status{
+    padding:6px 10px;
+
+    border-radius:20px;
+
+    background:#e7f8ef;
+
+    color:#168352;
+
+    font-size:8px;
+
+    font-weight:bold;
+}
+
+.loan-title{
+    margin-top:12px;
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+.loan-subtitle{
+    margin-top:4px;
+
+    color:#7b8494;
+
+    font-size:9px;
+}
+
+
+/* PROGRESS */
+
+.progress-section{
+    margin-top:20px;
+}
+
+.progress-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:9px;
+
+    color:#6e7788;
+}
+
+.progress-bar{
+
+    height:8px;
+
+    background:#e9edf3;
+
+    border-radius:10px;
+
+    margin-top:8px;
+
+    overflow:hidden;
+}
+
+.progress-fill{
+
+    width:42%;
+
+    height:100%;
+
+    background:#155eef;
+
+    border-radius:10px;
+}
+
+.progress-text{
+
+    margin-top:6px;
+
+    font-size:8px;
+
+    color:#858e9e;
+}
+
+
+/* STATS */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:9px;
+
+    margin-top:17px;
+}
+
+.stat{
+
+    background:#f6f8fb;
+
+    border-radius:11px;
+
+    padding:11px;
+}
+
+.stat span{
+
+    display:block;
+
+    color:#858e9e;
+
+    font-size:8px;
+}
+
+.stat strong{
+
+    display:block;
+
+    margin-top:5px;
+
+    font-size:12px;
+}
+
+
+/* SECTION */
+
+.section{
+
+    padding:0 15px 15px;
+}
+
+.section-title{
+
+    font-size:16px;
+
+    margin-bottom:10px;
+}
+
+
+/* DETAIL CARD */
+
+.detail-card{
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:16px;
+
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+.detail-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #edf0f4;
+
+}
+
+.detail-row:last-child{
+    border-bottom:none;
+}
+
+.detail-label{
+
+    color:#7b8494;
+
+    font-size:9px;
+}
+
+.detail-value{
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    text-align:right;
+}
+
+
+/* NEXT EMI */
+
+.next-emi{
+
+    background:#eef3ff;
+
+    border-radius:16px;
+
+    padding:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.emi-icon{
+
+    width:43px;
+    height:43px;
+
+    border-radius:12px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+}
+
+.emi-content{
+    flex:1;
+}
+
+.emi-content span{
+
+    display:block;
+
+    font-size:8px;
+
+    color:#657085;
+}
+
+.emi-content strong{
+
+    display:block;
+
+    margin-top:4px;
+
+    font-size:16px;
+}
+
+.emi-date{
+
+    font-size:9px;
+
+    color:#155eef;
+
+    font-weight:bold;
+}
+
+
+/* SCHEDULE */
+
+.schedule{
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:8px 15px;
+
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+.schedule-row{
+
+    display:grid;
+
+    grid-template-columns:45px 1fr 80px;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:13px 0;
+
+    border-bottom:1px solid #edf0f4;
+}
+
+.schedule-row:last-child{
+    border-bottom:none;
+}
+
+.emi-number{
+
+    width:30px;
+    height:30px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#f0f3f8;
+
+    color:#667085;
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+.emi-number.paid{
+
+    background:#e5f7ed;
+
+    color:#168352;
+}
+
+.emi-info strong{
+
+    display:block;
+
+    font-size:10px;
+}
+
+.emi-info span{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:#8992a1;
+
+    font-size:8px;
+}
+
+.emi-amount{
+
+    text-align:right;
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.paid-text{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:#168352;
+
+    font-size:8px;
+}
+
+
+/* ACTIONS */
+
+.actions{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+}
+
+.action-btn{
+
+    height:44px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.primary{
+    background:#155eef;
+    color:white;
+}
+
+.secondary{
+    background:#eaf0ff;
+    color:#155eef;
+}
+
+
+/* INFO */
+
+.info{
+
+    background:#fff8e8;
+
+    color:#80672a;
+
+    border-radius:12px;
+
+    padding:13px;
+
+    font-size:9px;
+
+    line-height:1.6;
+}
+
+
+/* MODAL */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    z-index:500;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal-box{
+
+    width:100%;
+
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:22px;
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.close{
+
+    width:32px;
+    height:32px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f0f2f5;
+
+    font-size:18px;
+
+    cursor:pointer;
+}
+
+.modal-text{
+
+    margin-top:17px;
+
+    background:#f6f8fb;
+
+    padding:14px;
+
+    border-radius:11px;
+
+    font-size:10px;
+
+    color:#6d7788;
+
+    line-height:1.6;
+}
+
+.modal-btn{
+
+    width:100%;
+
+    height:43px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:#155eef;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* MOBILE */
+
+@media(max-width:360px){
+
+    .schedule-row{
+
+        grid-template-columns:38px 1fr 70px;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-top">
+
+            <div
+                class="back"
+                onclick="go('index.html')"
+            >
+                ←
+            </div>
+
+            <div class="header-content">
+
+                <h2>
+                    Loan Details
+                </h2>
+
+                <p>
+                    View your complete loan information
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN LOAN CARD -->
+
+    <div class="loan-card">
+
+        <div class="loan-card-top">
+
+            <div class="loan-id">
+                Loan ID: LN202600125
+            </div>
+
+            <div class="status">
+                Active
+            </div>
+
+        </div>
+
+
+        <div class="loan-title">
+            Personal Loan
+        </div>
+
+        <div class="loan-subtitle">
+            Active loan account
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress-section">
+
+            <div class="progress-top">
+
+                <span>
+                    Loan Progress
+                </span>
+
+                <span>
+                    5 of 12 EMIs
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div class="progress-fill"></div>
+
+            </div>
+
+
+            <div class="progress-text">
+                42% of scheduled EMIs completed
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <span>
+                    Original Amount
+                </span>
+
+                <strong>
+                    ₹50,000
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Outstanding
+                </span>
+
+                <strong>
+                    ₹31,750
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    EMI Amount
+                </span>
+
+                <strong>
+                    ₹4,750
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Remaining EMIs
+                </span>
+
+                <strong>
+                    7
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NEXT EMI -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Upcoming Payment
+        </div>
+
+
+        <div class="next-emi">
+
+            <div class="emi-icon">
+                📅
+            </div>
+
+            <div class="emi-content">
+
+                <span>
+                    Next EMI
+                </span>
+
+                <strong>
+                    ₹4,750
+                </strong>
+
+            </div>
+
+            <div class="emi-date">
+                15 Sep 2026
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOAN INFORMATION -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Loan Information
+        </div>
+
+
+        <div class="detail-card">
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Loan Amount
+                </span>
+
+                <span class="detail-value">
+                    ₹50,000
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Disbursed Amount
+                </span>
+
+                <span class="detail-value">
+                    ₹49,250
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Interest Rate
+                </span>
+
+                <span class="detail-value">
+                    18% p.a.
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Tenure
+                </span>
+
+                <span class="detail-value">
+                    12 Months
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Processing Fee
+                </span>
+
+                <span class="detail-value">
+                    ₹750
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Start Date
+                </span>
+
+                <span class="detail-value">
+                    15 Aug 2026
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Maturity Date
+                </span>
+
+                <span class="detail-value">
+                    15 Jul 2027
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REPAYMENT SCHEDULE -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Repayment Schedule
+        </div>
+
+
+        <div class="schedule">
+
+
+            <!-- EMI 1 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number paid">
+                    1
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Aug 2026
+                    </strong>
+
+                    <span>
+                        Paid
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                    <span class="paid-text">
+                        ✓ Paid
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 2 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number paid">
+                    2
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Sep 2026
+                    </strong>
+
+                    <span>
+                        Paid
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                    <span class="paid-text">
+                        ✓ Paid
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 3 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number paid">
+                    3
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Oct 2026
+                    </strong>
+
+                    <span>
+                        Paid
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                    <span class="paid-text">
+                        ✓ Paid
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 4 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number paid">
+                    4
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Nov 2026
+                    </strong>
+
+                    <span>
+                        Paid
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                    <span class="paid-text">
+                        ✓ Paid
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 5 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number paid">
+                    5
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Dec 2026
+                    </strong>
+
+                    <span>
+                        Paid
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                    <span class="paid-text">
+                        ✓ Paid
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 6 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number">
+                    6
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Jan 2027
+                    </strong>
+
+                    <span>
+                        Upcoming
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 7 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number">
+                    7
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Feb 2027
+                    </strong>
+
+                    <span>
+                        Upcoming
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI 8 -->
+
+            <div class="schedule-row">
+
+                <div class="emi-number">
+                    8
+                </div>
+
+                <div class="emi-info">
+
+                    <strong>
+                        15 Mar 2027
+                    </strong>
+
+                    <span>
+                        Upcoming
+                    </span>
+
+                </div>
+
+                <div class="emi-amount">
+
+                    ₹4,750
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="section">
+
+        <div class="actions">
+
+            <button
+                class="action-btn primary"
+                onclick="go('repayment.html')"
+            >
+                💳 Pay EMI
+            </button>
+
+
+            <button
+                class="action-btn secondary"
+                onclick="go('loan-documents.html')"
+            >
+                📄 Documents
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUPPORT -->
+
+    <div class="section">
+
+        <div class="detail-card">
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Need help with this loan?
+                </span>
+
+                <button
+                    class="action-btn secondary"
+                    onclick="go('support.html')"
+                >
+                    Support
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INFO -->
+
+    <div class="section">
+
+        <div class="info">
+
+            <strong>
+                Important:
+            </strong>
+
+            The amounts, interest rate, fees, dates and repayment
+            schedule shown here are sample UI data. In the real
+            application these values must come from the authorized
+            lending backend and the applicable loan agreement.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Loan Information
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-text">
+
+            Your actual loan information, charges, repayment
+            schedule and other applicable details should be loaded
+            securely from the backend associated with your loan.
+
+        </div>
+
+
+        <button
+            class="modal-btn"
+            onclick="closeModal()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+function openModal(){
+
+    document.getElementById(
+        "modal"
+    ).style.display = "flex";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "modal"
+    ).style.display = "none";
+
+}
+
+</script>
+
+</body>
+</html>

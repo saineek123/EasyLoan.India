@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Support Tickets - Admin | LoanApp</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#111827;
+    color:white;
+    padding:20px 14px;
+    z-index:100;
+}
+
+.logo{
+    padding:5px 10px 25px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo span{
+    color:#7f8ba0;
+    font-size:9px;
+}
+
+.admin-box{
+    background:#1c2535;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.admin-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.admin-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.admin-role{
+    margin-top:3px;
+    color:#8792a5;
+    font-size:8px;
+}
+
+.nav-title{
+    color:#69758a;
+    font-size:7px;
+    font-weight:bold;
+    margin:15px 10px 7px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    height:43px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:0 11px;
+    color:#aab4c4;
+    font-size:10px;
+    cursor:pointer;
+    margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1d4ed8;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+    font-size:14px;
+}
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #e7eaf0;
+    padding:0 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border:none;
+    background:#f0f3f8;
+    border-radius:9px;
+    font-size:18px;
+}
+
+.page-title h1{
+    font-size:19px;
+}
+
+.page-title p{
+    margin-top:4px;
+    color:#8a93a2;
+    font-size:9px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e5e8ed;
+    background:white;
+    border-radius:9px;
+}
+
+.content{
+    padding:22px 25px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.stat{
+    background:white;
+    border-radius:15px;
+    padding:16px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.stat-icon{
+    width:37px;
+    height:37px;
+    border-radius:10px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.stat:nth-child(2) .stat-icon{
+    background:#fff4dd;
+    color:#c77900;
+}
+
+.stat:nth-child(3) .stat-icon{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.stat:nth-child(4) .stat-icon{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+.stat-label{
+    margin-top:12px;
+    color:#858e9e;
+    font-size:8px;
+}
+
+.stat-value{
+    margin-top:5px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+    overflow:hidden;
+}
+
+.toolbar{
+    padding:15px;
+    border-bottom:1px solid #edf0f4;
+    display:flex;
+    gap:9px;
+    align-items:center;
+}
+
+.search{
+    flex:1;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    outline:none;
+    padding:0 12px 0 35px;
+    font-size:9px;
+}
+
+.search-icon{
+    position:absolute;
+    left:12px;
+    top:12px;
+    color:#8992a1;
+}
+
+select{
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    padding:0 10px;
+    background:white;
+    color:#596476;
+    font-size:9px;
+    outline:none;
+}
+
+/* TABLE */
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:1050px;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f8f9fb;
+}
+
+th{
+    padding:12px 14px;
+    text-align:left;
+    font-size:8px;
+    color:#778193;
+}
+
+td{
+    padding:13px 14px;
+    border-top:1px solid #edf0f4;
+    font-size:9px;
+    white-space:nowrap;
+}
+
+.customer{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.name{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.mobile{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.subject{
+    font-weight:bold;
+}
+
+.sub{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.open{
+    background:#e8f0ff;
+    color:#155eef;
+}
+
+.pending{
+    background:#fff4dd;
+    color:#b96c00;
+}
+
+.resolved{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.high{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+.medium{
+    background:#fff4dd;
+    color:#b96c00;
+}
+
+.low{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.action-btn{
+    width:32px;
+    height:32px;
+    border:1px solid #e1e5eb;
+    background:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.action-btn:hover{
+    background:#eef3ff;
+}
+
+/* PAGINATION */
+
+.pagination{
+    padding:13px 15px;
+    border-top:1px solid #edf0f4;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.page-info{
+    color:#8992a1;
+    font-size:8px;
+}
+
+.pages{
+    display:flex;
+    gap:4px;
+}
+
+.page-btn{
+    width:30px;
+    height:30px;
+    border:1px solid #e1e5eb;
+    background:white;
+    border-radius:7px;
+    font-size:8px;
+}
+
+.page-btn.active{
+    background:#155eef;
+    color:white;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:700px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:50%;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.profile{
+    margin-top:16px;
+    padding:13px;
+    background:#f7f8fa;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.big-avatar{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.profile-name{
+    font-size:12px;
+    font-weight:bold;
+}
+
+.profile-mobile{
+    margin-top:4px;
+    color:#8992a1;
+    font-size:8px;
+}
+
+.section-title{
+    margin-top:18px;
+    margin-bottom:9px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.ticket-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.detail{
+    background:#f7f8fa;
+    border-radius:9px;
+    padding:10px;
+}
+
+.detail span{
+    display:block;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.detail strong{
+    display:block;
+    margin-top:4px;
+    font-size:9px;
+}
+
+.message-box{
+    background:#f7f8fa;
+    border-radius:11px;
+    padding:13px;
+    line-height:1.6;
+    font-size:9px;
+    color:#4d586a;
+}
+
+.reply-box{
+    margin-top:10px;
+}
+
+.reply-box textarea{
+    width:100%;
+    min-height:90px;
+    resize:vertical;
+    border:1px solid #dfe3e9;
+    border-radius:10px;
+    outline:none;
+    padding:12px;
+    font-size:9px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.btn{
+    height:42px;
+    padding:0 18px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#155eef;
+    color:white;
+}
+
+.btn-success{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:90;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .ticket-info{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+    .content{
+        padding:18px 14px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat{
+        padding:12px;
+    }
+
+    .stat-value{
+        font-size:17px;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .search{
+        flex-basis:100%;
+    }
+
+    .ticket-info{
+        grid-template-columns:1fr;
+    }
+
+    .modal-actions{
+        flex-direction:column;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <h2>LoanApp</h2>
+        <span>ADMIN PANEL</span>
+    </div>
+
+    <div class="admin-box">
+
+        <div class="admin-avatar">
+            AD
+        </div>
+
+        <div>
+            <div class="admin-name">
+                Admin
+            </div>
+
+            <div class="admin-role">
+                Super Administrator
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-title">
+        Main
+    </div>
+
+    <div class="nav-item" onclick="go('admin.html')">
+        <div class="nav-icon">📊</div>
+        Dashboard
+    </div>
+
+    <div class="nav-item" onclick="go('admin-users.html')">
+        <div class="nav-icon">👥</div>
+        Users
+    </div>
+
+    <div class="nav-item" onclick="go('admin-applications.html')">
+        <div class="nav-icon">📝</div>
+        Loan Applications
+    </div>
+
+    <div class="nav-item" onclick="go('admin-kyc.html')">
+        <div class="nav-icon">🪪</div>
+        KYC Verification
+    </div>
+
+    <div class="nav-title">
+        Finance
+    </div>
+
+    <div class="nav-item" onclick="go('admin-loans.html')">
+        <div class="nav-icon">💰</div>
+        Active Loans
+    </div>
+
+    <div class="nav-item" onclick="go('admin-payments.html')">
+        <div class="nav-icon">💳</div>
+        Payments
+    </div>
+
+    <div class="nav-item" onclick="go('admin-overdue.html')">
+        <div class="nav-icon">⚠️</div>
+        Overdue EMIs
+    </div>
+
+    <div class="nav-title">
+        Management
+    </div>
+
+    <div class="nav-item active" onclick="go('admin-support.html')">
+        <div class="nav-icon">🎧</div>
+        Support Tickets
+    </div>
+
+    <div class="nav-item" onclick="go('admin-settings.html')">
+        <div class="nav-icon">⚙️</div>
+        Settings
+    </div>
+
+    <div class="nav-item" onclick="adminLogout()">
+        <div class="nav-icon">↪</div>
+        Logout
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="menu-toggle" onclick="openSidebar()">
+            ☰
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+                Support Tickets
+            </h1>
+
+            <p>
+                Manage customer complaints and support requests
+            </p>
+
+        </div>
+
+    </div>
+
+    <button class="notification">
+        🔔
+    </button>
+
+</header>
+
+
+<div class="content">
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🎫
+            </div>
+
+            <div class="stat-label">
+                Total Tickets
+            </div>
+
+            <div class="stat-value">
+                1,284
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⏳
+            </div>
+
+            <div class="stat-label">
+                Open Tickets
+            </div>
+
+            <div class="stat-value">
+                186
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <div class="stat-label">
+                Resolved
+            </div>
+
+            <div class="stat-value">
+                1,042
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⚠️
+            </div>
+
+            <div class="stat-label">
+                High Priority
+            </div>
+
+            <div class="stat-value">
+                32
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <div class="search">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    id="search"
+                    type="text"
+                    placeholder="Search ticket, customer or subject..."
+                    oninput="filterTickets()"
+                >
+
+            </div>
+
+
+            <select
+                id="statusFilter"
+                onchange="filterTickets()"
+            >
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="open">
+                    Open
+                </option>
+
+                <option value="pending">
+                    Pending
+                </option>
+
+                <option value="resolved">
+                    Resolved
+                </option>
+
+            </select>
+
+
+            <select
+                id="priorityFilter"
+                onchange="filterTickets()"
+            >
+
+                <option value="all">
+                    All Priority
+                </option>
+
+                <option value="high">
+                    High
+                </option>
+
+                <option value="medium">
+                    Medium
+                </option>
+
+                <option value="low">
+                    Low
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            CUSTOMER
+                        </th>
+
+                        <th>
+                            TICKET
+                        </th>
+
+                        <th>
+                            SUBJECT
+                        </th>
+
+                        <th>
+                            PRIORITY
+                        </th>
+
+                        <th>
+                            CREATED
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            ACTION
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="ticketTable">
+
+
+                    <tr
+                        data-search="rahul sharma tkt10251 emi payment"
+                        data-status="open"
+                        data-priority="high"
+                    >
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="avatar">
+                                    RS
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Rahul Sharma
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 98XXXXXX12
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            TKT-10251
+                        </td>
+
+                        <td>
+
+                            <div class="subject">
+                                EMI payment issue
+                            </div>
+
+                            <div class="sub">
+                                Payment deducted but not updated
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="badge high">
+                                High
+                            </span>
+                        </td>
+
+                        <td>
+                            16 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="badge open">
+                                Open
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="openTicket(
+                                    'Rahul Sharma',
+                                    'RS',
+                                    '+91 98XXXXXX12',
+                                    'TKT-10251',
+                                    'EMI payment issue',
+                                    'High',
+                                    '16 Aug 2026',
+                                    'Open',
+                                    'Maine EMI payment kiya tha lekin loan account me payment update nahi hua hai.'
+                                )"
+                            >
+                                👁
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="priya kumari tkt10250 kyc verification"
+                        data-status="pending"
+                        data-priority="medium"
+                    >
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="avatar">
+                                    PK
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Priya Kumari
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 97XXXXXX45
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            TKT-10250
+                        </td>
+
+                        <td>
+
+                            <div class="subject">
+                                KYC verification
+                            </div>
+
+                            <div class="sub">
+                                KYC status pending
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="badge medium">
+                                Medium
+                            </span>
+                        </td>
+
+                        <td>
+                            16 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="badge pending">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="openTicket(
+                                    'Priya Kumari',
+                                    'PK',
+                                    '+91 97XXXXXX45',
+                                    'TKT-10250',
+                                    'KYC verification',
+                                    'Medium',
+                                    '16 Aug 2026',
+                                    'Pending',
+                                    'Maine KYC documents submit kar diye hain lekin abhi tak verification complete nahi hua.'
+                                )"
+                            >
+                                👁
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="ankit kumar tkt10249 loan disbursement"
+                        data-status="open"
+                        data-priority="high"
+                    >
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="avatar">
+                                    AK
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Ankit Kumar
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 96XXXXXX18
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            TKT-10249
+                        </td>
+
+                        <td>
+
+                            <div class="subject">
+                                Loan disbursement
+                            </div>
+
+                            <div class="sub">
+                                Approved loan not received
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="badge high">
+                                High
+                            </span>
+                        </td>
+
+                        <td>
+                            15 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="badge open">
+                                Open
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="openTicket(
+                                    'Ankit Kumar',
+                                    'AK',
+                                    '+91 96XXXXXX18',
+                                    'TKT-10249',
+                                    'Loan disbursement',
+                                    'High',
+                                    '15 Aug 2026',
+                                    'Open',
+                                    'Mera loan approve ho gaya hai lekin amount abhi tak mere bank account me receive nahi hua.'
+                                )"
+                            >
+                                👁
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="neha singh tkt10248 repayment"
+                        data-status="resolved"
+                        data-priority="low"
+                    >
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="avatar">
+                                    NS
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Neha Singh
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 95XXXXXX77
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            TKT-10248
+                        </td>
+
+                        <td>
+
+                            <div class="subject">
+                                Repayment query
+                            </div>
+
+                            <div class="sub">
+                                Asked about EMI schedule
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="badge low">
+                                Low
+                            </span>
+                        </td>
+
+                        <td>
+                            14 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="badge resolved">
+                                Resolved
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="openTicket(
+                                    'Neha Singh',
+                                    'NS',
+                                    '+91 95XXXXXX77',
+                                    'TKT-10248',
+                                    'Repayment query',
+                                    'Low',
+                                    '14 Aug 2026',
+                                    'Resolved',
+                                    'Mujhe apne upcoming EMI dates aur repayment schedule ke baare me information chahiye thi.'
+                                )"
+                            >
+                                👁
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="mohit verma tkt10247 account issue"
+                        data-status="pending"
+                        data-priority="medium"
+                    >
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="avatar">
+                                    MV
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Mohit Verma
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 94XXXXXX31
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            TKT-10247
+                        </td>
+
+                        <td>
+
+                            <div class="subject">
+                                Account issue
+                            </div>
+
+                            <div class="sub">
+                                Unable to update profile
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="badge medium">
+                                Medium
+                            </span>
+                        </td>
+
+                        <td>
+                            14 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="badge pending">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="openTicket(
+                                    'Mohit Verma',
+                                    'MV',
+                                    '+91 94XXXXXX31',
+                                    'TKT-10247',
+                                    'Account issue',
+                                    'Medium',
+                                    '14 Aug 2026',
+                                    'Pending',
+                                    'Mere profile me kuch details update nahi ho rahi hain. Please help.'
+                                )"
+                            >
+                                👁
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="pagination">
+
+            <div class="page-info">
+                Showing 1–5 of 1,284 tickets
+            </div>
+
+            <div class="pages">
+
+                <button class="page-btn">
+                    ‹
+                </button>
+
+                <button class="page-btn active">
+                    1
+                </button>
+
+                <button class="page-btn">
+                    2
+                </button>
+
+                <button class="page-btn">
+                    3
+                </button>
+
+                <button class="page-btn">
+                    …
+                </button>
+
+                <button class="page-btn">
+                    ›
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+
+<!-- TICKET MODAL -->
+
+<div
+    class="modal"
+    id="ticketModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Support Ticket
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeTicket()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div
+                class="big-avatar"
+                id="modalAvatar"
+            >
+                RS
+            </div>
+
+            <div>
+
+                <div
+                    class="profile-name"
+                    id="modalName"
+                >
+                    Rahul Sharma
+                </div>
+
+                <div
+                    class="profile-mobile"
+                    id="modalMobile"
+                >
+                    +91 XXXXX
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            Ticket Information
+        </div>
+
+
+        <div class="ticket-info">
+
+            <div class="detail">
+
+                <span>
+                    Ticket ID
+                </span>
+
+                <strong id="modalTicket">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Priority
+                </span>
+
+                <strong id="modalPriority">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Status
+                </span>
+
+                <strong id="modalStatus">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Subject
+                </span>
+
+                <strong id="modalSubject">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Created
+                </span>
+
+                <strong id="modalCreated">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            Customer Message
+        </div>
+
+
+        <div
+            class="message-box"
+            id="modalMessage"
+        >
+            —
+        </div>
+
+
+        <div class="section-title">
+            Admin Reply
+        </div>
+
+
+        <div class="reply-box">
+
+            <textarea
+                id="replyText"
+                placeholder="Customer ko reply yahan type karein..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="sendReply()"
+            >
+                📤 Send Reply
+            </button>
+
+            <button
+                class="btn btn-success"
+                onclick="resolveTicket()"
+            >
+                ✓ Mark Resolved
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let currentTicket = "";
+
+
+/* NAVIGATION */
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* SIDEBAR */
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/* FILTER */
+
+function filterTickets(){
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+    const status =
+        document
+        .getElementById("statusFilter")
+        .value;
+
+    const priority =
+        document
+        .getElementById("priorityFilter")
+        .value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#ticketTable tr"
+        );
+
+
+    rows.forEach(function(row){
+
+        const text =
+            row
+            .getAttribute("data-search")
+            .toLowerCase();
+
+        const rowStatus =
+            row.getAttribute("data-status");
+
+        const rowPriority =
+            row.getAttribute("data-priority");
+
+
+        const searchMatch =
+            text.includes(search);
+
+        const statusMatch =
+            status === "all" ||
+            status === rowStatus;
+
+        const priorityMatch =
+            priority === "all" ||
+            priority === rowPriority;
+
+
+        row.style.display =
+            searchMatch &&
+            statusMatch &&
+            priorityMatch
+            ? ""
+            : "none";
+
+    });
+
+}
+
+
+/* OPEN TICKET */
+
+function openTicket(
+    name,
+    avatar,
+    mobile,
+    ticket,
+    subject,
+    priority,
+    created,
+    status,
+    message
+){
+
+    currentTicket = ticket;
+
+
+    document.getElementById(
+        "modalName"
+    ).innerText = name;
+
+    document.getElementById(
+        "modalAvatar"
+    ).innerText = avatar;
+
+    document.getElementById(
+        "modalMobile"
+    ).innerText = mobile;
+
+    document.getElementById(
+        "modalTicket"
+    ).innerText = ticket;
+
+    document.getElementById(
+        "modalSubject"
+    ).innerText = subject;
+
+    document.getElementById(
+        "modalPriority"
+    ).innerText = priority;
+
+    document.getElementById(
+        "modalCreated"
+    ).innerText = created;
+
+    document.getElementById(
+        "modalStatus"
+    ).innerText = status;
+
+    document.getElementById(
+        "modalMessage"
+    ).innerText = message;
+
+
+    document.getElementById(
+        "replyText"
+    ).value = "";
+
+
+    document.getElementById(
+        "ticketModal"
+    ).style.display = "flex";
+
+}
+
+
+/* CLOSE */
+
+function closeTicket(){
+
+    document.getElementById(
+        "ticketModal"
+    ).style.display = "none";
+
+}
+
+
+/* SEND REPLY */
+
+function sendReply(){
+
+    const reply =
+        document
+        .getElementById("replyText")
+        .value
+        .trim();
+
+
+    if(!reply){
+
+        alert(
+            "Please reply message type karein."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Demo reply sent successfully.\n\nTicket: " +
+        currentTicket
+    );
+
+
+    document.getElementById(
+        "replyText"
+    ).value = "";
+
+}
+
+
+/* RESOLVE */
+
+function resolveTicket(){
+
+    if(!currentTicket){
+
+        alert("Ticket select nahi hai.");
+
+        return;
+
+    }
+
+
+    if(
+        confirm(
+            "Ticket " +
+            currentTicket +
+            " ko resolved mark karna hai?"
+        )
+    ){
+
+        alert(
+            "Demo: ticket resolved successfully."
+        );
+
+        closeTicket();
+
+    }
+
+}
+
+
+/* LOGOUT */
+
+function adminLogout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

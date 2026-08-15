@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Users - Admin | LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    min-height:100vh;
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#111827;
+    color:white;
+    padding:20px 14px;
+    z-index:100;
+}
+
+.logo{
+    padding:5px 10px 25px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo span{
+    color:#7f8ba0;
+    font-size:9px;
+}
+
+.admin-box{
+    background:#1c2535;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.admin-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.admin-info{
+    flex:1;
+}
+
+.admin-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.admin-role{
+    margin-top:3px;
+    color:#8792a5;
+    font-size:8px;
+}
+
+.nav-title{
+    color:#69758a;
+    font-size:7px;
+    font-weight:bold;
+    margin:15px 10px 7px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    height:43px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:0 11px;
+    color:#aab4c4;
+    font-size:10px;
+    cursor:pointer;
+    margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1d4ed8;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+    font-size:14px;
+}
+
+
+/* MAIN */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+
+/* TOPBAR */
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #e7eaf0;
+    padding:0 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border:none;
+    background:#f0f3f8;
+    border-radius:9px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.page-title h1{
+    font-size:19px;
+}
+
+.page-title p{
+    margin-top:4px;
+    color:#8a93a2;
+    font-size:9px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e5e8ed;
+    background:white;
+    border-radius:9px;
+    cursor:pointer;
+    position:relative;
+}
+
+.notification-dot{
+    position:absolute;
+    top:7px;
+    right:7px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ef4444;
+}
+
+
+/* CONTENT */
+
+.content{
+    padding:22px 25px;
+}
+
+
+/* SUMMARY */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.summary-card{
+    background:white;
+    border-radius:15px;
+    padding:16px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.summary-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.summary-icon{
+    width:37px;
+    height:37px;
+    border-radius:10px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.summary-card:nth-child(2) .summary-icon{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.summary-card:nth-child(3) .summary-icon{
+    background:#fff4dd;
+    color:#c77900;
+}
+
+.summary-card:nth-child(4) .summary-icon{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+.summary-label{
+    margin-top:12px;
+    color:#858e9e;
+    font-size:8px;
+}
+
+.summary-value{
+    margin-top:5px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+
+/* USER CARD */
+
+.card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+    overflow:hidden;
+}
+
+
+/* TOOLBAR */
+
+.toolbar{
+    padding:15px;
+    border-bottom:1px solid #edf0f4;
+    display:flex;
+    gap:9px;
+    align-items:center;
+}
+
+.search{
+    flex:1;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    outline:none;
+    padding:0 12px 0 35px;
+    font-size:9px;
+}
+
+.search-icon{
+    position:absolute;
+    left:12px;
+    top:12px;
+    color:#8992a1;
+    font-size:12px;
+}
+
+select{
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    padding:0 10px;
+    background:white;
+    color:#596476;
+    font-size:9px;
+    outline:none;
+}
+
+.refresh{
+    width:40px;
+    height:40px;
+    border:1px solid #dfe3e9;
+    background:white;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+
+/* TABLE */
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:850px;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f8f9fb;
+}
+
+th{
+    padding:12px 14px;
+    text-align:left;
+    font-size:8px;
+    color:#778193;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+td{
+    padding:13px 14px;
+    border-top:1px solid #edf0f4;
+    font-size:9px;
+    white-space:nowrap;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.user-name{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.user-email{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.badge.verified{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.badge.pending{
+    background:#fff4dd;
+    color:#c77900;
+}
+
+.badge.active{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.badge.inactive{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+.badge.none{
+    background:#eef1f5;
+    color:#687385;
+}
+
+.amount{
+    font-weight:bold;
+}
+
+.action-btn{
+    width:31px;
+    height:31px;
+    border:1px solid #e1e5eb;
+    background:white;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:4px;
+}
+
+.action-btn:hover{
+    background:#eef3ff;
+    color:#155eef;
+}
+
+
+/* PAGINATION */
+
+.pagination{
+    padding:13px 15px;
+    border-top:1px solid #edf0f4;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.page-info{
+    color:#8992a1;
+    font-size:8px;
+}
+
+.pages{
+    display:flex;
+    gap:4px;
+}
+
+.page-btn{
+    width:30px;
+    height:30px;
+    border:1px solid #e1e5eb;
+    background:white;
+    border-radius:7px;
+    font-size:8px;
+    cursor:pointer;
+}
+
+.page-btn.active{
+    background:#155eef;
+    color:white;
+    border-color:#155eef;
+}
+
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:450px;
+    background:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:50%;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.detail-profile{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-bottom:15px;
+    border-bottom:1px solid #edf0f4;
+}
+
+.detail-avatar{
+    width:50px;
+    height:50px;
+    border-radius:13px;
+    background:#eef3ff;
+    color:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.detail-name{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.detail-mobile{
+    margin-top:4px;
+    color:#8992a1;
+    font-size:8px;
+}
+
+.detail-grid{
+    margin-top:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.detail-item{
+    background:#f7f8fa;
+    border-radius:9px;
+    padding:10px;
+}
+
+.detail-item span{
+    display:block;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.detail-item strong{
+    display:block;
+    margin-top:4px;
+    font-size:9px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.modal-btn{
+    flex:1;
+    height:40px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.primary{
+    background:#155eef;
+    color:white;
+}
+
+.secondary{
+    background:#eef1f5;
+    color:#596476;
+}
+
+.danger{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+
+/* OVERLAY */
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:90;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .content{
+        padding:18px 14px;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .summary{
+        gap:8px;
+    }
+
+    .summary-card{
+        padding:12px;
+    }
+
+    .summary-value{
+        font-size:17px;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .search{
+        flex-basis:100%;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- OVERLAY -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+></div>
+
+
+<!-- SIDEBAR -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="logo">
+
+        <h2>LoanApp</h2>
+
+        <span>ADMIN PANEL</span>
+
+    </div>
+
+
+    <div class="admin-box">
+
+        <div class="admin-avatar">
+            AD
+        </div>
+
+        <div class="admin-info">
+
+            <div class="admin-name">
+                Admin
+            </div>
+
+            <div class="admin-role">
+                Super Administrator
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Main
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin.html')"
+    >
+        <div class="nav-icon">📊</div>
+        Dashboard
+    </div>
+
+
+    <div
+        class="nav-item active"
+        onclick="go('admin-users.html')"
+    >
+        <div class="nav-icon">👥</div>
+        Users
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-applications.html')"
+    >
+        <div class="nav-icon">📝</div>
+        Loan Applications
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-kyc.html')"
+    >
+        <div class="nav-icon">🪪</div>
+        KYC Verification
+    </div>
+
+
+    <div class="nav-title">
+        Finance
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-loans.html')"
+    >
+        <div class="nav-icon">💰</div>
+        Active Loans
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-payments.html')"
+    >
+        <div class="nav-icon">💳</div>
+        Payments
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-overdue.html')"
+    >
+        <div class="nav-icon">⚠️</div>
+        Overdue EMIs
+    </div>
+
+
+    <div class="nav-title">
+        Management
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-support.html')"
+    >
+        <div class="nav-icon">🎧</div>
+        Support Tickets
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-settings.html')"
+    >
+        <div class="nav-icon">⚙️</div>
+        Settings
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="adminLogout()"
+    >
+        <div class="nav-icon">↪</div>
+        Logout
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="top-left">
+
+            <button
+                class="menu-toggle"
+                onclick="openSidebar()"
+            >
+                ☰
+            </button>
+
+            <div class="page-title">
+
+                <h1>
+                    Users
+                </h1>
+
+                <p>
+                    Manage registered customers
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="notification"
+            onclick="go('admin-support.html')"
+        >
+
+            🔔
+
+            <span class="notification-dot"></span>
+
+        </button>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        👥
+                    </div>
+
+                </div>
+
+                <div class="summary-label">
+                    Total Users
+                </div>
+
+                <div class="summary-value">
+                    12,548
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+                <div class="summary-label">
+                    Verified Users
+                </div>
+
+                <div class="summary-value">
+                    10,824
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        ⏳
+                    </div>
+
+                </div>
+
+                <div class="summary-label">
+                    Pending KYC
+                </div>
+
+                <div class="summary-value">
+                    1,284
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        ●
+                    </div>
+
+                </div>
+
+                <div class="summary-label">
+                    Active Today
+                </div>
+
+                <div class="summary-value">
+                    642
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- USERS CARD -->
+
+        <div class="card">
+
+
+            <!-- TOOLBAR -->
+
+            <div class="toolbar">
+
+                <div class="search">
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search name, mobile or email..."
+                        oninput="searchUsers()"
+                    >
+
+                </div>
+
+
+                <select
+                    id="kycFilter"
+                    onchange="filterUsers()"
+                >
+
+                    <option value="all">
+                        All KYC
+                    </option>
+
+                    <option value="verified">
+                        Verified
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="accountFilter"
+                    onchange="filterUsers()"
+                >
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="active">
+                        Active
+                    </option>
+
+                    <option value="inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="refresh"
+                    onclick="refreshUsers()"
+                    title="Refresh"
+                >
+                    ↻
+                </button>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                USER
+                            </th>
+
+                            <th>
+                                MOBILE
+                            </th>
+
+                            <th>
+                                KYC
+                            </th>
+
+                            <th>
+                                LOAN
+                            </th>
+
+                            <th>
+                                LOAN AMOUNT
+                            </th>
+
+                            <th>
+                                ACCOUNT
+                            </th>
+
+                            <th>
+                                JOINED
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="userTable">
+
+
+                        <tr
+                            data-name="Amit Sharma"
+                            data-kyc="verified"
+                            data-account="active"
+                        >
+
+                            <td>
+
+                                <div class="user">
+
+                                    <div class="avatar">
+                                        AS
+                                    </div>
+
+                                    <div>
+
+                                        <div class="user-name">
+                                            Amit Sharma
+                                        </div>
+
+                                        <div class="user-email">
+                                            amit@example.com
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 98XXXXXX21
+                            </td>
+
+                            <td>
+                                <span class="badge verified">
+                                    Verified
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td class="amount">
+                                ₹80,000
+                            </td>
+
+                            <td>
+                                <span class="badge active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                12 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewUser('Amit Sharma','+91 98XXXXXX21','amit@example.com','Verified','Active','₹80,000')"
+                                >
+                                    👁
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="editUser('Amit Sharma')"
+                                >
+                                    ✏
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-name="Priya Kumari"
+                            data-kyc="pending"
+                            data-account="active"
+                        >
+
+                            <td>
+
+                                <div class="user">
+
+                                    <div class="avatar">
+                                        PK
+                                    </div>
+
+                                    <div>
+
+                                        <div class="user-name">
+                                            Priya Kumari
+                                        </div>
+
+                                        <div class="user-email">
+                                            priya@example.com
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 97XXXXXX45
+                            </td>
+
+                            <td>
+                                <span class="badge pending">
+                                    Pending
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge none">
+                                    No Loan
+                                </span>
+                            </td>
+
+                            <td class="amount">
+                                —
+                            </td>
+
+                            <td>
+                                <span class="badge active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                10 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewUser('Priya Kumari','+91 97XXXXXX45','priya@example.com','Pending','No Loan','—')"
+                                >
+                                    👁
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="editUser('Priya Kumari')"
+                                >
+                                    ✏
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-name="Rahul Verma"
+                            data-kyc="verified"
+                            data-account="active"
+                        >
+
+                            <td>
+
+                                <div class="user">
+
+                                    <div class="avatar">
+                                        RV
+                                    </div>
+
+                                    <div>
+
+                                        <div class="user-name">
+                                            Rahul Verma
+                                        </div>
+
+                                        <div class="user-email">
+                                            rahul@example.com
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 96XXXXXX18
+                            </td>
+
+                            <td>
+                                <span class="badge verified">
+                                    Verified
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td class="amount">
+                                ₹1,20,000
+                            </td>
+
+                            <td>
+                                <span class="badge active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                05 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewUser('Rahul Verma','+91 96XXXXXX18','rahul@example.com','Verified','Active','₹1,20,000')"
+                                >
+                                    👁
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="editUser('Rahul Verma')"
+                                >
+                                    ✏
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-name="Neha Singh"
+                            data-kyc="pending"
+                            data-account="active"
+                        >
+
+                            <td>
+
+                                <div class="user">
+
+                                    <div class="avatar">
+                                        NS
+                                    </div>
+
+                                    <div>
+
+                                        <div class="user-name">
+                                            Neha Singh
+                                        </div>
+
+                                        <div class="user-email">
+                                            neha@example.com
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 95XXXXXX77
+                            </td>
+
+                            <td>
+                                <span class="badge pending">
+                                    Pending
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge none">
+                                    No Loan
+                                </span>
+                            </td>
+
+                            <td class="amount">
+                                —
+                            </td>
+
+                            <td>
+                                <span class="badge active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                02 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewUser('Neha Singh','+91 95XXXXXX77','neha@example.com','Pending','No Loan','—')"
+                                >
+                                    👁
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="editUser('Neha Singh')"
+                                >
+                                    ✏
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr
+                            data-name="Suresh Yadav"
+                            data-kyc="verified"
+                            data-account="inactive"
+                        >
+
+                            <td>
+
+                                <div class="user">
+
+                                    <div class="avatar">
+                                        SY
+                                    </div>
+
+                                    <div>
+
+                                        <div class="user-name">
+                                            Suresh Yadav
+                                        </div>
+
+                                        <div class="user-email">
+                                            suresh@example.com
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 94XXXXXX12
+                            </td>
+
+                            <td>
+                                <span class="badge verified">
+                                    Verified
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge none">
+                                    No Loan
+                                </span>
+                            </td>
+
+                            <td class="amount">
+                                —
+                            </td>
+
+                            <td>
+                                <span class="badge inactive">
+                                    Inactive
+                                </span>
+                            </td>
+
+                            <td>
+                                28 Jul 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewUser('Suresh Yadav','+91 94XXXXXX12','suresh@example.com','Verified','No Loan','—')"
+                                >
+                                    👁
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="editUser('Suresh Yadav')"
+                                >
+                                    ✏
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- PAGINATION -->
+
+            <div class="pagination">
+
+                <div class="page-info">
+                    Showing 1–5 of 12,548 users
+                </div>
+
+                <div class="pages">
+
+                    <button class="page-btn">
+                        ‹
+                    </button>
+
+                    <button class="page-btn active">
+                        1
+                    </button>
+
+                    <button class="page-btn">
+                        2
+                    </button>
+
+                    <button class="page-btn">
+                        3
+                    </button>
+
+                    <button class="page-btn">
+                        …
+                    </button>
+
+                    <button class="page-btn">
+                        2509
+                    </button>
+
+                    <button class="page-btn">
+                        ›
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- USER DETAIL MODAL -->
+
+<div
+    class="modal"
+    id="userModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                User Details
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="detail-profile">
+
+            <div
+                class="detail-avatar"
+                id="detailAvatar"
+            >
+                AS
+            </div>
+
+            <div>
+
+                <div
+                    class="detail-name"
+                    id="detailName"
+                >
+                    Amit Sharma
+                </div>
+
+                <div
+                    class="detail-mobile"
+                    id="detailMobile"
+                >
+                    +91 XXXXX
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+
+                <span>
+                    Email
+                </span>
+
+                <strong id="detailEmail">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    KYC
+                </span>
+
+                <strong id="detailKyc">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    Loan
+                </span>
+
+                <strong id="detailLoan">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    Loan Amount
+                </span>
+
+                <strong id="detailAmount">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-btn secondary"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+
+            <button
+                class="modal-btn primary"
+                onclick="editCurrentUser()"
+            >
+                Edit User
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* NAVIGATION */
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* SIDEBAR */
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/* SEARCH */
+
+function searchUsers(){
+
+    filterUsers();
+
+}
+
+
+/* FILTER */
+
+function filterUsers(){
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const kyc =
+        document
+        .getElementById("kycFilter")
+        .value;
+
+    const account =
+        document
+        .getElementById("accountFilter")
+        .value;
+
+
+    const rows =
+        document
+        .querySelectorAll(
+            "#userTable tr"
+        );
+
+
+    rows.forEach(function(row){
+
+        const name =
+            row
+            .getAttribute("data-name")
+            .toLowerCase();
+
+        const rowKyc =
+            row
+            .getAttribute("data-kyc");
+
+        const rowAccount =
+            row
+            .getAttribute("data-account");
+
+
+        const searchMatch =
+            name.includes(search);
+
+        const kycMatch =
+            kyc === "all" ||
+            kyc === rowKyc;
+
+        const accountMatch =
+            account === "all" ||
+            account === rowAccount;
+
+
+        if(
+            searchMatch &&
+            kycMatch &&
+            accountMatch
+        ){
+
+            row.style.display = "";
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* REFRESH */
+
+function refreshUsers(){
+
+    const btn =
+        document.querySelector(
+            ".refresh"
+        );
+
+    btn.innerText = "⟳";
+
+    setTimeout(function(){
+
+        btn.innerText = "↻";
+
+        alert(
+            "Demo: User list refreshed."
+        );
+
+    },500);
+
+}
+
+
+/* VIEW USER */
+
+function viewUser(
+    name,
+    mobile,
+    email,
+    kyc,
+    loan,
+    amount
+){
+
+    document.getElementById(
+        "detailName"
+    ).innerText = name;
+
+    document.getElementById(
+        "detailMobile"
+    ).innerText = mobile;
+
+    document.getElementById(
+        "detailEmail"
+    ).innerText = email;
+
+    document.getElementById(
+        "detailKyc"
+    ).innerText = kyc;
+
+    document.getElementById(
+        "detailLoan"
+    ).innerText = loan;
+
+    document.getElementById(
+        "detailAmount"
+    ).innerText = amount;
+
+
+    const initials =
+        name
+        .split(" ")
+        .map(function(word){
+            return word.charAt(0);
+        })
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+
+    document.getElementById(
+        "detailAvatar"
+    ).innerText = initials;
+
+
+    document.getElementById(
+        "userModal"
+    ).style.display = "flex";
+
+}
+
+
+/* CLOSE MODAL */
+
+function closeModal(){
+
+    document.getElementById(
+        "userModal"
+    ).style.display = "none";
+
+}
+
+
+/* EDIT USER */
+
+function editUser(name){
+
+    alert(
+        "Edit User: " + name +
+        "\n\nNext version me complete user-edit form add karenge."
+    );
+
+}
+
+
+/* CURRENT USER */
+
+function editCurrentUser(){
+
+    const name =
+        document.getElementById(
+            "detailName"
+        ).innerText;
+
+    closeModal();
+
+    editUser(name);
+
+}
+
+
+/* LOGOUT */
+
+function adminLogout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

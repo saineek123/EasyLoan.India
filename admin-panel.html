@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard - LoanApp</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    min-height:100vh;
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:245px;
+
+    background:#111827;
+    color:white;
+
+    padding:20px 14px;
+
+    z-index:100;
+}
+
+.logo{
+    padding:5px 10px 25px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo span{
+    color:#7f8ba0;
+    font-size:9px;
+}
+
+
+/* ADMIN */
+
+.admin-box{
+
+    background:#1c2535;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:18px;
+}
+
+.admin-avatar{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    background:#155eef;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+
+    font-size:12px;
+}
+
+.admin-info{
+    flex:1;
+}
+
+.admin-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.admin-role{
+    margin-top:3px;
+
+    color:#8792a5;
+
+    font-size:8px;
+}
+
+
+/* NAV */
+
+.nav-title{
+
+    color:#69758a;
+
+    font-size:7px;
+
+    font-weight:bold;
+
+    margin:15px 10px 7px;
+
+    text-transform:uppercase;
+}
+
+.nav-item{
+
+    height:43px;
+
+    border-radius:9px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:0 11px;
+
+    color:#aab4c4;
+
+    font-size:10px;
+
+    cursor:pointer;
+
+    margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+
+    background:#1d4ed8;
+
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+
+    text-align:center;
+
+    font-size:14px;
+}
+
+
+/* MAIN */
+
+.main{
+
+    margin-left:245px;
+
+    min-height:100vh;
+}
+
+
+/* TOPBAR */
+
+.topbar{
+
+    height:70px;
+
+    background:white;
+
+    border-bottom:1px solid #e7eaf0;
+
+    padding:0 25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.page-title h1{
+    font-size:19px;
+}
+
+.page-title p{
+    margin-top:4px;
+
+    color:#8a93a2;
+
+    font-size:9px;
+}
+
+.top-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.top-btn{
+
+    width:38px;
+    height:38px;
+
+    border:1px solid #e5e8ed;
+
+    background:white;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    position:relative;
+
+    font-size:15px;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    top:7px;
+    right:7px;
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+}
+
+
+/* CONTENT */
+
+.content{
+    padding:22px 25px;
+}
+
+
+/* STAT GRID */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:20px;
+}
+
+.stat{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:17px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.stat-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.stat-icon{
+
+    width:38px;
+    height:38px;
+
+    border-radius:10px;
+
+    background:#eef3ff;
+
+    color:#155eef;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:16px;
+}
+
+.stat-label{
+
+    margin-top:14px;
+
+    color:#7d8797;
+
+    font-size:9px;
+}
+
+.stat-value{
+
+    margin-top:5px;
+
+    font-size:21px;
+
+    font-weight:bold;
+}
+
+.stat-change{
+
+    margin-top:6px;
+
+    color:#168352;
+
+    font-size:8px;
+}
+
+.stat.warning .stat-icon{
+
+    background:#fff4dd;
+
+    color:#c77900;
+}
+
+.stat.success .stat-icon{
+
+    background:#e7f8ef;
+
+    color:#168352;
+}
+
+.stat.danger .stat-icon{
+
+    background:#ffe9e9;
+
+    color:#d23b3b;
+}
+
+
+/* GRID */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr 1fr;
+
+    gap:18px;
+}
+
+
+/* CARD */
+
+.card{
+
+    background:white;
+
+    border-radius:15px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+
+    overflow:hidden;
+
+    margin-bottom:18px;
+}
+
+.card-header{
+
+    min-height:58px;
+
+    padding:0 17px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:1px solid #edf0f4;
+}
+
+.card-title{
+
+    font-size:12px;
+
+    font-weight:bold;
+}
+
+.view-all{
+
+    border:none;
+
+    background:transparent;
+
+    color:#155eef;
+
+    font-size:8px;
+
+    cursor:pointer;
+}
+
+
+/* APPLICATION */
+
+.application{
+
+    padding:13px 17px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    border-bottom:1px solid #edf0f4;
+}
+
+.application:last-child{
+    border-bottom:none;
+}
+
+.user-avatar{
+
+    width:38px;
+    height:38px;
+
+    border-radius:10px;
+
+    background:#eef3ff;
+
+    color:#155eef;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.application-info{
+    flex:1;
+}
+
+.user-name{
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.loan-type{
+
+    margin-top:4px;
+
+    color:#858e9e;
+
+    font-size:8px;
+}
+
+.application-right{
+    text-align:right;
+}
+
+.loan-amount{
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.status{
+
+    display:inline-block;
+
+    margin-top:5px;
+
+    padding:4px 7px;
+
+    border-radius:20px;
+
+    font-size:7px;
+
+    font-weight:bold;
+}
+
+.status.pending{
+
+    background:#fff4dd;
+
+    color:#c77900;
+}
+
+.status.approved{
+
+    background:#e7f8ef;
+
+    color:#168352;
+}
+
+.status.review{
+
+    background:#eef3ff;
+
+    color:#155eef;
+}
+
+.status.rejected{
+
+    background:#ffe9e9;
+
+    color:#d23b3b;
+}
+
+
+/* QUICK ACTIONS */
+
+.quick-grid{
+
+    padding:15px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:9px;
+}
+
+.quick{
+
+    min-height:75px;
+
+    border:1px solid #e8ebf0;
+
+    border-radius:11px;
+
+    background:white;
+
+    padding:11px;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    transition:.2s;
+}
+
+.quick:hover{
+
+    border-color:#155eef;
+
+    transform:translateY(-1px);
+}
+
+.quick-icon{
+
+    width:30px;
+    height:30px;
+
+    border-radius:8px;
+
+    background:#eef3ff;
+
+    color:#155eef;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:13px;
+}
+
+.quick-title{
+
+    margin-top:8px;
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+.quick-text{
+
+    margin-top:3px;
+
+    color:#8992a1;
+
+    font-size:7px;
+}
+
+
+/* PAYMENT */
+
+.payment-row{
+
+    display:flex;
+
+    align-items:center;
+
+    padding:12px 17px;
+
+    border-bottom:1px solid #edf0f4;
+
+}
+
+.payment-row:last-child{
+    border-bottom:none;
+}
+
+.payment-icon{
+
+    width:35px;
+    height:35px;
+
+    border-radius:9px;
+
+    background:#e7f8ef;
+
+    color:#168352;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:13px;
+
+    margin-right:10px;
+}
+
+.payment-info{
+    flex:1;
+}
+
+.payment-user{
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+.payment-time{
+
+    margin-top:3px;
+
+    font-size:7px;
+
+    color:#8992a1;
+}
+
+.payment-amount{
+
+    font-size:9px;
+
+    font-weight:bold;
+
+    text-align:right;
+}
+
+
+/* OVERDUE */
+
+.overdue{
+
+    padding:13px 17px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border-bottom:1px solid #edf0f4;
+}
+
+.overdue:last-child{
+    border-bottom:none;
+}
+
+.overdue-icon{
+
+    width:35px;
+    height:35px;
+
+    border-radius:9px;
+
+    background:#ffe9e9;
+
+    color:#d23b3b;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.overdue-info{
+    flex:1;
+}
+
+.overdue-name{
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+.overdue-text{
+
+    margin-top:3px;
+
+    color:#8992a1;
+
+    font-size:7px;
+}
+
+.overdue-amount{
+
+    color:#d23b3b;
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+
+/* MOBILE MENU */
+
+.menu-toggle{
+
+    display:none;
+
+    width:38px;
+    height:38px;
+
+    border:none;
+
+    background:#f0f3f8;
+
+    border-radius:9px;
+
+    font-size:18px;
+
+    cursor:pointer;
+}
+
+
+/* OVERLAY */
+
+.overlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:90;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+        transition:.25s;
+    }
+
+    .sidebar.open{
+
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .content{
+        padding:18px 15px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+    }
+
+    .stat{
+        padding:13px;
+    }
+
+    .stat-value{
+        font-size:18px;
+    }
+
+    .page-title h1{
+        font-size:16px;
+    }
+
+    .page-title p{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- OVERLAY -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+></div>
+
+
+<!-- SIDEBAR -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="logo">
+
+        <h2>
+            LoanApp
+        </h2>
+
+        <span>
+            ADMIN PANEL
+        </span>
+
+    </div>
+
+
+    <div class="admin-box">
+
+        <div class="admin-avatar">
+            AD
+        </div>
+
+        <div class="admin-info">
+
+            <div class="admin-name">
+                Admin
+            </div>
+
+            <div class="admin-role">
+                Super Administrator
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Main
+    </div>
+
+
+    <div
+        class="nav-item active"
+        onclick="go('admin.html')"
+    >
+
+        <div class="nav-icon">
+            📊
+        </div>
+
+        Dashboard
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-users.html')"
+    >
+
+        <div class="nav-icon">
+            👥
+        </div>
+
+        Users
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-applications.html')"
+    >
+
+        <div class="nav-icon">
+            📝
+        </div>
+
+        Loan Applications
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-kyc.html')"
+    >
+
+        <div class="nav-icon">
+            🪪
+        </div>
+
+        KYC Verification
+
+    </div>
+
+
+    <div class="nav-title">
+        Finance
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-loans.html')"
+    >
+
+        <div class="nav-icon">
+            💰
+        </div>
+
+        Active Loans
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-payments.html')"
+    >
+
+        <div class="nav-icon">
+            💳
+        </div>
+
+        Payments
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-overdue.html')"
+    >
+
+        <div class="nav-icon">
+            ⚠️
+        </div>
+
+        Overdue EMIs
+
+    </div>
+
+
+    <div class="nav-title">
+        Management
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-support.html')"
+    >
+
+        <div class="nav-icon">
+            🎧
+        </div>
+
+        Support Tickets
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="go('admin-settings.html')"
+    >
+
+        <div class="nav-icon">
+            ⚙️
+        </div>
+
+        Settings
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="adminLogout()"
+    >
+
+        <div class="nav-icon">
+            ↪
+        </div>
+
+        Logout
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div
+            class="top-actions"
+        >
+
+            <button
+                class="menu-toggle"
+                onclick="openSidebar()"
+            >
+                ☰
+            </button>
+
+            <div class="page-title">
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome back, Admin
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <button
+                class="top-btn"
+                onclick="go('admin-support.html')"
+            >
+                🔔
+
+                <span class="notification-dot"></span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Users
+                </div>
+
+                <div class="stat-value">
+                    12,548
+                </div>
+
+                <div class="stat-change">
+                    ↑ 8.4% this month
+                </div>
+
+            </div>
+
+
+            <div class="stat warning">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        📝
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Pending Applications
+                </div>
+
+                <div class="stat-value">
+                    184
+                </div>
+
+                <div class="stat-change">
+                    23 new today
+                </div>
+
+            </div>
+
+
+            <div class="stat success">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Active Loans
+                </div>
+
+                <div class="stat-value">
+                    4,826
+                </div>
+
+                <div class="stat-change">
+                    ↑ 5.2% this month
+                </div>
+
+            </div>
+
+
+            <div class="stat danger">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        ⚠️
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Overdue EMIs
+                </div>
+
+                <div class="stat-value">
+                    67
+                </div>
+
+                <div class="stat-change">
+                    Needs attention
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD GRID -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- LEFT -->
+
+            <div>
+
+
+                <!-- APPLICATIONS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="card-title">
+                            Recent Loan Applications
+                        </div>
+
+                        <button
+                            class="view-all"
+                            onclick="go('admin-applications.html')"
+                        >
+                            View All →
+                        </button>
+
+                    </div>
+
+
+                    <div class="application">
+
+                        <div class="user-avatar">
+                            RS
+                        </div>
+
+                        <div class="application-info">
+
+                            <div class="user-name">
+                                Rahul Sharma
+                            </div>
+
+                            <div class="loan-type">
+                                Personal Loan • 2 hours ago
+                            </div>
+
+                        </div>
+
+                        <div class="application-right">
+
+                            <div class="loan-amount">
+                                ₹80,000
+                            </div>
+
+                            <div class="status pending">
+                                Pending
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="application">
+
+                        <div class="user-avatar">
+                            PK
+                        </div>
+
+                        <div class="application-info">
+
+                            <div class="user-name">
+                                Priya Kumari
+                            </div>
+
+                            <div class="loan-type">
+                                Personal Loan • 3 hours ago
+                            </div>
+
+                        </div>
+
+                        <div class="application-right">
+
+                            <div class="loan-amount">
+                                ₹1,20,000
+                            </div>
+
+                            <div class="status review">
+                                Under Review
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="application">
+
+                        <div class="user-avatar">
+                            AK
+                        </div>
+
+                        <div class="application-info">
+
+                            <div class="user-name">
+                                Ankit Kumar
+                            </div>
+
+                            <div class="loan-type">
+                                Emergency Loan • 5 hours ago
+                            </div>
+
+                        </div>
+
+                        <div class="application-right">
+
+                            <div class="loan-amount">
+                                ₹50,000
+                            </div>
+
+                            <div class="status approved">
+                                Approved
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="application">
+
+                        <div class="user-avatar">
+                            NS
+                        </div>
+
+                        <div class="application-info">
+
+                            <div class="user-name">
+                                Neha Singh
+                            </div>
+
+                            <div class="loan-type">
+                                Personal Loan • Today
+                            </div>
+
+                        </div>
+
+                        <div class="application-right">
+
+                            <div class="loan-amount">
+                                ₹1,50,000
+                            </div>
+
+                            <div class="status pending">
+                                Pending
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENTS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="card-title">
+                            Recent Payments
+                        </div>
+
+                        <button
+                            class="view-all"
+                            onclick="go('admin-payments.html')"
+                        >
+                            View All →
+                        </button>
+
+                    </div>
+
+
+                    <div class="payment-row">
+
+                        <div class="payment-icon">
+                            ✓
+                        </div>
+
+                        <div class="payment-info">
+
+                            <div class="payment-user">
+                                Amit Sharma
+                            </div>
+
+                            <div class="payment-time">
+                                EMI Payment • 10 min ago
+                            </div>
+
+                        </div>
+
+                        <div class="payment-amount">
+                            + ₹4,750
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-row">
+
+                        <div class="payment-icon">
+                            ✓
+                        </div>
+
+                        <div class="payment-info">
+
+                            <div class="payment-user">
+                                Ravi Kumar
+                            </div>
+
+                            <div class="payment-time">
+                                EMI Payment • 35 min ago
+                            </div>
+
+                        </div>
+
+                        <div class="payment-amount">
+                            + ₹6,250
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-row">
+
+                        <div class="payment-icon">
+                            ✓
+                        </div>
+
+                        <div class="payment-info">
+
+                            <div class="payment-user">
+                                Pooja Singh
+                            </div>
+
+                            <div class="payment-time">
+                                EMI Payment • 1 hour ago
+                            </div>
+
+                        </div>
+
+                        <div class="payment-amount">
+                            + ₹5,400
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="card-title">
+                            Quick Actions
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-grid">
+
+
+                        <button
+                            class="quick"
+                            onclick="go('admin-applications.html')"
+                        >
+
+                            <div class="quick-icon">
+                                📝
+                            </div>
+
+                            <div class="quick-title">
+                                Applications
+                            </div>
+
+                            <div class="quick-text">
+                                Review loan requests
+                            </div>
+
+                        </button>
+
+
+                        <button
+                            class="quick"
+                            onclick="go('admin-kyc.html')"
+                        >
+
+                            <div class="quick-icon">
+                                🪪
+                            </div>
+
+                            <div class="quick-title">
+                                KYC Review
+                            </div>
+
+                            <div class="quick-text">
+                                Verify documents
+                            </div>
+
+                        </button>
+
+
+                        <button
+                            class="quick"
+                            onclick="go('admin-users.html')"
+                        >
+
+                            <div class="quick-icon">
+                                👥
+                            </div>
+
+                            <div class="quick-title">
+                                Users
+                            </div>
+
+                            <div class="quick-text">
+                                Manage customers
+                            </div>
+
+                        </button>
+
+
+                        <button
+                            class="quick"
+                            onclick="go('admin-payments.html')"
+                        >
+
+                            <div class="quick-icon">
+                                💳
+                            </div>
+
+                            <div class="quick-title">
+                                Payments
+                            </div>
+
+                            <div class="quick-text">
+                                View transactions
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OVERDUE -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="card-title">
+                            Overdue EMIs
+                        </div>
+
+                        <button
+                            class="view-all"
+                            onclick="go('admin-overdue.html')"
+                        >
+                            View All →
+                        </button>
+
+                    </div>
+
+
+                    <div class="overdue">
+
+                        <div class="overdue-icon">
+                            !
+                        </div>
+
+                        <div class="overdue-info">
+
+                            <div class="overdue-name">
+                                Suresh Yadav
+                            </div>
+
+                            <div class="overdue-text">
+                                12 days overdue
+                            </div>
+
+                        </div>
+
+                        <div class="overdue-amount">
+                            ₹5,200
+                        </div>
+
+                    </div>
+
+
+                    <div class="overdue">
+
+                        <div class="overdue-icon">
+                            !
+                        </div>
+
+                        <div class="overdue-info">
+
+                            <div class="overdue-name">
+                                Manoj Verma
+                            </div>
+
+                            <div class="overdue-text">
+                                8 days overdue
+                            </div>
+
+                        </div>
+
+                        <div class="overdue-amount">
+                            ₹3,850
+                        </div>
+
+                    </div>
+
+
+                    <div class="overdue">
+
+                        <div class="overdue-icon">
+                            !
+                        </div>
+
+                        <div class="overdue-info">
+
+                            <div class="overdue-name">
+                                Kavita Singh
+                            </div>
+
+                            <div class="overdue-text">
+                                5 days overdue
+                            </div>
+
+                        </div>
+
+                        <div class="overdue-amount">
+                            ₹4,100
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+
+function go(page){
+
+    window.location.href = page;
+
+}
+
+
+/* MOBILE SIDEBAR */
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/* LOGOUT */
+
+function adminLogout(){
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if(confirmLogout){
+
+        /*
+          Production version me yahan
+          secure admin authentication
+          session destroy karna hoga.
+        */
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

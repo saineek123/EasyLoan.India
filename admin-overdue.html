@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overdue EMIs - Admin | LoanApp</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#111827;
+    color:white;
+    padding:20px 14px;
+    z-index:100;
+}
+
+.logo{
+    padding:5px 10px 25px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo span{
+    color:#7f8ba0;
+    font-size:9px;
+}
+
+.admin-box{
+    background:#1c2535;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.admin-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#155eef;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.admin-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.admin-role{
+    margin-top:3px;
+    color:#8792a5;
+    font-size:8px;
+}
+
+.nav-title{
+    color:#69758a;
+    font-size:7px;
+    font-weight:bold;
+    margin:15px 10px 7px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    height:43px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:0 11px;
+    color:#aab4c4;
+    font-size:10px;
+    cursor:pointer;
+    margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1d4ed8;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+    font-size:14px;
+}
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #e7eaf0;
+    padding:0 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border:none;
+    background:#f0f3f8;
+    border-radius:9px;
+    font-size:18px;
+}
+
+.page-title h1{
+    font-size:19px;
+}
+
+.page-title p{
+    margin-top:4px;
+    color:#8a93a2;
+    font-size:9px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e5e8ed;
+    background:white;
+    border-radius:9px;
+}
+
+.content{
+    padding:22px 25px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.stat{
+    background:white;
+    border-radius:15px;
+    padding:16px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.stat-icon{
+    width:37px;
+    height:37px;
+    border-radius:10px;
+    background:#ffe9e9;
+    color:#d23b3b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.stat:nth-child(2) .stat-icon{
+    background:#fff4dd;
+    color:#c77900;
+}
+
+.stat:nth-child(3) .stat-icon{
+    background:#eef3ff;
+    color:#155eef;
+}
+
+.stat:nth-child(4) .stat-icon{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.stat-label{
+    margin-top:12px;
+    color:#858e9e;
+    font-size:8px;
+}
+
+.stat-value{
+    margin-top:5px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+    overflow:hidden;
+}
+
+.toolbar{
+    padding:15px;
+    border-bottom:1px solid #edf0f4;
+    display:flex;
+    gap:9px;
+    align-items:center;
+}
+
+.search{
+    flex:1;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    outline:none;
+    padding:0 12px 0 35px;
+    font-size:9px;
+}
+
+.search-icon{
+    position:absolute;
+    left:12px;
+    top:12px;
+    color:#8992a1;
+}
+
+select{
+    height:40px;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    padding:0 10px;
+    background:white;
+    color:#596476;
+    font-size:9px;
+    outline:none;
+}
+
+/* TABLE */
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:1100px;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f8f9fb;
+}
+
+th{
+    padding:12px 14px;
+    text-align:left;
+    font-size:8px;
+    color:#778193;
+}
+
+td{
+    padding:13px 14px;
+    border-top:1px solid #edf0f4;
+    font-size:9px;
+    white-space:nowrap;
+}
+
+.applicant{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:#fff0f0;
+    color:#d23b3b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.name{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.mobile{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.amount{
+    font-weight:bold;
+}
+
+.sub{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.days{
+    font-weight:bold;
+    color:#d23b3b;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.critical{
+    background:#ffe1e1;
+    color:#c52626;
+}
+
+.warning{
+    background:#fff4dd;
+    color:#b96c00;
+}
+
+.reminded{
+    background:#e8f0ff;
+    color:#155eef;
+}
+
+.action-btn{
+    width:32px;
+    height:32px;
+    border:1px solid #e1e5eb;
+    background:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.action-btn:hover{
+    background:#eef3ff;
+}
+
+.reminder-btn{
+    height:32px;
+    padding:0 10px;
+    border:none;
+    border-radius:8px;
+    background:#eef3ff;
+    color:#155eef;
+    font-size:8px;
+    cursor:pointer;
+}
+
+/* PAGINATION */
+
+.pagination{
+    padding:13px 15px;
+    border-top:1px solid #edf0f4;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.page-info{
+    color:#8992a1;
+    font-size:8px;
+}
+
+.pages{
+    display:flex;
+    gap:4px;
+}
+
+.page-btn{
+    width:30px;
+    height:30px;
+    border:1px solid #e1e5eb;
+    background:white;
+    border-radius:7px;
+    font-size:8px;
+}
+
+.page-btn.active{
+    background:#155eef;
+    color:white;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:500;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:650px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:50%;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.profile{
+    margin-top:16px;
+    padding:13px;
+    background:#f7f8fa;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.big-avatar{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    background:#fff0f0;
+    color:#d23b3b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.profile-name{
+    font-size:12px;
+    font-weight:bold;
+}
+
+.profile-mobile{
+    margin-top:4px;
+    color:#8992a1;
+    font-size:8px;
+}
+
+.section-title{
+    margin-top:18px;
+    margin-bottom:9px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.detail{
+    background:#f7f8fa;
+    border-radius:9px;
+    padding:10px;
+}
+
+.detail span{
+    display:block;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.detail strong{
+    display:block;
+    margin-top:4px;
+    font-size:9px;
+}
+
+.warning-box{
+    margin-top:13px;
+    padding:13px;
+    border-radius:11px;
+    background:#fff5f5;
+    border:1px solid #ffe0e0;
+}
+
+.warning-box strong{
+    display:block;
+    color:#c52626;
+    font-size:9px;
+}
+
+.warning-box p{
+    margin-top:5px;
+    color:#7d6c6c;
+    font-size:8px;
+    line-height:1.5;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:18px;
+}
+
+.btn{
+    height:42px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#155eef;
+    color:white;
+}
+
+.btn-danger{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:90;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+    .content{
+        padding:18px 14px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat{
+        padding:12px;
+    }
+
+    .stat-value{
+        font-size:17px;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .search{
+        flex-basis:100%;
+    }
+
+    .detail-grid,
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <h2>LoanApp</h2>
+        <span>ADMIN PANEL</span>
+    </div>
+
+    <div class="admin-box">
+
+        <div class="admin-avatar">
+            AD
+        </div>
+
+        <div>
+            <div class="admin-name">
+                Admin
+            </div>
+
+            <div class="admin-role">
+                Super Administrator
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-title">
+        Main
+    </div>
+
+    <div class="nav-item" onclick="go('admin.html')">
+        <div class="nav-icon">📊</div>
+        Dashboard
+    </div>
+
+    <div class="nav-item" onclick="go('admin-users.html')">
+        <div class="nav-icon">👥</div>
+        Users
+    </div>
+
+    <div class="nav-item" onclick="go('admin-applications.html')">
+        <div class="nav-icon">📝</div>
+        Loan Applications
+    </div>
+
+    <div class="nav-item" onclick="go('admin-kyc.html')">
+        <div class="nav-icon">🪪</div>
+        KYC Verification
+    </div>
+
+    <div class="nav-title">
+        Finance
+    </div>
+
+    <div class="nav-item" onclick="go('admin-loans.html')">
+        <div class="nav-icon">💰</div>
+        Active Loans
+    </div>
+
+    <div class="nav-item" onclick="go('admin-payments.html')">
+        <div class="nav-icon">💳</div>
+        Payments
+    </div>
+
+    <div class="nav-item active" onclick="go('admin-overdue.html')">
+        <div class="nav-icon">⚠️</div>
+        Overdue EMIs
+    </div>
+
+    <div class="nav-title">
+        Management
+    </div>
+
+    <div class="nav-item" onclick="go('admin-support.html')">
+        <div class="nav-icon">🎧</div>
+        Support Tickets
+    </div>
+
+    <div class="nav-item" onclick="go('admin-settings.html')">
+        <div class="nav-icon">⚙️</div>
+        Settings
+    </div>
+
+    <div class="nav-item" onclick="adminLogout()">
+        <div class="nav-icon">↪</div>
+        Logout
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="menu-toggle" onclick="openSidebar()">
+            ☰
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+                Overdue EMIs
+            </h1>
+
+            <p>
+                Monitor overdue installments and customer repayment status
+            </p>
+
+        </div>
+
+    </div>
+
+    <button class="notification">
+        🔔
+    </button>
+
+</header>
+
+
+<div class="content">
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⚠️
+            </div>
+
+            <div class="stat-label">
+                Total Overdue
+            </div>
+
+            <div class="stat-value">
+                286
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ₹
+            </div>
+
+            <div class="stat-label">
+                Total Due
+            </div>
+
+            <div class="stat-value">
+                ₹18.64 L
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📅
+            </div>
+
+            <div class="stat-label">
+                30+ Days Overdue
+            </div>
+
+            <div class="stat-value">
+                74
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <div class="stat-label">
+                Reminders Sent
+            </div>
+
+            <div class="stat-value">
+                241
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <div class="search">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    id="search"
+                    type="text"
+                    placeholder="Search customer or loan ID..."
+                    oninput="filterOverdue()"
+                >
+
+            </div>
+
+
+            <select
+                id="daysFilter"
+                onchange="filterOverdue()"
+            >
+
+                <option value="all">
+                    All Overdue
+                </option>
+
+                <option value="1-7">
+                    1–7 Days
+                </option>
+
+                <option value="8-30">
+                    8–30 Days
+                </option>
+
+                <option value="30+">
+                    30+ Days
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            CUSTOMER
+                        </th>
+
+                        <th>
+                            LOAN ID
+                        </th>
+
+                        <th>
+                            EMI
+                        </th>
+
+                        <th>
+                            AMOUNT DUE
+                        </th>
+
+                        <th>
+                            DUE DATE
+                        </th>
+
+                        <th>
+                            OVERDUE DAYS
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            ACTION
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="overdueTable">
+
+
+                    <tr
+                        data-search="neha singh ln10243"
+                        data-days="30+"
+                    >
+
+                        <td>
+
+                            <div class="applicant">
+
+                                <div class="avatar">
+                                    NS
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Neha Singh
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 95XXXXXX77
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            LN-10243
+                        </td>
+
+                        <td>
+                            EMI #2
+                        </td>
+
+                        <td>
+
+                            <div class="amount">
+                                ₹9,180
+                            </div>
+
+                            <div class="sub">
+                                + late fee ₹250
+                            </div>
+
+                        </td>
+
+                        <td>
+                            10 Jul 2026
+                        </td>
+
+                        <td>
+                            <span class="days">
+                                37 days
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <span class="badge critical">
+                                Critical
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reminder-btn"
+                                onclick="sendReminder('Neha Singh')"
+                            >
+                                🔔 Remind
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="amit kumar ln10237"
+                        data-days="8-30"
+                    >
+
+                        <td>
+
+                            <div class="applicant">
+
+                                <div class="avatar">
+                                    AK
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Amit Kumar
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 98XXXXXX44
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            LN-10237
+                        </td>
+
+                        <td>
+                            EMI #4
+                        </td>
+
+                        <td>
+
+                            <div class="amount">
+                                ₹7,850
+                            </div>
+
+                            <div class="sub">
+                                + late fee ₹150
+                            </div>
+
+                        </td>
+
+                        <td>
+                            02 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="days">
+                                14 days
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <span class="badge warning">
+                                Warning
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reminder-btn"
+                                onclick="sendReminder('Amit Kumar')"
+                            >
+                                🔔 Remind
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="pooja yadav ln10231"
+                        data-days="1-7"
+                    >
+
+                        <td>
+
+                            <div class="applicant">
+
+                                <div class="avatar">
+                                    PY
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Pooja Yadav
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 97XXXXXX62
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            LN-10231
+                        </td>
+
+                        <td>
+                            EMI #1
+                        </td>
+
+                        <td>
+
+                            <div class="amount">
+                                ₹6,420
+                            </div>
+
+                            <div class="sub">
+                                No late fee
+                            </div>
+
+                        </td>
+
+                        <td>
+                            12 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="days">
+                                4 days
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <span class="badge reminded">
+                                Reminder Sent
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reminder-btn"
+                                onclick="sendReminder('Pooja Yadav')"
+                            >
+                                🔔 Remind
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="sanjay verma ln10220"
+                        data-days="30+"
+                    >
+
+                        <td>
+
+                            <div class="applicant">
+
+                                <div class="avatar">
+                                    SV
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Sanjay Verma
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 96XXXXXX29
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            LN-10220
+                        </td>
+
+                        <td>
+                            EMI #7
+                        </td>
+
+                        <td>
+
+                            <div class="amount">
+                                ₹11,250
+                            </div>
+
+                            <div class="sub">
+                                + late fee ₹500
+                            </div>
+
+                        </td>
+
+                        <td>
+                            05 Jul 2026
+                        </td>
+
+                        <td>
+                            <span class="days">
+                                42 days
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <span class="badge critical">
+                                Critical
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reminder-btn"
+                                onclick="sendReminder('Sanjay Verma')"
+                            >
+                                🔔 Remind
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr
+                        data-search="ravi singh ln10214"
+                        data-days="8-30"
+                    >
+
+                        <td>
+
+                            <div class="applicant">
+
+                                <div class="avatar">
+                                    RS
+                                </div>
+
+                                <div>
+
+                                    <div class="name">
+                                        Ravi Singh
+                                    </div>
+
+                                    <div class="mobile">
+                                        +91 99XXXXXX15
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            LN-10214
+                        </td>
+
+                        <td>
+                            EMI #3
+                        </td>
+
+                        <td>
+
+                            <div class="amount">
+                                ₹5,900
+                            </div>
+
+                            <div class="sub">
+                                + late fee ₹100
+                            </div>
+
+                        </td>
+
+                        <td>
+                            01 Aug 2026
+                        </td>
+
+                        <td>
+                            <span class="days">
+                                15 days
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <span class="badge warning">
+                                Warning
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reminder-btn"
+                                onclick="sendReminder('Ravi Singh')"
+                            >
+                                🔔 Remind
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="pagination">
+
+            <div class="page-info">
+                Showing 1–5 of 286 overdue EMIs
+            </div>
+
+            <div class="pages">
+
+                <button class="page-btn">
+                    ‹
+                </button>
+
+                <button class="page-btn active">
+                    1
+                </button>
+
+                <button class="page-btn">
+                    2
+                </button>
+
+                <button class="page-btn">
+                    3
+                </button>
+
+                <button class="page-btn">
+                    …
+                </button>
+
+                <button class="page-btn">
+                    ›
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="overdueModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Overdue EMI Details
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div
+                class="big-avatar"
+                id="modalAvatar"
+            >
+                NS
+            </div>
+
+            <div>
+
+                <div
+                    class="profile-name"
+                    id="modalName"
+                >
+                    Neha Singh
+                </div>
+
+                <div
+                    class="profile-mobile"
+                    id="modalMobile"
+                >
+                    +91 XXXXX
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            EMI Information
+        </div>
+
+
+        <div class="detail-grid">
+
+            <div class="detail">
+
+                <span>
+                    Loan ID
+                </span>
+
+                <strong id="modalLoan">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    EMI Number
+                </span>
+
+                <strong id="modalEmi">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Amount Due
+                </span>
+
+                <strong id="modalAmount">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Due Date
+                </span>
+
+                <strong id="modalDue">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Overdue Days
+                </span>
+
+                <strong id="modalDays">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Status
+                </span>
+
+                <strong id="modalStatus">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="warning-box">
+
+            <strong>
+                ⚠ Payment is overdue
+            </strong>
+
+            <p>
+                Customer ko payment reminder bhejne se pehle
+                verified contact information aur applicable
+                repayment terms check karein.
+            </p>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="sendCurrentReminder()"
+            >
+                🔔 Send Reminder
+            </button>
+
+            <button
+                class="btn btn-danger"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let currentCustomer = "";
+
+
+function go(page){
+    window.location.href = page;
+}
+
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/* FILTER */
+
+function filterOverdue(){
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+    const days =
+        document
+        .getElementById("daysFilter")
+        .value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#overdueTable tr"
+        );
+
+
+    rows.forEach(function(row){
+
+        const text =
+            row
+            .getAttribute("data-search")
+            .toLowerCase();
+
+        const rowDays =
+            row.getAttribute("data-days");
+
+
+        const searchMatch =
+            text.includes(search);
+
+        const daysMatch =
+            days === "all" ||
+            days === rowDays;
+
+
+        row.style.display =
+            searchMatch &&
+            daysMatch
+            ? ""
+            : "none";
+
+    });
+
+}
+
+
+/* REMINDER */
+
+function sendReminder(name){
+
+    currentCustomer = name;
+
+
+    if(
+        confirm(
+            name +
+            " ko EMI reminder bhejna hai?"
+        )
+    ){
+
+        alert(
+            "Demo reminder sent successfully."
+        );
+
+    }
+
+}
+
+
+/* MODAL */
+
+function openOverdue(
+    name,
+    avatar,
+    mobile,
+    loan,
+    emi,
+    amount,
+    due,
+    days,
+    status
+){
+
+    currentCustomer = name;
+
+    document.getElementById(
+        "modalName"
+    ).innerText = name;
+
+    document.getElementById(
+        "modalAvatar"
+    ).innerText = avatar;
+
+    document.getElementById(
+        "modalMobile"
+    ).innerText = mobile;
+
+    document.getElementById(
+        "modalLoan"
+    ).innerText = loan;
+
+    document.getElementById(
+        "modalEmi"
+    ).innerText = emi;
+
+    document.getElementById(
+        "modalAmount"
+    ).innerText = amount;
+
+    document.getElementById(
+        "modalDue"
+    ).innerText = due;
+
+    document.getElementById(
+        "modalDays"
+    ).innerText = days;
+
+    document.getElementById(
+        "modalStatus"
+    ).innerText = status;
+
+
+    document.getElementById(
+        "overdueModal"
+    ).style.display = "flex";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "overdueModal"
+    ).style.display = "none";
+
+}
+
+
+function sendCurrentReminder(){
+
+    if(!currentCustomer){
+        alert("Customer select nahi hai.");
+        return;
+    }
+
+
+    if(
+        confirm(
+            currentCustomer +
+            " ko EMI reminder bhejna hai?"
+        )
+    ){
+
+        alert(
+            "Demo reminder sent successfully."
+        );
+
+    }
+
+}
+
+
+/* LOGOUT */
+
+function adminLogout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

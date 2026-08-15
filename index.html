@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoanApp - Home</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .app {
+            max-width: 500px;
+            margin: auto;
+            min-height: 100vh;
+            background: #f5f7fb;
+            padding-bottom: 85px;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #155eef, #4f8cff);
+            color: white;
+            padding: 22px 18px 28px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome small {
+            opacity: 0.85;
+            font-size: 13px;
+        }
+
+        .welcome h2 {
+            margin-top: 5px;
+            font-size: 21px;
+        }
+
+        .profile-btn {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        /* LOAN CARD */
+        .loan-card {
+            background: white;
+            margin-top: 22px;
+            border-radius: 18px;
+            padding: 20px;
+            color: #172033;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .loan-card .label {
+            color: #687386;
+            font-size: 13px;
+        }
+
+        .amount {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 8px 0 15px;
+        }
+
+        .apply-btn {
+            width: 100%;
+            border: none;
+            padding: 13px;
+            border-radius: 11px;
+            background: #155eef;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* QUICK ACTIONS */
+        .section {
+            padding: 20px 17px 0;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 13px;
+        }
+
+        .section-title h3 {
+            font-size: 18px;
+        }
+
+        .section-title span {
+            font-size: 12px;
+            color: #155eef;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .quick {
+            background: white;
+            border-radius: 14px;
+            padding: 13px 5px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+
+        .quick-icon {
+            width: 40px;
+            height: 40px;
+            margin: auto;
+            border-radius: 12px;
+            background: #edf3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .quick p {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #4d5768;
+        }
+
+        /* OFFERS */
+        .offer {
+            background: white;
+            border-radius: 17px;
+            padding: 17px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .offer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .offer-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            background: #eef4ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 23px;
+        }
+
+        .offer h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .offer p {
+            color: #778094;
+            font-size: 11px;
+        }
+
+        .offer button {
+            border: 1px solid #155eef;
+            background: white;
+            color: #155eef;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* LOAN STATUS */
+        .status-card {
+            background: white;
+            padding: 17px;
+            border-radius: 17px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .status-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-top h4 {
+            font-size: 15px;
+        }
+
+        .status {
+            background: #fff5d9;
+            color: #b77900;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+        }
+
+        .loan-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .info-box {
+            background: #f7f8fb;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .info-box small {
+            color: #7c8596;
+            font-size: 10px;
+        }
+
+        .info-box p {
+            margin-top: 5px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* BANNER */
+        .banner {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #102a67, #155eef);
+            color: white;
+            border-radius: 17px;
+            padding: 19px;
+        }
+
+        .banner h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .banner p {
+            font-size: 12px;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        .banner button {
+            margin-top: 13px;
+            border: none;
+            background: white;
+            color: #155eef;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            height: 70px;
+            background: white;
+            border-top: 1px solid #e8ebf0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #8a93a4;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .nav-item .icon {
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #155eef;
+            font-weight: bold;
+        }
+
+        @media (max-width: 360px) {
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div class="top">
+
+            <div class="welcome">
+                <small>Welcome back 👋</small>
+                <h2>Hello, User</h2>
+            </div>
+
+            <div class="profile-btn" onclick="go('profile.html')">
+                👤
+            </div>
+
+        </div>
+
+        <!-- LOAN CARD -->
+        <div class="loan-card">
+
+            <div class="label">
+                You may be eligible for
+            </div>
+
+            <div class="amount">
+                ₹1,00,000
+            </div>
+
+            <button class="apply-btn" onclick="go('apply-loan.html')">
+                Apply for Loan →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="section">
+
+        <div class="section-title">
+            <h3>Quick Actions</h3>
+        </div>
+
+        <div class="quick-grid">
+
+            <div class="quick" onclick="go('apply-loan.html')">
+                <div class="quick-icon">💰</div>
+                <p>Apply Loan</p>
+            </div>
+
+            <div class="quick" onclick="go('my-loans.html')">
+                <div class="quick-icon">📋</div>
+                <p>My Loans</p>
+            </div>
+
+            <div class="quick" onclick="go('emi-calculator.html')">
+                <div class="quick-icon">🧮</div>
+                <p>EMI</p>
+            </div>
+
+            <div class="quick" onclick="go('repayment.html')">
+                <div class="quick-icon">💳</div>
+                <p>Repayment</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOAN OFFERS -->
+    <div class="section">
+
+        <div class="section-title">
+            <h3>Loan Offers</h3>
+            <span>View All</span>
+        </div>
+
+
+        <div class="offer">
+
+            <div class="offer-left">
+
+                <div class="offer-icon">
+                    👤
+                </div>
+
+                <div>
+                    <h4>Personal Loan</h4>
+                    <p>Up to ₹5,00,000 • Flexible EMI</p>
+                </div>
+
+            </div>
+
+            <button onclick="go('apply-loan.html')">
+                Apply
+            </button>
+
+        </div>
+
+
+        <div class="offer">
+
+            <div class="offer-left">
+
+                <div class="offer-icon">
+                    🏢
+                </div>
+
+                <div>
+                    <h4>Business Loan</h4>
+                    <p>For eligible business owners</p>
+                </div>
+
+            </div>
+
+            <button onclick="go('apply-loan.html')">
+                Apply
+            </button>
+
+        </div>
+
+
+        <div class="offer">
+
+            <div class="offer-left">
+
+                <div class="offer-icon">
+                    🚨
+                </div>
+
+                <div>
+                    <h4>Emergency Loan</h4>
+                    <p>Quick application process</p>
+                </div>
+
+            </div>
+
+            <button onclick="go('apply-loan.html')">
+                Apply
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MY LOAN -->
+    <div class="section">
+
+        <div class="section-title">
+            <h3>My Loan</h3>
+            <span onclick="go('my-loans.html')">View Details</span>
+        </div>
+
+        <div class="status-card">
+
+            <div class="status-top">
+
+                <h4>Loan Application #LN10245</h4>
+
+                <div class="status">
+                    Under Review
+                </div>
+
+            </div>
+
+            <div class="loan-info">
+
+                <div class="info-box">
+                    <small>Amount</small>
+                    <p>₹50,000</p>
+                </div>
+
+                <div class="info-box">
+                    <small>EMI</small>
+                    <p>₹4,500</p>
+                </div>
+
+                <div class="info-box">
+                    <small>Tenure</small>
+                    <p>12 Months</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROMOTIONAL BANNER -->
+    <div class="section">
+
+        <div class="banner">
+
+            <h3>Need money for an emergency?</h3>
+
+            <p>
+                Check your loan eligibility and choose a suitable
+                loan option according to your requirement.
+            </p>
+
+            <button onclick="go('apply-loan.html')">
+                Check Eligibility
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+
+        <div class="nav-item active" onclick="go('index.html')">
+            <div class="icon">🏠</div>
+            Home
+        </div>
+
+        <div class="nav-item" onclick="go('my-loans.html')">
+            <div class="icon">📋</div>
+            My Loans
+        </div>
+
+        <div class="nav-item" onclick="go('apply-loan.html')">
+            <div class="icon">➕</div>
+            Apply
+        </div>
+
+        <div class="nav-item" onclick="go('support.html')">
+            <div class="icon">🎧</div>
+            Support
+        </div>
+
+        <div class="nav-item" onclick="go('profile.html')">
+            <div class="icon">👤</div>
+            Profile
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function go(page) {
+        window.location.href = page;
+    }
+
+</script>
+
+</body>
+</html>
