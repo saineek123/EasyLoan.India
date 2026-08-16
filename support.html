@@ -32,7 +32,7 @@ body{
 .header{
     background:linear-gradient(135deg,#155eef,#4f8cff);
     color:white;
-    padding:20px 18px 28px;
+    padding:20px 18px 30px;
     border-radius:0 0 25px 25px;
 }
 
@@ -47,11 +47,9 @@ body{
     height:38px;
     border-radius:50%;
     background:rgba(255,255,255,.18);
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:20px;
     cursor:pointer;
 }
@@ -66,14 +64,13 @@ body{
     opacity:.85;
 }
 
+
 /* QUICK SUPPORT */
 
 .quick-support{
     margin:15px;
-
     display:grid;
     grid-template-columns:1fr 1fr;
-
     gap:10px;
 }
 
@@ -81,11 +78,8 @@ body{
     background:white;
     border-radius:15px;
     padding:16px;
-
     box-shadow:0 3px 15px rgba(0,0,0,.04);
-
     cursor:pointer;
-
     transition:.2s;
 }
 
@@ -96,16 +90,12 @@ body{
 .quick-icon{
     width:38px;
     height:38px;
-
     border-radius:10px;
-
     background:#eef3ff;
     color:#155eef;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:19px;
 }
 
@@ -119,6 +109,7 @@ body{
     color:#7c8596;
     font-size:9px;
 }
+
 
 /* SECTION */
 
@@ -135,9 +126,9 @@ body{
     background:white;
     border-radius:17px;
     padding:17px;
-
     box-shadow:0 3px 15px rgba(0,0,0,.04);
 }
+
 
 /* FAQ */
 
@@ -151,51 +142,42 @@ body{
 
 .faq-question{
     padding:15px 3px;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
-
+    gap:10px;
     font-size:11px;
     font-weight:bold;
-
     cursor:pointer;
 }
 
 .faq-arrow{
     color:#7c8596;
     font-size:15px;
+    flex-shrink:0;
 }
 
 .faq-answer{
     display:none;
-
     padding:0 3px 15px;
-
     color:#737d8e;
-
     font-size:9px;
-
     line-height:1.6;
 }
+
 
 /* TICKET */
 
 .ticket{
     border:1px solid #edf0f4;
-
     border-radius:12px;
-
     padding:13px;
-
     margin-bottom:10px;
 }
 
 .ticket-top{
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
 }
 
@@ -207,9 +189,7 @@ body{
 .ticket-status{
     font-size:8px;
     font-weight:bold;
-
     padding:5px 8px;
-
     border-radius:20px;
 }
 
@@ -234,75 +214,60 @@ body{
     color:#8a93a2;
 }
 
+.ticket-empty{
+    text-align:center;
+    padding:20px 10px;
+    color:#8a93a2;
+    font-size:10px;
+}
+
+
 /* BUTTON */
 
 .primary-btn{
-
     width:100%;
-
     height:45px;
-
     border:none;
-
     border-radius:10px;
-
     background:#155eef;
-
     color:white;
-
     font-size:12px;
-
     font-weight:bold;
-
     cursor:pointer;
 }
+
+.primary-btn:active{
+    transform:scale(.98);
+}
+
 
 /* MODAL */
 
 .modal{
-
     display:none;
-
     position:fixed;
-
     inset:0;
-
     background:rgba(0,0,0,.55);
-
     z-index:500;
-
     align-items:center;
-
     justify-content:center;
-
     padding:20px;
 }
 
 .modal-box{
-
     width:100%;
-
     max-width:420px;
-
     max-height:90vh;
-
     overflow-y:auto;
-
     background:white;
-
     border-radius:20px;
-
     padding:22px;
 }
 
 .modal-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     margin-bottom:18px;
 }
 
@@ -311,20 +276,15 @@ body{
 }
 
 .close{
-
     width:32px;
     height:32px;
-
     border:none;
-
     border-radius:50%;
-
     background:#f0f2f5;
-
     cursor:pointer;
-
     font-size:18px;
 }
+
 
 /* FORM */
 
@@ -333,32 +293,21 @@ body{
 }
 
 .form-group label{
-
     display:block;
-
     color:#667085;
-
     font-size:9px;
-
     margin-bottom:6px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea{
-
     width:100%;
-
     border:1px solid #dfe3e9;
-
     border-radius:9px;
-
     padding:10px;
-
     outline:none;
-
     font-size:11px;
-
     background:white;
 }
 
@@ -378,124 +327,186 @@ body{
     border-color:#155eef;
 }
 
-.submit-btn{
 
-    width:100%;
+/* FILE */
 
-    height:44px;
+.file-box{
+    border:1px dashed #cfd6e2;
+    border-radius:10px;
+    padding:12px;
+    background:#f9fafc;
+}
 
+.file-box input{
     border:none;
+    padding:0;
+    height:auto;
+    background:transparent;
+}
 
+
+/* SUBMIT */
+
+.submit-btn{
+    width:100%;
+    height:44px;
+    border:none;
     border-radius:9px;
-
     background:#155eef;
-
     color:white;
-
     font-weight:bold;
-
     cursor:pointer;
 }
 
 .submit-btn:disabled{
     background:#adb7c7;
+    cursor:not-allowed;
 }
+
+
+/* CONTACT */
+
+.contact-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    background:#f6f8fb;
+    border-radius:12px;
+    margin-bottom:10px;
+}
+
+.contact-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:#eaf0ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.contact-content{
+    flex:1;
+}
+
+.contact-title{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.contact-value{
+    margin-top:4px;
+    color:#7c8596;
+    font-size:9px;
+}
+
 
 /* SUCCESS */
 
 .success{
-
     display:none;
-
     position:fixed;
-
     inset:0;
-
     background:rgba(0,0,0,.55);
-
     z-index:600;
-
     align-items:center;
-
     justify-content:center;
-
     padding:20px;
 }
 
 .success-box{
-
     width:100%;
-
     max-width:400px;
-
     background:white;
-
     border-radius:20px;
-
     padding:25px;
-
     text-align:center;
 }
 
 .success-icon{
-
     width:65px;
     height:65px;
-
     margin:auto;
-
     border-radius:50%;
-
     background:#e4f8ed;
-
     color:#168352;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     font-size:30px;
 }
 
 .success-box h3{
-
     margin-top:14px;
-
     font-size:18px;
 }
 
 .success-box p{
-
     margin-top:8px;
-
     color:#7b8494;
-
     font-size:10px;
-
     line-height:1.5;
 }
 
+.ticket-number{
+    margin-top:15px;
+    background:#f6f8fb;
+    border-radius:10px;
+    padding:12px;
+    font-size:10px;
+}
+
+.ticket-number strong{
+    color:#155eef;
+}
+
 .done-btn{
-
     width:100%;
-
     height:43px;
-
     margin-top:17px;
-
     border:none;
-
     border-radius:9px;
-
     background:#155eef;
-
     color:white;
-
     font-weight:bold;
-
     cursor:pointer;
+}
+
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(100px);
+    background:#172033;
+    color:white;
+    padding:12px 18px;
+    border-radius:10px;
+    font-size:10px;
+    z-index:1000;
+    transition:.3s;
+    opacity:0;
+    pointer-events:none;
+}
+
+.toast.show{
+    transform:translateX(-50%) translateY(0);
+    opacity:1;
+}
+
+
+/* MOBILE */
+
+@media(max-width:360px){
+
+    .quick-support{
+        grid-template-columns:1fr;
+    }
+
 }
 
 </style>
@@ -522,7 +533,9 @@ body{
 
             <div>
 
-                <h2>Help & Support</h2>
+                <h2>
+                    Help & Support
+                </h2>
 
                 <p>
                     We are here to help you
@@ -806,6 +819,74 @@ body{
             </div>
 
 
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(5)"
+                >
+
+                    <span>
+                        How can I update my bank details?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow5"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer5"
+                >
+
+                    Open your Profile and select Bank Account.
+                    Follow the available verification process to
+                    update your bank information.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq">
+
+                <div
+                    class="faq-question"
+                    onclick="toggleFAQ(6)"
+                >
+
+                    <span>
+                        What should I do if I made a wrong payment?
+                    </span>
+
+                    <span
+                        class="faq-arrow"
+                        id="arrow6"
+                    >
+                        +
+                    </span>
+
+                </div>
+
+                <div
+                    class="faq-answer"
+                    id="answer6"
+                >
+
+                    Keep your transaction reference and contact
+                    support. Do not make another payment until
+                    the transaction status has been confirmed.
+
+                </div>
+
+            </div>
+
+
         </div>
 
     </div>
@@ -823,7 +904,7 @@ body{
         </div>
 
 
-        <div class="card">
+        <div class="card" id="ticketList">
 
 
             <div class="ticket">
@@ -888,6 +969,7 @@ body{
 
     </div>
 
+
 </div>
 
 
@@ -928,31 +1010,31 @@ body{
                     Select category
                 </option>
 
-                <option>
+                <option value="Loan Application">
                     Loan Application
                 </option>
 
-                <option>
+                <option value="KYC Verification">
                     KYC Verification
                 </option>
 
-                <option>
+                <option value="Bank Details">
                     Bank Details
                 </option>
 
-                <option>
+                <option value="EMI / Repayment">
                     EMI / Repayment
                 </option>
 
-                <option>
+                <option value="Payment Issue">
                     Payment Issue
                 </option>
 
-                <option>
+                <option value="Account Issue">
                     Account Issue
                 </option>
 
-                <option>
+                <option value="Other">
                     Other
                 </option>
 
@@ -970,6 +1052,7 @@ body{
             <input
                 type="text"
                 id="subject"
+                maxlength="80"
                 placeholder="Enter issue subject"
             >
 
@@ -985,6 +1068,7 @@ body{
             <input
                 type="text"
                 id="loanId"
+                maxlength="30"
                 placeholder="Example: LN10025"
             >
 
@@ -999,6 +1083,7 @@ body{
 
             <textarea
                 id="message"
+                maxlength="500"
                 placeholder="Explain your problem..."
             ></textarea>
 
@@ -1011,11 +1096,15 @@ body{
                 Attach Screenshot (Optional)
             </label>
 
-            <input
-                type="file"
-                id="attachment"
-                accept="image/*,.pdf"
-            >
+            <div class="file-box">
+
+                <input
+                    type="file"
+                    id="attachment"
+                    accept="image/*,.pdf"
+                >
+
+            </div>
 
         </div>
 
@@ -1059,39 +1148,65 @@ body{
         </div>
 
 
-        <div class="quick-card"
-             style="margin-bottom:10px">
+        <div class="contact-item">
 
-            <div class="quick-icon">
+            <div class="contact-icon">
                 📧
             </div>
 
-            <h4>
-                Email Support
-            </h4>
+            <div class="contact-content">
 
-            <p>
-                support@example.com
-            </p>
+                <div class="contact-title">
+                    Email Support
+                </div>
+
+                <div class="contact-value">
+                    support@example.com
+                </div>
+
+            </div>
 
         </div>
 
 
-        <div class="quick-card">
+        <div class="contact-item">
 
-            <div class="quick-icon">
+            <div class="contact-icon">
+                📞
+            </div>
+
+            <div class="contact-content">
+
+                <div class="contact-title">
+                    Phone Support
+                </div>
+
+                <div class="contact-value">
+                    +91 XXXXX XXXXX
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+            <div class="contact-icon">
                 🕘
             </div>
 
-            <h4>
-                Support Hours
-            </h4>
+            <div class="contact-content">
 
-            <p>
-                Monday - Saturday
-                <br>
-                9:00 AM - 6:00 PM
-            </p>
+                <div class="contact-title">
+                    Support Hours
+                </div>
+
+                <div class="contact-value">
+                    Monday - Saturday, 9:00 AM - 6:00 PM
+                </div>
+
+            </div>
 
         </div>
 
@@ -1122,6 +1237,17 @@ body{
             Our support team can review it and update the ticket status.
         </p>
 
+
+        <div class="ticket-number">
+
+            Ticket Number:
+            <strong id="newTicketNumber">
+                #LP00000
+            </strong>
+
+        </div>
+
+
         <button
             class="done-btn"
             onclick="closeSuccess()"
@@ -1134,8 +1260,21 @@ body{
 </div>
 
 
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Ticket created successfully
+</div>
+
+
 <script>
 
+/* =========================
+   NAVIGATION
+========================= */
 
 function go(page){
 
@@ -1144,7 +1283,9 @@ function go(page){
 }
 
 
-/* FAQ */
+/* =========================
+   FAQ
+========================= */
 
 function toggleFAQ(index){
 
@@ -1176,7 +1317,9 @@ function toggleFAQ(index){
 }
 
 
-/* SCROLL FAQ */
+/* =========================
+   FAQ SCROLL
+========================= */
 
 function scrollToFAQ(){
 
@@ -1189,7 +1332,9 @@ function scrollToFAQ(){
 }
 
 
-/* OPEN TICKET */
+/* =========================
+   OPEN TICKET
+========================= */
 
 function openTicket(){
 
@@ -1200,7 +1345,9 @@ function openTicket(){
 }
 
 
-/* CLOSE TICKET */
+/* =========================
+   CLOSE TICKET
+========================= */
 
 function closeTicket(){
 
@@ -1211,7 +1358,9 @@ function closeTicket(){
 }
 
 
-/* CONTACT */
+/* =========================
+   CONTACT
+========================= */
 
 function showContact(){
 
@@ -1220,6 +1369,7 @@ function showContact(){
         .style.display = "flex";
 
 }
+
 
 function closeContact(){
 
@@ -1230,7 +1380,9 @@ function closeContact(){
 }
 
 
-/* TICKET HISTORY */
+/* =========================
+   TICKET HISTORY
+========================= */
 
 function showTicketHistory(){
 
@@ -1243,24 +1395,34 @@ function showTicketHistory(){
 }
 
 
-/* VALIDATION */
+/* =========================
+   VALIDATION
+========================= */
 
 function checkTicket(){
 
     const category =
-        document.getElementById("category").value;
+        document
+        .getElementById("category")
+        .value;
 
     const subject =
-        document.getElementById("subject").value.trim();
+        document
+        .getElementById("subject")
+        .value
+        .trim();
 
     const message =
-        document.getElementById("message").value.trim();
+        document
+        .getElementById("message")
+        .value
+        .trim();
 
 
     const valid =
-        category &&
-        subject &&
-        message;
+        category !== "" &&
+        subject.length >= 3 &&
+        message.length >= 5;
 
 
     document
@@ -1270,11 +1432,15 @@ function checkTicket(){
 }
 
 
-/* INPUT EVENTS */
+/* =========================
+   INPUT EVENTS
+========================= */
 
 document
     .querySelectorAll(
-        "#ticketModal input,#ticketModal select,#ticketModal textarea"
+        "#ticketModal input," +
+        "#ticketModal select," +
+        "#ticketModal textarea"
     )
     .forEach(function(element){
 
@@ -1291,40 +1457,351 @@ document
     });
 
 
-/* SUBMIT */
+/* =========================
+   SUBMIT TICKET
+========================= */
 
 function submitTicket(){
 
-    if(
-        document
-        .getElementById("submitTicketBtn")
-        .disabled
-    ){
+    const button =
+        document.getElementById(
+            "submitTicketBtn"
+        );
 
+
+    if(button.disabled){
         return;
-
     }
+
+
+    const category =
+        document
+        .getElementById("category")
+        .value;
+
+    const subject =
+        document
+        .getElementById("subject")
+        .value
+        .trim();
+
+    const message =
+        document
+        .getElementById("message")
+        .value
+        .trim();
+
+    const loanId =
+        document
+        .getElementById("loanId")
+        .value
+        .trim();
+
+
+    /* Generate demo ticket number */
+
+    const ticketNumber =
+        "#LP" +
+        Math.floor(
+            10000 +
+            Math.random() * 89999
+        );
+
+
+    /*
+       Demo local storage.
+       Later Firebase/backend se connect
+       kar sakte ho.
+    */
+
+    const ticket = {
+
+        id:ticketNumber,
+
+        category:category,
+
+        subject:subject,
+
+        message:message,
+
+        loanId:loanId,
+
+        status:"Open",
+
+        createdAt:new Date()
+            .toLocaleDateString(
+                "en-IN",
+                {
+                    day:"2-digit",
+                    month:"short",
+                    year:"numeric"
+                }
+            )
+
+    };
+
+
+    let tickets =
+        JSON.parse(
+            localStorage.getItem(
+                "loanappTickets"
+            ) || "[]"
+        );
+
+
+    tickets.unshift(ticket);
+
+
+    localStorage.setItem(
+        "loanappTickets",
+        JSON.stringify(tickets)
+    );
+
+
+    /* Show ticket number */
+
+    document
+        .getElementById(
+            "newTicketNumber"
+        )
+        .innerText = ticketNumber;
 
 
     closeTicket();
 
 
     document
-        .getElementById("successModal")
+        .getElementById(
+            "successModal"
+        )
         .style.display = "flex";
+
+
+    /* Reset */
+
+    document
+        .getElementById("category")
+        .value = "";
+
+    document
+        .getElementById("subject")
+        .value = "";
+
+    document
+        .getElementById("loanId")
+        .value = "";
+
+    document
+        .getElementById("message")
+        .value = "";
+
+    document
+        .getElementById("attachment")
+        .value = "";
+
+    checkTicket();
+
+
+    showToast(
+        "Ticket created successfully"
+    );
 
 }
 
 
-/* CLOSE SUCCESS */
+/* =========================
+   CLOSE SUCCESS
+========================= */
 
 function closeSuccess(){
 
     document
-        .getElementById("successModal")
+        .getElementById(
+            "successModal"
+        )
         .style.display = "none";
 
+
+    loadTickets();
+
 }
+
+
+/* =========================
+   LOAD LOCAL TICKETS
+========================= */
+
+function loadTickets(){
+
+    const tickets =
+        JSON.parse(
+            localStorage.getItem(
+                "loanappTickets"
+            ) || "[]"
+        );
+
+
+    if(!tickets.length){
+        return;
+    }
+
+
+    const list =
+        document.getElementById(
+            "ticketList"
+        );
+
+
+    let html = "";
+
+
+    tickets.slice(0,5).forEach(
+        function(ticket){
+
+            html += `
+
+                <div class="ticket">
+
+                    <div class="ticket-top">
+
+                        <div class="ticket-id">
+                            ${ticket.id}
+                        </div>
+
+                        <div class="ticket-status open">
+                            ${ticket.status}
+                        </div>
+
+                    </div>
+
+                    <div class="ticket-title">
+                        ${escapeHTML(ticket.subject)}
+                    </div>
+
+                    <div class="ticket-date">
+                        Created: ${escapeHTML(ticket.createdAt)}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+        <button
+            class="primary-btn"
+            onclick="openTicket()"
+        >
+            Create New Support Ticket
+        </button>
+
+    `;
+
+
+    list.innerHTML = html;
+
+}
+
+
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.innerText = message;
+
+    toast.classList.add("show");
+
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },2500);
+
+}
+
+
+/* =========================
+   MODAL OUTSIDE CLICK
+========================= */
+
+window.addEventListener(
+    "click",
+    function(event){
+
+        const ticketModal =
+            document.getElementById(
+                "ticketModal"
+            );
+
+        const contactModal =
+            document.getElementById(
+                "contactModal"
+            );
+
+        const successModal =
+            document.getElementById(
+                "successModal"
+            );
+
+
+        if(event.target === ticketModal){
+
+            closeTicket();
+
+        }
+
+
+        if(event.target === contactModal){
+
+            closeContact();
+
+        }
+
+
+        if(event.target === successModal){
+
+            closeSuccess();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   LOAD SAVED TICKETS
+========================= */
+
+loadTickets();
 
 </script>
 
