@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Loan Documents - LoanApp</title>
+<title>Loan Documents - EasyLoan India</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
 
@@ -47,11 +52,9 @@ body{
     height:38px;
     border-radius:50%;
     background:rgba(255,255,255,.18);
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:20px;
     cursor:pointer;
 }
@@ -74,13 +77,9 @@ body{
 
 .loan-summary{
     margin:15px;
-
     background:white;
-
     border-radius:17px;
-
     padding:17px;
-
     box-shadow:0 3px 15px rgba(0,0,0,.04);
 }
 
@@ -98,10 +97,8 @@ body{
 .status{
     padding:5px 9px;
     border-radius:20px;
-
     background:#e7f8ef;
     color:#168352;
-
     font-size:8px;
     font-weight:bold;
 }
@@ -115,9 +112,7 @@ body{
 .loan-info{
     display:grid;
     grid-template-columns:1fr 1fr;
-
     gap:10px;
-
     margin-top:14px;
 }
 
@@ -139,6 +134,34 @@ body{
     font-size:11px;
 }
 
+/* LOADING */
+
+.loading{
+    background:white;
+    margin:15px;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    color:#667085;
+    font-size:12px;
+}
+
+.spinner{
+    width:28px;
+    height:28px;
+    border:3px solid #e3e9f5;
+    border-top-color:#155eef;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:0 auto 10px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
 /* SECTION */
 
 .section{
@@ -154,38 +177,29 @@ body{
 
 .document{
     background:white;
-
     border-radius:15px;
-
     padding:14px;
-
     margin-bottom:9px;
-
     box-shadow:0 3px 12px rgba(0,0,0,.035);
-
     display:flex;
-
     gap:12px;
-
     align-items:center;
+    cursor:pointer;
+}
+
+.document:hover{
+    transform:translateY(-1px);
 }
 
 .document-icon{
-
     width:43px;
     height:43px;
-
     border-radius:11px;
-
     background:#eef3ff;
-
     display:flex;
-
     align-items:center;
     justify-content:center;
-
     font-size:20px;
-
     flex-shrink:0;
 }
 
@@ -200,9 +214,7 @@ body{
 
 .document-meta{
     margin-top:5px;
-
     color:#858e9e;
-
     font-size:8px;
 }
 
@@ -212,92 +224,79 @@ body{
 }
 
 .action-btn{
-
     width:32px;
     height:32px;
-
     border:none;
-
     border-radius:8px;
-
     background:#f0f3f8;
-
     color:#155eef;
-
     cursor:pointer;
-
     font-size:14px;
 }
 
-.action-btn:hover{
-    background:#e7edff;
-}
-
-/* IMPORTANT INFO */
+/* IMPORTANT */
 
 .info-card{
-
     background:#fff8e8;
-
     color:#80672a;
-
     border-radius:13px;
-
     padding:13px;
-
     font-size:9px;
-
     line-height:1.6;
-
     margin-top:5px;
+}
+
+/* EMPTY */
+
+.empty{
+    background:white;
+    border-radius:17px;
+    padding:35px 20px;
+    text-align:center;
+}
+
+.empty-icon{
+    font-size:40px;
+}
+
+.empty h3{
+    margin-top:10px;
+    font-size:15px;
+}
+
+.empty p{
+    margin-top:6px;
+    font-size:9px;
+    color:#7c8596;
 }
 
 /* MODAL */
 
 .modal{
-
     display:none;
-
     position:fixed;
-
     inset:0;
-
     background:rgba(0,0,0,.55);
-
     z-index:500;
-
     align-items:center;
-
     justify-content:center;
-
     padding:20px;
 }
 
 .modal-box{
-
     width:100%;
-
     max-width:430px;
-
     max-height:90vh;
-
     overflow-y:auto;
-
     background:white;
-
     border-radius:20px;
-
     padding:20px;
 }
 
 .modal-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     margin-bottom:15px;
 }
 
@@ -306,33 +305,22 @@ body{
 }
 
 .close{
-
     width:32px;
     height:32px;
-
     border:none;
-
     border-radius:50%;
-
     background:#f0f2f5;
-
     cursor:pointer;
-
     font-size:18px;
 }
 
-/* DOCUMENT PREVIEW */
+/* PREVIEW */
 
 .preview{
-
     background:#f4f6fa;
-
     border-radius:12px;
-
     padding:25px 18px;
-
     min-height:350px;
-
     text-align:center;
 }
 
@@ -353,28 +341,18 @@ body{
 }
 
 .preview-details{
-
     margin-top:18px;
-
     background:white;
-
     border-radius:10px;
-
     padding:12px;
-
     text-align:left;
 }
 
 .preview-details div{
-
     display:flex;
-
     justify-content:space-between;
-
     padding:7px 0;
-
     border-bottom:1px solid #edf0f4;
-
     font-size:9px;
 }
 
@@ -387,55 +365,46 @@ body{
 }
 
 .download-btn{
-
     width:100%;
-
     height:43px;
-
     margin-top:14px;
-
     border:none;
-
     border-radius:9px;
-
     background:#155eef;
-
     color:white;
-
     font-weight:bold;
-
     cursor:pointer;
 }
 
-/* EMPTY */
+.download-btn:disabled{
+    background:#aeb8c8;
+    cursor:not-allowed;
+}
 
-.empty{
+/* PDF VIEW */
 
+.pdf-frame{
     display:none;
-
-    background:white;
-
-    border-radius:17px;
-
-    padding:35px 20px;
-
-    text-align:center;
+    width:100%;
+    height:400px;
+    border:none;
+    border-radius:10px;
+    margin-top:15px;
 }
 
-.empty-icon{
-    font-size:40px;
+/* ERROR */
+
+.error-box{
+    display:none;
+    background:#fff0f0;
+    color:#c62828;
+    margin:15px;
+    padding:13px;
+    border-radius:12px;
+    font-size:10px;
 }
 
-.empty h3{
-    margin-top:10px;
-    font-size:15px;
-}
-
-.empty p{
-    margin-top:6px;
-    font-size:9px;
-    color:#7c8596;
-}
+/* RESPONSIVE */
 
 @media(max-width:360px){
 
@@ -448,11 +417,9 @@ body{
 </style>
 </head>
 
-
 <body>
 
 <div class="app">
-
 
     <!-- HEADER -->
 
@@ -490,21 +457,28 @@ body{
 
         <div class="loan-top">
 
-            <div class="loan-id">
-                Loan ID: LN202600125
+            <div
+                class="loan-id"
+                id="loanId"
+            >
+                Loan ID: Loading...
             </div>
 
-            <div class="status">
-                Active
+            <div
+                class="status"
+                id="loanStatus"
+            >
+                Loading
             </div>
 
         </div>
 
-
-        <div class="loan-name">
+        <div
+            class="loan-name"
+            id="loanName"
+        >
             Personal Loan
         </div>
-
 
         <div class="loan-info">
 
@@ -514,12 +488,11 @@ body{
                     Loan Amount
                 </span>
 
-                <strong>
-                    ₹50,000
+                <strong id="loanAmount">
+                    --
                 </strong>
 
             </div>
-
 
             <div class="info-box">
 
@@ -527,12 +500,11 @@ body{
                     EMI
                 </span>
 
-                <strong>
-                    ₹4,750 / month
+                <strong id="loanEmi">
+                    --
                 </strong>
 
             </div>
-
 
             <div class="info-box">
 
@@ -540,12 +512,11 @@ body{
                     Tenure
                 </span>
 
-                <strong>
-                    12 Months
+                <strong id="loanTenure">
+                    --
                 </strong>
 
             </div>
-
 
             <div class="info-box">
 
@@ -553,8 +524,8 @@ body{
                     Start Date
                 </span>
 
-                <strong>
-                    15 Aug 2026
+                <strong id="loanStartDate">
+                    --
                 </strong>
 
             </div>
@@ -564,216 +535,42 @@ body{
     </div>
 
 
+    <!-- LOADING -->
+
+    <div
+        class="loading"
+        id="loading"
+    >
+
+        <div class="spinner"></div>
+
+        Loading your documents...
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+        class="error-box"
+        id="errorBox"
+    ></div>
+
+
     <!-- DOCUMENTS -->
 
-    <div class="section">
+    <div
+        class="section"
+        id="documentsSection"
+        style="display:none;"
+    >
 
         <div class="section-title">
             Available Documents
         </div>
 
+        <div id="documentsList"></div>
 
-        <!-- DOCUMENT 1 -->
-
-        <div
-            class="document"
-            data-title="Loan Agreement"
-            data-date="15 Aug 2026"
-            data-size="1.2 MB"
-            onclick="openDocument(this)"
-        >
-
-            <div class="document-icon">
-                📄
-            </div>
-
-            <div class="document-content">
-
-                <div class="document-title">
-                    Loan Agreement
-                </div>
-
-                <div class="document-meta">
-                    PDF • 1.2 MB • 15 Aug 2026
-                </div>
-
-            </div>
-
-            <div class="document-actions">
-
-                <button
-                    class="action-btn"
-                    onclick="event.stopPropagation();openDocument(this.parentElement.parentElement)"
-                >
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- DOCUMENT 2 -->
-
-        <div
-            class="document"
-            data-title="Key Facts Statement"
-            data-date="15 Aug 2026"
-            data-size="850 KB"
-            onclick="openDocument(this)"
-        >
-
-            <div class="document-icon">
-                📋
-            </div>
-
-            <div class="document-content">
-
-                <div class="document-title">
-                    Key Facts Statement
-                </div>
-
-                <div class="document-meta">
-                    PDF • 850 KB • 15 Aug 2026
-                </div>
-
-            </div>
-
-            <div class="document-actions">
-
-                <button
-                    class="action-btn"
-                    onclick="event.stopPropagation();openDocument(this.parentElement.parentElement)"
-                >
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- DOCUMENT 3 -->
-
-        <div
-            class="document"
-            data-title="Sanction Letter"
-            data-date="15 Aug 2026"
-            data-size="640 KB"
-            onclick="openDocument(this)"
-        >
-
-            <div class="document-icon">
-                📝
-            </div>
-
-            <div class="document-content">
-
-                <div class="document-title">
-                    Sanction Letter
-                </div>
-
-                <div class="document-meta">
-                    PDF • 640 KB • 15 Aug 2026
-                </div>
-
-            </div>
-
-            <div class="document-actions">
-
-                <button
-                    class="action-btn"
-                    onclick="event.stopPropagation();openDocument(this.parentElement.parentElement)"
-                >
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- DOCUMENT 4 -->
-
-        <div
-            class="document"
-            data-title="Repayment Schedule"
-            data-date="15 Aug 2026"
-            data-size="510 KB"
-            onclick="openDocument(this)"
-        >
-
-            <div class="document-icon">
-                📅
-            </div>
-
-            <div class="document-content">
-
-                <div class="document-title">
-                    Repayment Schedule
-                </div>
-
-                <div class="document-meta">
-                    PDF • 510 KB • 15 Aug 2026
-                </div>
-
-            </div>
-
-            <div class="document-actions">
-
-                <button
-                    class="action-btn"
-                    onclick="event.stopPropagation();openDocument(this.parentElement.parentElement)"
-                >
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- DOCUMENT 5 -->
-
-        <div
-            class="document"
-            data-title="Payment Receipt"
-            data-date="15 Aug 2026"
-            data-size="320 KB"
-            onclick="openDocument(this)"
-        >
-
-            <div class="document-icon">
-                🧾
-            </div>
-
-            <div class="document-content">
-
-                <div class="document-title">
-                    Payment Receipt
-                </div>
-
-                <div class="document-meta">
-                    PDF • 320 KB • 15 Aug 2026
-                </div>
-
-            </div>
-
-            <div class="document-actions">
-
-                <button
-                    class="action-btn"
-                    onclick="event.stopPropagation();openDocument(this.parentElement.parentElement)"
-                >
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- INFORMATION -->
 
         <div class="info-card">
 
@@ -781,10 +578,36 @@ body{
                 Important:
             </strong>
 
-            Your actual loan documents should be generated and
-            stored by the authorized lending system. Users should
-            be able to access the applicable agreements and
-            disclosures associated with their loan.
+            Your loan documents are provided for your account.
+            Do not share confidential loan documents with anyone.
+
+        </div>
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+        class="section"
+        id="emptySection"
+        style="display:none;"
+    >
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📄
+            </div>
+
+            <h3>
+                No Documents Available
+            </h3>
+
+            <p>
+                Your loan documents will appear here after
+                they are uploaded to your account.
+            </p>
 
         </div>
 
@@ -801,7 +624,6 @@ body{
 >
 
     <div class="modal-box">
-
 
         <div class="modal-header">
 
@@ -829,9 +651,8 @@ body{
                 Loan Document
             </h3>
 
-            <p>
-                Document preview will appear here when the
-                real PDF file is connected to the backend.
+            <p id="previewText">
+                Document information
             </p>
 
 
@@ -843,12 +664,11 @@ body{
                         Loan ID
                     </span>
 
-                    <strong>
-                        LN202600125
+                    <strong id="previewLoanId">
+                        --
                     </strong>
 
                 </div>
-
 
                 <div>
 
@@ -862,19 +682,17 @@ body{
 
                 </div>
 
-
                 <div>
 
                     <span>
                         File Type
                     </span>
 
-                    <strong>
+                    <strong id="previewType">
                         PDF
                     </strong>
 
                 </div>
-
 
                 <div>
 
@@ -893,10 +711,16 @@ body{
 
             <button
                 class="download-btn"
+                id="downloadBtn"
                 onclick="downloadDocument()"
             >
                 📥 Download Document
             </button>
+
+            <iframe
+                id="pdfFrame"
+                class="pdf-frame"
+            ></iframe>
 
         </div>
 
@@ -907,6 +731,50 @@ body{
 
 <script>
 
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain: "easyloan-india.firebaseapp.com",
+
+    projectId: "easyloan-india",
+
+    storageBucket: "easyloan-india.firebasestorage.app",
+
+    messagingSenderId: "925263655882",
+
+    appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+const database = firebase.database();
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let currentDocument = null;
+
+let currentUser = null;
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
 function go(page){
 
@@ -915,72 +783,785 @@ function go(page){
 }
 
 
-/* OPEN DOCUMENT */
+/* =====================================================
+   MONEY FORMAT
+===================================================== */
 
-function openDocument(element){
+function money(value){
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === ""
+    ){
+        return "--";
+    }
+
+    const number =
+        Number(value);
+
+    if(
+        Number.isNaN(number)
+    ){
+        return value;
+    }
+
+    return "₹" +
+        Math.round(number)
+        .toLocaleString("en-IN");
+
+}
+
+
+/* =====================================================
+   DATE FORMAT
+===================================================== */
+
+function formatDate(value){
+
+    if(!value){
+        return "--";
+    }
+
+    try{
+
+        const date =
+            new Date(value);
+
+        if(
+            Number.isNaN(
+                date.getTime()
+            )
+        ){
+            return value;
+        }
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day:"2-digit",
+                month:"short",
+                year:"numeric"
+            }
+        );
+
+    }catch(error){
+
+        return value;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD USER
+===================================================== */
+
+auth.onAuthStateChanged(function(user){
+
+    if(!user){
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+        showError(
+            "Please login first to view your loan documents."
+        );
+
+        setTimeout(function(){
+
+            window.location.href =
+                "login.html";
+
+        },1500);
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    loadLoanData(user.uid);
+
+});
+
+
+/* =====================================================
+   LOAD LOAN DATA
+===================================================== */
+
+function loadLoanData(uid){
+
+    database
+        .ref("users/" + uid)
+        .once("value")
+        .then(function(snapshot){
+
+            const userData =
+                snapshot.val() || {};
+
+            /*
+                Possible structure:
+
+                users
+                  UID
+                    name
+                    loan
+                      loanId
+                      amount
+                      emi
+                      tenure
+                      startDate
+                      status
+                      documents
+            */
+
+            let loan =
+                userData.loan || null;
+
+
+            /*
+                Agar loan object nahi mila,
+                loans/UID check karenge.
+            */
+
+            if(!loan){
+
+                return database
+                    .ref("loans/" + uid)
+                    .once("value")
+                    .then(function(loanSnapshot){
+
+                        loan =
+                            loanSnapshot.val();
+
+                        processLoan(
+                            loan,
+                            userData
+                        );
+
+                    });
+
+            }
+
+
+            processLoan(
+                loan,
+                userData
+            );
+
+        })
+        .catch(function(error){
+
+            console.error(
+                "Firebase Error:",
+                error
+            );
+
+            hideLoading();
+
+            showError(
+                "Unable to load loan information. Please try again."
+            );
+
+        });
+
+}
+
+
+/* =====================================================
+   PROCESS LOAN
+===================================================== */
+
+function processLoan(
+    loan,
+    userData
+){
+
+    hideLoading();
+
+
+    if(!loan){
+
+        showEmpty();
+
+        return;
+
+    }
+
+
+    /* LOAN DETAILS */
+
+    document.getElementById(
+        "loanId"
+    ).innerText =
+        "Loan ID: " +
+        (loan.loanId || loan.id || "--");
+
+
+    document.getElementById(
+        "loanName"
+    ).innerText =
+        loan.loanType ||
+        loan.type ||
+        "Personal Loan";
+
+
+    document.getElementById(
+        "loanStatus"
+    ).innerText =
+        loan.status ||
+        "Active";
+
+
+    document.getElementById(
+        "loanAmount"
+    ).innerText =
+        money(
+            loan.amount ||
+            loan.loanAmount
+        );
+
+
+    document.getElementById(
+        "loanEmi"
+    ).innerText =
+        money(
+            loan.emi ||
+            loan.monthlyEmi
+        ) +
+        (
+            loan.emi ||
+            loan.monthlyEmi
+        ) ? " / month" : "";
+
+
+    document.getElementById(
+        "loanTenure"
+    ).innerText =
+        loan.tenure
+        ? loan.tenure + " Months"
+        : "--";
+
+
+    document.getElementById(
+        "loanStartDate"
+    ).innerText =
+        formatDate(
+            loan.startDate
+        );
+
+
+    /* DOCUMENTS */
+
+    const documents =
+        loan.documents || {};
+
+
+    loadDocuments(
+        documents,
+        loan
+    );
+
+}
+
+
+/* =====================================================
+   LOAD DOCUMENTS
+===================================================== */
+
+function loadDocuments(
+    documents,
+    loan
+){
+
+    const list =
+        document.getElementById(
+            "documentsList"
+        );
+
+    list.innerHTML = "";
+
+
+    let documentArray = [];
+
+
+    /*
+       Firebase documents object
+       ko array me convert kar rahe hain.
+    */
+
+    if(
+        Array.isArray(documents)
+    ){
+
+        documentArray =
+            documents;
+
+    }else{
+
+        Object.keys(documents)
+            .forEach(function(key){
+
+                const doc =
+                    documents[key];
+
+                if(
+                    typeof doc === "object"
+                ){
+
+                    documentArray.push({
+                        ...doc,
+                        key:key
+                    });
+
+                }
+
+            });
+
+    }
+
+
+    if(
+        documentArray.length === 0
+    ){
+
+        showEmpty();
+
+        return;
+
+    }
+
+
+    documentArray.forEach(function(doc){
+
+        createDocumentCard(
+            doc,
+            loan
+        );
+
+    });
+
+
+    document.getElementById(
+        "documentsSection"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   CREATE DOCUMENT CARD
+===================================================== */
+
+function createDocumentCard(
+    doc,
+    loan
+){
+
+    const list =
+        document.getElementById(
+            "documentsList"
+        );
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+    card.className =
+        "document";
+
 
     const title =
-        element.getAttribute("data-title");
+        doc.title ||
+        doc.name ||
+        "Loan Document";
+
 
     const date =
-        element.getAttribute("data-date");
+        doc.date ||
+        doc.createdAt ||
+        loan.startDate ||
+        "";
+
 
     const size =
-        element.getAttribute("data-size");
+        doc.size ||
+        "--";
+
+
+    const type =
+        doc.type ||
+        "PDF";
+
+
+    const url =
+        doc.url ||
+        doc.downloadURL ||
+        doc.fileUrl ||
+        "";
+
+
+    const icon =
+        getDocumentIcon(title);
+
+
+    card.innerHTML = `
+
+        <div class="document-icon">
+            ${icon}
+        </div>
+
+        <div class="document-content">
+
+            <div class="document-title">
+                ${escapeHTML(title)}
+            </div>
+
+            <div class="document-meta">
+                ${escapeHTML(type)}
+                •
+                ${escapeHTML(size)}
+                •
+                ${escapeHTML(formatDate(date))}
+            </div>
+
+        </div>
+
+        <div class="document-actions">
+
+            <button
+                class="action-btn"
+                type="button"
+            >
+                👁
+            </button>
+
+        </div>
+
+    `;
+
+
+    card.addEventListener(
+        "click",
+        function(){
+
+            openDocument({
+                title:title,
+                date:formatDate(date),
+                size:size,
+                type:type,
+                url:url,
+                loanId:
+                    loan.loanId ||
+                    loan.id ||
+                    "--"
+            });
+
+        }
+    );
+
+
+    list.appendChild(card);
+
+}
+
+
+/* =====================================================
+   DOCUMENT ICON
+===================================================== */
+
+function getDocumentIcon(title){
+
+    const name =
+        title.toLowerCase();
+
+
+    if(
+        name.includes("agreement")
+    ){
+        return "📄";
+    }
+
+    if(
+        name.includes("schedule")
+    ){
+        return "📅";
+    }
+
+    if(
+        name.includes("receipt")
+    ){
+        return "🧾";
+    }
+
+    if(
+        name.includes("sanction")
+    ){
+        return "📝";
+    }
+
+    if(
+        name.includes("fact")
+    ){
+        return "📋";
+    }
+
+    return "📄";
+
+}
+
+
+/* =====================================================
+   OPEN DOCUMENT
+===================================================== */
+
+function openDocument(doc){
+
+    currentDocument =
+        doc;
 
 
     document.getElementById(
         "modalTitle"
-    ).innerText = title;
+    ).innerText =
+        doc.title;
 
 
     document.getElementById(
         "previewTitle"
-    ).innerText = title;
+    ).innerText =
+        doc.title;
 
 
     document.getElementById(
         "previewDate"
-    ).innerText = date;
+    ).innerText =
+        doc.date;
 
 
     document.getElementById(
         "previewSize"
-    ).innerText = size;
+    ).innerText =
+        doc.size;
+
+
+    document.getElementById(
+        "previewType"
+    ).innerText =
+        doc.type;
+
+
+    document.getElementById(
+        "previewLoanId"
+    ).innerText =
+        doc.loanId;
+
+
+    const frame =
+        document.getElementById(
+            "pdfFrame"
+        );
+
+
+    frame.style.display =
+        "none";
+
+    frame.src = "";
+
+
+    if(doc.url){
+
+        document.getElementById(
+            "previewText"
+        ).innerText =
+            "Your document is available. You can open or download the file below.";
+
+        document.getElementById(
+            "downloadBtn"
+        ).disabled =
+            false;
+
+    }else{
+
+        document.getElementById(
+            "previewText"
+        ).innerText =
+            "The document has been added to your account, but its secure file URL is not available yet.";
+
+        document.getElementById(
+            "downloadBtn"
+        ).disabled =
+            true;
+
+    }
 
 
     document.getElementById(
         "documentModal"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 
 }
 
 
-/* CLOSE */
+/* =====================================================
+   CLOSE DOCUMENT
+===================================================== */
 
 function closeDocument(){
 
-    document.getElementById(
-        "documentModal"
-    ).style.display = "none";
+    const modal =
+        document.getElementById(
+            "documentModal"
+        );
+
+    modal.style.display =
+        "none";
+
+
+    const frame =
+        document.getElementById(
+            "pdfFrame"
+        );
+
+    frame.src = "";
 
 }
 
 
-/* DOWNLOAD */
+/* =====================================================
+   DOWNLOAD DOCUMENT
+===================================================== */
 
 function downloadDocument(){
 
-    /*
-       Demo only.
+    if(
+        !currentDocument ||
+        !currentDocument.url
+    ){
 
-       Later this button will receive the secure PDF URL
-       from your backend.
-    */
+        alert(
+            "Document file is not available yet."
+        );
 
-    alert(
-        "Demo: Actual PDF download backend se connect hoga."
+        return;
+
+    }
+
+
+    window.open(
+        currentDocument.url,
+        "_blank"
     );
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL OUTSIDE
+===================================================== */
+
+document
+    .getElementById(
+        "documentModal"
+    )
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target === this
+            ){
+
+                closeDocument();
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   HIDE LOADING
+===================================================== */
+
+function hideLoading(){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+function showEmpty(){
+
+    document.getElementById(
+        "emptySection"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message){
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+    box.innerText =
+        message;
+
+    box.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   SECURITY / HTML ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
