@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>KYC Verification - LoanApp</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>KYC Verification - EasyLoan India</title>
+
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
 
 *{
     margin:0;
@@ -15,10 +37,16 @@
     font-family:Arial,sans-serif;
 }
 
+
+/* =====================================================
+   BODY
+===================================================== */
+
 body{
     background:#f4f6fa;
     color:#172033;
 }
+
 
 .app{
     max-width:520px;
@@ -27,14 +55,25 @@ body{
     padding-bottom:40px;
 }
 
-/* HEADER */
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .header{
-    background:linear-gradient(135deg,#155eef,#4f8cff);
+    background:linear-gradient(
+        135deg,
+        #155eef,
+        #4f8cff
+    );
+
     color:white;
+
     padding:20px 18px 28px;
+
     border-radius:0 0 25px 25px;
 }
+
 
 .header-top{
     display:flex;
@@ -42,21 +81,29 @@ body{
     gap:13px;
 }
 
+
 .back{
     width:38px;
     height:38px;
+
     border-radius:50%;
+
     background:rgba(255,255,255,.18);
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:20px;
+
     cursor:pointer;
 }
+
 
 .header h2{
     font-size:20px;
 }
+
 
 .header p{
     margin-top:5px;
@@ -64,555 +111,821 @@ body{
     opacity:.85;
 }
 
-/* PROGRESS */
+
+/* =====================================================
+   PROGRESS
+===================================================== */
 
 .progress-card{
+
     background:white;
+
     margin:15px;
+
     padding:17px;
+
     border-radius:17px;
-    box-shadow:0 4px 18px rgba(0,0,0,.05);
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,.05);
 }
 
+
 .progress-top{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 }
+
 
 .progress-top h3{
     font-size:14px;
 }
 
+
 .progress-top span{
+
     color:#155eef;
+
     font-size:11px;
+
     font-weight:bold;
 }
 
+
 .progress-bar{
+
     margin-top:12px;
+
     height:7px;
+
     background:#e8ebf0;
+
     border-radius:20px;
+
     overflow:hidden;
 }
 
+
 .progress-fill{
-    width:50%;
+
+    width:0%;
+
     height:100%;
+
     background:#155eef;
+
     border-radius:20px;
+
+    transition:.3s;
 }
 
+
 .progress-text{
+
     margin-top:8px;
+
     color:#7c8596;
+
     font-size:9px;
 }
 
-/* SECTION */
+
+/* =====================================================
+   SECTION
+===================================================== */
 
 .section{
+
     padding:0 15px 15px;
 }
 
+
 .section-title{
+
     font-size:16px;
+
     margin-bottom:10px;
 }
 
+
 .card{
+
     background:white;
+
     border-radius:17px;
+
     padding:17px;
-    box-shadow:0 3px 15px rgba(0,0,0,.04);
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.04);
 }
 
-/* FORM */
+
+/* =====================================================
+   FORM
+===================================================== */
 
 .form-group{
+
     margin-bottom:15px;
 }
 
+
 .form-group label{
+
     display:block;
+
     color:#667085;
+
     font-size:10px;
+
     margin-bottom:6px;
 }
 
+
 .form-group input,
 .form-group select{
+
     width:100%;
+
     height:43px;
+
     border:1px solid #dfe3e9;
+
     border-radius:9px;
+
     padding:0 11px;
+
     outline:none;
+
     font-size:12px;
+
     background:white;
 }
+
 
 .form-group input:focus,
 .form-group select:focus{
+
     border-color:#155eef;
+
+    box-shadow:
+        0 0 0 2px rgba(21,94,239,.08);
 }
 
+
 .row{
+
     display:grid;
+
     grid-template-columns:1fr 1fr;
+
     gap:10px;
 }
 
-/* DOCUMENT */
+
+/* =====================================================
+   DOCUMENT
+===================================================== */
 
 .document{
+
     border:1px dashed #b9c3d2;
+
     border-radius:12px;
+
     padding:17px;
+
     text-align:center;
+
     background:#fafbfc;
+
     margin-bottom:12px;
 }
 
+
 .document-icon{
+
     font-size:28px;
 }
 
+
 .document h4{
+
     margin-top:8px;
+
     font-size:12px;
 }
 
+
 .document p{
+
     margin-top:5px;
+
     color:#818b9b;
+
     font-size:9px;
+
+    line-height:1.5;
 }
 
+
 .upload-btn{
+
     display:inline-block;
+
     margin-top:11px;
+
     background:#eef3ff;
+
     color:#155eef;
+
     padding:9px 14px;
+
     border-radius:8px;
+
     font-size:10px;
+
     font-weight:bold;
+
     cursor:pointer;
 }
 
-.file-name{
-    margin-top:8px;
-    color:#168352;
-    font-size:9px;
+
+.upload-btn:hover{
+
+    background:#dfe8ff;
 }
 
-/* STATUS */
+
+.file-name{
+
+    margin-top:8px;
+
+    color:#168352;
+
+    font-size:9px;
+
+    word-break:break-all;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .status{
+
     display:flex;
+
     align-items:center;
+
     gap:11px;
+
     background:#eaf8f0;
+
     border-radius:12px;
+
     padding:13px;
 }
 
+
 .status-icon{
+
     width:38px;
+
     height:38px;
+
     border-radius:50%;
+
     background:#d4f2e1;
+
     color:#168352;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
     font-size:18px;
+
+    flex-shrink:0;
 }
 
+
 .status h4{
+
     font-size:12px;
 }
 
+
 .status p{
+
     margin-top:4px;
+
     color:#668070;
+
     font-size:9px;
+
+    line-height:1.5;
 }
 
-/* CONSENT */
+
+/* =====================================================
+   CONSENT
+===================================================== */
 
 .consent{
-    display:flex;
-    gap:9px;
-    align-items:flex-start;
-    margin-top:13px;
-}
 
-.consent input{
+    display:flex;
+
+    gap:9px;
+
+    align-items:flex-start;
+
     margin-top:2px;
 }
 
+
+.consent input{
+
+    margin-top:2px;
+
+    flex-shrink:0;
+}
+
+
 .consent label{
+
     font-size:9px;
+
     color:#687384;
+
     line-height:1.5;
 }
 
-/* BUTTON */
+
+/* =====================================================
+   BUTTON
+===================================================== */
 
 .submit-btn{
+
     width:100%;
+
     height:47px;
+
     border:none;
+
     border-radius:10px;
+
     background:#155eef;
+
     color:white;
+
     font-size:13px;
+
     font-weight:bold;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
+
+.submit-btn:hover{
+
+    background:#0e4fcf;
+}
+
+
 .submit-btn:disabled{
+
     background:#aeb8c8;
+
     cursor:not-allowed;
 }
 
-/* NOTE */
+
+/* =====================================================
+   NOTE
+===================================================== */
 
 .note{
+
     margin-top:10px;
+
     background:#fff8e8;
+
     color:#80672a;
+
     padding:13px;
+
     border-radius:11px;
+
     font-size:9px;
+
     line-height:1.5;
 }
 
-/* SUCCESS MODAL */
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 .modal{
+
     display:none;
+
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.5);
+
+    background:rgba(0,0,0,.55);
+
     z-index:500;
+
     align-items:center;
+
     justify-content:center;
+
     padding:20px;
 }
 
+
 .modal-box{
+
     width:100%;
+
     max-width:420px;
+
     background:white;
+
     border-radius:20px;
+
     padding:25px;
+
     text-align:center;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.2);
 }
 
+
 .success-icon{
+
     width:65px;
+
     height:65px;
+
     margin:auto;
+
     border-radius:50%;
+
     background:#e4f8ed;
+
     color:#168352;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
     font-size:30px;
 }
 
+
 .modal-box h3{
+
     margin-top:14px;
+
     font-size:18px;
 }
 
+
 .modal-box p{
+
     margin-top:8px;
+
     color:#7b8494;
+
     font-size:10px;
+
     line-height:1.5;
 }
 
+
 .done-btn{
+
     width:100%;
+
     height:43px;
+
     border:none;
+
     border-radius:9px;
+
     background:#155eef;
+
     color:white;
+
     font-weight:bold;
+
     margin-top:17px;
+
     cursor:pointer;
 }
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(255,255,255,.75);
+
+    z-index:1000;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+
+.loading-box{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    box-shadow:0 10px 40px rgba(0,0,0,.15);
+}
+
+
+.spinner{
+
+    width:38px;
+
+    height:38px;
+
+    border:4px solid #e1e7f0;
+
+    border-top-color:#155eef;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+    margin:auto;
+}
+
+
+.loading-text{
+
+    margin-top:12px;
+
+    font-size:11px;
+
+    color:#667085;
+}
+
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error-message{
+
+    display:none;
+
+    margin-top:8px;
+
+    color:#c62828;
+
+    font-size:9px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:360px){
 
     .row{
+
         grid-template-columns:1fr;
+
     }
 
 }
 
 </style>
+
 </head>
 
 
 <body>
 
-<div class="app">
 
-    <!-- HEADER -->
+<!-- =====================================================
+     LOADING
+===================================================== -->
 
-    <div class="header">
+<div
+    class="loading"
+    id="loading"
+>
 
-        <div class="header-top">
+    <div class="loading-box">
 
-            <div
-                class="back"
-                onclick="go('profile.html')"
-            >
-                ←
-            </div>
-
-            <div>
-                <h2>KYC Verification</h2>
-                <p>Complete your identity verification</p>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- PROGRESS -->
-
-    <div class="progress-card">
-
-        <div class="progress-top">
-
-            <h3>KYC Progress</h3>
-
-            <span id="progressPercent">
-                50%
-            </span>
-
-        </div>
-
-        <div class="progress-bar">
-
-            <div
-                class="progress-fill"
-                id="progressFill"
-            ></div>
-
-        </div>
+        <div class="spinner"></div>
 
         <div
-            class="progress-text"
-            id="progressText"
+            class="loading-text"
+            id="loadingText"
         >
-            Complete the remaining information below.
+            Please wait...
         </div>
 
     </div>
 
+</div>
 
-    <!-- PERSONAL DETAILS -->
 
-    <div class="section">
 
-        <div class="section-title">
-            Personal Details
+<div class="app">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <div class="header-top">
+
+        <div
+            class="back"
+            onclick="go('profile.html')"
+        >
+            ←
         </div>
 
-        <div class="card">
+        <div>
 
-            <div class="form-group">
+            <h2>
+                KYC Verification
+            </h2>
 
-                <label>
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="fullName"
-                    placeholder="Enter full name"
-                >
-
-            </div>
-
-
-            <div class="row">
-
-                <div class="form-group">
-
-                    <label>
-                        Date of Birth
-                    </label>
-
-                    <input
-                        type="date"
-                        id="dob"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Gender
-                    </label>
-
-                    <select id="gender">
-
-                        <option value="">
-                            Select
-                        </option>
-
-                        <option>
-                            Male
-                        </option>
-
-                        <option>
-                            Female
-                        </option>
-
-                        <option>
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    PAN Number
-                </label>
-
-                <input
-                    type="text"
-                    id="pan"
-                    maxlength="10"
-                    placeholder="ABCDE1234F"
-                    style="text-transform:uppercase"
-                >
-
-            </div>
+            <p>
+                Complete your identity verification
+            </p>
 
         </div>
 
     </div>
 
+</div>
 
-    <!-- ADDRESS -->
 
-    <div class="section">
 
-        <div class="section-title">
-            Address Details
+<!-- =====================================================
+     PROGRESS
+===================================================== -->
+
+<div class="progress-card">
+
+    <div class="progress-top">
+
+        <h3>
+            KYC Progress
+        </h3>
+
+        <span id="progressPercent">
+            0%
+        </span>
+
+    </div>
+
+
+    <div class="progress-bar">
+
+        <div
+            class="progress-fill"
+            id="progressFill"
+        ></div>
+
+    </div>
+
+
+    <div
+        class="progress-text"
+        id="progressText"
+    >
+        Complete the information below.
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PERSONAL DETAILS
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+        Personal Details
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="form-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="Enter full name"
+                autocomplete="name"
+            >
+
         </div>
 
-        <div class="card">
+
+
+        <div class="row">
+
 
             <div class="form-group">
 
                 <label>
-                    Address
+                    Date of Birth
                 </label>
 
                 <input
-                    type="text"
-                    id="address"
-                    placeholder="Enter your address"
+                    type="date"
+                    id="dob"
                 >
 
             </div>
 
 
-            <div class="row">
-
-                <div class="form-group">
-
-                    <label>
-                        City
-                    </label>
-
-                    <input
-                        type="text"
-                        id="city"
-                        placeholder="City"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        PIN Code
-                    </label>
-
-                    <input
-                        type="text"
-                        id="pincode"
-                        maxlength="6"
-                        placeholder="226001"
-                    >
-
-                </div>
-
-            </div>
-
 
             <div class="form-group">
 
                 <label>
-                    State
+                    Gender
                 </label>
 
-                <select id="state">
+                <select id="gender">
 
                     <option value="">
-                        Select State
+                        Select
                     </option>
 
-                    <option>
-                        Uttar Pradesh
+                    <option value="Male">
+                        Male
                     </option>
 
-                    <option>
-                        Bihar
+                    <option value="Female">
+                        Female
                     </option>
 
-                    <option>
-                        Delhi
-                    </option>
-
-                    <option>
-                        Maharashtra
-                    </option>
-
-                    <option>
-                        Rajasthan
-                    </option>
-
-                    <option>
-                        Madhya Pradesh
-                    </option>
-
-                    <option>
+                    <option value="Other">
                         Other
                     </option>
 
@@ -622,182 +935,28 @@ body{
 
         </div>
 
-    </div>
 
 
-    <!-- DOCUMENTS -->
+        <div class="form-group">
 
-    <div class="section">
+            <label>
+                PAN Number
+            </label>
 
-        <div class="section-title">
-            Identity Documents
-        </div>
+            <input
+                type="text"
+                id="pan"
+                maxlength="10"
+                placeholder="ABCDE1234F"
+                autocomplete="off"
+            >
 
-
-        <div class="card">
-
-
-            <!-- PAN -->
-
-            <div class="document">
-
-                <div class="document-icon">
-                    🪪
-                </div>
-
-                <h4>
-                    PAN Card
-                </h4>
-
-                <p>
-                    Upload a clear image of your PAN card.
-                </p>
-
-
-                <label class="upload-btn">
-
-                    Choose File
-
-                    <input
-                        type="file"
-                        id="panFile"
-                        accept="image/*,.pdf"
-                        hidden
-                        onchange="showFile('panFile','panFileName')"
-                    >
-
-                </label>
-
-                <div
-                    class="file-name"
-                    id="panFileName"
-                ></div>
-
+            <div
+                class="error-message"
+                id="panError"
+            >
+                Enter a valid PAN number.
             </div>
-
-
-            <!-- ID -->
-
-            <div class="document">
-
-                <div class="document-icon">
-                    📄
-                </div>
-
-                <h4>
-                    Identity / Address Document
-                </h4>
-
-                <p>
-                    Upload an accepted identity or address document.
-                </p>
-
-
-                <label class="upload-btn">
-
-                    Choose File
-
-                    <input
-                        type="file"
-                        id="idFile"
-                        accept="image/*,.pdf"
-                        hidden
-                        onchange="showFile('idFile','idFileName')"
-                    >
-
-                </label>
-
-                <div
-                    class="file-name"
-                    id="idFileName"
-                ></div>
-
-            </div>
-
-
-            <!-- STATUS -->
-
-            <div class="status">
-
-                <div class="status-icon">
-                    ✓
-                </div>
-
-                <div>
-
-                    <h4>
-                        Documents are encrypted during transmission
-                    </h4>
-
-                    <p>
-                        Verification status will be updated after review.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- CONSENT -->
-
-    <div class="section">
-
-        <div class="section-title">
-            Consent
-        </div>
-
-        <div class="card">
-
-            <div class="consent">
-
-                <input
-                    type="checkbox"
-                    id="consent"
-                    onchange="checkForm()"
-                >
-
-                <label for="consent">
-
-                    I confirm that the information provided by me is
-                    accurate and belongs to me. I understand that the
-                    information may be used for identity verification
-                    and loan application processing according to the
-                    applicable privacy policy and terms.
-
-                </label>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- SUBMIT -->
-
-    <div class="section">
-
-        <button
-            class="submit-btn"
-            id="submitBtn"
-            disabled
-            onclick="submitKYC()"
-        >
-            Submit KYC for Verification
-        </button>
-
-
-        <div class="note">
-
-            <strong>Important:</strong>
-            This demo only collects the information on the frontend.
-            Real identity verification, document storage and KYC checks
-            must be handled securely through an appropriate backend
-            and authorized verification service.
 
         </div>
 
@@ -806,7 +965,327 @@ body{
 </div>
 
 
-<!-- SUCCESS MODAL -->
+
+<!-- =====================================================
+     ADDRESS
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+        Address Details
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="form-group">
+
+            <label>
+                Address
+            </label>
+
+            <input
+                type="text"
+                id="address"
+                placeholder="Enter your address"
+                autocomplete="street-address"
+            >
+
+        </div>
+
+
+
+        <div class="row">
+
+
+            <div class="form-group">
+
+                <label>
+                    City
+                </label>
+
+                <input
+                    type="text"
+                    id="city"
+                    placeholder="City"
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    PIN Code
+                </label>
+
+                <input
+                    type="text"
+                    id="pincode"
+                    maxlength="6"
+                    inputmode="numeric"
+                    placeholder="226001"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label>
+                State
+            </label>
+
+            <select id="state">
+
+                <option value="">
+                    Select State
+                </option>
+
+                <option value="Uttar Pradesh">
+                    Uttar Pradesh
+                </option>
+
+                <option value="Bihar">
+                    Bihar
+                </option>
+
+                <option value="Delhi">
+                    Delhi
+                </option>
+
+                <option value="Maharashtra">
+                    Maharashtra
+                </option>
+
+                <option value="Rajasthan">
+                    Rajasthan
+                </option>
+
+                <option value="Madhya Pradesh">
+                    Madhya Pradesh
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DOCUMENTS
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+        Identity Documents
+    </div>
+
+
+    <div class="card">
+
+
+        <!-- PAN -->
+
+        <div class="document">
+
+            <div class="document-icon">
+                🪪
+            </div>
+
+            <h4>
+                PAN Card
+            </h4>
+
+            <p>
+                Upload a clear image or PDF of your PAN card.
+            </p>
+
+
+            <label class="upload-btn">
+
+                Choose File
+
+                <input
+                    type="file"
+                    id="panFile"
+                    accept="image/jpeg,image/png,image/webp,application/pdf"
+                    hidden
+                >
+
+            </label>
+
+
+            <div
+                class="file-name"
+                id="panFileName"
+            ></div>
+
+        </div>
+
+
+
+        <!-- ID -->
+
+        <div class="document">
+
+            <div class="document-icon">
+                📄
+            </div>
+
+            <h4>
+                Identity / Address Document
+            </h4>
+
+            <p>
+                Upload an accepted identity or address document.
+            </p>
+
+
+            <label class="upload-btn">
+
+                Choose File
+
+                <input
+                    type="file"
+                    id="idFile"
+                    accept="image/jpeg,image/png,image/webp,application/pdf"
+                    hidden
+                >
+
+            </label>
+
+
+            <div
+                class="file-name"
+                id="idFileName"
+            ></div>
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div class="status">
+
+            <div class="status-icon">
+                ✓
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Secure document upload
+                </h4>
+
+                <p>
+                    Documents are uploaded to Firebase Storage.
+                    Verification status will be updated after review.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CONSENT
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+        Consent
+    </div>
+
+
+    <div class="card">
+
+        <div class="consent">
+
+            <input
+                type="checkbox"
+                id="consent"
+            >
+
+
+            <label for="consent">
+
+                I confirm that the information provided by me is
+                accurate and belongs to me. I understand that the
+                information may be used for identity verification
+                and loan application processing according to the
+                applicable privacy policy and terms.
+
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUBMIT
+===================================================== -->
+
+<div class="section">
+
+    <button
+        class="submit-btn"
+        id="submitBtn"
+        disabled
+        onclick="submitKYC()"
+    >
+        Submit KYC for Verification
+    </button>
+
+
+    <div class="note">
+
+        <strong>Important:</strong>
+
+        Your documents are sensitive information.
+        They should only be accessible to the authenticated
+        user and authorized verification/admin staff.
+        Do not use public Firebase Storage rules for production.
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     SUCCESS MODAL
+===================================================== -->
 
 <div
     class="modal"
@@ -815,18 +1294,24 @@ body{
 
     <div class="modal-box">
 
+
         <div class="success-icon">
             ✓
         </div>
+
 
         <h3>
             KYC Submitted
         </h3>
 
+
         <p>
-            Your KYC information has been submitted for verification.
-            You can check the verification status from your profile.
+
+            Your KYC information and documents have been
+            submitted successfully and are now pending review.
+
         </p>
+
 
         <button
             class="done-btn"
@@ -840,155 +1325,662 @@ body{
 </div>
 
 
+
 <script>
 
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
-function go(page){
+const firebaseConfig = {
 
-    window.location.href = page;
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+if (!firebase.apps.length) {
+
+    firebase.initializeApp(firebaseConfig);
 
 }
 
 
-/* FILE NAME */
-
-function showFile(inputId, outputId){
-
-    const input =
-        document.getElementById(inputId);
-
-    const output =
-        document.getElementById(outputId);
+const auth =
+    firebase.auth();
 
 
-    if(input.files.length > 0){
+const database =
+    firebase.database();
 
-        output.innerText =
-            "✓ " + input.files[0].name;
 
-    }else{
+const storage =
+    firebase.storage();
 
-        output.innerText = "";
+
+
+/* =====================================================
+   GLOBAL USER
+===================================================== */
+
+let currentUser = null;
+
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function go(page){
+
+    window.location.href =
+        page;
+
+}
+
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+function showLoading(text){
+
+    document.getElementById(
+        "loadingText"
+    ).innerText =
+        text;
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "flex";
+
+}
+
+
+function hideLoading(){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   AUTH CHECK
+===================================================== */
+
+auth.onAuthStateChanged(
+    async function(user){
+
+        if(!user){
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        currentUser =
+            user;
+
+
+        console.log(
+            "Authenticated:",
+            user.uid
+        );
+
+
+        await loadKYC();
 
     }
+);
+
+
+
+/* =====================================================
+   LOAD EXISTING KYC
+===================================================== */
+
+async function loadKYC(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    try{
+
+        const snapshot =
+            await database
+                .ref(
+                    "kyc/" +
+                    currentUser.uid
+                )
+                .once("value");
+
+
+        if(!snapshot.exists()){
+
+            checkForm();
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.val();
+
+
+        /* PERSONAL */
+
+        if(data.fullName){
+
+            document.getElementById(
+                "fullName"
+            ).value =
+                data.fullName;
+
+        }
+
+
+        if(data.dob){
+
+            document.getElementById(
+                "dob"
+            ).value =
+                data.dob;
+
+        }
+
+
+        if(data.gender){
+
+            document.getElementById(
+                "gender"
+            ).value =
+                data.gender;
+
+        }
+
+
+        if(data.pan){
+
+            document.getElementById(
+                "pan"
+            ).value =
+                data.pan;
+
+        }
+
+
+        /* ADDRESS */
+
+        if(data.address){
+
+            document.getElementById(
+                "address"
+            ).value =
+                data.address;
+
+        }
+
+
+        if(data.city){
+
+            document.getElementById(
+                "city"
+            ).value =
+                data.city;
+
+        }
+
+
+        if(data.pincode){
+
+            document.getElementById(
+                "pincode"
+            ).value =
+                data.pincode;
+
+        }
+
+
+        if(data.state){
+
+            document.getElementById(
+                "state"
+            ).value =
+                data.state;
+
+        }
+
+
+        /* EXISTING STATUS */
+
+        if(data.status === "pending"){
+
+            document.getElementById(
+                "progressText"
+            ).innerText =
+                "Your KYC is already submitted and is under review.";
+
+        }
+
+
+        if(data.status === "verified"){
+
+            document.getElementById(
+                "progressPercent"
+            ).innerText =
+                "100%";
+
+
+            document.getElementById(
+                "progressFill"
+            ).style.width =
+                "100%";
+
+
+            document.getElementById(
+                "progressText"
+            ).innerText =
+                "Your KYC has been verified.";
+
+        }
+
+
+        checkForm();
+
+
+    }catch(error){
+
+        console.error(
+            "KYC load error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILE VALIDATION
+===================================================== */
+
+function validateFile(file){
+
+    if(!file){
+
+        return {
+            valid:false,
+            message:"Please select a document."
+        };
+
+    }
+
+
+    const allowedTypes = [
+
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "application/pdf"
+
+    ];
+
+
+    if(
+        !allowedTypes.includes(
+            file.type
+        )
+    ){
+
+        return {
+
+            valid:false,
+
+            message:
+                "Only JPG, PNG, WEBP or PDF files are allowed."
+
+        };
+
+    }
+
+
+    /* 5 MB */
+
+    if(
+        file.size >
+        5 * 1024 * 1024
+    ){
+
+        return {
+
+            valid:false,
+
+            message:
+                "File size must be less than 5 MB."
+
+        };
+
+    }
+
+
+    return {
+        valid:true
+    };
+
+}
+
+
+
+/* =====================================================
+   FILE NAME
+===================================================== */
+
+function showFile(
+    inputId,
+    outputId
+){
+
+    const input =
+        document.getElementById(
+            inputId
+        );
+
+
+    const output =
+        document.getElementById(
+            outputId
+        );
+
+
+    if(
+        !input.files.length
+    ){
+
+        output.innerText =
+            "";
+
+        checkForm();
+
+        return;
+
+    }
+
+
+    const file =
+        input.files[0];
+
+
+    const validation =
+        validateFile(file);
+
+
+    if(!validation.valid){
+
+        alert(
+            validation.message
+        );
+
+
+        input.value =
+            "";
+
+
+        output.innerText =
+            "";
+
+
+        checkForm();
+
+        return;
+
+    }
+
+
+    output.innerText =
+        "✓ " +
+        file.name;
+
 
     checkForm();
 
 }
 
 
-/* FORM CHECK */
+
+/* =====================================================
+   FORM VALIDATION
+===================================================== */
 
 function checkForm(){
 
     const name =
-        document.getElementById("fullName").value.trim();
+        document.getElementById(
+            "fullName"
+        ).value.trim();
+
 
     const dob =
-        document.getElementById("dob").value;
+        document.getElementById(
+            "dob"
+        ).value;
+
 
     const gender =
-        document.getElementById("gender").value;
+        document.getElementById(
+            "gender"
+        ).value;
+
 
     const pan =
-        document.getElementById("pan").value.trim();
+        document.getElementById(
+            "pan"
+        ).value.trim()
+        .toUpperCase();
+
 
     const address =
-        document.getElementById("address").value.trim();
+        document.getElementById(
+            "address"
+        ).value.trim();
+
 
     const city =
-        document.getElementById("city").value.trim();
+        document.getElementById(
+            "city"
+        ).value.trim();
+
 
     const pincode =
-        document.getElementById("pincode").value.trim();
+        document.getElementById(
+            "pincode"
+        ).value.trim();
+
 
     const state =
-        document.getElementById("state").value;
+        document.getElementById(
+            "state"
+        ).value;
+
 
     const consent =
-        document.getElementById("consent").checked;
+        document.getElementById(
+            "consent"
+        ).checked;
 
 
     const panFile =
-        document.getElementById("panFile").files.length;
+        document.getElementById(
+            "panFile"
+        ).files.length;
+
 
     const idFile =
-        document.getElementById("idFile").files.length;
+        document.getElementById(
+            "idFile"
+        ).files.length;
 
 
     const panValid =
-        /^[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}$/.test(pan);
+        /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(
+            pan
+        );
 
 
     const pinValid =
-        /^[0-9]{6}$/.test(pincode);
+        /^[0-9]{6}$/.test(
+            pincode
+        );
 
 
     const valid =
-        name &&
-        dob &&
-        gender &&
+
+        !!name &&
+
+        !!dob &&
+
+        !!gender &&
+
         panValid &&
-        address &&
-        city &&
+
+        !!address &&
+
+        !!city &&
+
         pinValid &&
-        state &&
-        panFile &&
-        idFile &&
+
+        !!state &&
+
+        !!panFile &&
+
+        !!idFile &&
+
         consent;
 
 
-    document.getElementById("submitBtn").disabled =
+    document.getElementById(
+        "submitBtn"
+    ).disabled =
         !valid;
 
 
-    /* PROGRESS */
-
-    let completed = 0;
+    /* =================================================
+       PROGRESS
+    ================================================= */
 
     const checks = [
-        name,
-        dob,
-        gender,
+
+        !!name,
+
+        !!dob,
+
+        !!gender,
+
         panValid,
-        address,
-        city,
+
+        !!address,
+
+        !!city,
+
         pinValid,
-        state,
-        panFile,
-        idFile,
+
+        !!state,
+
+        !!panFile,
+
+        !!idFile,
+
         consent
+
     ];
 
 
-    checks.forEach(function(item){
+    let completed =
+        0;
 
-        if(item){
-            completed++;
+
+    checks.forEach(
+        function(item){
+
+            if(item){
+
+                completed++;
+
+            }
+
         }
-
-    });
+    );
 
 
     const percentage =
-        Math.round((completed / checks.length) * 100);
+        Math.round(
+            (
+                completed /
+                checks.length
+            ) * 100
+        );
 
 
-    document.getElementById("progressPercent").innerText =
+    document.getElementById(
+        "progressPercent"
+    ).innerText =
         percentage + "%";
 
-    document.getElementById("progressFill").style.width =
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
         percentage + "%";
 
 
-    if(percentage === 100){
+    if(
+        percentage === 100
+    ){
 
-        document.getElementById("progressText").innerText =
+        document.getElementById(
+            "progressText"
+        ).innerText =
             "Everything is ready for submission.";
 
     }else{
 
-        document.getElementById("progressText").innerText =
+        document.getElementById(
+            "progressText"
+        ).innerText =
             "Complete the remaining information below.";
 
     }
@@ -996,59 +1988,546 @@ function checkForm(){
 }
 
 
-/* SUBMIT */
 
-function submitKYC(){
+/* =====================================================
+   UPLOAD DOCUMENT
+===================================================== */
 
-    if(
-        document.getElementById("submitBtn").disabled
-    ){
-        return;
+async function uploadDocument(
+    file,
+    uid,
+    folder
+){
+
+    const validation =
+        validateFile(file);
+
+
+    if(!validation.valid){
+
+        throw new Error(
+            validation.message
+        );
+
     }
 
 
-    document.getElementById("successModal").style.display =
-        "flex";
+    const safeName =
+        file.name
+            .replace(
+                /[^a-zA-Z0-9._-]/g,
+                "_"
+            );
+
+
+    const filePath =
+
+        "kyc-documents/" +
+
+        uid +
+
+        "/" +
+
+        folder +
+
+        "/" +
+
+        Date.now() +
+
+        "_" +
+
+        safeName;
+
+
+    const fileRef =
+        storage.ref(
+            filePath
+        );
+
+
+    const upload =
+        await fileRef.put(
+            file
+        );
+
+
+    const url =
+        await upload.ref
+            .getDownloadURL();
+
+
+    return {
+
+        name:
+            file.name,
+
+        path:
+            upload.ref.fullPath,
+
+        url:
+            url,
+
+        type:
+            file.type,
+
+        size:
+            file.size
+
+    };
 
 }
 
 
-/* PAN AUTO UPPERCASE */
+
+/* =====================================================
+   SUBMIT KYC
+===================================================== */
+
+async function submitKYC(){
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    if(
+        submitBtn.disabled
+    ){
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please login first."
+        );
+
+
+        window.location.href =
+            "login.html";
+
+
+        return;
+
+    }
+
+
+    try{
+
+        submitBtn.disabled =
+            true;
+
+
+        showLoading(
+            "Preparing KYC..."
+        );
+
+
+        /* =================================================
+           FORM DATA
+        ================================================= */
+
+        const fullName =
+            document.getElementById(
+                "fullName"
+            ).value.trim();
+
+
+        const dob =
+            document.getElementById(
+                "dob"
+            ).value;
+
+
+        const gender =
+            document.getElementById(
+                "gender"
+            ).value;
+
+
+        const pan =
+            document.getElementById(
+                "pan"
+            ).value.trim()
+            .toUpperCase();
+
+
+        const address =
+            document.getElementById(
+                "address"
+            ).value.trim();
+
+
+        const city =
+            document.getElementById(
+                "city"
+            ).value.trim();
+
+
+        const pincode =
+            document.getElementById(
+                "pincode"
+            ).value.trim();
+
+
+        const state =
+            document.getElementById(
+                "state"
+            ).value;
+
+
+        const panFile =
+            document.getElementById(
+                "panFile"
+            ).files[0];
+
+
+        const idFile =
+            document.getElementById(
+                "idFile"
+            ).files[0];
+
+
+
+        /* =================================================
+           UPLOAD PAN
+        ================================================= */
+
+        showLoading(
+            "Uploading PAN Card..."
+        );
+
+
+        const panDocument =
+            await uploadDocument(
+                panFile,
+                currentUser.uid,
+                "pan"
+            );
+
+
+
+        /* =================================================
+           UPLOAD ID
+        ================================================= */
+
+        showLoading(
+            "Uploading Identity Document..."
+        );
+
+
+        const idDocument =
+            await uploadDocument(
+                idFile,
+                currentUser.uid,
+                "identity"
+            );
+
+
+
+        /* =================================================
+           DATABASE OBJECT
+        ================================================= */
+
+        showLoading(
+            "Saving KYC information..."
+        );
+
+
+        const kycData = {
+
+            uid:
+                currentUser.uid,
+
+            email:
+                currentUser.email || "",
+
+
+            fullName:
+                fullName,
+
+            dob:
+                dob,
+
+            gender:
+                gender,
+
+            pan:
+                pan,
+
+
+            address:
+                address,
+
+            city:
+                city,
+
+            pincode:
+                pincode,
+
+            state:
+                state,
+
+
+            documents: {
+
+                pan: {
+
+                    name:
+                        panDocument.name,
+
+                    path:
+                        panDocument.path,
+
+                    url:
+                        panDocument.url,
+
+                    type:
+                        panDocument.type,
+
+                    size:
+                        panDocument.size
+
+                },
+
+
+                identity: {
+
+                    name:
+                        idDocument.name,
+
+                    path:
+                        idDocument.path,
+
+                    url:
+                        idDocument.url,
+
+                    type:
+                        idDocument.type,
+
+                    size:
+                        idDocument.size
+
+                }
+
+            },
+
+
+            status:
+                "pending",
+
+
+            submittedAt:
+                firebase.database
+                    .ServerValue
+                    .TIMESTAMP,
+
+
+            updatedAt:
+                firebase.database
+                    .ServerValue
+                    .TIMESTAMP
+
+        };
+
+
+
+        /* =================================================
+           SAVE
+        ================================================= */
+
+        await database
+            .ref(
+                "kyc/" +
+                currentUser.uid
+            )
+            .set(
+                kycData
+            );
+
+
+
+        /* =================================================
+           SUCCESS
+        ================================================= */
+
+        hideLoading();
+
+
+        document.getElementById(
+            "successModal"
+        ).style.display =
+            "flex";
+
+
+        console.log(
+            "KYC submitted successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "KYC ERROR:",
+            error
+        );
+
+
+        hideLoading();
+
+
+        submitBtn.disabled =
+            false;
+
+
+        alert(
+            "KYC submit nahi hua.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   PAN UPPERCASE
+===================================================== */
 
 document
-    .getElementById("pan")
-    .addEventListener("input",function(){
+    .getElementById(
+        "pan"
+    )
+    .addEventListener(
+        "input",
+        function(){
 
-        this.value =
-            this.value.toUpperCase();
+            this.value =
+                this.value
+                    .toUpperCase()
+                    .replace(
+                        /[^A-Z0-9]/g,
+                        ""
+                    );
 
-        checkForm();
 
-    });
+            checkForm();
+
+        }
+    );
 
 
-/* OTHER INPUTS */
+
+/* =====================================================
+   PIN ONLY NUMBERS
+===================================================== */
+
+document
+    .getElementById(
+        "pincode"
+    )
+    .addEventListener(
+        "input",
+        function(){
+
+            this.value =
+                this.value
+                    .replace(
+                        /[^0-9]/g,
+                        ""
+                    )
+                    .slice(
+                        0,
+                        6
+                    );
+
+
+            checkForm();
+
+        }
+    );
+
+
+
+/* =====================================================
+   FILE EVENTS
+===================================================== */
+
+document
+    .getElementById(
+        "panFile"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            showFile(
+                "panFile",
+                "panFileName"
+            );
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "idFile"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            showFile(
+                "idFile",
+                "idFileName"
+            );
+
+        }
+    );
+
+
+
+/* =====================================================
+   ALL INPUT EVENTS
+===================================================== */
 
 document
     .querySelectorAll(
-        "input, select"
+        "input,select"
     )
-    .forEach(function(element){
+    .forEach(
+        function(element){
 
-        element.addEventListener(
-            "change",
-            checkForm
-        );
+            element.addEventListener(
+                "input",
+                checkForm
+            );
 
-        element.addEventListener(
-            "input",
-            checkForm
-        );
 
-    });
+            element.addEventListener(
+                "change",
+                checkForm
+            );
 
+        }
+    );
+
+
+
+/* =====================================================
+   INITIAL CHECK
+===================================================== */
+
+checkForm();
 
 </script>
 
 </body>
+
 </html>
