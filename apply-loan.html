@@ -25,8 +25,6 @@
             padding-bottom: 30px;
         }
 
-        /* HEADER */
-
         .header {
             background: linear-gradient(135deg, #155eef, #4f8cff);
             color: white;
@@ -62,8 +60,6 @@
             opacity: .85;
         }
 
-        /* PROGRESS */
-
         .progress-area {
             background: white;
             margin: 15px;
@@ -82,8 +78,8 @@
             content: "";
             position: absolute;
             top: 17px;
-            left: 8%;
-            right: 8%;
+            left: 5%;
+            right: 5%;
             height: 3px;
             background: #e5e8ee;
             z-index: 0;
@@ -92,7 +88,7 @@
         .progress-line {
             position: absolute;
             top: 17px;
-            left: 8%;
+            left: 5%;
             height: 3px;
             width: 0%;
             background: #155eef;
@@ -104,20 +100,20 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            font-size: 10px;
+            font-size: 8px;
             color: #8790a0;
         }
 
         .circle {
-            width: 35px;
-            height: 35px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: #e8ebf1;
             margin: auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 10px;
             font-weight: bold;
         }
 
@@ -137,10 +133,8 @@
 
         .step span {
             display: block;
-            margin-top: 7px;
+            margin-top: 4px;
         }
-
-        /* FORM CARD */
 
         .form-card {
             background: white;
@@ -172,8 +166,6 @@
             font-size: 12px;
             line-height: 1.5;
         }
-
-        /* LOAN TYPES */
 
         .loan-types {
             display: grid;
@@ -209,8 +201,6 @@
             margin-top: 4px;
         }
 
-        /* INPUT */
-
         .field {
             margin-bottom: 15px;
         }
@@ -220,6 +210,10 @@
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 7px;
+        }
+
+        .field label .required {
+            color: red;
         }
 
         .field input,
@@ -245,8 +239,6 @@
             gap: 12px;
         }
 
-        /* AMOUNT */
-
         .amount-display {
             text-align: center;
             background: #f3f6fc;
@@ -267,8 +259,6 @@
         input[type="range"] {
             width: 100%;
         }
-
-        /* DOCUMENT */
 
         .upload-box {
             border: 1.5px dashed #b8c1d0;
@@ -297,8 +287,6 @@
         .upload-box input {
             display: none;
         }
-
-        /* SUMMARY */
 
         .summary {
             background: #f6f8fb;
@@ -335,8 +323,6 @@
             line-height: 1.5;
         }
 
-        /* BUTTONS */
-
         .buttons {
             display: flex;
             gap: 10px;
@@ -368,7 +354,167 @@
             color: white;
         }
 
-        /* SUCCESS */
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* UPI Payment Styles */
+        .upi-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .upi-option {
+            border: 2px solid #e0e4eb;
+            border-radius: 12px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: block;
+            color: #172033;
+        }
+
+        .upi-option:hover {
+            border-color: #155eef;
+            background: #f3f7ff;
+            transform: scale(1.02);
+        }
+
+        .upi-option.selected {
+            border-color: #155eef;
+            background: #e8efff;
+        }
+
+        .upi-option .upi-icon {
+            font-size: 28px;
+            display: block;
+        }
+
+        .upi-option .upi-name {
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .upi-option .upi-id {
+            font-size: 10px;
+            color: #7c8596;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+
+        .upi-option .pay-badge {
+            display: inline-block;
+            background: #155eef;
+            color: white;
+            font-size: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 4px;
+        }
+
+        .payment-box {
+            background: #f0f4ff;
+            border-radius: 14px;
+            padding: 20px 18px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .payment-box .fee {
+            font-size: 32px;
+            font-weight: bold;
+            color: #155eef;
+        }
+
+        .payment-box .fee-label {
+            font-size: 13px;
+            color: #4a5a7a;
+            margin-top: 4px;
+        }
+
+        .payment-status {
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .payment-status.paid {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .payment-status.unpaid {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .payment-status.processing {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .utr-input {
+            margin-top: 15px;
+        }
+
+        .utr-input label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .utr-input input {
+            width: 100%;
+            height: 45px;
+            border: 1px solid #dfe3ea;
+            border-radius: 10px;
+            padding: 0 13px;
+            outline: none;
+            font-size: 13px;
+            background: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .utr-input input:focus {
+            border-color: #155eef;
+        }
+
+        .utr-input .hint {
+            font-size: 10px;
+            color: #7c8596;
+            margin-top: 5px;
+        }
+
+        .upi-divider {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+        }
+
+        .upi-divider::before,
+        .upi-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e0e4eb;
+        }
+
+        .upi-divider span {
+            padding: 0 12px;
+            font-size: 11px;
+            color: #7c8596;
+        }
 
         .success {
             display: none;
@@ -421,14 +567,42 @@
             cursor: pointer;
         }
 
+        .account-details-box {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            border: 1px solid #e0e4eb;
+        }
+
+        .account-details-box .section-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #155eef;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .account-details-box .section-title .badge {
+            background: #155eef;
+            color: white;
+            font-size: 9px;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
         @media(max-width:360px) {
             .loan-types {
                 grid-template-columns: 1fr;
             }
-
             .row {
                 grid-template-columns: 1fr;
                 gap: 0;
+            }
+            .upi-options {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
@@ -443,152 +617,91 @@
 
 <div class="app">
 
-    <!-- HEADER -->
-
     <div class="header">
-
         <div class="header-top">
-
-            <div class="back" onclick="goHome()">
-                ←
-            </div>
-
+            <div class="back" onclick="goHome()">←</div>
             <div>
                 <h2>Apply for Loan</h2>
                 <p>Complete your application carefully</p>
             </div>
-
         </div>
-
     </div>
 
-
-    <!-- PROGRESS -->
-
     <div class="progress-area">
-
         <div class="progress">
-
             <div class="progress-line" id="progressLine"></div>
-
             <div class="step active" id="stepIcon1">
                 <div class="circle">1</div>
                 <span>Loan</span>
             </div>
-
             <div class="step" id="stepIcon2">
                 <div class="circle">2</div>
                 <span>Personal</span>
             </div>
-
             <div class="step" id="stepIcon3">
                 <div class="circle">3</div>
                 <span>Income</span>
             </div>
-
             <div class="step" id="stepIcon4">
                 <div class="circle">4</div>
-                <span>Documents</span>
+                <span>Docs</span>
             </div>
-
             <div class="step" id="stepIcon5">
                 <div class="circle">5</div>
+                <span>Account</span>
+            </div>
+            <div class="step" id="stepIcon6">
+                <div class="circle">6</div>
                 <span>Review</span>
             </div>
-
+            <div class="step" id="stepIcon7">
+                <div class="circle">7</div>
+                <span>Payment</span>
+            </div>
         </div>
-
     </div>
-
-
-    <!-- FORM -->
 
     <div class="form-card">
 
-
-        <!-- STEP 1 -->
-
+        <!-- STEP 1: Loan -->
         <div class="form-step active" id="step1">
-
             <div class="title">
                 <h3>Choose Loan</h3>
                 <p>Select the type of loan and amount you need.</p>
             </div>
 
-
             <div class="loan-types">
-
                 <div class="loan-type selected" onclick="selectLoan(this, 'Personal Loan')">
-
                     <div class="icon">👤</div>
-
                     <h4>Personal Loan</h4>
-
                     <p>For personal needs</p>
-
                 </div>
-
-
                 <div class="loan-type" onclick="selectLoan(this, 'Business Loan')">
-
                     <div class="icon">🏢</div>
-
                     <h4>Business Loan</h4>
-
                     <p>For business needs</p>
-
                 </div>
-
-
                 <div class="loan-type" onclick="selectLoan(this, 'Emergency Loan')">
-
                     <div class="icon">🚨</div>
-
                     <h4>Emergency Loan</h4>
-
                     <p>Urgent expenses</p>
-
                 </div>
-
-
                 <div class="loan-type" onclick="selectLoan(this, 'Education Loan')">
-
                     <div class="icon">🎓</div>
-
                     <h4>Education Loan</h4>
-
                     <p>Education expenses</p>
-
                 </div>
-
             </div>
-
 
             <div class="amount-display">
-
                 <small>Loan Amount</small>
-
                 <h2 id="amountText">₹50,000</h2>
-
             </div>
-
-            <input
-                type="range"
-                id="amountRange"
-                min="10000"
-                max="500000"
-                step="5000"
-                value="50000"
-                oninput="updateAmount()"
-            >
-
+            <input type="range" id="amountRange" min="10000" max="500000" step="5000" value="50000" oninput="updateAmount()">
 
             <div class="field" style="margin-top:20px;">
-
                 <label>Loan Tenure</label>
-
                 <select id="tenure">
-
                     <option value="6">6 Months</option>
                     <option value="12" selected>12 Months</option>
                     <option value="18">18 Months</option>
@@ -596,459 +709,390 @@
                     <option value="36">36 Months</option>
                     <option value="48">48 Months</option>
                     <option value="60">60 Months</option>
-
                 </select>
-
             </div>
-
 
             <div class="buttons">
-
-                <button class="btn btn-next" onclick="nextStep()">
-                    Continue →
-                </button>
-
+                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
             </div>
-
         </div>
 
-
-        <!-- STEP 2 -->
-
+        <!-- STEP 2: Personal Details -->
         <div class="form-step" id="step2">
-
             <div class="title">
-
                 <h3>Personal Details</h3>
-
-                <p>
-                    Enter your personal information as shown on your documents.
-                </p>
-
+                <p>Enter your personal information as shown on your documents.</p>
             </div>
-
 
             <div class="field">
-
-                <label>Full Name</label>
-
-                <input
-                    type="text"
-                    id="fullName"
-                    placeholder="Enter your full name"
-                >
-
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" placeholder="Enter your full name">
             </div>
 
-
             <div class="row">
-
                 <div class="field">
-
-                    <label>Date of Birth</label>
-
+                    <label>Date of Birth <span class="required">*</span></label>
                     <input type="date" id="dob">
-
                 </div>
-
-
                 <div class="field">
-
-                    <label>Gender</label>
-
+                    <label>Gender <span class="required">*</span></label>
                     <select id="gender">
-
                         <option value="">Select</option>
                         <option>Male</option>
                         <option>Female</option>
                         <option>Other</option>
-
                     </select>
-
                 </div>
-
             </div>
 
-
             <div class="field">
-
-                <label>Mobile Number</label>
-
-                <input
-                    type="tel"
-                    id="mobile"
-                    maxlength="10"
-                    placeholder="10 digit mobile number"
-                >
-
+                <label>Mobile Number <span class="required">*</span></label>
+                <input type="tel" id="mobile" maxlength="10" placeholder="10 digit mobile number">
             </div>
 
-
             <div class="field">
-
                 <label>Email Address</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter email address"
-                >
-
+                <input type="email" id="email" placeholder="Enter email address">
             </div>
-
 
             <div class="field">
-
-                <label>Current Address</label>
-
-                <input
-                    type="text"
-                    id="address"
-                    placeholder="House no, street, area"
-                >
-
+                <label>Current Address <span class="required">*</span></label>
+                <input type="text" id="address" placeholder="House no, street, area">
             </div>
-
 
             <div class="row">
-
                 <div class="field">
-
-                    <label>City</label>
-
+                    <label>City <span class="required">*</span></label>
                     <input type="text" id="city" placeholder="City">
-
                 </div>
-
                 <div class="field">
-
-                    <label>PIN Code</label>
-
-                    <input
-                        type="tel"
-                        id="pincode"
-                        maxlength="6"
-                        placeholder="6 digit PIN"
-                    >
-
+                    <label>PIN Code <span class="required">*</span></label>
+                    <input type="tel" id="pincode" maxlength="6" placeholder="6 digit PIN">
                 </div>
-
             </div>
-
 
             <div class="buttons">
-
-                <button class="btn btn-back" onclick="prevStep()">
-                    ← Back
-                </button>
-
-                <button class="btn btn-next" onclick="nextStep()">
-                    Continue →
-                </button>
-
+                <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
             </div>
-
         </div>
 
-
-        <!-- STEP 3 -->
-
+        <!-- STEP 3: Income -->
         <div class="form-step" id="step3">
-
             <div class="title">
-
                 <h3>Income & Employment</h3>
-
-                <p>
-                    This information helps determine your eligibility.
-                </p>
-
+                <p>This information helps determine your eligibility.</p>
             </div>
 
-
             <div class="field">
-
-                <label>Employment Type</label>
-
+                <label>Employment Type <span class="required">*</span></label>
                 <select id="employment">
-
                     <option value="">Select employment type</option>
                     <option>Salaried</option>
                     <option>Self Employed</option>
                     <option>Business Owner</option>
                     <option>Professional</option>
                     <option>Other</option>
-
                 </select>
-
             </div>
 
-
             <div class="field">
-
                 <label>Company / Business Name</label>
-
-                <input
-                    type="text"
-                    id="company"
-                    placeholder="Enter company or business name"
-                >
-
+                <input type="text" id="company" placeholder="Enter company or business name">
             </div>
 
-
             <div class="field">
-
-                <label>Monthly Income</label>
-
-                <input
-                    type="number"
-                    id="income"
-                    placeholder="₹ Monthly income"
-                >
-
+                <label>Monthly Income <span class="required">*</span></label>
+                <input type="number" id="income" placeholder="₹ Monthly income">
             </div>
 
-
             <div class="field">
-
                 <label>Work Experience</label>
-
                 <select id="experience">
-
                     <option value="">Select experience</option>
                     <option>Less than 1 year</option>
                     <option>1 - 2 years</option>
                     <option>2 - 5 years</option>
                     <option>5+ years</option>
-
                 </select>
-
             </div>
-
 
             <div class="field">
-
                 <label>Existing EMI</label>
-
-                <input
-                    type="number"
-                    id="existingEmi"
-                    placeholder="₹ Existing monthly EMI"
-                >
-
+                <input type="number" id="existingEmi" placeholder="₹ Existing monthly EMI">
             </div>
-
 
             <div class="buttons">
-
-                <button class="btn btn-back" onclick="prevStep()">
-                    ← Back
-                </button>
-
-                <button class="btn btn-next" onclick="nextStep()">
-                    Continue →
-                </button>
-
+                <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
             </div>
-
         </div>
 
-
-        <!-- STEP 4 -->
-
+        <!-- STEP 4: Documents -->
         <div class="form-step" id="step4">
-
             <div class="title">
-
                 <h3>Documents</h3>
-
-                <p>
-                    Upload clear documents for verification.
-                </p>
-
+                <p>Upload clear documents for verification.</p>
             </div>
 
-
             <label class="upload-box">
-
                 <div class="upload-icon">🪪</div>
-
-                <h4>Upload PAN Card</h4>
-
+                <h4>Upload PAN Card <span style="color:red;">*</span></h4>
                 <p>JPG, PNG or PDF</p>
-
-                <input
-                    type="file"
-                    id="pan"
-                    accept="image/*,.pdf"
-                >
-
+                <input type="file" id="pan" accept="image/*,.pdf">
             </label>
 
-
             <label class="upload-box">
-
                 <div class="upload-icon">🆔</div>
-
-                <h4>Upload Identity / Address Proof</h4>
-
+                <h4>Upload Identity / Address Proof <span style="color:red;">*</span></h4>
                 <p>JPG, PNG or PDF</p>
-
-                <input
-                    type="file"
-                    id="identity"
-                    accept="image/*,.pdf"
-                >
-
+                <input type="file" id="identity" accept="image/*,.pdf">
             </label>
-
 
             <label class="upload-box">
-
                 <div class="upload-icon">🏦</div>
-
-                <h4>Upload Bank Statement</h4>
-
+                <h4>Upload Bank Statement <span style="color:red;">*</span></h4>
                 <p>PDF or supported image format</p>
-
-                <input
-                    type="file"
-                    id="bankStatement"
-                    accept="image/*,.pdf"
-                >
-
+                <input type="file" id="bankStatement" accept="image/*,.pdf">
             </label>
-
 
             <div class="buttons">
-
-                <button class="btn btn-back" onclick="prevStep()">
-                    ← Back
-                </button>
-
-                <button class="btn btn-next" onclick="nextStep()">
-                    Review →
-                </button>
-
+                <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
             </div>
-
         </div>
 
-
-        <!-- STEP 5 -->
-
+        <!-- STEP 5: Account Details -->
         <div class="form-step" id="step5">
-
             <div class="title">
-
-                <h3>Review Application</h3>
-
-                <p>
-                    Please check your information before submitting.
-                </p>
-
+                <h3>Bank Account Details</h3>
+                <p>Add your bank account details for loan disbursement.</p>
             </div>
 
+            <div class="account-details-box">
+                <div class="section-title">
+                    🏦 Account Information
+                    <span class="badge">Required</span>
+                </div>
+
+                <div class="field">
+                    <label>Account Holder Name <span class="required">*</span></label>
+                    <input type="text" id="accHolderName" placeholder="Enter account holder name">
+                </div>
+
+                <div class="field">
+                    <label>Bank Name <span class="required">*</span></label>
+                    <input type="text" id="bankName" placeholder="Enter bank name">
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label>Account Number <span class="required">*</span></label>
+                        <input type="text" id="accNumber" placeholder="Enter account number" maxlength="20">
+                    </div>
+                    <div class="field">
+                        <label>Confirm Account Number <span class="required">*</span></label>
+                        <input type="text" id="accNumberConfirm" placeholder="Re-enter account number" maxlength="20">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label>IFSC Code <span class="required">*</span></label>
+                        <input type="text" id="ifscCode" placeholder="e.g. HDFC0001234" style="text-transform:uppercase;">
+                    </div>
+                    <div class="field">
+                        <label>Account Type</label>
+                        <select id="accType">
+                            <option value="Savings">Savings Account</option>
+                            <option value="Current">Current Account</option>
+                            <option value="Salary">Salary Account</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
+            </div>
+        </div>
+
+        <!-- STEP 6: Review -->
+        <div class="form-step" id="step6">
+            <div class="title">
+                <h3>Review Application</h3>
+                <p>Please check your information before proceeding to payment.</p>
+            </div>
 
             <div class="summary">
-
                 <div class="summary-row">
                     <span>Loan Type</span>
                     <span id="reviewLoan">-</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Loan Amount</span>
                     <span id="reviewAmount">-</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Tenure</span>
                     <span id="reviewTenure">-</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Name</span>
                     <span id="reviewName">-</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Mobile</span>
                     <span id="reviewMobile">-</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Employment</span>
                     <span id="reviewEmployment">-</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Monthly Income</span>
                     <span id="reviewIncome">-</span>
                 </div>
-
+                <div class="summary-row" style="background:#f0f7ff; padding:10px; border-radius:8px; margin-top:5px;">
+                    <span>🏦 Bank Account</span>
+                    <span id="reviewAccount">-</span>
+                </div>
             </div>
-
-
-            <label class="consent">
-
-                <input type="checkbox" id="consent">
-
-                <span>
-                    I confirm that the information provided by me is
-                    accurate and complete. I understand that submitting
-                    an application does not guarantee loan approval.
-                </span>
-
-            </label>
-
 
             <div class="buttons">
-
-                <button class="btn btn-back" onclick="prevStep()">
-                    ← Back
-                </button>
-
-                <button class="btn btn-submit" onclick="submitApplication()">
-                    Submit Application
-                </button>
-
+                <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                <button class="btn btn-next" onclick="nextStep()">Proceed to Payment →</button>
             </div>
-
         </div>
 
-
-        <!-- SUCCESS -->
-
-        <div class="success" id="success">
-
-            <div class="success-icon">
-                ✓
+        <!-- STEP 7: Payment + UTR -->
+        <div class="form-step" id="step7">
+            <div class="title">
+                <h3>Pay Processing Fee</h3>
+                <p>Pay ₹199 via any UPI app and enter the UTR number.</p>
             </div>
 
-            <h2>Application Submitted!</h2>
+            <div class="payment-box">
+                <div class="fee-label">Processing Fee</div>
+                <div class="fee">₹199</div>
+                <div style="font-size:11px; color:#6b7a93; margin-top:6px;">One-time non-refundable fee</div>
+            </div>
 
+            <!-- UPI Options - Click to Redirect -->
+            <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:8px;">Pay using any UPI app (click to open):</label>
+            <div class="upi-options" id="upiOptions">
+                <a class="upi-option" href="paytmmp://pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Paytm')">
+                    <span class="upi-icon">📱</span>
+                    <div class="upi-name">Paytm</div>
+                    <div class="upi-id">amit.894@ptyes</div>
+                    <span class="pay-badge">Pay Now</span>
+                </a>
+                <a class="upi-option" href="gpay://upi/pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Google Pay')">
+                    <span class="upi-icon">💳</span>
+                    <div class="upi-name">Google Pay</div>
+                    <div class="upi-id">amit.894@ptyes</div>
+                    <span class="pay-badge">Pay Now</span>
+                </a>
+                <a class="upi-option" href="phonepe://pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'PhonePe')">
+                    <span class="upi-icon">📲</span>
+                    <div class="upi-name">PhonePe</div>
+                    <div class="upi-id">amit.894@ptyes</div>
+                    <span class="pay-badge">Pay Now</span>
+                </a>
+                <a class="upi-option" href="amazonpay://upi/pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Amazon Pay')">
+                    <span class="upi-icon">🛒</span>
+                    <div class="upi-name">Amazon Pay</div>
+                    <div class="upi-id">amit.894@ptyes</div>
+                    <span class="pay-badge">Pay Now</span>
+                </a>
+                <a class="upi-option" href="bhim://upi/pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'BHIM UPI')">
+                    <span class="upi-icon">🏦</span>
+                    <div class="upi-name">BHIM UPI</div>
+                    <div class="upi-id">amit.894@ptyes</div>
+                    <span class="pay-badge">Pay Now</span>
+                </a>
+                <a class="upi-option" href="upi://pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Other UPI')">
+                    <span class="upi-icon">🔗</span>
+                    <div class="upi-name">Other UPI</div>
+                    <div class="upi-id">amit.894@ptyes</div>
+                    <span class="pay-badge">Pay Now</span>
+                </a>
+            </div>
+
+            <div style="text-align:center; font-size:11px; color:#6b7a93; margin:8px 0;">
+                <span>💡 UPI ID: <strong style="color:#155eef;">amit.894@ptyes</strong></span>
+            </div>
+
+            <div class="upi-divider">
+                <span>OR Bank Transfer</span>
+            </div>
+
+            <!-- Bank Transfer Details -->
+            <div style="background:#f8faff; border-radius:10px; padding:14px; margin-bottom:12px; border:1px solid #e0e4eb;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
+                    <span style="color:#788294;">Bank</span>
+                    <span style="font-weight:bold;">HDFC Bank</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
+                    <span style="color:#788294;">Account No.</span>
+                    <span style="font-weight:bold; letter-spacing:1px;">1234567890</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
+                    <span style="color:#788294;">IFSC</span>
+                    <span style="font-weight:bold; letter-spacing:1px;">HDFC0001234</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
+                    <span style="color:#788294;">Account Holder</span>
+                    <span style="font-weight:bold;">EasyLoan India</span>
+                </div>
+            </div>
+
+            <!-- UTR Input -->
+            <div class="utr-input">
+                <label for="utrNumber">Enter UTR Number <span style="color:red;">*</span></label>
+                <input type="text" id="utrNumber" placeholder="e.g. HDFC1234567890" maxlength="25">
+                <div class="hint">UTR number is the 12-25 character transaction ID from your bank/UPI app</div>
+            </div>
+
+            <!-- Payment Status -->
+            <div id="paymentStatus" class="payment-status unpaid">
+                ⚠️ Pay ₹199 via UPI or Bank Transfer and enter UTR number.
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                <button class="btn btn-submit" id="submitPaymentBtn" onclick="submitPaymentAndUTR()">
+                    ✅ Verify & Submit
+                </button>
+            </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="success" id="success">
+            <div class="success-icon">✓</div>
+            <h2>Application Submitted!</h2>
             <p>
                 Your loan application has been submitted successfully.
-                You can track its status from the My Loans section.
+                We will verify your payment and documents.
             </p>
-
             <div class="application-id">
                 Application ID:
                 <strong id="applicationId">-</strong>
             </div>
-
-            <button class="home-btn" onclick="goHome()">
-                Go to Home
-            </button>
-
+            <div class="application-id" style="background:#f0f7ff; margin-top:8px;">
+                UTR Number:
+                <strong id="displayUtr">-</strong>
+            </div>
+            <div class="application-id" style="background:#f0faf0; margin-top:8px;">
+                🏦 Bank Account:
+                <strong id="displayAccount">-</strong>
+            </div>
+            <button class="home-btn" onclick="goHome()">Go to Home</button>
         </div>
 
     </div>
-
 </div>
-
 
 <script>
 const firebaseConfig = {
@@ -1071,6 +1115,11 @@ let currentStep = 1;
 let selectedLoan = "Personal Loan";
 let currentUser = null;
 let submitting = false;
+let selectedUPIApp = "Paytm";
+let paymentVerified = false;
+
+// UPI ID - YAHI CHANGE KARNA HAI
+const UPI_ID = "amit.894@ptyes";
 
 function goHome() {
     window.location.href = "index.html";
@@ -1080,155 +1129,112 @@ function selectLoan(element, loanName) {
     document.querySelectorAll(".loan-type").forEach(function(item) {
         item.classList.remove("selected");
     });
-
     element.classList.add("selected");
     selectedLoan = loanName;
 }
 
+function selectUPI(element, appName) {
+    document.querySelectorAll(".upi-option").forEach(function(item) {
+        item.classList.remove("selected");
+    });
+    element.classList.add("selected");
+    selectedUPIApp = appName;
+    // Highlight selected
+}
+
 function updateAmount() {
     const amount = document.getElementById("amountRange").value;
-
-    document.getElementById("amountText").innerText =
-        "₹" + Number(amount).toLocaleString("en-IN");
+    document.getElementById("amountText").innerText = "₹" + Number(amount).toLocaleString("en-IN");
 }
 
 function updateProgress() {
-    for (let i = 1; i <= 5; i++) {
+    const totalSteps = 7;
+    for (let i = 1; i <= totalSteps; i++) {
         const icon = document.getElementById("stepIcon" + i);
-
-        icon.classList.remove("active");
-        icon.classList.remove("completed");
-
-        if (i < currentStep) {
-            icon.classList.add("completed");
-        }
-
-        if (i === currentStep) {
-            icon.classList.add("active");
+        if (icon) {
+            icon.classList.remove("active");
+            icon.classList.remove("completed");
+            if (i < currentStep) {
+                icon.classList.add("completed");
+            }
+            if (i === currentStep) {
+                icon.classList.add("active");
+            }
         }
     }
-
-    const progress =
-        ((currentStep - 1) / 4) * 84;
-
-    document.getElementById("progressLine").style.width =
-        progress + "%";
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 92;
+    document.getElementById("progressLine").style.width = progress + "%";
 }
 
 function showStep(step) {
     document.querySelectorAll(".form-step").forEach(function(item) {
         item.classList.remove("active");
     });
-
-    document.getElementById("step" + step).classList.add("active");
-
+    const target = document.getElementById("step" + step);
+    if (target) {
+        target.classList.add("active");
+    }
     updateProgress();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function validateStep() {
-
     if (currentStep === 1) {
-        const amount =
-            document.getElementById("amountRange").value;
-
-        const tenure =
-            document.getElementById("tenure").value;
-
+        const amount = document.getElementById("amountRange").value;
+        const tenure = document.getElementById("tenure").value;
         if (!amount || !tenure) {
             alert("Please select loan amount and tenure.");
             return false;
         }
     }
-
     if (currentStep === 2) {
-        const name =
-            document.getElementById("fullName").value.trim();
-
-        const mobile =
-            document.getElementById("mobile").value.trim();
-
-        const gender =
-            document.getElementById("gender").value;
-
-        const dob =
-            document.getElementById("dob").value;
-
-        if (!name || !mobile || !gender || !dob) {
+        const name = document.getElementById("fullName").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+        const gender = document.getElementById("gender").value;
+        const dob = document.getElementById("dob").value;
+        const address = document.getElementById("address").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const pincode = document.getElementById("pincode").value.trim();
+        if (!name || !mobile || !gender || !dob || !address || !city || !pincode) {
             alert("Please fill all required personal details.");
             return false;
         }
-
         if (!/^[6-9]\d{9}$/.test(mobile)) {
             alert("Please enter a valid 10 digit Indian mobile number.");
             return false;
         }
-
-        const email =
-            document.getElementById("email").value.trim();
-
+        const email = document.getElementById("email").value.trim();
         if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             alert("Please enter a valid email address.");
             return false;
         }
-
-        const pincode =
-            document.getElementById("pincode").value.trim();
-
         if (pincode && !/^\d{6}$/.test(pincode)) {
             alert("Please enter a valid 6 digit PIN code.");
             return false;
         }
     }
-
     if (currentStep === 3) {
-        const employment =
-            document.getElementById("employment").value;
-
-        const income =
-            document.getElementById("income").value;
-
+        const employment = document.getElementById("employment").value;
+        const income = document.getElementById("income").value;
         if (!employment || !income) {
             alert("Please enter employment type and monthly income.");
             return false;
         }
-
         if (Number(income) <= 0) {
             alert("Please enter a valid monthly income.");
             return false;
         }
-
-        const existingEmi =
-            document.getElementById("existingEmi").value;
-
-        if (existingEmi && Number(existingEmi) < 0) {
-            alert("Please enter a valid existing EMI.");
-            return false;
-        }
     }
-
     if (currentStep === 4) {
-        const pan =
-            document.getElementById("pan").files[0];
-
-        const identity =
-            document.getElementById("identity").files[0];
-
-        const bankStatement =
-            document.getElementById("bankStatement").files[0];
-
+        const pan = document.getElementById("pan").files[0];
+        const identity = document.getElementById("identity").files[0];
+        const bankStatement = document.getElementById("bankStatement").files[0];
         if (!pan || !identity || !bankStatement) {
             alert("Please upload PAN, identity/address proof and bank statement.");
             return false;
         }
-
         const maxSize = 5 * 1024 * 1024;
         const files = [pan, identity, bankStatement];
-
         for (const file of files) {
             if (file.size > maxSize) {
                 alert("Each document must be 5 MB or smaller.");
@@ -1236,7 +1242,40 @@ function validateStep() {
             }
         }
     }
-
+    if (currentStep === 5) {
+        const accHolder = document.getElementById("accHolderName").value.trim();
+        const bankName = document.getElementById("bankName").value.trim();
+        const accNum = document.getElementById("accNumber").value.trim();
+        const accNumConfirm = document.getElementById("accNumberConfirm").value.trim();
+        const ifsc = document.getElementById("ifscCode").value.trim().toUpperCase();
+        if (!accHolder || !bankName || !accNum || !accNumConfirm || !ifsc) {
+            alert("Please fill all required bank account details.");
+            return false;
+        }
+        if (accNum !== accNumConfirm) {
+            alert("Account number and confirm account number do not match.");
+            return false;
+        }
+        if (accNum.length < 9 || accNum.length > 20) {
+            alert("Please enter a valid account number (9-20 digits).");
+            return false;
+        }
+        if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)) {
+            alert("Please enter a valid IFSC code (e.g. HDFC0001234).");
+            return false;
+        }
+    }
+    if (currentStep === 7) {
+        const utr = document.getElementById("utrNumber").value.trim();
+        if (!utr) {
+            alert("Please enter the UTR number after making the payment.");
+            return false;
+        }
+        if (utr.length < 8) {
+            alert("Please enter a valid UTR number (at least 8 characters).");
+            return false;
+        }
+    }
     return true;
 }
 
@@ -1244,14 +1283,18 @@ function nextStep() {
     if (!validateStep()) {
         return;
     }
-
-    if (currentStep < 5) {
+    if (currentStep < 7) {
         currentStep++;
-
-        if (currentStep === 5) {
+        if (currentStep === 6) {
             prepareReview();
         }
-
+        if (currentStep === 7) {
+            paymentVerified = false;
+            document.getElementById("paymentStatus").className = "payment-status unpaid";
+            document.getElementById("paymentStatus").innerText = "⚠️ Pay ₹199 via UPI or Bank Transfer and enter UTR number.";
+            document.getElementById("submitPaymentBtn").disabled = false;
+            document.getElementById("submitPaymentBtn").innerText = "✅ Verify & Submit";
+        }
         showStep(currentStep);
     }
 }
@@ -1264,295 +1307,188 @@ function prevStep() {
 }
 
 function prepareReview() {
-    const amount =
-        document.getElementById("amountRange").value;
+    const amount = document.getElementById("amountRange").value;
+    const tenure = document.getElementById("tenure").value;
+    const name = document.getElementById("fullName").value;
+    const mobile = document.getElementById("mobile").value;
+    const employment = document.getElementById("employment").value;
+    const income = document.getElementById("income").value;
+    const accHolder = document.getElementById("accHolderName").value.trim();
+    const bankName = document.getElementById("bankName").value.trim();
+    const accNum = document.getElementById("accNumber").value.trim();
 
-    const tenure =
-        document.getElementById("tenure").value;
-
-    const name =
-        document.getElementById("fullName").value;
-
-    const mobile =
-        document.getElementById("mobile").value;
-
-    const employment =
-        document.getElementById("employment").value;
-
-    const income =
-        document.getElementById("income").value;
-
-    document.getElementById("reviewLoan").innerText =
-        selectedLoan;
-
-    document.getElementById("reviewAmount").innerText =
-        "₹" + Number(amount).toLocaleString("en-IN");
-
-    document.getElementById("reviewTenure").innerText =
-        tenure + " Months";
-
-    document.getElementById("reviewName").innerText =
-        name || "-";
-
-    document.getElementById("reviewMobile").innerText =
-        mobile || "-";
-
-    document.getElementById("reviewEmployment").innerText =
-        employment || "-";
-
-    document.getElementById("reviewIncome").innerText =
-        income
-            ? "₹" + Number(income).toLocaleString("en-IN")
-            : "-";
+    document.getElementById("reviewLoan").innerText = selectedLoan;
+    document.getElementById("reviewAmount").innerText = "₹" + Number(amount).toLocaleString("en-IN");
+    document.getElementById("reviewTenure").innerText = tenure + " Months";
+    document.getElementById("reviewName").innerText = name || "-";
+    document.getElementById("reviewMobile").innerText = mobile || "-";
+    document.getElementById("reviewEmployment").innerText = employment || "-";
+    document.getElementById("reviewIncome").innerText = income ? "₹" + Number(income).toLocaleString("en-IN") : "-";
+    document.getElementById("reviewAccount").innerText = accHolder + " - " + bankName + " (" + accNum.slice(-4) + ")";
 }
 
-function getApplicationData() {
-    const amount =
-        Number(document.getElementById("amountRange").value);
+function getBankDetails() {
+    return {
+        accountHolder: document.getElementById("accHolderName").value.trim(),
+        bankName: document.getElementById("bankName").value.trim(),
+        accountNumber: document.getElementById("accNumber").value.trim(),
+        ifscCode: document.getElementById("ifscCode").value.trim().toUpperCase(),
+        accountType: document.getElementById("accType").value
+    };
+}
 
-    const tenure =
-        Number(document.getElementById("tenure").value);
-
-    const fullName =
-        document.getElementById("fullName").value.trim();
-
-    const mobile =
-        document.getElementById("mobile").value.trim();
-
-    const email =
-        document.getElementById("email").value.trim();
-
-    const address =
-        document.getElementById("address").value.trim();
-
-    const city =
-        document.getElementById("city").value.trim();
-
-    const pincode =
-        document.getElementById("pincode").value.trim();
-
-    const gender =
-        document.getElementById("gender").value;
-
-    const dob =
-        document.getElementById("dob").value;
-
-    const employment =
-        document.getElementById("employment").value;
-
-    const company =
-        document.getElementById("company").value.trim();
-
-    const income =
-        Number(document.getElementById("income").value);
-
-    const experience =
-        document.getElementById("experience").value;
-
-    const existingEmiValue =
-        document.getElementById("existingEmi").value;
-
-    const existingEmi =
-        existingEmiValue === "" ? 0 : Number(existingEmiValue);
+function getApplicationData(utr) {
+    const amount = Number(document.getElementById("amountRange").value);
+    const tenure = Number(document.getElementById("tenure").value);
+    const bank = getBankDetails();
 
     return {
         userId: currentUser.uid,
-
         loanType: selectedLoan,
         amount: amount,
         tenure: tenure,
-
+        processingFeePaid: true,
+        processingFeeAmount: 199,
+        paymentMethod: "UPI - " + selectedUPIApp,
+        upiId: UPI_ID,
+        utrNumber: utr,
+        paymentStatus: "pending_verification",
+        bankDetails: bank,
         personal: {
-            fullName: fullName,
-            mobile: mobile,
-            email: email,
-            dob: dob,
-            gender: gender,
-            address: address,
-            city: city,
-            pincode: pincode
+            fullName: document.getElementById("fullName").value.trim(),
+            mobile: document.getElementById("mobile").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            dob: document.getElementById("dob").value,
+            gender: document.getElementById("gender").value,
+            address: document.getElementById("address").value.trim(),
+            city: document.getElementById("city").value.trim(),
+            pincode: document.getElementById("pincode").value.trim()
         },
-
         employment: {
-            type: employment,
-            company: company,
-            monthlyIncome: income,
-            experience: experience,
-            existingEmi: existingEmi
+            type: document.getElementById("employment").value,
+            company: document.getElementById("company").value.trim(),
+            monthlyIncome: Number(document.getElementById("income").value),
+            experience: document.getElementById("experience").value,
+            existingEmi: Number(document.getElementById("existingEmi").value) || 0
         },
-
         status: "pending",
-
         createdAt: firebase.database.ServerValue.TIMESTAMP,
         updatedAt: firebase.database.ServerValue.TIMESTAMP
     };
 }
 
-function validateBeforeSubmit() {
-
+function submitPaymentAndUTR() {
     if (!currentUser) {
         alert("Please login first.");
         window.location.replace("login.html");
-        return false;
-    }
-
-    if (!document.getElementById("consent").checked) {
-        alert("Please confirm the declaration before submitting.");
-        return false;
-    }
-
-    if (!validateStep()) {
-        return false;
-    }
-
-    return true;
-}
-
-async function submitApplication() {
-
-    if (submitting) {
         return;
     }
 
-    if (!validateBeforeSubmit()) {
+    const utr = document.getElementById("utrNumber").value.trim();
+    if (!utr) {
+        alert("Please enter the UTR number after making the payment.");
+        return;
+    }
+    if (utr.length < 8) {
+        alert("Please enter a valid UTR number (at least 8 characters).");
         return;
     }
 
-    submitting = true;
+    const submitBtn = document.getElementById("submitPaymentBtn");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting...";
 
-    const submitButton =
-        document.querySelector(".btn-submit");
+    const statusDiv = document.getElementById("paymentStatus");
 
-    if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.innerText = "Submitting...";
-        submitButton.style.opacity = "0.7";
-    }
-
-    try {
-
-        /*
-         * Real Firebase path:
-         * loanApplications/{uid}/{applicationId}
-         *
-         * The same record is also mirrored under:
-         * loans/{uid}/{applicationId}
-         *
-         * so the Home / My Loans pages can read the user's applications.
-         */
-
-        const applicationRef =
-            database.ref("loanApplications/" + currentUser.uid).push();
-
-        const applicationId =
-            applicationRef.key;
-
-        const data =
-            getApplicationData();
-
-        data.applicationId = applicationId;
-
-        await applicationRef.set(data);
-
-        await database
-            .ref("loans/" + currentUser.uid + "/" + applicationId)
-            .set({
-                applicationId: applicationId,
-                userId: currentUser.uid,
-                loanType: data.loanType,
-                amount: data.amount,
-                tenure: data.tenure,
-                status: "pending",
-                createdAt: data.createdAt,
-                updatedAt: data.updatedAt
-            });
-
-        document.getElementById("applicationId").innerText =
-            applicationId;
-
+    const paymentRef = database.ref("payments/" + currentUser.uid).push();
+    paymentRef.set({
+        amount: 199,
+        currency: "INR",
+        purpose: "Loan Application Processing Fee",
+        upiId: UPI_ID,
+        upiApp: selectedUPIApp,
+        utrNumber: utr,
+        bankDetails: getBankDetails(),
+        status: "pending_verification",
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        userId: currentUser.uid
+    }).then(function() {
+        statusDiv.className = "payment-status paid";
+        statusDiv.innerText = "✅ Payment recorded! UTR: " + utr + " - Submitting application...";
+        paymentVerified = true;
+        return submitFullApplication(utr);
+    }).then(function(applicationId) {
         document.querySelectorAll(".form-step").forEach(function(item) {
             item.classList.remove("active");
         });
+        document.querySelector(".progress-area").style.display = "none";
+        document.getElementById("applicationId").innerText = applicationId;
+        document.getElementById("displayUtr").innerText = utr;
+        const bank = getBankDetails();
+        document.getElementById("displayAccount").innerText = bank.accountHolder + " - " + bank.bankName + " (" + bank.accountNumber.slice(-4) + ")";
+        document.getElementById("success").style.display = "block";
+    }).catch(function(error) {
+        console.error("Payment/Application submission failed:", error);
+        statusDiv.className = "payment-status unpaid";
+        statusDiv.innerText = "❌ Submission failed. Please try again.";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "✅ Verify & Submit";
+        alert("Application submit nahi ho payi. Please try again. Error: " + error.message);
+    });
+}
 
-        document.querySelector(".progress-area").style.display =
-            "none";
-
-        document.getElementById("success").style.display =
-            "block";
-
-    } catch (error) {
-
-        console.error("Loan application submission failed:", error);
-
-        if (error.code === "PERMISSION_DENIED") {
-            alert(
-                "Application save nahi ho payi. Firebase Realtime Database Rules me logged-in user ko write permission deni hogi."
-            );
-        } else {
-            alert(
-                "Application submit nahi ho payi. Please try again."
-            );
-        }
-
-        if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.innerText = "Submit Application";
-            submitButton.style.opacity = "1";
-        }
-
-    } finally {
-        submitting = false;
+async function submitFullApplication(utr) {
+    if (!currentUser) {
+        throw new Error("User not logged in");
     }
+
+    const applicationRef = database.ref("loanApplications/" + currentUser.uid).push();
+    const applicationId = applicationRef.key;
+    const data = getApplicationData(utr);
+    data.applicationId = applicationId;
+
+    await applicationRef.set(data);
+
+    await database
+        .ref("loans/" + currentUser.uid + "/" + applicationId)
+        .set({
+            applicationId: applicationId,
+            userId: currentUser.uid,
+            loanType: data.loanType,
+            amount: data.amount,
+            tenure: data.tenure,
+            status: "pending",
+            processingFeePaid: true,
+            utrNumber: utr,
+            upiId: UPI_ID,
+            paymentStatus: "pending_verification",
+            bankDetails: data.bankDetails,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt
+        });
+
+    return applicationId;
 }
 
 auth.onAuthStateChanged(async function(user) {
-
     if (!user) {
         window.location.replace("login.html");
         return;
     }
-
     currentUser = user;
-
-    /*
-     * Pre-fill data from the user's Firebase profile when available.
-     * The user can still edit these fields before submitting.
-     */
     try {
-        const snapshot =
-            await database.ref("users/" + user.uid).once("value");
-
-        const profile =
-            snapshot.val() || {};
-
-        const name =
-            profile.name ||
-            profile.fullName ||
-            user.displayName ||
-            "";
-
-        const email =
-            profile.email ||
-            user.email ||
-            "";
-
-        const mobile =
-            profile.mobile ||
-            profile.phone ||
-            "";
-
-        if (name) {
-            document.getElementById("fullName").value = name;
-        }
-
-        if (email) {
-            document.getElementById("email").value = email;
-        }
-
+        const snapshot = await database.ref("users/" + user.uid).once("value");
+        const profile = snapshot.val() || {};
+        const name = profile.name || profile.fullName || user.displayName || "";
+        const email = profile.email || user.email || "";
+        const mobile = profile.mobile || profile.phone || "";
+        if (name) document.getElementById("fullName").value = name;
+        if (email) document.getElementById("email").value = email;
         if (/^[6-9]\d{9}$/.test(String(mobile))) {
             document.getElementById("mobile").value = mobile;
         }
-
+        // Auto-fill account holder name
+        if (name) document.getElementById("accHolderName").value = name;
     } catch (error) {
         console.error("Could not load user profile:", error);
     }
@@ -1560,6 +1496,14 @@ auth.onAuthStateChanged(async function(user) {
 
 updateAmount();
 updateProgress();
+
+// Auto-select first UPI option
+document.addEventListener('DOMContentLoaded', function() {
+    const firstUPI = document.querySelector('.upi-option');
+    if (firstUPI) {
+        firstUPI.classList.add('selected');
+    }
+});
 </script>
 
 </body>
