@@ -319,6 +319,12 @@
             }
         }
     </style>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 </head>
 
 <body>
@@ -332,7 +338,7 @@
 
             <div class="welcome">
                 <small>Welcome back 👋</small>
-                <h2>Hello, User</h2>
+                <h2 id="userName">Loading...</h2>
             </div>
 
             <div class="profile-btn" onclick="go('profile.html')">
@@ -484,11 +490,9 @@
 
             <div class="status-top">
 
-                <h4>Loan Application #LN10245</h4>
+                <h4 id="loanTitle">My Loan</h4>
 
-                <div class="status">
-                    Under Review
-                </div>
+                <div class="status" id="loanStatus">Loading...</div>
 
             </div>
 
@@ -496,17 +500,17 @@
 
                 <div class="info-box">
                     <small>Amount</small>
-                    <p>₹50,000</p>
+                    <p id="loanAmount">—</p>
                 </div>
 
                 <div class="info-box">
                     <small>EMI</small>
-                    <p>₹4,500</p>
+                    <p id="loanEmi">—</p>
                 </div>
 
                 <div class="info-box">
                     <small>Tenure</small>
-                    <p>12 Months</p>
+                    <p id="loanTenure">—</p>
                 </div>
 
             </div>
@@ -521,11 +525,11 @@
 
         <div class="banner">
 
-            <h3>Need money for an emergency?</h3>
+            <h3>Check your loan eligibility</h3>
 
             <p>
-                Check your loan eligibility and choose a suitable
-                loan option according to your requirement.
+                Submit your details to check the loan options available
+                for your account.
             </p>
 
             <button onclick="go('apply-loan.html')">
@@ -571,11 +575,210 @@
 
 
 <script>
+const firebaseConfig = {
+    apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+    authDomain: "easyloan-india.firebaseapp.com",
+    projectId: "easyloan-india",
+    storageBucket: "easyloan-india.firebasestorage.app",
+    messagingSenderId: "925263655882",
+    appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+};
 
-    function go(page) {
-        window.location.href = page;
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+const database = firebase.database();
+
+function go(page) {
+    window.location.href = page;
+}
+
+function formatINR(value) {
+    if (value === undefined || value === null || value === "") return "—";
+    const number = Number(value);
+    if (Number.isNaN(number)) return String(value);
+    return "₹" + number.toLocaleString("en-IN");
+}
+
+function firstValue(obj, keys, fallback = null) {
+    if (!obj || typeof obj !== "object") return fallback;
+    for (const key of keys) {
+        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== "") {
+            return obj[key];
+        }
+    }
+    return fallback;
+}
+
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+}
+
+function setStatus(status) {
+    const el = document.getElementById("loanStatus");
+    if (!el) return;
+
+    el.textContent = status || "—";
+
+    const s = String(status || "").toLowerCase();
+
+    if (s.includes("approved") || s.includes("active") || s.includes("paid")) {
+        el.style.background = "#e8f8ef";
+        el.style.color = "#168352";
+    } else if (s.includes("reject") || s.includes("closed") || s.includes("overdue")) {
+        el.style.background = "#ffe9e7";
+        el.style.color = "#c5362e";
+    } else {
+        el.style.background = "#fff5d9";
+        el.style.color = "#b77900";
+    }
+}
+
+function showNoLoan() {
+    setText("loanTitle", "No active loan");
+    setStatus("No application");
+    setText("loanAmount", "—");
+    setText("loanEmi", "—");
+    setText("loanTenure", "—");
+}
+
+async function loadHome() {
+    const user = auth.currentUser;
+
+    if (!user) {
+        window.location.replace("login.html");
+        return;
     }
 
+    try {
+        const userSnap = await database.ref("users/" + user.uid).once("value");
+        const userData = userSnap.val() || {};
+
+        const name = firstValue(
+            userData,
+            ["name", "fullName", "displayName"],
+            user.displayName || "Customer"
+        );
+
+        setText("userName", "Hello, " + name);
+
+        const eligible = firstValue(
+            userData,
+            ["eligibleAmount", "loanEligibility", "maxLoanAmount"]
+        );
+
+        setText(
+            "eligibleAmount",
+            eligible !== null ? formatINR(eligible) : "Check eligibility"
+        );
+
+        /*
+         * Real user loan data is read from:
+         * loans/{loggedInUserUid}/{loanId}
+         */
+        const loansSnap = await database.ref("loans/" + user.uid).once("value");
+        const loansData = loansSnap.val();
+
+        if (!loansData || typeof loansData !== "object") {
+            showNoLoan();
+            return;
+        }
+
+        const loans = Object.entries(loansData).map(([id, loan]) => ({
+            id,
+            ...(loan || {})
+        }));
+
+        if (!loans.length) {
+            showNoLoan();
+            return;
+        }
+
+        const priority = {
+            active: 5,
+            approved: 4,
+            "under review": 3,
+            pending: 2,
+            processing: 1
+        };
+
+        loans.sort((a, b) => {
+            const sa = String(a.status || "").toLowerCase();
+            const sb = String(b.status || "").toLowerCase();
+
+            const pa = priority[sa] || 0;
+            const pb = priority[sb] || 0;
+
+            if (pb !== pa) return pb - pa;
+
+            return Number(b.createdAt || b.timestamp || 0) -
+                   Number(a.createdAt || a.timestamp || 0);
+        });
+
+        const loan = loans[0];
+
+        const loanNumber = firstValue(
+            loan,
+            ["loanNumber", "applicationNumber", "loanId"],
+            loan.id
+        );
+
+        const amount = firstValue(
+            loan,
+            ["amount", "loanAmount", "principal"]
+        );
+
+        const emi = firstValue(
+            loan,
+            ["emi", "monthlyEmi", "monthlyEMI"]
+        );
+
+        const tenure = firstValue(
+            loan,
+            ["tenure", "tenureMonths", "durationMonths"]
+        );
+
+        const status = firstValue(
+            loan,
+            ["status", "loanStatus"],
+            "—"
+        );
+
+        setText("loanTitle", "Loan Application #" + loanNumber);
+        setStatus(status);
+        setText("loanAmount", formatINR(amount));
+        setText("loanEmi", emi !== null ? formatINR(emi) : "—");
+        setText(
+            "loanTenure",
+            tenure !== null ? String(tenure) + " Months" : "—"
+        );
+
+    } catch (error) {
+        console.error("Firebase home error:", error);
+
+        setText("userName", "Hello, Customer");
+        setText("eligibleAmount", "Unavailable");
+        showNoLoan();
+
+        if (error.code === "PERMISSION_DENIED") {
+            console.error(
+                "Firebase permission denied. Check Realtime Database Rules."
+            );
+        }
+    }
+}
+
+auth.onAuthStateChanged(function(user) {
+    if (!user) {
+        window.location.replace("login.html");
+        return;
+    }
+
+    loadHome();
+});
 </script>
 
 </body>
