@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>My Profile - LoanApp</title>
+<title>My Profile - EasyLoan India</title>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
 
@@ -87,9 +92,7 @@ body{
 
 .profile-top{
     display:flex;
-
     align-items:center;
-
     gap:14px;
 }
 
@@ -104,15 +107,23 @@ body{
     color:#155eef;
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
     font-size:25px;
-
     font-weight:bold;
 
     position:relative;
+
+    overflow:visible;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+    display:none;
 }
 
 .camera{
@@ -129,11 +140,9 @@ body{
     border:2px solid white;
 
     background:#155eef;
-
     color:white;
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
@@ -153,9 +162,7 @@ body{
 
 .profile-mobile{
     margin-top:5px;
-
     color:#7b8494;
-
     font-size:9px;
 }
 
@@ -244,7 +251,6 @@ body{
 .section-title{
     font-size:15px;
     font-weight:bold;
-
     margin-bottom:9px;
 }
 
@@ -262,11 +268,9 @@ body{
 }
 
 .menu-item{
-
     min-height:52px;
 
     display:flex;
-
     align-items:center;
 
     gap:12px;
@@ -281,7 +285,6 @@ body{
 }
 
 .menu-icon{
-
     width:36px;
     height:36px;
 
@@ -290,7 +293,6 @@ body{
     background:#f0f3f8;
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
@@ -322,10 +324,9 @@ body{
 }
 
 
-/* DANGER */
+/* LOGOUT */
 
 .logout-card{
-
     background:white;
 
     border-radius:16px;
@@ -336,11 +337,9 @@ body{
 }
 
 .logout{
-
     height:50px;
 
     display:flex;
-
     align-items:center;
 
     gap:12px;
@@ -349,7 +348,6 @@ body{
 }
 
 .logout-icon{
-
     width:36px;
     height:36px;
 
@@ -360,7 +358,6 @@ body{
     color:#d23b3b;
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
@@ -368,19 +365,15 @@ body{
 }
 
 .logout span{
-
     color:#d23b3b;
-
     font-size:10px;
-
     font-weight:bold;
 }
 
 
-/* APP VERSION */
+/* VERSION */
 
 .version{
-
     text-align:center;
 
     color:#9aa2ae;
@@ -391,10 +384,68 @@ body{
 }
 
 
+/* LOADER */
+
+.page-loader{
+    position:fixed;
+
+    inset:0;
+
+    background:#f4f6fa;
+
+    z-index:9999;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.loader-box{
+    background:white;
+
+    padding:25px 35px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.spinner{
+    width:35px;
+    height:35px;
+
+    border:4px solid #e4ebff;
+
+    border-top-color:#155eef;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+    margin:auto;
+}
+
+.loader-box p{
+    margin-top:12px;
+
+    font-size:11px;
+
+    color:#7b8494;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
 /* MODAL */
 
 .modal{
-
     display:none;
 
     position:fixed;
@@ -406,16 +457,13 @@ body{
     z-index:500;
 
     align-items:center;
-
     justify-content:center;
 
     padding:20px;
 }
 
 .modal-box{
-
     width:100%;
-
     max-width:420px;
 
     background:white;
@@ -426,11 +474,9 @@ body{
 }
 
 .modal-header{
-
     display:flex;
 
     justify-content:space-between;
-
     align-items:center;
 }
 
@@ -439,7 +485,6 @@ body{
 }
 
 .close{
-
     width:32px;
     height:32px;
 
@@ -459,7 +504,6 @@ body{
 }
 
 .form-group label{
-
     display:block;
 
     margin-bottom:6px;
@@ -470,7 +514,6 @@ body{
 }
 
 .form-group input{
-
     width:100%;
 
     height:43px;
@@ -486,8 +529,11 @@ body{
     font-size:10px;
 }
 
-.save-btn{
+.form-group input:focus{
+    border-color:#155eef;
+}
 
+.save-btn{
     width:100%;
 
     height:43px;
@@ -507,11 +553,14 @@ body{
     cursor:pointer;
 }
 
+.save-btn:disabled{
+    opacity:.6;
+}
+
 
 /* LOGOUT MODAL */
 
 .logout-text{
-
     margin-top:15px;
 
     background:#f6f8fb;
@@ -528,7 +577,6 @@ body{
 }
 
 .logout-actions{
-
     display:grid;
 
     grid-template-columns:1fr 1fr;
@@ -540,7 +588,6 @@ body{
 
 .cancel-btn,
 .confirm-btn{
-
     height:42px;
 
     border:none;
@@ -562,11 +609,79 @@ body{
     color:white;
 }
 
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:translateX(-50%) translateY(100px);
+
+    background:#172033;
+
+    color:white;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    font-size:10px;
+
+    z-index:10000;
+
+    opacity:0;
+
+    transition:.3s;
+
+    max-width:90%;
+
+    text-align:center;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:translateX(-50%) translateY(0);
+}
+
+.toast.success{
+    background:#168352;
+}
+
+.toast.error{
+    background:#d23b3b;
+}
+
 </style>
 </head>
 
 
 <body>
+
+
+<!-- LOADING -->
+
+<div class="page-loader" id="pageLoader">
+
+    <div class="loader-box">
+
+        <div class="spinner"></div>
+
+        <p>
+            Loading profile...
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
 
 <div class="app">
 
@@ -609,7 +724,11 @@ body{
 
             <div class="avatar">
 
-                AS
+                <span id="avatarText">
+                    --
+                </span>
+
+                <img id="avatarImage" src="" alt="Profile">
 
                 <div
                     class="camera"
@@ -623,12 +742,18 @@ body{
 
             <div class="profile-info">
 
-                <div class="profile-name">
-                    Amit Saini
+                <div
+                    class="profile-name"
+                    id="profileName"
+                >
+                    Loading...
                 </div>
 
-                <div class="profile-mobile">
-                    +91 XXXXX XXXXX
+                <div
+                    class="profile-mobile"
+                    id="profileMobile"
+                >
+                    --
                 </div>
 
                 <div class="verified">
@@ -654,14 +779,17 @@ body{
                     KYC Verification
                 </div>
 
-                <div class="kyc-text">
-                    Your submitted information has been verified.
+                <div class="kyc-text" id="kycText">
+                    Checking verification status...
                 </div>
 
             </div>
 
-            <div class="kyc-status">
-                Verified
+            <div
+                class="kyc-status"
+                id="kycStatus"
+            >
+                Checking
             </div>
 
         </div>
@@ -676,7 +804,6 @@ body{
         <div class="section-title">
             Account
         </div>
-
 
         <div class="menu-card">
 
@@ -805,7 +932,6 @@ body{
             Loans & Payments
         </div>
 
-
         <div class="menu-card">
 
 
@@ -904,7 +1030,6 @@ body{
         <div class="section-title">
             Settings & Help
         </div>
-
 
         <div class="menu-card">
 
@@ -1024,7 +1149,7 @@ body{
 
 
     <div class="version">
-        LoanApp • Version 1.0.0
+        EasyLoan India • Version 1.0.0
     </div>
 
 </div>
@@ -1063,7 +1188,8 @@ body{
 
             <input
                 type="text"
-                value="Amit Saini"
+                id="editName"
+                placeholder="Enter your full name"
             >
 
         </div>
@@ -1077,7 +1203,7 @@ body{
 
             <input
                 type="text"
-                value="+91 XXXXX XXXXX"
+                id="editMobile"
                 disabled
             >
 
@@ -1092,6 +1218,7 @@ body{
 
             <input
                 type="email"
+                id="editEmail"
                 placeholder="Enter email"
             >
 
@@ -1100,6 +1227,7 @@ body{
 
         <button
             class="save-btn"
+            id="saveProfileBtn"
             onclick="saveProfile()"
         >
             Save Changes
@@ -1138,26 +1266,13 @@ body{
         <div class="form-group">
 
             <label>
-                Current Password
-            </label>
-
-            <input
-                type="password"
-                placeholder="Current password"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
                 New Password
             </label>
 
             <input
                 type="password"
-                placeholder="New password"
+                id="newPassword"
+                placeholder="Minimum 6 characters"
             >
 
         </div>
@@ -1171,6 +1286,7 @@ body{
 
             <input
                 type="password"
+                id="confirmPassword"
                 placeholder="Confirm password"
             >
 
@@ -1179,6 +1295,7 @@ body{
 
         <button
             class="save-btn"
+            id="passwordBtn"
             onclick="changePassword()"
         >
             Update Password
@@ -1217,7 +1334,7 @@ body{
         <div class="logout-text">
 
             Are you sure you want to logout from your
-            LoanApp account?
+            EasyLoan account?
 
         </div>
 
@@ -1247,6 +1364,41 @@ body{
 
 <script>
 
+/* ============================================================
+   FIREBASE CONFIG
+============================================================ */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain: "easyloan-india.firebaseapp.com",
+
+    projectId: "easyloan-india",
+
+    storageBucket: "easyloan-india.firebasestorage.app",
+
+    messagingSenderId: "925263655882",
+
+    appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+const database = firebase.database();
+
+
+let currentUser = null;
+let currentUserData = {};
+
+
+/* ============================================================
+   PAGE NAVIGATION
+============================================================ */
 
 function go(page){
 
@@ -1255,89 +1407,610 @@ function go(page){
 }
 
 
-/* EDIT */
+/* ============================================================
+   TOAST
+============================================================ */
+
+function showToast(message,type="info"){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        "toast " + type + " show";
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* ============================================================
+   AUTH CHECK
+============================================================ */
+
+auth.onAuthStateChanged(function(user){
+
+    if(!user){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    loadUserProfile(user);
+
+});
+
+
+/* ============================================================
+   LOAD USER PROFILE
+============================================================ */
+
+function loadUserProfile(user){
+
+    const uid = user.uid;
+
+    database.ref("users/" + uid)
+    .once("value")
+
+    .then(function(snapshot){
+
+        currentUserData =
+            snapshot.val() || {};
+
+
+        const name =
+            currentUserData.name ||
+            currentUserData.fullName ||
+            user.displayName ||
+            "User";
+
+
+        const mobile =
+            currentUserData.mobile ||
+            currentUserData.phone ||
+            user.phoneNumber ||
+            "Mobile not added";
+
+
+        const email =
+            currentUserData.email ||
+            user.email ||
+            "Email not added";
+
+
+        document.getElementById(
+            "profileName"
+        ).textContent = name;
+
+
+        document.getElementById(
+            "profileMobile"
+        ).textContent = mobile;
+
+
+        document.getElementById(
+            "editName"
+        ).value = name;
+
+
+        document.getElementById(
+            "editMobile"
+        ).value = mobile;
+
+
+        document.getElementById(
+            "editEmail"
+        ).value =
+            email === "Email not added"
+            ? ""
+            : email;
+
+
+        /* AVATAR INITIALS */
+
+        setAvatar(name);
+
+
+        /* KYC */
+
+        const kyc =
+            currentUserData.kyc ||
+            currentUserData.kycStatus;
+
+
+        if(
+            kyc === true ||
+            kyc === "verified" ||
+            kyc === "Verified"
+        ){
+
+            document.getElementById(
+                "kycStatus"
+            ).textContent =
+                "Verified";
+
+
+            document.getElementById(
+                "kycText"
+            ).textContent =
+                "Your submitted information has been verified.";
+
+        }else{
+
+            document.getElementById(
+                "kycStatus"
+            ).textContent =
+                "Pending";
+
+
+            document.getElementById(
+                "kycText"
+            ).textContent =
+                "Complete your KYC verification to unlock all features.";
+
+        }
+
+
+    })
+
+    .catch(function(error){
+
+        console.error(error);
+
+        showToast(
+            "Unable to load profile.",
+            "error"
+        );
+
+    })
+
+    .finally(function(){
+
+        document.getElementById(
+            "pageLoader"
+        ).style.display =
+            "none";
+
+    });
+
+}
+
+
+/* ============================================================
+   AVATAR
+============================================================ */
+
+function setAvatar(name){
+
+    if(!name){
+
+        name = "User";
+
+    }
+
+
+    const parts =
+        name.trim().split(/\s+/);
+
+
+    let initials = "";
+
+
+    if(parts.length >= 2){
+
+        initials =
+            parts[0].charAt(0) +
+            parts[parts.length - 1].charAt(0);
+
+    }else{
+
+        initials =
+            name.substring(0,2);
+
+    }
+
+
+    document.getElementById(
+        "avatarText"
+    ).textContent =
+        initials.toUpperCase();
+
+}
+
+
+/* ============================================================
+   EDIT PROFILE
+============================================================ */
 
 function openEditProfile(){
 
     document.getElementById(
         "editModal"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 
 }
 
 
-/* PASSWORD */
+function saveProfile(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const name =
+        document.getElementById(
+            "editName"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "editEmail"
+        ).value.trim();
+
+
+    if(name.length < 2){
+
+        showToast(
+            "Please enter a valid name.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const btn =
+        document.getElementById(
+            "saveProfileBtn"
+        );
+
+
+    btn.disabled = true;
+
+    btn.textContent =
+        "Saving...";
+
+
+    const updates = {
+
+        name:name,
+
+        fullName:name,
+
+        email:email,
+
+        updatedAt:
+            firebase.database.ServerValue.TIMESTAMP
+
+    };
+
+
+    database.ref(
+        "users/" + currentUser.uid
+    )
+
+    .update(updates)
+
+    .then(function(){
+
+        return currentUser.updateProfile({
+
+            displayName:name
+
+        });
+
+    })
+
+    .then(function(){
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+            name;
+
+
+        setAvatar(name);
+
+
+        currentUserData.name =
+            name;
+
+
+        currentUserData.email =
+            email;
+
+
+        showToast(
+            "Profile updated successfully.",
+            "success"
+        );
+
+
+        closeModal(
+            "editModal"
+        );
+
+    })
+
+    .catch(function(error){
+
+        console.error(error);
+
+        showToast(
+            error.message ||
+            "Profile update failed.",
+            "error"
+        );
+
+    })
+
+    .finally(function(){
+
+        btn.disabled = false;
+
+        btn.textContent =
+            "Save Changes";
+
+    });
+
+}
+
+
+/* ============================================================
+   CHANGE PASSWORD
+============================================================ */
 
 function openChangePassword(){
 
     document.getElementById(
         "passwordModal"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 
 }
 
 
-/* LOGOUT */
+function changePassword(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+
+    if(newPassword.length < 6){
+
+        showToast(
+            "Password must be at least 6 characters.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(newPassword !== confirmPassword){
+
+        showToast(
+            "Passwords do not match.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const btn =
+        document.getElementById(
+            "passwordBtn"
+        );
+
+
+    btn.disabled = true;
+
+    btn.textContent =
+        "Updating...";
+
+
+    currentUser.updatePassword(
+        newPassword
+    )
+
+    .then(function(){
+
+        showToast(
+            "Password changed successfully.",
+            "success"
+        );
+
+
+        document.getElementById(
+            "newPassword"
+        ).value = "";
+
+
+        document.getElementById(
+            "confirmPassword"
+        ).value = "";
+
+
+        closeModal(
+            "passwordModal"
+        );
+
+    })
+
+    .catch(function(error){
+
+        console.error(error);
+
+
+        if(
+            error.code ===
+            "auth/requires-recent-login"
+        ){
+
+            showToast(
+                "For security, please login again before changing password.",
+                "error"
+            );
+
+        }else{
+
+            showToast(
+                error.message ||
+                "Password change failed.",
+                "error"
+            );
+
+        }
+
+    })
+
+    .finally(function(){
+
+        btn.disabled = false;
+
+        btn.textContent =
+            "Update Password";
+
+    });
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
 
 function openLogout(){
 
     document.getElementById(
         "logoutModal"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 
 }
 
 
-/* CLOSE */
+function logout(){
+
+    auth.signOut()
+
+    .then(function(){
+
+        window.location.href =
+            "login.html";
+
+    })
+
+    .catch(function(error){
+
+        console.error(error);
+
+        showToast(
+            "Logout failed.",
+            "error"
+        );
+
+    });
+
+}
+
+
+/* ============================================================
+   CLOSE MODAL
+============================================================ */
 
 function closeModal(id){
 
     document.getElementById(
         id
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 }
 
 
-/* SAVE PROFILE */
+/* ============================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+============================================================ */
 
-function saveProfile(){
+document.querySelectorAll(".modal")
+.forEach(function(modal){
 
-    alert(
-        "Demo: Profile backend se save hoga."
+    modal.addEventListener(
+        "click",
+        function(e){
+
+            if(e.target === modal){
+
+                modal.style.display =
+                    "none";
+
+            }
+
+        }
     );
 
-    closeModal("editModal");
-
-}
+});
 
 
-/* CHANGE PASSWORD */
+/* ============================================================
+   ESC KEY
+============================================================ */
 
-function changePassword(){
+document.addEventListener(
+    "keydown",
+    function(e){
 
-    alert(
-        "Demo: Password backend/authentication system ke through change hoga."
-    );
+        if(e.key === "Escape"){
 
-    closeModal("passwordModal");
+            document.querySelectorAll(
+                ".modal"
+            ).forEach(function(modal){
 
-}
+                modal.style.display =
+                    "none";
 
+            });
 
-/* LOGOUT */
+        }
 
-function logout(){
-
-    /*
-       Real app me yahan Firebase/Auth session
-       securely sign-out karna hoga.
-    */
-
-    window.location.href =
-        "login.html";
-
-}
+    }
+);
 
 </script>
 
