@@ -432,6 +432,11 @@
             }
         }
     </style>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 </head>
 
 <body>
@@ -950,17 +955,17 @@
 
                 <div class="summary-row">
                     <span>Loan Type</span>
-                    <span id="reviewLoan">Personal Loan</span>
+                    <span id="reviewLoan">-</span>
                 </div>
 
                 <div class="summary-row">
                     <span>Loan Amount</span>
-                    <span id="reviewAmount">₹50,000</span>
+                    <span id="reviewAmount">-</span>
                 </div>
 
                 <div class="summary-row">
                     <span>Tenure</span>
-                    <span id="reviewTenure">12 Months</span>
+                    <span id="reviewTenure">-</span>
                 </div>
 
                 <div class="summary-row">
@@ -1031,7 +1036,7 @@
 
             <div class="application-id">
                 Application ID:
-                <strong id="applicationId">LN00000</strong>
+                <strong id="applicationId">-</strong>
             </div>
 
             <button class="home-btn" onclick="goHome()">
@@ -1046,266 +1051,424 @@
 
 
 <script>
+const firebaseConfig = {
+    apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+    authDomain: "easyloan-india.firebaseapp.com",
+    projectId: "easyloan-india",
+    storageBucket: "easyloan-india.firebasestorage.app",
+    messagingSenderId: "925263655882",
+    appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+};
 
-    let currentStep = 1;
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-    let selectedLoan = "Personal Loan";
+const auth = firebase.auth();
+const database = firebase.database();
 
+let currentStep = 1;
+let selectedLoan = "Personal Loan";
+let currentUser = null;
+let submitting = false;
 
-    function goHome() {
-        window.location.href = "index.html";
-    }
+function goHome() {
+    window.location.href = "index.html";
+}
 
+function selectLoan(element, loanName) {
+    document.querySelectorAll(".loan-type").forEach(function(item) {
+        item.classList.remove("selected");
+    });
 
-    function selectLoan(element, loanName) {
+    element.classList.add("selected");
+    selectedLoan = loanName;
+}
 
-        document.querySelectorAll(".loan-type").forEach(function(item) {
-            item.classList.remove("selected");
-        });
+function updateAmount() {
+    const amount = document.getElementById("amountRange").value;
 
-        element.classList.add("selected");
+    document.getElementById("amountText").innerText =
+        "₹" + Number(amount).toLocaleString("en-IN");
+}
 
-        selectedLoan = loanName;
-    }
+function updateProgress() {
+    for (let i = 1; i <= 5; i++) {
+        const icon = document.getElementById("stepIcon" + i);
 
+        icon.classList.remove("active");
+        icon.classList.remove("completed");
 
-    function updateAmount() {
-
-        const amount = document.getElementById("amountRange").value;
-
-        document.getElementById("amountText").innerText =
-            "₹" + Number(amount).toLocaleString("en-IN");
-
-    }
-
-
-    function updateProgress() {
-
-        for(let i = 1; i <= 5; i++) {
-
-            const icon = document.getElementById("stepIcon" + i);
-
-            icon.classList.remove("active");
-            icon.classList.remove("completed");
-
-            if(i < currentStep) {
-                icon.classList.add("completed");
-            }
-
-            if(i === currentStep) {
-                icon.classList.add("active");
-            }
+        if (i < currentStep) {
+            icon.classList.add("completed");
         }
 
-        const progress =
-            ((currentStep - 1) / 4) * 84;
-
-        document.getElementById("progressLine").style.width =
-            progress + "%";
-
+        if (i === currentStep) {
+            icon.classList.add("active");
+        }
     }
 
+    const progress =
+        ((currentStep - 1) / 4) * 84;
 
-    function showStep(step) {
+    document.getElementById("progressLine").style.width =
+        progress + "%";
+}
 
-        document.querySelectorAll(".form-step").forEach(function(item) {
-            item.classList.remove("active");
-        });
+function showStep(step) {
+    document.querySelectorAll(".form-step").forEach(function(item) {
+        item.classList.remove("active");
+    });
 
-        document.getElementById("step" + step)
-            .classList.add("active");
+    document.getElementById("step" + step).classList.add("active");
 
-        updateProgress();
+    updateProgress();
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
 
-    }
+function validateStep() {
 
-
-    function validateStep() {
-
-        if(currentStep === 1) {
-
-            const amount =
-                document.getElementById("amountRange").value;
-
-            const tenure =
-                document.getElementById("tenure").value;
-
-            if(!amount || !tenure) {
-                alert("Please select loan amount and tenure.");
-                return false;
-            }
-        }
-
-
-        if(currentStep === 2) {
-
-            const name =
-                document.getElementById("fullName").value.trim();
-
-            const mobile =
-                document.getElementById("mobile").value.trim();
-
-            const gender =
-                document.getElementById("gender").value;
-
-            const dob =
-                document.getElementById("dob").value;
-
-            if(!name || !mobile || !gender || !dob) {
-                alert("Please fill all required personal details.");
-                return false;
-            }
-
-            if(mobile.length !== 10) {
-                alert("Please enter a valid 10 digit mobile number.");
-                return false;
-            }
-        }
-
-
-        if(currentStep === 3) {
-
-            const employment =
-                document.getElementById("employment").value;
-
-            const income =
-                document.getElementById("income").value;
-
-            if(!employment || !income) {
-                alert("Please enter employment type and monthly income.");
-                return false;
-            }
-
-            if(Number(income) <= 0) {
-                alert("Please enter a valid monthly income.");
-                return false;
-            }
-        }
-
-
-        if(currentStep === 4) {
-
-            const pan =
-                document.getElementById("pan").files.length;
-
-            const identity =
-                document.getElementById("identity").files.length;
-
-            if(!pan || !identity) {
-                alert("Please upload PAN and identity/address proof.");
-                return false;
-            }
-        }
-
-
-        return true;
-    }
-
-
-    function nextStep() {
-
-        if(!validateStep()) {
-            return;
-        }
-
-        if(currentStep < 5) {
-
-            currentStep++;
-
-            if(currentStep === 5) {
-                prepareReview();
-            }
-
-            showStep(currentStep);
-        }
-
-    }
-
-
-    function prevStep() {
-
-        if(currentStep > 1) {
-
-            currentStep--;
-
-            showStep(currentStep);
-
-        }
-
-    }
-
-
-    function prepareReview() {
-
+    if (currentStep === 1) {
         const amount =
             document.getElementById("amountRange").value;
 
         const tenure =
             document.getElementById("tenure").value;
 
+        if (!amount || !tenure) {
+            alert("Please select loan amount and tenure.");
+            return false;
+        }
+    }
+
+    if (currentStep === 2) {
         const name =
-            document.getElementById("fullName").value;
+            document.getElementById("fullName").value.trim();
 
         const mobile =
-            document.getElementById("mobile").value;
+            document.getElementById("mobile").value.trim();
 
+        const gender =
+            document.getElementById("gender").value;
+
+        const dob =
+            document.getElementById("dob").value;
+
+        if (!name || !mobile || !gender || !dob) {
+            alert("Please fill all required personal details.");
+            return false;
+        }
+
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            alert("Please enter a valid 10 digit Indian mobile number.");
+            return false;
+        }
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        const pincode =
+            document.getElementById("pincode").value.trim();
+
+        if (pincode && !/^\d{6}$/.test(pincode)) {
+            alert("Please enter a valid 6 digit PIN code.");
+            return false;
+        }
+    }
+
+    if (currentStep === 3) {
         const employment =
             document.getElementById("employment").value;
 
         const income =
             document.getElementById("income").value;
 
-
-        document.getElementById("reviewLoan").innerText =
-            selectedLoan;
-
-        document.getElementById("reviewAmount").innerText =
-            "₹" + Number(amount).toLocaleString("en-IN");
-
-        document.getElementById("reviewTenure").innerText =
-            tenure + " Months";
-
-        document.getElementById("reviewName").innerText =
-            name || "-";
-
-        document.getElementById("reviewMobile").innerText =
-            mobile || "-";
-
-        document.getElementById("reviewEmployment").innerText =
-            employment || "-";
-
-        document.getElementById("reviewIncome").innerText =
-            income ? "₹" + Number(income).toLocaleString("en-IN") : "-";
-
-    }
-
-
-    function submitApplication() {
-
-        const consent =
-            document.getElementById("consent").checked;
-
-        if(!consent) {
-
-            alert(
-                "Please confirm the declaration before submitting."
-            );
-
-            return;
+        if (!employment || !income) {
+            alert("Please enter employment type and monthly income.");
+            return false;
         }
 
+        if (Number(income) <= 0) {
+            alert("Please enter a valid monthly income.");
+            return false;
+        }
 
-        const randomNumber =
-            Math.floor(10000 + Math.random() * 90000);
+        const existingEmi =
+            document.getElementById("existingEmi").value;
+
+        if (existingEmi && Number(existingEmi) < 0) {
+            alert("Please enter a valid existing EMI.");
+            return false;
+        }
+    }
+
+    if (currentStep === 4) {
+        const pan =
+            document.getElementById("pan").files[0];
+
+        const identity =
+            document.getElementById("identity").files[0];
+
+        const bankStatement =
+            document.getElementById("bankStatement").files[0];
+
+        if (!pan || !identity || !bankStatement) {
+            alert("Please upload PAN, identity/address proof and bank statement.");
+            return false;
+        }
+
+        const maxSize = 5 * 1024 * 1024;
+        const files = [pan, identity, bankStatement];
+
+        for (const file of files) {
+            if (file.size > maxSize) {
+                alert("Each document must be 5 MB or smaller.");
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function nextStep() {
+    if (!validateStep()) {
+        return;
+    }
+
+    if (currentStep < 5) {
+        currentStep++;
+
+        if (currentStep === 5) {
+            prepareReview();
+        }
+
+        showStep(currentStep);
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+    }
+}
+
+function prepareReview() {
+    const amount =
+        document.getElementById("amountRange").value;
+
+    const tenure =
+        document.getElementById("tenure").value;
+
+    const name =
+        document.getElementById("fullName").value;
+
+    const mobile =
+        document.getElementById("mobile").value;
+
+    const employment =
+        document.getElementById("employment").value;
+
+    const income =
+        document.getElementById("income").value;
+
+    document.getElementById("reviewLoan").innerText =
+        selectedLoan;
+
+    document.getElementById("reviewAmount").innerText =
+        "₹" + Number(amount).toLocaleString("en-IN");
+
+    document.getElementById("reviewTenure").innerText =
+        tenure + " Months";
+
+    document.getElementById("reviewName").innerText =
+        name || "-";
+
+    document.getElementById("reviewMobile").innerText =
+        mobile || "-";
+
+    document.getElementById("reviewEmployment").innerText =
+        employment || "-";
+
+    document.getElementById("reviewIncome").innerText =
+        income
+            ? "₹" + Number(income).toLocaleString("en-IN")
+            : "-";
+}
+
+function getApplicationData() {
+    const amount =
+        Number(document.getElementById("amountRange").value);
+
+    const tenure =
+        Number(document.getElementById("tenure").value);
+
+    const fullName =
+        document.getElementById("fullName").value.trim();
+
+    const mobile =
+        document.getElementById("mobile").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const address =
+        document.getElementById("address").value.trim();
+
+    const city =
+        document.getElementById("city").value.trim();
+
+    const pincode =
+        document.getElementById("pincode").value.trim();
+
+    const gender =
+        document.getElementById("gender").value;
+
+    const dob =
+        document.getElementById("dob").value;
+
+    const employment =
+        document.getElementById("employment").value;
+
+    const company =
+        document.getElementById("company").value.trim();
+
+    const income =
+        Number(document.getElementById("income").value);
+
+    const experience =
+        document.getElementById("experience").value;
+
+    const existingEmiValue =
+        document.getElementById("existingEmi").value;
+
+    const existingEmi =
+        existingEmiValue === "" ? 0 : Number(existingEmiValue);
+
+    return {
+        userId: currentUser.uid,
+
+        loanType: selectedLoan,
+        amount: amount,
+        tenure: tenure,
+
+        personal: {
+            fullName: fullName,
+            mobile: mobile,
+            email: email,
+            dob: dob,
+            gender: gender,
+            address: address,
+            city: city,
+            pincode: pincode
+        },
+
+        employment: {
+            type: employment,
+            company: company,
+            monthlyIncome: income,
+            experience: experience,
+            existingEmi: existingEmi
+        },
+
+        status: "pending",
+
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        updatedAt: firebase.database.ServerValue.TIMESTAMP
+    };
+}
+
+function validateBeforeSubmit() {
+
+    if (!currentUser) {
+        alert("Please login first.");
+        window.location.replace("login.html");
+        return false;
+    }
+
+    if (!document.getElementById("consent").checked) {
+        alert("Please confirm the declaration before submitting.");
+        return false;
+    }
+
+    if (!validateStep()) {
+        return false;
+    }
+
+    return true;
+}
+
+async function submitApplication() {
+
+    if (submitting) {
+        return;
+    }
+
+    if (!validateBeforeSubmit()) {
+        return;
+    }
+
+    submitting = true;
+
+    const submitButton =
+        document.querySelector(".btn-submit");
+
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerText = "Submitting...";
+        submitButton.style.opacity = "0.7";
+    }
+
+    try {
+
+        /*
+         * Real Firebase path:
+         * loanApplications/{uid}/{applicationId}
+         *
+         * The same record is also mirrored under:
+         * loans/{uid}/{applicationId}
+         *
+         * so the Home / My Loans pages can read the user's applications.
+         */
+
+        const applicationRef =
+            database.ref("loanApplications/" + currentUser.uid).push();
+
+        const applicationId =
+            applicationRef.key;
+
+        const data =
+            getApplicationData();
+
+        data.applicationId = applicationId;
+
+        await applicationRef.set(data);
+
+        await database
+            .ref("loans/" + currentUser.uid + "/" + applicationId)
+            .set({
+                applicationId: applicationId,
+                userId: currentUser.uid,
+                loanType: data.loanType,
+                amount: data.amount,
+                tenure: data.tenure,
+                status: "pending",
+                createdAt: data.createdAt,
+                updatedAt: data.updatedAt
+            });
 
         document.getElementById("applicationId").innerText =
-            "LN" + randomNumber;
-
+            applicationId;
 
         document.querySelectorAll(".form-step").forEach(function(item) {
             item.classList.remove("active");
@@ -1317,12 +1480,86 @@
         document.getElementById("success").style.display =
             "block";
 
+    } catch (error) {
+
+        console.error("Loan application submission failed:", error);
+
+        if (error.code === "PERMISSION_DENIED") {
+            alert(
+                "Application save nahi ho payi. Firebase Realtime Database Rules me logged-in user ko write permission deni hogi."
+            );
+        } else {
+            alert(
+                "Application submit nahi ho payi. Please try again."
+            );
+        }
+
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerText = "Submit Application";
+            submitButton.style.opacity = "1";
+        }
+
+    } finally {
+        submitting = false;
+    }
+}
+
+auth.onAuthStateChanged(async function(user) {
+
+    if (!user) {
+        window.location.replace("login.html");
+        return;
     }
 
+    currentUser = user;
 
-    updateAmount();
-    updateProgress();
+    /*
+     * Pre-fill data from the user's Firebase profile when available.
+     * The user can still edit these fields before submitting.
+     */
+    try {
+        const snapshot =
+            await database.ref("users/" + user.uid).once("value");
 
+        const profile =
+            snapshot.val() || {};
+
+        const name =
+            profile.name ||
+            profile.fullName ||
+            user.displayName ||
+            "";
+
+        const email =
+            profile.email ||
+            user.email ||
+            "";
+
+        const mobile =
+            profile.mobile ||
+            profile.phone ||
+            "";
+
+        if (name) {
+            document.getElementById("fullName").value = name;
+        }
+
+        if (email) {
+            document.getElementById("email").value = email;
+        }
+
+        if (/^[6-9]\d{9}$/.test(String(mobile))) {
+            document.getElementById("mobile").value = mobile;
+        }
+
+    } catch (error) {
+        console.error("Could not load user profile:", error);
+    }
+});
+
+updateAmount();
+updateProgress();
 </script>
 
 </body>
