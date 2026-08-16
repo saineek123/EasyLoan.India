@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>EMI Repayment - LoanApp</title>
+<title>EMI Repayment | EasyLoan India</title>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
 
@@ -26,6 +33,7 @@ body{
     min-height:100vh;
     padding-bottom:40px;
 }
+
 
 /* HEADER */
 
@@ -71,7 +79,21 @@ body{
 }
 
 
-/* PAYMENT SUMMARY */
+/* LOADER */
+
+.loader{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    min-height:300px;
+
+    color:#155eef;
+    font-size:30px;
+}
+
+
+/* MAIN CARD */
 
 .payment-card{
     margin:15px;
@@ -153,7 +175,145 @@ body{
 }
 
 
-/* PAYMENT METHOD */
+/* EMI STATUS */
+
+.status-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    background:#fff4dd;
+
+    color:#9b6200;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    margin-top:12px;
+
+    font-size:9px;
+
+    line-height:1.5;
+}
+
+.status-box i{
+    font-size:18px;
+}
+
+
+/* EMI LIST */
+
+.emi-card{
+    background:white;
+
+    border-radius:16px;
+
+    padding:8px 15px;
+
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+.emi-row{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:13px 0;
+
+    border-bottom:1px solid #edf0f4;
+}
+
+.emi-row:last-child{
+    border-bottom:none;
+}
+
+.emi-number{
+    width:38px;
+    height:38px;
+
+    border-radius:10px;
+
+    background:#eef3ff;
+
+    color:#155eef;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    flex-shrink:0;
+}
+
+.emi-info{
+    flex:1;
+}
+
+.emi-title{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.emi-date{
+    margin-top:4px;
+
+    color:#8992a1;
+
+    font-size:8px;
+}
+
+.emi-right{
+    text-align:right;
+}
+
+.emi-amount{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.emi-status{
+    display:inline-block;
+
+    margin-top:4px;
+
+    padding:4px 7px;
+
+    border-radius:20px;
+
+    font-size:7px;
+
+    font-weight:bold;
+}
+
+.emi-status.paid{
+    background:#e7f8ef;
+    color:#168352;
+}
+
+.emi-status.pending{
+    background:#fff4dd;
+    color:#c77900;
+}
+
+.emi-status.upcoming{
+    background:#eaf0ff;
+    color:#155eef;
+}
+
+.emi-status.overdue{
+    background:#ffe9e9;
+    color:#d23b3b;
+}
+
+
+/* PAYMENT METHODS */
 
 .method-card{
 
@@ -197,7 +357,6 @@ body{
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     flex-shrink:0;
@@ -247,16 +406,16 @@ body{
 
 .method-subtitle{
     margin-top:4px;
+
     color:#8992a1;
+
     font-size:8px;
 }
 
 
-/* UPI */
+/* FORM */
 
-.upi-box{
-
-    display:none;
+.form-box{
 
     background:white;
 
@@ -271,6 +430,10 @@ body{
 
 .form-group{
     margin-bottom:13px;
+}
+
+.form-group:last-child{
+    margin-bottom:0;
 }
 
 .form-group label{
@@ -316,7 +479,13 @@ body{
 
     align-items:flex-start;
 
-    margin-top:15px;
+    background:white;
+
+    border-radius:16px;
+
+    padding:15px;
+
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
 }
 
 .agreement input{
@@ -382,9 +551,56 @@ body{
 }
 
 
-/* SUCCESS */
+/* TOAST */
 
-.success{
+.toast{
+
+    position:fixed;
+
+    top:20px;
+    left:50%;
+
+    transform:translate(-50%,-150px);
+
+    width:calc(100% - 30px);
+
+    max-width:480px;
+
+    padding:13px 15px;
+
+    border-radius:11px;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    z-index:9999;
+
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translate(-50%,0);
+}
+
+.toast.success{
+    background:#168352;
+}
+
+.toast.error{
+    background:#d23b3b;
+}
+
+.toast.info{
+    background:#155eef;
+}
+
+
+/* SUCCESS / PENDING MODAL */
+
+.modal{
 
     display:none;
 
@@ -403,7 +619,7 @@ body{
     padding:20px;
 }
 
-.success-box{
+.modal-box{
 
     width:100%;
 
@@ -418,7 +634,7 @@ body{
     text-align:center;
 }
 
-.success-icon{
+.modal-icon{
 
     width:70px;
     height:70px;
@@ -426,10 +642,6 @@ body{
     margin:auto;
 
     border-radius:50%;
-
-    background:#e4f8ed;
-
-    color:#168352;
 
     display:flex;
 
@@ -439,14 +651,19 @@ body{
     font-size:32px;
 }
 
-.success-box h3{
+.modal-icon.pending{
+    background:#fff4dd;
+    color:#c77900;
+}
+
+.modal-box h3{
 
     margin-top:15px;
 
     font-size:19px;
 }
 
-.success-box p{
+.modal-box p{
 
     margin-top:8px;
 
@@ -476,13 +693,20 @@ body{
 
     justify-content:space-between;
 
-    padding:6px 0;
+    gap:10px;
+
+    padding:7px 0;
 
     font-size:9px;
 }
 
 .transaction-row span{
     color:#7b8494;
+}
+
+.transaction-row strong{
+    word-break:break-all;
+    text-align:right;
 }
 
 .done-btn{
@@ -507,6 +731,57 @@ body{
 }
 
 
+/* ERROR */
+
+.error-box{
+    margin:20px 15px;
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+
+.error-box i{
+    font-size:40px;
+    color:#d23b3b;
+}
+
+.error-box h3{
+    margin-top:12px;
+    font-size:16px;
+}
+
+.error-box p{
+    margin-top:7px;
+    color:#7b8494;
+    font-size:9px;
+}
+
+.error-box button{
+    margin-top:15px;
+
+    height:42px;
+
+    padding:0 20px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:#155eef;
+
+    color:white;
+
+    font-weight:bold;
+}
+
+
 @media(max-width:360px){
 
     .payment-info{
@@ -518,11 +793,11 @@ body{
 </style>
 </head>
 
-
 <body>
 
-<div class="app">
+<div class="toast" id="toast"></div>
 
+<div class="app">
 
     <!-- HEADER -->
 
@@ -530,10 +805,7 @@ body{
 
         <div class="header-top">
 
-            <div
-                class="back"
-                onclick="go('loan-details.html')"
-            >
+            <div class="back" onclick="goBack()">
                 ←
             </div>
 
@@ -554,92 +826,269 @@ body{
     </div>
 
 
-    <!-- PAYMENT SUMMARY -->
+    <!-- LOADER -->
 
-    <div class="payment-card">
+    <div id="loader" class="loader">
 
-        <div class="payment-label">
-            Amount Due
-        </div>
-
-        <div class="payment-amount">
-            ₹4,750
-        </div>
-
-        <div class="payment-due">
-            Due on 15 Sep 2026
-        </div>
-
-
-        <div class="payment-info">
-
-            <div class="info-box">
-
-                <span>
-                    Loan ID
-                </span>
-
-                <strong>
-                    LN202600125
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <span>
-                    EMI Number
-                </span>
-
-                <strong>
-                    6 of 12
-                </strong>
-
-            </div>
-
-        </div>
+        <i class="fa-solid fa-spinner fa-spin"></i>
 
     </div>
 
 
-    <!-- PAYMENT METHOD -->
+    <!-- ERROR -->
 
-    <div class="section">
+    <div id="errorBox" class="error-box" style="display:none;">
 
-        <div class="section-title">
-            Select Payment Method
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        <h3 id="errorTitle">
+            Unable to Load Loan
+        </h3>
+
+        <p id="errorText">
+            Loan information could not be loaded.
+        </p>
+
+        <button onclick="go('my-loans.html')">
+            Back to My Loans
+        </button>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div id="content" style="display:none;">
+
+
+        <!-- PAYMENT SUMMARY -->
+
+        <div class="payment-card">
+
+            <div class="payment-label">
+                Amount Due
+            </div>
+
+            <div class="payment-amount" id="amountDue">
+                ₹0
+            </div>
+
+            <div class="payment-due" id="dueText">
+                Loading...
+            </div>
+
+
+            <div class="payment-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Loan ID
+                    </span>
+
+                    <strong id="loanIdText">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        EMI Number
+                    </span>
+
+                    <strong id="emiNumberText">
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="status-box" id="loanStatusBox">
+
+                <i class="fa-solid fa-clock"></i>
+
+                <span id="loanStatusText">
+                    Payment information loaded.
+                </span>
+
+            </div>
+
         </div>
 
 
-        <div class="method-card">
+        <!-- EMI SCHEDULE -->
+
+        <div class="section">
+
+            <div class="section-title">
+                EMI Schedule
+            </div>
+
+            <div class="emi-card" id="emiList">
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT METHOD -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Select Payment Method
+            </div>
+
+
+            <div class="method-card">
+
+
+                <div
+                    class="method selected"
+                    data-method="upi"
+                    onclick="selectMethod(this)"
+                >
+
+                    <div class="method-radio"></div>
+
+                    <div class="method-icon">
+                        📱
+                    </div>
+
+                    <div class="method-content">
+
+                        <div class="method-title">
+                            UPI
+                        </div>
+
+                        <div class="method-subtitle">
+                            Pay using a supported UPI app
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="method"
+                    data-method="card"
+                    onclick="selectMethod(this)"
+                >
+
+                    <div class="method-radio"></div>
+
+                    <div class="method-icon">
+                        💳
+                    </div>
+
+                    <div class="method-content">
+
+                        <div class="method-title">
+                            Debit / Credit Card
+                        </div>
+
+                        <div class="method-subtitle">
+                            Pay using your card
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="method"
+                    data-method="netbanking"
+                    onclick="selectMethod(this)"
+                >
+
+                    <div class="method-radio"></div>
+
+                    <div class="method-icon">
+                        🏦
+                    </div>
+
+                    <div class="method-content">
+
+                        <div class="method-title">
+                            Net Banking
+                        </div>
+
+                        <div class="method-subtitle">
+                            Pay through your bank
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="method"
+                    data-method="bank"
+                    onclick="selectMethod(this)"
+                >
+
+                    <div class="method-radio"></div>
+
+                    <div class="method-icon">
+                        🏧
+                    </div>
+
+                    <div class="method-content">
+
+                        <div class="method-title">
+                            Bank Account
+                        </div>
+
+                        <div class="method-subtitle">
+                            Use your verified bank account
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
             <!-- UPI -->
 
             <div
-                class="method selected"
-                data-method="upi"
-                onclick="selectMethod(this)"
+                class="form-box"
+                id="upiBox"
             >
 
-                <div class="method-radio"></div>
+                <div class="form-group">
 
-                <div class="method-icon">
-                    📱
-                </div>
+                    <label>
+                        UPI ID
+                    </label>
 
-                <div class="method-content">
-
-                    <div class="method-title">
-                        UPI
-                    </div>
-
-                    <div class="method-subtitle">
-                        Pay using a supported UPI app
-                    </div>
+                    <input
+                        type="text"
+                        id="upiId"
+                        placeholder="example@upi"
+                    >
 
                 </div>
+
+                <p style="
+                    font-size:8px;
+                    color:#8a93a2;
+                    line-height:1.5;
+                ">
+
+                    Your UPI ID will only be used for the
+                    payment request. Payment confirmation must
+                    come from the authorized payment gateway.
+
+                </p>
 
             </div>
 
@@ -647,28 +1096,36 @@ body{
             <!-- CARD -->
 
             <div
-                class="method"
-                data-method="card"
-                onclick="selectMethod(this)"
+                class="form-box"
+                id="cardBox"
+                style="display:none;"
             >
 
-                <div class="method-radio"></div>
+                <div class="form-group">
 
-                <div class="method-icon">
-                    💳
-                </div>
+                    <label>
+                        Cardholder Name
+                    </label>
 
-                <div class="method-content">
-
-                    <div class="method-title">
-                        Debit / Credit Card
-                    </div>
-
-                    <div class="method-subtitle">
-                        Pay using your card
-                    </div>
+                    <input
+                        type="text"
+                        id="cardName"
+                        placeholder="Name on card"
+                    >
 
                 </div>
+
+                <p style="
+                    font-size:8px;
+                    color:#8a93a2;
+                    line-height:1.5;
+                ">
+
+                    Do not enter your card number or CVV into
+                    this demo page. A real payment gateway should
+                    collect sensitive card information.
+
+                </p>
 
             </div>
 
@@ -676,108 +1133,61 @@ body{
             <!-- NET BANKING -->
 
             <div
-                class="method"
-                data-method="netbanking"
-                onclick="selectMethod(this)"
+                class="form-box"
+                id="netbankingBox"
+                style="display:none;"
             >
 
-                <div class="method-radio"></div>
+                <div class="form-group">
 
-                <div class="method-icon">
-                    🏦
-                </div>
+                    <label>
+                        Bank Name
+                    </label>
 
-                <div class="method-content">
-
-                    <div class="method-title">
-                        Net Banking
-                    </div>
-
-                    <div class="method-subtitle">
-                        Pay directly through your bank
-                    </div>
+                    <input
+                        type="text"
+                        id="bankName"
+                        placeholder="Enter bank name"
+                    >
 
                 </div>
 
             </div>
 
 
-            <!-- BANK ACCOUNT -->
+            <!-- BANK -->
 
             <div
-                class="method"
-                data-method="bank"
-                onclick="selectMethod(this)"
+                class="form-box"
+                id="bankBox"
+                style="display:none;"
             >
 
-                <div class="method-radio"></div>
+                <p style="
+                    font-size:9px;
+                    color:#687385;
+                    line-height:1.6;
+                ">
 
-                <div class="method-icon">
-                    🏧
-                </div>
+                    Payment will use your verified bank-account
+                    payment flow. Do not enter your account
+                    password, PIN or OTP here.
 
-                <div class="method-content">
-
-                    <div class="method-title">
-                        Bank Account
-                    </div>
-
-                    <div class="method-subtitle">
-                        Use your verified bank account
-                    </div>
-
-                </div>
+                </p>
 
             </div>
 
         </div>
 
 
-        <!-- UPI INPUT -->
+        <!-- CONFIRM -->
 
-        <div
-            class="upi-box"
-            id="upiBox"
-        >
+        <div class="section">
 
-            <div class="form-group">
-
-                <label>
-                    UPI ID
-                </label>
-
-                <input
-                    type="text"
-                    id="upiId"
-                    placeholder="example@upi"
-                >
-
+            <div class="section-title">
+                Payment Confirmation
             </div>
 
-            <p style="
-                font-size:8px;
-                color:#8a93a2;
-                line-height:1.5;
-            ">
-                You will be redirected to the authorized payment
-                flow to complete the transaction.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- CONFIRMATION -->
-
-    <div class="section">
-
-        <div class="section-title">
-            Payment Confirmation
-        </div>
-
-
-        <div class="method-card">
 
             <div class="agreement">
 
@@ -790,7 +1200,7 @@ body{
                 <label for="agree">
 
                     I confirm that I want to make the scheduled
-                    payment of ₹4,750 for Loan ID LN202600125.
+                    payment shown above for this loan.
 
                 </label>
 
@@ -798,30 +1208,37 @@ body{
 
         </div>
 
-    </div>
+
+        <!-- PAY -->
+
+        <div class="section">
+
+            <button
+                class="pay-btn"
+                id="payBtn"
+                disabled
+                onclick="startPayment()"
+            >
+
+                <i class="fa-solid fa-lock"></i>
+
+                <span>
+                    Submit Payment Request
+                </span>
+
+            </button>
 
 
-    <!-- PAY -->
+            <div class="security">
 
-    <div class="section">
+                🔐 <strong>Secure Payment</strong><br>
 
-        <button
-            class="pay-btn"
-            id="payBtn"
-            disabled
-            onclick="startPayment()"
-        >
-            Pay ₹4,750
-        </button>
+                This page does not directly process card,
+                UPI or bank credentials. A payment is marked
+                successful only after authorized gateway/backend
+                verification.
 
-
-        <div class="security">
-
-            🔐 <strong>Secure Payment</strong><br>
-
-            Payment status should only be marked successful after
-            confirmation from the authorized payment gateway and
-            backend. Never trust a client-side success message.
+            </div>
 
         </div>
 
@@ -830,25 +1247,31 @@ body{
 </div>
 
 
-<!-- SUCCESS -->
+<!-- PENDING MODAL -->
 
 <div
-    class="success"
-    id="successModal"
+    class="modal"
+    id="pendingModal"
 >
 
-    <div class="success-box">
+    <div class="modal-box">
 
-        <div class="success-icon">
-            ✓
+        <div class="modal-icon pending">
+
+            ⏳
+
         </div>
 
         <h3>
-            Payment Successful
+            Payment Request Created
         </h3>
 
         <p>
-            Your payment has been recorded successfully.
+
+            Your payment request has been saved as
+            <strong>Pending</strong>. It should be marked
+            successful only after payment-gateway verification.
+
         </p>
 
 
@@ -860,8 +1283,8 @@ body{
                     Amount
                 </span>
 
-                <strong>
-                    ₹4,750
+                <strong id="modalAmount">
+                    ₹0
                 </strong>
 
             </div>
@@ -873,8 +1296,8 @@ body{
                     Loan ID
                 </span>
 
-                <strong>
-                    LN202600125
+                <strong id="modalLoanId">
+                    --
                 </strong>
 
             </div>
@@ -886,8 +1309,8 @@ body{
                     EMI
                 </span>
 
-                <strong>
-                    6 of 12
+                <strong id="modalEMI">
+                    --
                 </strong>
 
             </div>
@@ -899,8 +1322,21 @@ body{
                     Transaction ID
                 </span>
 
-                <strong id="transactionId">
+                <strong id="modalTxn">
                     --
+                </strong>
+
+            </div>
+
+
+            <div class="transaction-row">
+
+                <span>
+                    Status
+                </span>
+
+                <strong style="color:#c77900;">
+                    Pending
                 </strong>
 
             </div>
@@ -910,9 +1346,11 @@ body{
 
         <button
             class="done-btn"
-            onclick="go('loan-details.html')"
+            onclick="go('payment-history.html')"
         >
-            Back to Loan
+
+            View Payment History
+
         </button>
 
     </div>
@@ -922,9 +1360,68 @@ body{
 
 <script>
 
+/* ============================================================
+   FIREBASE
+============================================================ */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* Initialize */
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+const auth =
+    firebase.auth();
+
+const database =
+    firebase.database();
+
+
+/* ============================================================
+   GLOBAL VARIABLES
+============================================================ */
+
+let currentUser = null;
+
+let currentLoan = null;
+
+let currentLoanId = null;
 
 let selectedMethod = "upi";
 
+let currentEMI = null;
+
+let submitting = false;
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
 
 function go(page){
 
@@ -933,7 +1430,613 @@ function go(page){
 }
 
 
-/* SELECT PAYMENT METHOD */
+function goBack(){
+
+    if(currentLoanId){
+
+        window.location.href =
+            "loan-details.html?loanId=" +
+            encodeURIComponent(currentLoanId);
+
+    }else{
+
+        window.location.href =
+            "my-loans.html";
+
+    }
+
+}
+
+
+/* ============================================================
+   TOAST
+============================================================ */
+
+function showToast(message,type="info"){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        "toast " + type + " show";
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },3500);
+
+}
+
+
+/* ============================================================
+   URL LOAN ID
+============================================================ */
+
+function getLoanIdFromURL(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("loanId");
+
+}
+
+
+/* ============================================================
+   AUTH
+============================================================ */
+
+auth.onAuthStateChanged(function(user){
+
+    if(!user){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    currentLoanId =
+        getLoanIdFromURL();
+
+
+    if(!currentLoanId){
+
+        showError(
+            "No Loan Selected",
+            "Please select a loan before making a repayment."
+        );
+
+        return;
+
+    }
+
+
+    loadLoan();
+
+});
+
+
+/* ============================================================
+   LOAD LOAN
+============================================================ */
+
+function loadLoan(){
+
+    document.getElementById(
+        "loader"
+    ).style.display = "flex";
+
+
+    database.ref(
+        "loans/" + currentLoanId
+    )
+    .once("value")
+
+    .then(function(snapshot){
+
+        const loan =
+            snapshot.val();
+
+
+        if(!loan){
+
+            throw new Error(
+                "Loan not found."
+            );
+
+        }
+
+
+        /*
+           Security check:
+           Current user must own this loan.
+        */
+
+        if(
+            loan.userId &&
+            loan.userId !== currentUser.uid
+        ){
+
+            throw new Error(
+                "You are not authorized to access this loan."
+            );
+
+        }
+
+
+        currentLoan =
+            loan;
+
+
+        displayLoan(loan);
+
+
+    })
+
+    .catch(function(error){
+
+        console.error(error);
+
+        showError(
+            "Unable to Load Loan",
+            error.message ||
+            "Something went wrong while loading your loan."
+        );
+
+    })
+
+    .finally(function(){
+
+        document.getElementById(
+            "loader"
+        ).style.display = "none";
+
+    });
+
+}
+
+
+/* ============================================================
+   DISPLAY LOAN
+============================================================ */
+
+function displayLoan(loan){
+
+    document.getElementById(
+        "content"
+    ).style.display = "block";
+
+
+    const emiAmount =
+        Number(
+            loan.emiAmount ||
+            loan.emi ||
+            loan.monthlyEMI ||
+            0
+        );
+
+
+    const tenure =
+        Number(
+            loan.tenure ||
+            loan.term ||
+            12
+        );
+
+
+    const paidCount =
+        Number(
+            loan.paidEMIs ||
+            loan.paidEmis ||
+            0
+        );
+
+
+    const nextEMINumber =
+        paidCount + 1;
+
+
+    currentEMI = {
+
+        number: nextEMINumber,
+
+        amount: emiAmount,
+
+        tenure: tenure
+
+    };
+
+
+    document.getElementById(
+        "amountDue"
+    ).textContent =
+        formatMoney(emiAmount);
+
+
+    document.getElementById(
+        "loanIdText"
+    ).textContent =
+        currentLoanId;
+
+
+    document.getElementById(
+        "emiNumberText"
+    ).textContent =
+        nextEMINumber +
+        " of " +
+        tenure;
+
+
+    /*
+       Due date:
+       Use loan.nextDueDate if available.
+       Otherwise calculate a demo next date.
+    */
+
+    let dueDate =
+        parseDate(
+            loan.nextDueDate ||
+            loan.dueDate ||
+            loan.emiDueDate
+        );
+
+
+    if(!dueDate){
+
+        dueDate =
+            new Date();
+
+        dueDate.setMonth(
+            dueDate.getMonth() + 1
+        );
+
+        dueDate.setDate(15);
+
+    }
+
+
+    currentEMI.dueDate =
+        dueDate.getTime();
+
+
+    document.getElementById(
+        "dueText"
+    ).textContent =
+        "Due on " +
+        formatDate(dueDate);
+
+
+    renderEMISchedule(
+        loan,
+        emiAmount,
+        tenure,
+        paidCount
+    );
+
+
+    updateLoanStatus(
+        loan
+    );
+
+
+    checkPayment();
+
+}
+
+
+/* ============================================================
+   MONEY
+============================================================ */
+
+function formatMoney(amount){
+
+    return "₹" +
+        Number(amount || 0)
+        .toLocaleString("en-IN");
+
+}
+
+
+/* ============================================================
+   DATE
+============================================================ */
+
+function parseDate(value){
+
+    if(!value){
+        return null;
+    }
+
+
+    if(
+        typeof value === "number"
+    ){
+
+        return new Date(value);
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        isNaN(
+            date.getTime()
+        )
+    ){
+
+        return null;
+
+    }
+
+
+    return date;
+
+}
+
+
+function formatDate(date){
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* ============================================================
+   EMI SCHEDULE
+============================================================ */
+
+function renderEMISchedule(
+    loan,
+    emiAmount,
+    tenure,
+    paidCount
+){
+
+    const list =
+        document.getElementById(
+            "emiList"
+        );
+
+
+    const maxDisplay =
+        Math.min(
+            tenure,
+            12
+        );
+
+
+    let html = "";
+
+
+    for(
+        let i = 1;
+        i <= maxDisplay;
+        i++
+    ){
+
+        let status;
+
+
+        if(i <= paidCount){
+
+            status = "paid";
+
+        }
+        else if(
+            i === paidCount + 1
+        ){
+
+            status = "pending";
+
+        }
+        else{
+
+            status = "upcoming";
+
+        }
+
+
+        let date =
+            new Date();
+
+
+        date.setMonth(
+            date.getMonth() +
+            (i - paidCount)
+        );
+
+        date.setDate(15);
+
+
+        let label;
+
+
+        if(status === "paid"){
+
+            label = "✓ Paid";
+
+        }
+        else if(status === "pending"){
+
+            label = "⏳ Due";
+
+        }
+        else{
+
+            label = "📅 Upcoming";
+
+        }
+
+
+        html += `
+
+            <div class="emi-row">
+
+                <div class="emi-number">
+                    #${i}
+                </div>
+
+                <div class="emi-info">
+
+                    <div class="emi-title">
+                        EMI #${i}
+                    </div>
+
+                    <div class="emi-date">
+                        ${formatDate(date)}
+                    </div>
+
+                </div>
+
+                <div class="emi-right">
+
+                    <div class="emi-amount">
+                        ${formatMoney(emiAmount)}
+                    </div>
+
+                    <span class="emi-status ${status}">
+                        ${label}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(!html){
+
+        html = `
+
+            <div style="
+                padding:20px;
+                text-align:center;
+                color:#8992a1;
+                font-size:9px;
+            ">
+
+                No EMI schedule available.
+
+            </div>
+
+        `;
+
+    }
+
+
+    list.innerHTML =
+        html;
+
+}
+
+
+/* ============================================================
+   LOAN STATUS
+============================================================ */
+
+function updateLoanStatus(loan){
+
+    const box =
+        document.getElementById(
+            "loanStatusBox"
+        );
+
+    const text =
+        document.getElementById(
+            "loanStatusText"
+        );
+
+
+    const status =
+        String(
+            loan.status ||
+            "active"
+        ).toLowerCase();
+
+
+    if(
+        status === "closed" ||
+        status === "completed"
+    ){
+
+        box.style.background =
+            "#e7f8ef";
+
+        box.style.color =
+            "#168352";
+
+        text.textContent =
+            "This loan is marked as completed.";
+
+        document.getElementById(
+            "payBtn"
+        ).disabled = true;
+
+        return;
+
+    }
+
+
+    if(
+        status === "rejected" ||
+        status === "cancelled"
+    ){
+
+        box.style.background =
+            "#ffe9e9";
+
+        box.style.color =
+            "#d23b3b";
+
+        text.textContent =
+            "Payment is unavailable for this loan.";
+
+        document.getElementById(
+            "payBtn"
+        ).disabled = true;
+
+        return;
+
+    }
+
+
+    box.style.background =
+        "#fff4dd";
+
+    box.style.color =
+        "#9b6200";
+
+    text.textContent =
+        "Your next EMI is ready for repayment.";
+
+}
+
+
+/* ============================================================
+   PAYMENT METHOD
+============================================================ */
 
 function selectMethod(element){
 
@@ -941,29 +2044,84 @@ function selectMethod(element){
         .querySelectorAll(".method")
         .forEach(function(item){
 
-            item.classList.remove("selected");
+            item.classList.remove(
+                "selected"
+            );
 
         });
 
 
-    element.classList.add("selected");
+    element.classList.add(
+        "selected"
+    );
 
 
     selectedMethod =
-        element.getAttribute("data-method");
+        element.getAttribute(
+            "data-method"
+        );
 
 
-    const upiBox =
-        document.getElementById("upiBox");
+    document.getElementById(
+        "upiBox"
+    ).style.display = "none";
 
 
-    if(selectedMethod === "upi"){
+    document.getElementById(
+        "cardBox"
+    ).style.display = "none";
 
-        upiBox.style.display = "block";
 
-    }else{
+    document.getElementById(
+        "netbankingBox"
+    ).style.display = "none";
 
-        upiBox.style.display = "none";
+
+    document.getElementById(
+        "bankBox"
+    ).style.display = "none";
+
+
+    if(
+        selectedMethod === "upi"
+    ){
+
+        document.getElementById(
+            "upiBox"
+        ).style.display = "block";
+
+    }
+
+
+    if(
+        selectedMethod === "card"
+    ){
+
+        document.getElementById(
+            "cardBox"
+        ).style.display = "block";
+
+    }
+
+
+    if(
+        selectedMethod === "netbanking"
+    ){
+
+        document.getElementById(
+            "netbankingBox"
+        ).style.display = "block";
+
+    }
+
+
+    if(
+        selectedMethod === "bank"
+    ){
+
+        document.getElementById(
+            "bankBox"
+        ).style.display = "block";
 
     }
 
@@ -973,33 +2131,40 @@ function selectMethod(element){
 }
 
 
-/* CHECK */
+/* ============================================================
+   PAYMENT VALIDATION
+============================================================ */
 
 function checkPayment(){
 
     const agree =
-        document.getElementById("agree").checked;
+        document.getElementById(
+            "agree"
+        ).checked;
 
 
-    let valid = agree;
+    let valid =
+        agree;
 
 
-    /*
-       UPI ID validation for demo UI only.
-       Actual UPI/payment validation must happen
-       through the authorized payment flow.
-    */
-
-    if(selectedMethod === "upi"){
+    if(
+        selectedMethod === "upi"
+    ){
 
         const upi =
-            document
-            .getElementById("upiId")
-            .value
-            .trim();
+            document.getElementById(
+                "upiId"
+            ).value.trim();
 
 
-        if(upi.length < 5){
+        /*
+           Basic UI validation only.
+        */
+
+        if(
+            upi.length < 5 ||
+            !upi.includes("@")
+        ){
 
             valid = false;
 
@@ -1008,31 +2173,183 @@ function checkPayment(){
     }
 
 
-    document.getElementById(
-        "payBtn"
-    ).disabled = !valid;
+    if(
+        selectedMethod === "card"
+    ){
+
+        const name =
+            document.getElementById(
+                "cardName"
+            ).value.trim();
+
+
+        if(
+            name.length < 2
+        ){
+
+            valid = false;
+
+        }
+
+    }
+
+
+    if(
+        selectedMethod === "netbanking"
+    ){
+
+        const bank =
+            document.getElementById(
+                "bankName"
+            ).value.trim();
+
+
+        if(
+            bank.length < 2
+        ){
+
+            valid = false;
+
+        }
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "payBtn"
+        );
+
+
+    button.disabled =
+        !valid ||
+        submitting;
+
 
 }
 
 
-/* UPI INPUT */
+/* Input listeners */
 
-document
-    .getElementById("upiId")
-    .addEventListener(
-        "input",
-        checkPayment
-    );
+document.getElementById(
+    "upiId"
+).addEventListener(
+    "input",
+    checkPayment
+);
 
 
-/* START PAYMENT */
+document.getElementById(
+    "cardName"
+).addEventListener(
+    "input",
+    checkPayment
+);
 
-function startPayment(){
+
+document.getElementById(
+    "bankName"
+).addEventListener(
+    "input",
+    checkPayment
+);
+
+
+/* ============================================================
+   GENERATE TRANSACTION ID
+============================================================ */
+
+function generateTransactionId(){
+
+    return "TXN" +
+        Date.now() +
+        Math.floor(
+            100 +
+            Math.random() * 900
+        );
+
+}
+
+
+/* ============================================================
+   CHECK EXISTING PENDING PAYMENT
+============================================================ */
+
+async function checkExistingPayment(){
+
+    const snapshot =
+        await database
+        .ref("payments")
+        .orderByChild("loanId")
+        .equalTo(currentLoanId)
+        .once("value");
+
+
+    let existing = null;
+
+
+    snapshot.forEach(function(child){
+
+        const payment =
+            child.val();
+
+
+        if(
+            payment &&
+            payment.userId ===
+            currentUser.uid &&
+            payment.status ===
+            "pending"
+        ){
+
+            existing = {
+                id: child.key,
+                data: payment
+            };
+
+        }
+
+    });
+
+
+    return existing;
+
+}
+
+
+/* ============================================================
+   START PAYMENT REQUEST
+============================================================ */
+
+async function startPayment(){
+
+    if(submitting){
+
+        return;
+
+    }
+
 
     if(
-        document
-        .getElementById("payBtn")
-        .disabled
+        !currentUser ||
+        !currentLoan ||
+        !currentEMI
+    ){
+
+        showToast(
+            "Loan information is not ready.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        document.getElementById(
+            "payBtn"
+        ).disabled
     ){
 
         return;
@@ -1040,34 +2357,290 @@ function startPayment(){
     }
 
 
-    /*
-       DEMO ONLY.
-
-       Real implementation:
-
-       1. Backend creates payment order.
-       2. Payment gateway opens checkout.
-       3. Gateway returns payment result.
-       4. Backend verifies signature/webhook.
-       5. Only then EMI is marked paid.
-    */
+    submitting = true;
 
 
-    const transactionId =
-        "TXN" +
-        Date.now();
+    const button =
+        document.getElementById(
+            "payBtn"
+        );
 
 
-    document.getElementById(
-        "transactionId"
-    ).innerText = transactionId;
+    button.disabled =
+        true;
 
 
-    document.getElementById(
-        "successModal"
-    ).style.display = "flex";
+    button.innerHTML = `
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Creating Request...
+
+    `;
+
+
+    try{
+
+        /*
+           Prevent duplicate pending requests.
+        */
+
+        const existing =
+            await checkExistingPayment();
+
+
+        if(existing){
+
+            showPendingModal(
+                existing.data
+            );
+
+            return;
+
+        }
+
+
+        const transactionId =
+            generateTransactionId();
+
+
+        const paymentKey =
+            database
+            .ref("payments")
+            .push()
+            .key;
+
+
+        const now =
+            firebase.database.ServerValue.TIMESTAMP;
+
+
+        const paymentData = {
+
+            paymentId:
+                paymentKey,
+
+            transactionId:
+                transactionId,
+
+            loanId:
+                currentLoanId,
+
+            userId:
+                currentUser.uid,
+
+            amount:
+                Number(
+                    currentEMI.amount
+                ),
+
+            emiNumber:
+                Number(
+                    currentEMI.number
+                ),
+
+            totalTenure:
+                Number(
+                    currentEMI.tenure
+                ),
+
+            method:
+                selectedMethod,
+
+            status:
+                "pending",
+
+            paymentStatus:
+                "pending",
+
+            createdAt:
+                now,
+
+            updatedAt:
+                now
+
+        };
+
+
+        /*
+           Save payment request.
+        */
+
+        await database
+            .ref(
+                "payments/" +
+                paymentKey
+            )
+            .set(
+                paymentData
+            );
+
+
+        /*
+           Also create a user payment index.
+           This makes history queries easier.
+        */
+
+        await database
+            .ref(
+                "userPayments/" +
+                currentUser.uid +
+                "/" +
+                paymentKey
+            )
+            .set({
+
+                paymentId:
+                    paymentKey,
+
+                transactionId:
+                    transactionId,
+
+                loanId:
+                    currentLoanId,
+
+                amount:
+                    Number(
+                        currentEMI.amount
+                    ),
+
+                emiNumber:
+                    Number(
+                        currentEMI.number
+                    ),
+
+                method:
+                    selectedMethod,
+
+                status:
+                    "pending",
+
+                createdAt:
+                    now
+
+            });
+
+
+        showPendingModal(
+            paymentData
+        );
+
+
+        showToast(
+            "Payment request created.",
+            "success"
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Payment request error:",
+            error
+        );
+
+
+        showToast(
+            "Unable to create payment request: " +
+            error.message,
+            "error"
+        );
+
+    }
+    finally{
+
+        submitting =
+            false;
+
+
+        button.disabled =
+            false;
+
+
+        button.innerHTML = `
+
+            <i class="fa-solid fa-lock"></i>
+
+            <span>
+                Submit Payment Request
+            </span>
+
+        `;
+
+
+        checkPayment();
+
+    }
 
 }
+
+
+/* ============================================================
+   SHOW PENDING MODAL
+============================================================ */
+
+function showPendingModal(payment){
+
+    document.getElementById(
+        "modalAmount"
+    ).textContent =
+        formatMoney(
+            payment.amount
+        );
+
+
+    document.getElementById(
+        "modalLoanId"
+    ).textContent =
+        payment.loanId;
+
+
+    document.getElementById(
+        "modalEMI"
+    ).textContent =
+        payment.emiNumber +
+        " of " +
+        (
+            payment.totalTenure ||
+            currentEMI.tenure
+        );
+
+
+    document.getElementById(
+        "modalTxn"
+    ).textContent =
+        payment.transactionId;
+
+
+    document.getElementById(
+        "pendingModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* ============================================================
+   CLOSE MODAL WHEN OUTSIDE CLICK
+============================================================ */
+
+document.getElementById(
+    "pendingModal"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target === this
+        ){
+
+            this.style.display =
+                "none";
+
+        }
+
+    }
+);
 
 </script>
 
