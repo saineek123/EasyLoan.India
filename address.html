@@ -3,1134 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Address - LoanApp</title>
-
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#f4f6fa;
-    color:#172033;
-}
-
-.app{
-    max-width:520px;
-    margin:auto;
-    min-height:100vh;
-    padding-bottom:40px;
-}
-
-/* HEADER */
-
-.header{
-    background:linear-gradient(135deg,#155eef,#4f8cff);
-    color:white;
-    padding:20px 18px 28px;
-    border-radius:0 0 25px 25px;
-}
-
-.header-top{
-    display:flex;
-    align-items:center;
-    gap:13px;
-}
-
-.back{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:rgba(255,255,255,.18);
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:20px;
-    cursor:pointer;
-}
-
-.header h2{
-    font-size:20px;
-}
-
-.header p{
-    margin-top:5px;
-    font-size:12px;
-    opacity:.85;
-}
-
-/* STATUS */
-
-.status-card{
-    margin:15px;
-    background:white;
-    border-radius:17px;
-    padding:16px;
-
-    box-shadow:0 4px 18px rgba(0,0,0,.05);
-
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.status-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-
-    background:#e7f8ef;
-    color:#168352;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:20px;
-}
-
-.status-card h4{
-    font-size:12px;
-}
-
-.status-card p{
-    margin-top:4px;
-    font-size:9px;
-    color:#7c8596;
-}
-
-/* SECTION */
-
-.section{
-    padding:0 15px 15px;
-}
-
-.section-title{
-    font-size:16px;
-    margin-bottom:10px;
-}
-
-.card{
-    background:white;
-    border-radius:17px;
-    padding:18px;
-
-    box-shadow:0 3px 15px rgba(0,0,0,.04);
-}
-
-/* FORM */
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    color:#667085;
-    font-size:10px;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-
-    width:100%;
-
-    border:1px solid #dfe3e9;
-
-    border-radius:9px;
-
-    padding:10px 11px;
-
-    outline:none;
-
-    font-size:12px;
-
-    background:white;
-}
-
-.form-group input,
-.form-group select{
-    height:43px;
-}
-
-.form-group textarea{
-    height:75px;
-    resize:none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:#155eef;
-}
-
-.row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-/* CHECKBOX */
-
-.same-address{
-
-    background:#f6f8fb;
-
-    border-radius:11px;
-
-    padding:12px;
-
-    display:flex;
-
-    gap:9px;
-
-    align-items:flex-start;
-
-    margin-bottom:15px;
-}
-
-.same-address input{
-    margin-top:2px;
-}
-
-.same-address label{
-
-    color:#687384;
-
-    font-size:9px;
-
-    line-height:1.5;
-}
-
-/* DOCUMENT */
-
-.document{
-
-    border:1px dashed #b9c3d2;
-
-    border-radius:12px;
-
-    padding:17px;
-
-    text-align:center;
-
-    background:#fafbfc;
-}
-
-.document-icon{
-    font-size:27px;
-}
-
-.document h4{
-    margin-top:7px;
-    font-size:12px;
-}
-
-.document p{
-    margin-top:5px;
-    color:#818b9b;
-    font-size:9px;
-}
-
-.upload-btn{
-
-    display:inline-block;
-
-    margin-top:10px;
-
-    background:#eef3ff;
-
-    color:#155eef;
-
-    padding:9px 14px;
-
-    border-radius:8px;
-
-    font-size:10px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-.file-name{
-
-    margin-top:8px;
-
-    color:#168352;
-
-    font-size:9px;
-}
-
-/* BUTTON */
-
-.save-btn{
-
-    width:100%;
-
-    height:47px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#155eef;
-
-    color:white;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-.save-btn:disabled{
-    background:#aeb8c8;
-    cursor:not-allowed;
-}
-
-/* NOTE */
-
-.note{
-
-    margin-top:10px;
-
-    background:#fff8e8;
-
-    color:#80672a;
-
-    padding:13px;
-
-    border-radius:11px;
-
-    font-size:9px;
-
-    line-height:1.5;
-}
-
-/* MODAL */
-
-.modal{
-
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.5);
-
-    z-index:500;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:20px;
-}
-
-.modal-box{
-
-    width:100%;
-
-    max-width:420px;
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:25px;
-
-    text-align:center;
-}
-
-.success-icon{
-
-    width:65px;
-    height:65px;
-
-    margin:auto;
-
-    border-radius:50%;
-
-    background:#e4f8ed;
-
-    color:#168352;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:30px;
-}
-
-.modal-box h3{
-
-    margin-top:14px;
-
-    font-size:18px;
-}
-
-.modal-box p{
-
-    margin-top:8px;
-
-    color:#7b8494;
-
-    font-size:10px;
-
-    line-height:1.5;
-}
-
-.done-btn{
-
-    width:100%;
-
-    height:43px;
-
-    border:none;
-
-    border-radius:9px;
-
-    background:#155eef;
-
-    color:white;
-
-    font-weight:bold;
-
-    margin-top:17px;
-
-    cursor:pointer;
-}
-
-@media(max-width:360px){
-
-    .row{
-        grid-template-columns:1fr;
-    }
-
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f4f6fa;color:#172033}.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:40px}
+.header{background:linear-gradient(135deg,#155eef,#4f8cff);color:white;padding:20px 18px 28px;border-radius:0 0 25px 25px}
+.header-top{display:flex;align-items:center;gap:13px}.back{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}.header h2{font-size:20px}.header p{margin-top:5px;font-size:12px;opacity:.85}
+.status-card{margin:15px;background:white;border-radius:17px;padding:16px;box-shadow:0 4px 18px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px}.status-icon{width:42px;height:42px;border-radius:12px;background:#e7f8ef;color:#168352;display:flex;align-items:center;justify-content:center;font-size:20px}.status-card h4{font-size:12px}.status-card p{margin-top:4px;font-size:9px;color:#7c8596}
+.section{padding:0 15px 15px}.section-title{font-size:16px;margin-bottom:10px}.card{background:white;border-radius:17px;padding:18px;box-shadow:0 3px 15px rgba(0,0,0,.04)}
+.form-group{margin-bottom:15px}.form-group label{display:block;color:#667085;font-size:10px;margin-bottom:6px}.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid #dfe3e9;border-radius:9px;padding:10px 11px;outline:none;font-size:12px;background:white}.form-group input,.form-group select{height:43px}.form-group textarea{height:75px;resize:none}.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#155eef}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.same-address{background:#f6f8fb;border-radius:11px;padding:12px;display:flex;gap:9px;align-items:flex-start;margin-bottom:15px}.same-address input{margin-top:2px}.same-address label{color:#687384;font-size:9px;line-height:1.5}
+.document{border:1px dashed #b9c3d2;border-radius:12px;padding:17px;text-align:center;background:#fafbfc}.document-icon{font-size:27px}.document h4{margin-top:7px;font-size:12px}.document p{margin-top:5px;color:#818b9b;font-size:9px}.upload-btn{display:inline-block;margin-top:10px;background:#eef3ff;color:#155eef;padding:9px 14px;border-radius:8px;font-size:10px;font-weight:bold;cursor:pointer}.file-name{margin-top:8px;color:#168352;font-size:9px;word-break:break-all}
+.save-btn{width:100%;height:47px;border:none;border-radius:10px;background:#155eef;color:white;font-size:13px;font-weight:bold;cursor:pointer}.save-btn:disabled{background:#aeb8c8;cursor:not-allowed}
+.note{margin-top:10px;background:#fff8e8;color:#80672a;padding:13px;border-radius:11px;font-size:9px;line-height:1.5}
+.message{display:none;margin:0 15px 15px;padding:12px;border-radius:10px;font-size:10px;line-height:1.5}.message.error{background:#ffe9e9;color:#a61b1b}.message.ok{background:#e7f8ef;color:#168352}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px}.modal-box{width:100%;max-width:420px;background:white;border-radius:20px;padding:25px;text-align:center}.success-icon{width:65px;height:65px;margin:auto;border-radius:50%;background:#e4f8ed;color:#168352;display:flex;align-items:center;justify-content:center;font-size:30px}.modal-box h3{margin-top:14px;font-size:18px}.modal-box p{margin-top:8px;color:#7b8494;font-size:10px;line-height:1.5}.done-btn{width:100%;height:43px;border:none;border-radius:9px;background:#155eef;color:white;font-weight:bold;margin-top:17px;cursor:pointer}
+@media(max-width:360px){.row{grid-template-columns:1fr}}
 </style>
 </head>
-
-
 <body>
-
 <div class="app">
-
-
-    <!-- HEADER -->
-
-    <div class="header">
-
-        <div class="header-top">
-
-            <div
-                class="back"
-                onclick="go('profile.html')"
-            >
-                ←
-            </div>
-
-            <div>
-
-                <h2>My Address</h2>
-
-                <p>
-                    Manage your residential address
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- STATUS -->
-
-    <div class="status-card">
-
-        <div class="status-icon">
-            ✓
-        </div>
-
-        <div>
-
-            <h4>
-                Address verification completed
-            </h4>
-
-            <p>
-                Your address information is currently available
-                for your loan application.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- CURRENT ADDRESS -->
-
-    <div class="section">
-
-        <div class="section-title">
-            Current Address
-        </div>
-
-
-        <div class="card">
-
-
-            <div class="form-group">
-
-                <label>
-                    House / Flat / Building
-                </label>
-
-                <input
-                    type="text"
-                    id="currentHouse"
-                    placeholder="House / Flat / Building"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Street / Area / Locality
-                </label>
-
-                <input
-                    type="text"
-                    id="currentArea"
-                    placeholder="Street, area or locality"
-                >
-
-            </div>
-
-
-            <div class="row">
-
-                <div class="form-group">
-
-                    <label>
-                        City
-                    </label>
-
-                    <input
-                        type="text"
-                        id="currentCity"
-                        placeholder="City"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        PIN Code
-                    </label>
-
-                    <input
-                        type="text"
-                        id="currentPin"
-                        maxlength="6"
-                        inputmode="numeric"
-                        placeholder="PIN Code"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    State
-                </label>
-
-                <select id="currentState">
-
-                    <option value="">
-                        Select State
-                    </option>
-
-                    <option>
-                        Uttar Pradesh
-                    </option>
-
-                    <option>
-                        Bihar
-                    </option>
-
-                    <option>
-                        Delhi
-                    </option>
-
-                    <option>
-                        Maharashtra
-                    </option>
-
-                    <option>
-                        Rajasthan
-                    </option>
-
-                    <option>
-                        Madhya Pradesh
-                    </option>
-
-                    <option>
-                        Other
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Address Type
-                </label>
-
-                <select id="addressType">
-
-                    <option value="">
-                        Select
-                    </option>
-
-                    <option>
-                        Owned
-                    </option>
-
-                    <option>
-                        Rented
-                    </option>
-
-                    <option>
-                        Family Owned
-                    </option>
-
-                    <option>
-                        Other
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- PERMANENT ADDRESS -->
-
-    <div class="section">
-
-        <div class="section-title">
-            Permanent Address
-        </div>
-
-
-        <div class="card">
-
-
-            <div class="same-address">
-
-                <input
-                    type="checkbox"
-                    id="sameAddress"
-                    onchange="copyAddress()"
-                >
-
-                <label for="sameAddress">
-
-                    My permanent address is the same as my
-                    current address.
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    House / Flat / Building
-                </label>
-
-                <input
-                    type="text"
-                    id="permanentHouse"
-                    placeholder="House / Flat / Building"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Street / Area / Locality
-                </label>
-
-                <input
-                    type="text"
-                    id="permanentArea"
-                    placeholder="Street, area or locality"
-                >
-
-            </div>
-
-
-            <div class="row">
-
-                <div class="form-group">
-
-                    <label>
-                        City
-                    </label>
-
-                    <input
-                        type="text"
-                        id="permanentCity"
-                        placeholder="City"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        PIN Code
-                    </label>
-
-                    <input
-                        type="text"
-                        id="permanentPin"
-                        maxlength="6"
-                        inputmode="numeric"
-                        placeholder="PIN Code"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    State
-                </label>
-
-                <select id="permanentState">
-
-                    <option value="">
-                        Select State
-                    </option>
-
-                    <option>
-                        Uttar Pradesh
-                    </option>
-
-                    <option>
-                        Bihar
-                    </option>
-
-                    <option>
-                        Delhi
-                    </option>
-
-                    <option>
-                        Maharashtra
-                    </option>
-
-                    <option>
-                        Rajasthan
-                    </option>
-
-                    <option>
-                        Madhya Pradesh
-                    </option>
-
-                    <option>
-                        Other
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ADDRESS PROOF -->
-
-    <div class="section">
-
-        <div class="section-title">
-            Address Proof
-        </div>
-
-
-        <div class="card">
-
-            <div class="form-group">
-
-                <label>
-                    Proof Type
-                </label>
-
-                <select id="proofType">
-
-                    <option value="">
-                        Select document
-                    </option>
-
-                    <option>
-                        Utility Bill
-                    </option>
-
-                    <option>
-                        Bank Statement
-                    </option>
-
-                    <option>
-                        Rental Agreement
-                    </option>
-
-                    <option>
-                        Other Accepted Document
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="document">
-
-                <div class="document-icon">
-                    📄
-                </div>
-
-                <h4>
-                    Upload Address Proof
-                </h4>
-
-                <p>
-                    Upload a clear document showing your address.
-                </p>
-
-
-                <label class="upload-btn">
-
-                    Choose File
-
-                    <input
-                        type="file"
-                        id="proofFile"
-                        accept="image/*,.pdf"
-                        hidden
-                        onchange="showFile()"
-                    >
-
-                </label>
-
-
-                <div
-                    class="file-name"
-                    id="fileName"
-                ></div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- SAVE -->
-
-    <div class="section">
-
-        <button
-            class="save-btn"
-            id="saveBtn"
-            disabled
-            onclick="saveAddress()"
-        >
-            Save Address
-        </button>
-
-
-        <div class="note">
-
-            <strong>Important:</strong>
-            Address information and uploaded documents should be
-            stored securely on the backend. Avoid storing sensitive
-            documents directly in browser storage.
-
-        </div>
-
-    </div>
-
+<div class="header"><div class="header-top"><div class="back" onclick="go('profile.html')">←</div><div><h2>My Address</h2><p>Manage your residential address</p></div></div></div>
+
+<div class="status-card"><div class="status-icon" id="statusIcon">✓</div><div><h4 id="statusTitle">Loading address...</h4><p id="statusText">Checking your saved address information.</p></div></div>
+<div id="message" class="message"></div>
+
+<div class="section"><div class="section-title">Current Address</div><div class="card">
+<div class="form-group"><label>House / Flat / Building</label><input type="text" id="currentHouse" placeholder="House / Flat / Building"></div>
+<div class="form-group"><label>Street / Area / Locality</label><input type="text" id="currentArea" placeholder="Street, area or locality"></div>
+<div class="row"><div class="form-group"><label>City</label><input type="text" id="currentCity" placeholder="City"></div><div class="form-group"><label>PIN Code</label><input type="text" id="currentPin" maxlength="6" inputmode="numeric" placeholder="PIN Code"></div></div>
+<div class="form-group"><label>State</label><select id="currentState"><option value="">Select State</option><option>Uttar Pradesh</option><option>Bihar</option><option>Delhi</option><option>Maharashtra</option><option>Rajasthan</option><option>Madhya Pradesh</option><option>Other</option></select></div>
+<div class="form-group"><label>Address Type</label><select id="addressType"><option value="">Select</option><option>Owned</option><option>Rented</option><option>Family Owned</option><option>Other</option></select></div>
+</div></div>
+
+<div class="section"><div class="section-title">Permanent Address</div><div class="card">
+<div class="same-address"><input type="checkbox" id="sameAddress"><label for="sameAddress">My permanent address is the same as my current address.</label></div>
+<div class="form-group"><label>House / Flat / Building</label><input type="text" id="permanentHouse" placeholder="House / Flat / Building"></div>
+<div class="form-group"><label>Street / Area / Locality</label><input type="text" id="permanentArea" placeholder="Street, area or locality"></div>
+<div class="row"><div class="form-group"><label>City</label><input type="text" id="permanentCity" placeholder="City"></div><div class="form-group"><label>PIN Code</label><input type="text" id="permanentPin" maxlength="6" inputmode="numeric" placeholder="PIN Code"></div></div>
+<div class="form-group"><label>State</label><select id="permanentState"><option value="">Select State</option><option>Uttar Pradesh</option><option>Bihar</option><option>Delhi</option><option>Maharashtra</option><option>Rajasthan</option><option>Madhya Pradesh</option><option>Other</option></select></div>
+</div></div>
+
+<div class="section"><div class="section-title">Address Proof</div><div class="card">
+<div class="form-group"><label>Proof Type</label><select id="proofType"><option value="">Select document</option><option>Utility Bill</option><option>Bank Statement</option><option>Rental Agreement</option><option>Other Accepted Document</option></select></div>
+<div class="document"><div class="document-icon">📄</div><h4>Upload Address Proof</h4><p>Upload a clear document showing your address.</p><label class="upload-btn">Choose File<input type="file" id="proofFile" accept="image/*,.pdf" hidden></label><div class="file-name" id="fileName"></div></div>
+</div></div>
+
+<div class="section"><button class="save-btn" id="saveBtn" disabled>Save Address</button><div class="note"><strong>Important:</strong> Your address and proof document are stored under your authenticated Firebase account. Do not use insecure database/storage rules in production.</div></div>
 </div>
 
+<div class="modal" id="successModal"><div class="modal-box"><div class="success-icon">✓</div><h3>Address Saved</h3><p id="successText">Your address information has been submitted successfully.</p><button class="done-btn" onclick="go('profile.html')">Back to Profile</button></div></div>
 
-<!-- SUCCESS MODAL -->
-
-<div
-    class="modal"
-    id="successModal"
->
-
-    <div class="modal-box">
-
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <h3>
-            Address Saved
-        </h3>
-
-        <p>
-            Your address information has been submitted successfully.
-        </p>
-
-        <button
-            class="done-btn"
-            onclick="go('profile.html')"
-        >
-            Back to Profile
-        </button>
-
-    </div>
-
-</div>
-
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <script>
+const firebaseConfig={
+ apiKey:"AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+ authDomain:"easyloan-india.firebaseapp.com",
+ projectId:"easyloan-india",
+ storageBucket:"easyloan-india.firebasestorage.app",
+ messagingSenderId:"925263655882",
+ appId:"1:925263655882:web:0dd41e9964bd9a7a93d533"
+};
+if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(), db=firebase.database(), storage=firebase.storage();
+let user=null, existingProofUrl="", existingProofPath="";
 
-
-function go(page){
-
-    window.location.href = page;
-
+const $=id=>document.getElementById(id);
+function go(page){window.location.href=page}
+function showMessage(text,type="error"){
+ const m=$("message");m.className="message "+type;m.textContent=text;m.style.display="block";
 }
-
-
-/* COPY CURRENT ADDRESS */
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
 function copyAddress(){
-
-    const checked =
-        document.getElementById("sameAddress").checked;
-
-
-    if(checked){
-
-        document.getElementById("permanentHouse").value =
-            document.getElementById("currentHouse").value;
-
-        document.getElementById("permanentArea").value =
-            document.getElementById("currentArea").value;
-
-        document.getElementById("permanentCity").value =
-            document.getElementById("currentCity").value;
-
-        document.getElementById("permanentPin").value =
-            document.getElementById("currentPin").value;
-
-        document.getElementById("permanentState").value =
-            document.getElementById("currentState").value;
-
-        checkForm();
-
-    }else{
-
-        document.getElementById("permanentHouse").value = "";
-
-        document.getElementById("permanentArea").value = "";
-
-        document.getElementById("permanentCity").value = "";
-
-        document.getElementById("permanentPin").value = "";
-
-        document.getElementById("permanentState").value = "";
-
-        checkForm();
-
-    }
-
+ const ids=["House","Area","City","Pin","State"];
+ const checked=$("sameAddress").checked;
+ ids.forEach(x=>{$("permanent"+x).value=checked?$(`current${x}`).value:""});
+ checkForm();
 }
-
-
-/* FILE */
+$("sameAddress").addEventListener("change",copyAddress);
 
 function showFile(){
-
-    const file =
-        document.getElementById("proofFile").files[0];
-
-
-    if(file){
-
-        document.getElementById("fileName").innerText =
-            "✓ " + file.name;
-
-    }else{
-
-        document.getElementById("fileName").innerText =
-            "";
-
-    }
-
-    checkForm();
-
+ const f=$("proofFile").files[0];
+ $("fileName").textContent=f?"✓ "+f.name:(existingProofUrl?"✓ Previously uploaded document":"");
+ checkForm();
 }
-
-
-/* VALIDATION */
 
 function checkForm(){
-
-    const currentHouse =
-        document.getElementById("currentHouse").value.trim();
-
-    const currentArea =
-        document.getElementById("currentArea").value.trim();
-
-    const currentCity =
-        document.getElementById("currentCity").value.trim();
-
-    const currentPin =
-        document.getElementById("currentPin").value.trim();
-
-    const currentState =
-        document.getElementById("currentState").value;
-
-    const addressType =
-        document.getElementById("addressType").value;
-
-
-    const permanentHouse =
-        document.getElementById("permanentHouse").value.trim();
-
-    const permanentArea =
-        document.getElementById("permanentArea").value.trim();
-
-    const permanentCity =
-        document.getElementById("permanentCity").value.trim();
-
-    const permanentPin =
-        document.getElementById("permanentPin").value.trim();
-
-    const permanentState =
-        document.getElementById("permanentState").value;
-
-
-    const proofType =
-        document.getElementById("proofType").value;
-
-
-    const proofFile =
-        document.getElementById("proofFile").files.length;
-
-
-    const currentPinValid =
-        /^[0-9]{6}$/.test(currentPin);
-
-    const permanentPinValid =
-        /^[0-9]{6}$/.test(permanentPin);
-
-
-    const valid =
-
-        currentHouse &&
-        currentArea &&
-        currentCity &&
-        currentPinValid &&
-        currentState &&
-        addressType &&
-
-        permanentHouse &&
-        permanentArea &&
-        permanentCity &&
-        permanentPinValid &&
-        permanentState &&
-
-        proofType &&
-        proofFile;
-
-
-    document.getElementById("saveBtn").disabled =
-        !valid;
-
+ const fields=[
+  "currentHouse","currentArea","currentCity","currentState","addressType",
+  "permanentHouse","permanentArea","permanentCity","permanentState","proofType"
+ ];
+ const textOK=fields.every(id=>$(id).value.trim());
+ const pins=/^[0-9]{6}$/.test($("currentPin").value.trim()) && /^[0-9]{6}$/.test($("permanentPin").value.trim());
+ const fileOK=$("proofFile").files.length>0 || !!existingProofUrl;
+ $("saveBtn").disabled=!(textOK&&pins&&fileOK);
 }
 
+document.querySelectorAll("input,select").forEach(el=>{
+ el.addEventListener("input",checkForm);el.addEventListener("change",checkForm);
+});
+$("proofFile").addEventListener("change",showFile);
+$("saveBtn").addEventListener("click",saveAddress);
 
-/* INPUT EVENTS */
+function val(id){return $(id).value.trim()}
 
-document
-    .querySelectorAll("input,select")
-    .forEach(function(element){
-
-        element.addEventListener(
-            "input",
-            checkForm
-        );
-
-        element.addEventListener(
-            "change",
-            checkForm
-        );
-
-    });
-
-
-/* SAVE */
-
-function saveAddress(){
-
-    if(
-        document.getElementById("saveBtn").disabled
-    ){
-        return;
-    }
-
-
-    document.getElementById("successModal").style.display =
-        "flex";
-
+async function loadAddress(){
+ if(!user)return;
+ try{
+  const snap=await db.ref("users/"+user.uid+"/address").once("value");
+  const a=snap.val();
+  if(!a){
+   $("statusTitle").textContent="No saved address";
+   $("statusText").textContent="Enter your address details and save them securely.";
+   checkForm();return;
+  }
+  const c=a.current||{},p=a.permanent||{};
+  [["currentHouse",c.house],["currentArea",c.area],["currentCity",c.city],["currentPin",c.pin],["currentState",c.state],["addressType",a.addressType],
+   ["permanentHouse",p.house],["permanentArea",p.area],["permanentCity",p.city],["permanentPin",p.pin],["permanentState",p.state],
+   ["proofType",a.proofType]].forEach(([id,v])=>{if(v!==undefined&&v!==null)$(id).value=v});
+  if(a.sameAddress){$("sameAddress").checked=true}
+  existingProofUrl=a.proof?.downloadURL||"";
+  existingProofPath=a.proof?.storagePath||"";
+  $("fileName").textContent=existingProofUrl?"✓ Previously uploaded document":"";
+  $("statusTitle").textContent=a.verificationStatus==="verified"?"Address verification completed":"Address saved";
+  $("statusText").textContent=a.verificationStatus==="verified"?"Your saved address is available for your loan application.":"Your address is saved and available for review.";
+  checkForm();
+ }catch(e){
+  console.error(e);showMessage(e.code==="PERMISSION_DENIED"?"Firebase permission denied. Check your Realtime Database Rules.":"Could not load your address.");
+ }
 }
 
+function validateFile(file){
+ if(!file)return true;
+ const max=5*1024*1024;
+ const okType=file.type==="application/pdf"||file.type.startsWith("image/");
+ if(!okType){showMessage("Only PDF or image files are allowed.");return false}
+ if(file.size>max){showMessage("Document must be 5 MB or smaller.");return false}
+ return true;
+}
+
+async function saveAddress(){
+ if(!user||$("saveBtn").disabled)return;
+ const file=$("proofFile").files[0];
+ if(file&&!validateFile(file))return;
+
+ $("saveBtn").disabled=true;$("saveBtn").textContent="Saving...";
+ try{
+  let proof={downloadURL:existingProofUrl||null,storagePath:existingProofPath||null,fileName:null,contentType:null,uploadedAt:null};
+  if(file){
+   const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+   const path="users/"+user.uid+"/addressProof/"+Date.now()+"_"+safeName;
+   const ref=storage.ref(path);
+   const upload=await ref.put(file,{contentType:file.type});
+   proof.downloadURL=await upload.ref.getDownloadURL();
+   proof.storagePath=path;
+   proof.fileName=file.name;
+   proof.contentType=file.type;
+   proof.uploadedAt=firebase.database.ServerValue.TIMESTAMP;
+  }
+
+  const data={
+   current:{house:val("currentHouse"),area:val("currentArea"),city:val("currentCity"),pin:val("currentPin"),state:$("currentState").value},
+   permanent:{house:val("permanentHouse"),area:val("permanentArea"),city:val("permanentCity"),pin:val("permanentPin"),state:$("permanentState").value},
+   sameAddress:$("sameAddress").checked,
+   addressType:$("addressType").value,
+   proofType:$("proofType").value,
+   proof:proof,
+   verificationStatus:"pending",
+   updatedAt:firebase.database.ServerValue.TIMESTAMP
+  };
+
+  await db.ref("users/"+user.uid+"/address").update(data);
+  $("successText").textContent="Your address has been saved to your Firebase account successfully.";
+  $("successModal").style.display="flex";
+  $("statusTitle").textContent="Address saved";
+  $("statusText").textContent="Your latest address information is now stored securely.";
+  $("saveBtn").textContent="Saved";
+ }catch(e){
+  console.error("Address save error:",e);
+  $("saveBtn").disabled=false;$("saveBtn").textContent="Save Address";
+  showMessage(e.code==="PERMISSION_DENIED"?"Firebase permission denied. Check Database/Storage Rules.":(e.message||"Could not save address."));
+ }
+}
+
+auth.onAuthStateChanged(u=>{
+ if(!u){window.location.replace("login.html");return}
+ user=u;loadAddress();
+});
 </script>
-
 </body>
 </html>
