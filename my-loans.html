@@ -492,6 +492,11 @@
             }
         }
     </style>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 </head>
 
 <body>
@@ -538,435 +543,25 @@
         <!-- ACTIVE LOANS -->
 
         <div class="tab-content active" id="active">
-
-
-            <!-- NEXT EMI -->
-
-            <div class="emi-card">
-
-                <div class="emi-top">
-
-                    <div>
-
-                        <small>Next EMI</small>
-
-                        <h3>₹4,500</h3>
-
-                    </div>
-
-                    <div class="calendar">
-                        📅
-                    </div>
-
-                </div>
-
-                <div class="emi-bottom">
-
-                    <span>Due Date</span>
-
-                    <strong>15 Sep 2026</strong>
-
-                </div>
-
+            <div id="activeLoading" class="empty">
+                <div class="empty-icon">⏳</div>
+                <h3>Loading your loans...</h3>
+                <p>Please wait while we load your real loan data.</p>
             </div>
-
-
-            <!-- LOAN APPLICATION -->
-
-            <div class="loan-card">
-
-                <div class="loan-card-top">
-
-                    <div class="loan-title">
-
-                        <div class="loan-icon">
-                            👤
-                        </div>
-
-                        <div>
-
-                            <h3>Personal Loan</h3>
-
-                            <p>Application #LN10245</p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="status pending">
-                        Under Review
-                    </div>
-
-                </div>
-
-
-                <div class="amount-section">
-
-                    <small>Loan Amount</small>
-
-                    <h2>₹50,000</h2>
-
-                </div>
-
-
-                <div class="info-grid">
-
-                    <div class="info">
-
-                        <small>Tenure</small>
-
-                        <strong>12 Months</strong>
-
-                    </div>
-
-                    <div class="info">
-
-                        <small>Interest</small>
-
-                        <strong>12% p.a.</strong>
-
-                    </div>
-
-                    <div class="info">
-
-                        <small>EMI</small>
-
-                        <strong>₹4,500</strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="loan-progress">
-
-                    <div class="progress-label">
-
-                        <span>Application Progress</span>
-
-                        <span>35%</span>
-
-                    </div>
-
-                    <div class="progress-bar">
-
-                        <div class="progress-fill"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="card-buttons">
-
-                    <button
-                        class="btn secondary"
-                        onclick="viewDetails()"
-                    >
-                        View Details
-                    </button>
-
-                    <button
-                        class="btn primary"
-                        onclick="go('repayment.html')"
-                    >
-                        Repayment
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- APPROVED LOAN -->
-
-            <div class="loan-card">
-
-                <div class="loan-card-top">
-
-                    <div class="loan-title">
-
-                        <div class="loan-icon">
-                            🏦
-                        </div>
-
-                        <div>
-
-                            <h3>Emergency Loan</h3>
-
-                            <p>Application #LN09876</p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="status approved">
-                        Approved
-                    </div>
-
-                </div>
-
-
-                <div class="amount-section">
-
-                    <small>Approved Amount</small>
-
-                    <h2>₹30,000</h2>
-
-                </div>
-
-
-                <div class="info-grid">
-
-                    <div class="info">
-
-                        <small>Tenure</small>
-
-                        <strong>12 Months</strong>
-
-                    </div>
-
-                    <div class="info">
-
-                        <small>Interest</small>
-
-                        <strong>14% p.a.</strong>
-
-                    </div>
-
-                    <div class="info">
-
-                        <small>EMI</small>
-
-                        <strong>₹2,690</strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="card-buttons">
-
-                    <button
-                        class="btn secondary"
-                        onclick="viewDetails()"
-                    >
-                        View Details
-                    </button>
-
-                    <button
-                        class="btn primary"
-                        onclick="go('repayment.html')"
-                    >
-                        Pay EMI
-                    </button>
-
-                </div>
-
-            </div>
-
+            <div id="activeLoans"></div>
         </div>
 
 
         <!-- HISTORY -->
 
         <div class="tab-content" id="history">
-
-
-            <!-- HISTORY ITEM -->
-
-            <div class="history-card">
-
-                <div class="history-top">
-
-                    <div class="history-left">
-
-                        <div class="history-icon">
-                            👤
-                        </div>
-
-                        <div>
-
-                            <h4>Personal Loan</h4>
-
-                            <p>LN07543 • Completed</p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="history-amount">
-
-                        <strong>₹40,000</strong>
-
-                        <small>Completed</small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="history-details">
-
-                    <div>
-
-                        <small>Tenure</small>
-
-                        <strong>12 Months</strong>
-
-                    </div>
-
-                    <div>
-
-                        <small>EMI</small>
-
-                        <strong>₹3,600</strong>
-
-                    </div>
-
-                    <div>
-
-                        <small>Completed</small>
-
-                        <strong>Jun 2026</strong>
-
-                    </div>
-
-                </div>
-
+            <div id="historyLoading" class="empty">
+                <div class="empty-icon">⏳</div>
+                <h3>Loading history...</h3>
+                <p>Please wait while we load your real loan history.</p>
             </div>
-
-
-            <!-- HISTORY ITEM -->
-
-            <div class="history-card">
-
-                <div class="history-top">
-
-                    <div class="history-left">
-
-                        <div class="history-icon">
-                            🏢
-                        </div>
-
-                        <div>
-
-                            <h4>Business Loan</h4>
-
-                            <p>LN05421 • Rejected</p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="history-amount">
-
-                        <strong>₹1,00,000</strong>
-
-                        <small>Rejected</small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="history-details">
-
-                    <div>
-
-                        <small>Tenure</small>
-
-                        <strong>24 Months</strong>
-
-                    </div>
-
-                    <div>
-
-                        <small>Applied</small>
-
-                        <strong>Mar 2026</strong>
-
-                    </div>
-
-                    <div>
-
-                        <small>Status</small>
-
-                        <strong>Rejected</strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- HISTORY ITEM -->
-
-            <div class="history-card">
-
-                <div class="history-top">
-
-                    <div class="history-left">
-
-                        <div class="history-icon">
-                            🎓
-                        </div>
-
-                        <div>
-
-                            <h4>Education Loan</h4>
-
-                            <p>LN03218 • Completed</p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="history-amount">
-
-                        <strong>₹75,000</strong>
-
-                        <small>Completed</small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="history-details">
-
-                    <div>
-
-                        <small>Tenure</small>
-
-                        <strong>18 Months</strong>
-
-                    </div>
-
-                    <div>
-
-                        <small>EMI</small>
-
-                        <strong>₹4,700</strong>
-
-                    </div>
-
-                    <div>
-
-                        <small>Completed</small>
-
-                        <strong>Jan 2026</strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
+            <div id="loanHistory"></div>
         </div>
-
     </div>
 
 
@@ -1005,38 +600,342 @@
 
 
 <script>
+const firebaseConfig = {
+    apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+    authDomain: "easyloan-india.firebaseapp.com",
+    projectId: "easyloan-india",
+    storageBucket: "easyloan-india.firebasestorage.app",
+    messagingSenderId: "925263655882",
+    appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+};
 
-    function go(page) {
-        window.location.href = page;
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const database = firebase.database();
+
+let currentUser = null;
+
+function go(page) {
+    window.location.href = page;
+}
+
+function showTab(tabName, element) {
+    document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+    element.classList.add("active");
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    document.getElementById(tabName).classList.add("active");
+}
+
+function money(value) {
+    if (value === undefined || value === null || value === "") return "—";
+    const n = Number(value);
+    return Number.isNaN(n) ? String(value) : "₹" + n.toLocaleString("en-IN");
+}
+
+function dateText(value) {
+    if (!value) return "—";
+    const d = new Date(Number(value));
+    if (Number.isNaN(d.getTime())) return "—";
+    return d.toLocaleDateString("en-IN", {
+        day: "2-digit", month: "short", year: "numeric"
+    });
+}
+
+function esc(value) {
+    return String(value ?? "")
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;").replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function statusClass(status) {
+    const s = String(status || "").toLowerCase();
+    if (s.includes("approved")) return "approved";
+    if (s.includes("disbursed") || s.includes("active")) return "disbursed";
+    if (s.includes("reject")) return "rejected";
+    return "pending";
+}
+
+function statusText(status) {
+    const s = String(status || "pending").toLowerCase();
+    const map = {
+        pending: "Pending",
+        "under review": "Under Review",
+        processing: "Processing",
+        approved: "Approved",
+        rejected: "Rejected",
+        disbursed: "Disbursed",
+        active: "Active",
+        completed: "Completed",
+        closed: "Closed"
+    };
+    return map[s] || status || "Pending";
+}
+
+function amountOf(loan) {
+    return loan.amount ?? loan.loanAmount ?? loan.principal ?? null;
+}
+
+function emiOf(loan) {
+    return loan.emi ?? loan.monthlyEmi ?? loan.monthlyEMI ?? null;
+}
+
+function tenureOf(loan) {
+    return loan.tenure ?? loan.tenureMonths ?? loan.durationMonths ?? null;
+}
+
+function interestOf(loan) {
+    return loan.interestRate ?? loan.interest ?? loan.rate ?? null;
+}
+
+function idOf(loan) {
+    return loan.applicationId ?? loan.loanNumber ??
+        loan.applicationNumber ?? loan.loanId ?? loan._id;
+}
+
+function progressOf(loan) {
+    const s = String(loan.status || "").toLowerCase();
+    if (s === "completed" || s === "closed" || s === "rejected") return 100;
+    if (s === "disbursed" || s === "active") return 90;
+    if (s === "approved") return 70;
+    return 35;
+}
+
+function viewDetails(id) {
+    window.location.href = "loan-details.html?id=" + encodeURIComponent(id);
+}
+
+function openRepayment(id) {
+    window.location.href = "repayment.html?id=" + encodeURIComponent(id);
+}
+
+function renderActive(loans) {
+    const box = document.getElementById("activeLoans");
+    document.getElementById("activeLoading").style.display = "none";
+    box.innerHTML = "";
+
+    const active = loans.filter(loan => {
+        const s = String(loan.status || "").toLowerCase();
+        return ["pending", "under review", "processing", "approved",
+                "disbursed", "active"].includes(s);
+    });
+
+    if (!active.length) {
+        box.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📋</div>
+                <h3>No active loan</h3>
+                <p>You do not have any active or pending loan application.</p>
+                <button onclick="go('apply-loan.html')">Apply for Loan</button>
+            </div>`;
+        return;
     }
 
+    active.forEach(loan => {
+        const id = loan._id;
+        const amount = amountOf(loan);
+        const emi = emiOf(loan);
+        const tenure = tenureOf(loan);
+        const interest = interestOf(loan);
+        const progress = progressOf(loan);
+        const status = statusText(loan.status);
+        const title = loan.loanType || "Loan";
+        const loanId = idOf(loan);
 
-    function showTab(tabName, element) {
+        const card = document.createElement("div");
+        card.className = "loan-card";
+        card.innerHTML = `
+            <div class="loan-card-top">
+                <div class="loan-title">
+                    <div class="loan-icon">💰</div>
+                    <div>
+                        <h3>${esc(title)}</h3>
+                        <p>Application #${esc(loanId)}</p>
+                    </div>
+                </div>
+                <div class="status ${statusClass(loan.status)}">${esc(status)}</div>
+            </div>
 
-        document.querySelectorAll(".tab").forEach(function(tab) {
-            tab.classList.remove("active");
-        });
+            <div class="amount-section">
+                <small>${String(loan.status || "").toLowerCase() === "approved" ? "Approved Amount" : "Loan Amount"}</small>
+                <h2>${money(amount)}</h2>
+            </div>
 
-        element.classList.add("active");
+            <div class="info-grid">
+                <div class="info">
+                    <small>Tenure</small>
+                    <strong>${tenure !== null ? esc(tenure) + " Months" : "—"}</strong>
+                </div>
+                <div class="info">
+                    <small>Interest</small>
+                    <strong>${interest !== null ? esc(interest) + (String(interest).includes("%") ? "" : "% p.a.") : "—"}</strong>
+                </div>
+                <div class="info">
+                    <small>EMI</small>
+                    <strong>${money(emi)}</strong>
+                </div>
+            </div>
 
+            <div class="loan-progress">
+                <div class="progress-label">
+                    <span>Application Progress</span><span>${progress}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:${progress}%"></div>
+                </div>
+            </div>
 
-        document.querySelectorAll(".tab-content").forEach(function(content) {
-            content.classList.remove("active");
-        });
+            <div class="card-buttons">
+                <button class="btn secondary" onclick="viewDetails('${String(id).replaceAll("'", "\\'")}')">View Details</button>
+                <button class="btn primary" onclick="openRepayment('${String(id).replaceAll("'", "\\'")}')">
+                    ${["approved", "disbursed", "active"].includes(String(loan.status || "").toLowerCase()) ? "Repayment" : "View"}
+                </button>
+            </div>`;
+        box.appendChild(card);
+    });
+}
 
-        document.getElementById(tabName).classList.add("active");
+function renderHistory(loans) {
+    const box = document.getElementById("loanHistory");
+    document.getElementById("historyLoading").style.display = "none";
+    box.innerHTML = "";
 
+    const history = loans.filter(loan =>
+        ["completed", "closed", "rejected"].includes(
+            String(loan.status || "").toLowerCase()
+        )
+    );
+
+    if (!history.length) {
+        box.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🗂️</div>
+                <h3>No loan history</h3>
+                <p>Your completed or rejected loan applications will appear here.</p>
+            </div>`;
+        return;
     }
 
+    history.forEach(loan => {
+        const id = loan._id;
+        const card = document.createElement("div");
+        card.className = "history-card";
+        card.innerHTML = `
+            <div class="history-top">
+                <div class="history-left">
+                    <div class="history-icon">💰</div>
+                    <div>
+                        <h4>${esc(loan.loanType || "Loan")}</h4>
+                        <p>${esc(idOf(loan))} • ${esc(statusText(loan.status))}</p>
+                    </div>
+                </div>
+                <div class="history-amount">
+                    <strong>${money(amountOf(loan))}</strong>
+                    <small>${esc(statusText(loan.status))}</small>
+                </div>
+            </div>
 
-    function viewDetails() {
+            <div class="history-details">
+                <div>
+                    <small>Tenure</small>
+                    <strong>${tenureOf(loan) !== null ? esc(tenureOf(loan)) + " Months" : "—"}</strong>
+                </div>
+                <div>
+                    <small>EMI</small>
+                    <strong>${money(emiOf(loan))}</strong>
+                </div>
+                <div>
+                    <small>Date</small>
+                    <strong>${esc(dateText(loan.completedAt || loan.updatedAt || loan.createdAt))}</strong>
+                </div>
+            </div>`;
+        box.appendChild(card);
+    });
+}
 
-        alert(
-            "Loan details page next step me connect kiya jayega."
+function renderNextEmi(loans) {
+    const loan = loans.find(l =>
+        ["approved", "disbursed", "active"].includes(
+            String(l.status || "").toLowerCase()
+        )
+    );
+
+    if (!loan) return;
+
+    const emi = emiOf(loan);
+    const due = loan.nextEmiDate || loan.nextDueDate || loan.dueDate;
+
+    if (emi === null && !due) return;
+
+    const card = document.createElement("div");
+    card.className = "emi-card";
+    card.innerHTML = `
+        <div class="emi-top">
+            <div>
+                <small>Next EMI</small>
+                <h3>${money(emi)}</h3>
+            </div>
+            <div class="calendar">📅</div>
+        </div>
+        <div class="emi-bottom">
+            <span>Due Date</span>
+            <strong>${esc(dateText(due))}</strong>
+        </div>`;
+
+    document.getElementById("activeLoans").before(card);
+}
+
+async function loadLoans() {
+    if (!currentUser) return;
+
+    try {
+        const snap = await database.ref("loans/" + currentUser.uid).once("value");
+        const raw = snap.val() || {};
+
+        const loans = Object.entries(raw).map(([id, loan]) => ({
+            ...(loan || {}),
+            _id: id
+        }));
+
+        loans.sort((a, b) =>
+            Number(b.createdAt || b.timestamp || 0) -
+            Number(a.createdAt || a.timestamp || 0)
         );
 
+        renderActive(loans);
+        renderHistory(loans);
+        renderNextEmi(loans);
+
+    } catch (error) {
+        console.error("Firebase loan loading error:", error);
+
+        document.getElementById("activeLoading").innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⚠️</div>
+                <h3>Unable to load loans</h3>
+                <p>Firebase permission or connection problem.</p>
+                <button onclick="loadLoans()">Retry</button>
+            </div>`;
+
+        document.getElementById("historyLoading").innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⚠️</div>
+                <h3>Unable to load history</h3>
+                <p>Check your Firebase Realtime Database Rules.</p>
+            </div>`;
+    }
+}
+
+auth.onAuthStateChanged(user => {
+    if (!user) {
+        window.location.replace("login.html");
+        return;
     }
 
+    currentUser = user;
+    loadLoans();
+});
 </script>
 
 </body>
