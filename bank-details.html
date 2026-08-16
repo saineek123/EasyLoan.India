@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bank Details - LoanApp</title>
+<title>Bank Details - EasyLoan India</title>
 
 <style>
 
@@ -47,9 +48,11 @@ body{
     height:38px;
     border-radius:50%;
     background:rgba(255,255,255,.18);
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:20px;
     cursor:pointer;
 }
@@ -64,13 +67,14 @@ body{
     opacity:.85;
 }
 
-/* SECURITY INFO */
+/* SECURITY */
 
 .security{
     margin:15px;
     background:#eaf8f0;
     border-radius:14px;
     padding:13px;
+
     display:flex;
     gap:10px;
     align-items:flex-start;
@@ -81,6 +85,7 @@ body{
     height:35px;
     border-radius:9px;
     background:#d5f2e2;
+
     display:flex;
     align-items:center;
     justify-content:center;
@@ -113,43 +118,8 @@ body{
     background:white;
     border-radius:17px;
     padding:18px;
+
     box-shadow:0 3px 15px rgba(0,0,0,.04);
-}
-
-/* FORM */
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    color:#667085;
-    font-size:10px;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select{
-    width:100%;
-    height:44px;
-    border:1px solid #dfe3e9;
-    border-radius:9px;
-    padding:0 11px;
-    outline:none;
-    font-size:12px;
-    background:white;
-}
-
-.form-group input:focus,
-.form-group select:focus{
-    border-color:#155eef;
-}
-
-.row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
 }
 
 /* ACCOUNT */
@@ -175,32 +145,101 @@ body{
 .verified{
     background:#e3f7ec;
     color:#168352;
+
     padding:5px 8px;
+
     border-radius:20px;
+
     font-size:8px;
     font-weight:bold;
 }
 
 .account-number{
     margin-top:13px;
+
     font-size:19px;
+
     letter-spacing:2px;
 }
 
 .account-bottom{
     display:flex;
     justify-content:space-between;
+
+    gap:10px;
+
     margin-top:12px;
+
     color:#7c8596;
     font-size:9px;
+}
+
+.no-account{
+    text-align:center;
+    padding:15px;
+
+    color:#7b8494;
+
+    font-size:10px;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+
+    color:#667085;
+
+    font-size:10px;
+
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+
+    height:44px;
+
+    border:1px solid #dfe3e9;
+
+    border-radius:9px;
+
+    padding:0 11px;
+
+    outline:none;
+
+    font-size:12px;
+
+    background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#155eef;
+}
+
+.row{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
 }
 
 /* CHECK */
 
 .check-box{
     display:flex;
+
     gap:9px;
+
     align-items:flex-start;
+
     margin-top:4px;
 }
 
@@ -210,7 +249,9 @@ body{
 
 .check-box label{
     color:#687384;
+
     font-size:9px;
+
     line-height:1.5;
 }
 
@@ -218,30 +259,91 @@ body{
 
 .save-btn{
     width:100%;
+
     height:47px;
+
     border:none;
+
     border-radius:10px;
+
     background:#155eef;
+
     color:white;
+
     font-size:13px;
+
     font-weight:bold;
+
     cursor:pointer;
 }
 
 .save-btn:disabled{
     background:#aeb8c8;
+
     cursor:not-allowed;
+}
+
+/* LOADING */
+
+.loading{
+    display:none;
+
+    text-align:center;
+
+    padding:12px;
+
+    color:#667085;
+
+    font-size:10px;
+}
+
+/* MESSAGE */
+
+.message{
+    display:none;
+
+    margin-top:10px;
+
+    padding:11px;
+
+    border-radius:10px;
+
+    font-size:9px;
+
+    line-height:1.5;
+}
+
+.message.success{
+    display:block;
+
+    background:#e7f8ef;
+
+    color:#168352;
+}
+
+.message.error{
+    display:block;
+
+    background:#ffe9e9;
+
+    color:#c62828;
 }
 
 /* NOTE */
 
 .note{
     margin-top:10px;
+
     background:#fff8e8;
+
     color:#80672a;
+
     padding:13px;
+
     border-radius:11px;
+
     font-size:9px;
+
     line-height:1.5;
 }
 
@@ -249,60 +351,93 @@ body{
 
 .modal{
     display:none;
+
     position:fixed;
+
     inset:0;
+
     background:rgba(0,0,0,.5);
+
     z-index:500;
+
     align-items:center;
+
     justify-content:center;
+
     padding:20px;
 }
 
 .modal-box{
     width:100%;
+
     max-width:420px;
+
     background:white;
+
     border-radius:20px;
+
     padding:25px;
+
     text-align:center;
 }
 
 .success-icon{
     width:65px;
     height:65px;
+
     margin:auto;
+
     border-radius:50%;
+
     background:#e4f8ed;
+
     color:#168352;
+
     display:flex;
+
     align-items:center;
     justify-content:center;
+
     font-size:30px;
 }
 
 .modal-box h3{
     margin-top:14px;
+
     font-size:18px;
 }
 
 .modal-box p{
     margin-top:8px;
+
     color:#7b8494;
+
     font-size:10px;
+
     line-height:1.5;
 }
 
 .done-btn{
     width:100%;
+
     height:43px;
+
     border:none;
+
     border-radius:9px;
+
     background:#155eef;
+
     color:white;
+
     font-weight:bold;
+
     margin-top:17px;
+
     cursor:pointer;
 }
+
+/* MOBILE */
 
 @media(max-width:360px){
 
@@ -310,289 +445,310 @@ body{
         grid-template-columns:1fr;
     }
 
+    .account-bottom{
+        flex-direction:column;
+    }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
+
 <div class="app">
 
-    <!-- HEADER -->
 
-    <div class="header">
+<!-- HEADER -->
 
-        <div class="header-top">
+<div class="header">
 
-            <div
-                class="back"
-                onclick="go('profile.html')"
-            >
-                ←
-            </div>
+    <div class="header-top">
 
-            <div>
-                <h2>Bank Details</h2>
-                <p>Manage your repayment account</p>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- SECURITY -->
-
-    <div class="security">
-
-        <div class="security-icon">
-            🔐
+        <div
+            class="back"
+            onclick="go('profile.html')"
+        >
+            ←
         </div>
 
         <div>
 
-            <h4>
-                Your banking information is protected
-            </h4>
+            <h2>
+                Bank Details
+            </h2>
 
             <p>
-                Never share your banking PIN, OTP or password.
-                Only provide account details through the secure
-                loan application.
+                Manage your repayment account
             </p>
 
         </div>
 
     </div>
 
+</div>
 
-    <!-- CURRENT ACCOUNT -->
 
-    <div class="section">
+<!-- SECURITY -->
 
-        <div class="section-title">
-            Current Bank Account
-        </div>
+<div class="security">
 
-        <div class="card">
+    <div class="security-icon">
+        🔐
+    </div>
 
-            <div class="account-box">
+    <div>
 
-                <div class="account-top">
+        <h4>
+            Your banking information is protected
+        </h4>
 
-                    <div class="account-bank">
-                        State Bank
-                    </div>
-
-                    <div class="verified">
-                        ✓ Verified
-                    </div>
-
-                </div>
-
-                <div class="account-number">
-                    •••• •••• 4587
-                </div>
-
-                <div class="account-bottom">
-
-                    <span>
-                        Amit Kumar
-                    </span>
-
-                    <span>
-                        IFSC: SBIN000XXXX
-                    </span>
-
-                </div>
-
-            </div>
-
-            <p style="
-                font-size:9px;
-                color:#7b8494;
-                line-height:1.5;
-            ">
-                If your bank details have changed, enter the new
-                information below.
-            </p>
-
-        </div>
+        <p>
+            Never share your banking PIN, OTP or password.
+            Only provide account details through the secure
+            loan application.
+        </p>
 
     </div>
 
-
-    <!-- BANK FORM -->
-
-    <div class="section">
-
-        <div class="section-title">
-            Update Bank Account
-        </div>
-
-        <div class="card">
-
-            <div class="form-group">
-
-                <label>
-                    Account Holder Name
-                </label>
-
-                <input
-                    type="text"
-                    id="holderName"
-                    placeholder="Enter account holder name"
-                >
-
-            </div>
+</div>
 
 
-            <div class="form-group">
+<!-- CURRENT ACCOUNT -->
 
-                <label>
-                    Bank Name
-                </label>
+<div class="section">
 
-                <input
-                    type="text"
-                    id="bankName"
-                    placeholder="Enter bank name"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Account Number
-                </label>
-
-                <input
-                    type="password"
-                    id="accountNumber"
-                    inputmode="numeric"
-                    maxlength="18"
-                    placeholder="Enter account number"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Confirm Account Number
-                </label>
-
-                <input
-                    type="password"
-                    id="confirmAccount"
-                    inputmode="numeric"
-                    maxlength="18"
-                    placeholder="Re-enter account number"
-                >
-
-            </div>
-
-
-            <div class="row">
-
-                <div class="form-group">
-
-                    <label>
-                        IFSC Code
-                    </label>
-
-                    <input
-                        type="text"
-                        id="ifsc"
-                        maxlength="11"
-                        placeholder="SBIN0001234"
-                        style="text-transform:uppercase"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Account Type
-                    </label>
-
-                    <select id="accountType">
-
-                        <option value="">
-                            Select
-                        </option>
-
-                        <option value="Savings">
-                            Savings
-                        </option>
-
-                        <option value="Current">
-                            Current
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <!-- CONSENT -->
-
-            <div class="check-box">
-
-                <input
-                    type="checkbox"
-                    id="confirm"
-                    onchange="checkForm()"
-                >
-
-                <label for="confirm">
-
-                    I confirm that this bank account belongs to me
-                    and the information entered above is correct.
-
-                </label>
-
-            </div>
-
-        </div>
-
+    <div class="section-title">
+        Current Bank Account
     </div>
 
+    <div class="card">
 
-    <!-- SAVE -->
-
-    <div class="section">
-
-        <button
-            class="save-btn"
-            id="saveBtn"
-            disabled
-            onclick="saveBank()"
+        <div
+            class="account-box"
+            id="accountBox"
         >
-            Save Bank Details
-        </button>
 
-
-        <div class="note">
-
-            <strong>Security:</strong>
-            The real version should validate the account and IFSC
-            through a secure backend before marking the account as
-            verified. Do not store sensitive banking information
-            directly in browser localStorage.
+            <div class="no-account">
+                Loading bank details...
+            </div>
 
         </div>
 
+        <p style="
+            font-size:9px;
+            color:#7b8494;
+            line-height:1.5;
+        ">
+            Your saved bank account is loaded securely
+            from your EasyLoan account.
+        </p>
+
     </div>
+
+</div>
+
+
+<!-- BANK FORM -->
+
+<div class="section">
+
+    <div class="section-title">
+        Update Bank Account
+    </div>
+
+    <div class="card">
+
+
+        <!-- HOLDER -->
+
+        <div class="form-group">
+
+            <label>
+                Account Holder Name
+            </label>
+
+            <input
+                type="text"
+                id="holderName"
+                placeholder="Enter account holder name"
+            >
+
+        </div>
+
+
+        <!-- BANK -->
+
+        <div class="form-group">
+
+            <label>
+                Bank Name
+            </label>
+
+            <input
+                type="text"
+                id="bankName"
+                placeholder="Enter bank name"
+            >
+
+        </div>
+
+
+        <!-- ACCOUNT -->
+
+        <div class="form-group">
+
+            <label>
+                Account Number
+            </label>
+
+            <input
+                type="password"
+                id="accountNumber"
+                inputmode="numeric"
+                maxlength="18"
+                placeholder="Enter account number"
+            >
+
+        </div>
+
+
+        <!-- CONFIRM ACCOUNT -->
+
+        <div class="form-group">
+
+            <label>
+                Confirm Account Number
+            </label>
+
+            <input
+                type="password"
+                id="confirmAccount"
+                inputmode="numeric"
+                maxlength="18"
+                placeholder="Re-enter account number"
+            >
+
+        </div>
+
+
+        <!-- IFSC + TYPE -->
+
+        <div class="row">
+
+
+            <div class="form-group">
+
+                <label>
+                    IFSC Code
+                </label>
+
+                <input
+                    type="text"
+                    id="ifsc"
+                    maxlength="11"
+                    placeholder="SBIN0001234"
+                    style="text-transform:uppercase"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Account Type
+                </label>
+
+                <select id="accountType">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Savings">
+                        Savings
+                    </option>
+
+                    <option value="Current">
+                        Current
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONSENT -->
+
+        <div class="check-box">
+
+            <input
+                type="checkbox"
+                id="confirm"
+            >
+
+            <label for="confirm">
+
+                I confirm that this bank account belongs to me
+                and the information entered above is correct.
+
+            </label>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- SAVE -->
+
+<div class="section">
+
+    <button
+        class="save-btn"
+        id="saveBtn"
+        disabled
+        onclick="saveBank()"
+    >
+        Save Bank Details
+    </button>
+
+
+    <div
+        class="loading"
+        id="loading"
+    >
+        Saving bank details securely...
+    </div>
+
+
+    <div
+        class="message"
+        id="message"
+    ></div>
+
+
+    <div class="note">
+
+        <strong>Security:</strong>
+
+        Bank details are saved against the currently
+        authenticated Firebase user. Your Firebase
+        Realtime Database rules must restrict access
+        to the user's own UID.
+
+    </div>
+
+</div>
+
 
 </div>
 
@@ -611,12 +767,12 @@ body{
         </div>
 
         <h3>
-            Details Submitted
+            Details Saved
         </h3>
 
         <p>
-            Your bank account details have been submitted for
-            verification.
+            Your bank account details have been successfully
+            saved to your EasyLoan account.
         </p>
 
         <button
@@ -631,8 +787,69 @@ body{
 </div>
 
 
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+
+
 <script>
 
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9TawJ1-0xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* INITIALIZE */
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+const database =
+    firebase.database();
+
+const auth =
+    firebase.auth();
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let currentUser = null;
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
 function go(page){
 
@@ -641,128 +858,744 @@ function go(page){
 }
 
 
-/* FORM VALIDATION */
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(text,type){
+
+    const box =
+        document.getElementById("message");
+
+    box.className =
+        "message " + type;
+
+    box.innerText =
+        text;
+
+}
+
+
+/* =====================================================
+   AUTH CHECK
+===================================================== */
+
+auth.onAuthStateChanged(function(user){
+
+    if(!user){
+
+        currentUser = null;
+
+        document.getElementById("accountBox").innerHTML = `
+
+            <div class="no-account">
+
+                Please login first to view your bank details.
+
+            </div>
+
+        `;
+
+        document.getElementById("saveBtn").disabled =
+            true;
+
+        return;
+
+    }
+
+
+    currentUser = user;
+
+    console.log(
+        "Logged in UID:",
+        currentUser.uid
+    );
+
+
+    loadBankDetails();
+
+});
+
+
+/* =====================================================
+   LOAD BANK DETAILS
+===================================================== */
+
+function loadBankDetails(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const bankRef =
+        database.ref(
+            "users/" +
+            currentUser.uid +
+            "/bankDetails"
+        );
+
+
+    bankRef.once("value")
+
+    .then(function(snapshot){
+
+        if(!snapshot.exists()){
+
+            showNoBankAccount();
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.val();
+
+
+        /* LOAD FORM */
+
+        document.getElementById(
+            "holderName"
+        ).value =
+            data.holderName || "";
+
+
+        document.getElementById(
+            "bankName"
+        ).value =
+            data.bankName || "";
+
+
+        document.getElementById(
+            "ifsc"
+        ).value =
+            data.ifsc || "";
+
+
+        document.getElementById(
+            "accountType"
+        ).value =
+            data.accountType || "";
+
+
+        /*
+          Full account number is loaded only
+          into password input.
+        */
+
+        document.getElementById(
+            "accountNumber"
+        ).value =
+            data.accountNumber || "";
+
+
+        document.getElementById(
+            "confirmAccount"
+        ).value =
+            data.accountNumber || "";
+
+
+        showAccount(data);
+
+
+        checkForm();
+
+    })
+
+    .catch(function(error){
+
+        console.error(
+            "Bank load error:",
+            error
+        );
+
+
+        showMessage(
+            "Bank details load nahi ho paayi: " +
+            error.message,
+            "error"
+        );
+
+
+        document.getElementById(
+            "accountBox"
+        ).innerHTML = `
+
+            <div class="no-account">
+
+                Unable to load bank details.
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   NO ACCOUNT
+===================================================== */
+
+function showNoBankAccount(){
+
+    document.getElementById(
+        "accountBox"
+    ).innerHTML = `
+
+        <div class="no-account">
+
+            No bank account saved yet.
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   MASK ACCOUNT
+===================================================== */
+
+function maskAccount(account){
+
+    if(!account){
+
+        return "•••• ••••";
+
+    }
+
+
+    const last4 =
+        account.slice(-4);
+
+
+    return "•••• •••• " + last4;
+
+}
+
+
+/* =====================================================
+   SHOW ACCOUNT
+===================================================== */
+
+function showAccount(data){
+
+    const account =
+        data.accountNumber || "";
+
+
+    const masked =
+        maskAccount(account);
+
+
+    const verified =
+        data.status === "verified";
+
+
+    const statusText =
+        verified
+        ? "✓ Verified"
+        : "• Submitted";
+
+
+    document.getElementById(
+        "accountBox"
+    ).innerHTML = `
+
+        <div class="account-top">
+
+            <div class="account-bank">
+
+                ${escapeHTML(
+                    data.bankName || "Bank Account"
+                )}
+
+            </div>
+
+            <div class="verified">
+
+                ${statusText}
+
+            </div>
+
+        </div>
+
+
+        <div class="account-number">
+
+            ${masked}
+
+        </div>
+
+
+        <div class="account-bottom">
+
+            <span>
+
+                ${escapeHTML(
+                    data.holderName || ""
+                )}
+
+            </span>
+
+
+            <span>
+
+                IFSC:
+                ${escapeHTML(
+                    data.ifsc || ""
+                )}
+
+            </span>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   FORM VALIDATION
+===================================================== */
 
 function checkForm(){
 
     const holder =
-        document.getElementById("holderName").value.trim();
+        document
+        .getElementById("holderName")
+        .value
+        .trim();
+
 
     const bank =
-        document.getElementById("bankName").value.trim();
+        document
+        .getElementById("bankName")
+        .value
+        .trim();
+
 
     const account =
-        document.getElementById("accountNumber").value.trim();
+        document
+        .getElementById("accountNumber")
+        .value
+        .trim();
+
 
     const confirmAccount =
-        document.getElementById("confirmAccount").value.trim();
+        document
+        .getElementById("confirmAccount")
+        .value
+        .trim();
+
 
     const ifsc =
-        document.getElementById("ifsc").value.trim().toUpperCase();
+        document
+        .getElementById("ifsc")
+        .value
+        .trim()
+        .toUpperCase();
+
 
     const type =
-        document.getElementById("accountType").value;
+        document
+        .getElementById("accountType")
+        .value;
+
 
     const checked =
-        document.getElementById("confirm").checked;
+        document
+        .getElementById("confirm")
+        .checked;
 
-
-    /*
-       Basic frontend validation only.
-       Actual verification must happen on backend.
-    */
 
     const accountValid =
         /^[0-9]{9,18}$/.test(account);
 
+
     const sameAccount =
         account === confirmAccount;
+
 
     const ifscValid =
         /^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc);
 
 
     const valid =
-        holder &&
-        bank &&
+
+        currentUser &&
+
+        holder.length >= 2 &&
+
+        bank.length >= 2 &&
+
         accountValid &&
+
         sameAccount &&
+
         ifscValid &&
+
         type &&
+
         checked;
 
 
-    document.getElementById("saveBtn").disabled =
+    document.getElementById(
+        "saveBtn"
+    ).disabled =
         !valid;
+
+
+    return valid;
 
 }
 
 
-/* IFSC UPPERCASE */
+/* =====================================================
+   IFSC
+===================================================== */
 
 document
-    .getElementById("ifsc")
-    .addEventListener("input",function(){
+.getElementById("ifsc")
+.addEventListener(
+    "input",
+    function(){
 
         this.value =
-            this.value.toUpperCase();
+            this.value
+            .toUpperCase()
+            .replace(/[^A-Z0-9]/g,"")
+            .slice(0,11);
 
         checkForm();
 
-    });
+    }
+);
 
 
-/* INPUT EVENTS */
+/* =====================================================
+   ACCOUNT NUMBER ONLY DIGITS
+===================================================== */
 
 document
-    .querySelectorAll("input,select")
-    .forEach(function(element){
+.getElementById("accountNumber")
+.addEventListener(
+    "input",
+    function(){
 
-        element.addEventListener(
-            "input",
-            checkForm
+        this.value =
+            this.value
+            .replace(/\D/g,"")
+            .slice(0,18);
+
+        checkForm();
+
+    }
+);
+
+
+/* =====================================================
+   CONFIRM ACCOUNT ONLY DIGITS
+===================================================== */
+
+document
+.getElementById("confirmAccount")
+.addEventListener(
+    "input",
+    function(){
+
+        this.value =
+            this.value
+            .replace(/\D/g,"")
+            .slice(0,18);
+
+        checkForm();
+
+    }
+);
+
+
+/* =====================================================
+   ALL INPUT EVENTS
+===================================================== */
+
+document
+.querySelectorAll(
+    "#holderName,#bankName,#accountType,#confirm"
+)
+.forEach(function(element){
+
+    element.addEventListener(
+        "input",
+        checkForm
+    );
+
+    element.addEventListener(
+        "change",
+        checkForm
+    );
+
+});
+
+
+/* =====================================================
+   SAVE BANK
+===================================================== */
+
+async function saveBank(){
+
+    if(!currentUser){
+
+        showMessage(
+            "Please login first.",
+            "error"
         );
 
-        element.addEventListener(
-            "change",
-            checkForm
-        );
-
-    });
-
-
-/* SAVE */
-
-function saveBank(){
-
-    if(
-        document.getElementById("saveBtn").disabled
-    ){
         return;
+
     }
 
 
+    if(!checkForm()){
+
+        showMessage(
+            "Please enter all bank details correctly.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const holder =
+        document
+        .getElementById("holderName")
+        .value
+        .trim();
+
+
+    const bank =
+        document
+        .getElementById("bankName")
+        .value
+        .trim();
+
+
     const account =
-        document.getElementById("accountNumber").value;
+        document
+        .getElementById("accountNumber")
+        .value
+        .trim();
 
 
-    /*
-       Demo:
-       Real backend integration will be added later.
-    */
-
-    console.log(
-        "Bank account submitted:",
-        account
-    );
+    const ifsc =
+        document
+        .getElementById("ifsc")
+        .value
+        .trim()
+        .toUpperCase();
 
 
-    document.getElementById("successModal").style.display =
-        "flex";
+    const type =
+        document
+        .getElementById("accountType")
+        .value;
+
+
+    const now =
+        firebase.database.ServerValue.TIMESTAMP;
+
+
+    const bankData = {
+
+        holderName:
+            holder,
+
+        bankName:
+            bank,
+
+        accountNumber:
+            account,
+
+        accountLast4:
+            account.slice(-4),
+
+        ifsc:
+            ifsc,
+
+        accountType:
+            type,
+
+        status:
+            "submitted",
+
+        updatedAt:
+            now
+
+    };
+
+
+    const saveButton =
+        document.getElementById(
+            "saveBtn"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    saveButton.disabled =
+        true;
+
+    loading.style.display =
+        "block";
+
+
+    try{
+
+        await database
+        .ref(
+            "users/" +
+            currentUser.uid +
+            "/bankDetails"
+        )
+        .update(bankData);
+
+
+        /*
+          Also keep a small profile summary.
+          This does NOT duplicate the full account number.
+        */
+
+        await database
+        .ref(
+            "users/" +
+            currentUser.uid +
+            "/profile/bank"
+        )
+        .update({
+
+            bankName:
+                bank,
+
+            accountLast4:
+                account.slice(-4),
+
+            ifsc:
+                ifsc,
+
+            accountType:
+                type,
+
+            status:
+                "submitted",
+
+            updatedAt:
+                now
+
+        });
+
+
+        loading.style.display =
+            "none";
+
+
+        showMessage(
+            "Bank details successfully Firebase me save ho gayi.",
+            "success"
+        );
+
+
+        /*
+          Reload current card from Firebase
+        */
+
+        const snapshot =
+            await database
+            .ref(
+                "users/" +
+                currentUser.uid +
+                "/bankDetails"
+            )
+            .once("value");
+
+
+        if(snapshot.exists()){
+
+            showAccount(
+                snapshot.val()
+            );
+
+        }
+
+
+        document.getElementById(
+            "successModal"
+        ).style.display =
+            "flex";
+
+
+    }catch(error){
+
+        console.error(
+            "Bank save error:",
+            error
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        saveButton.disabled =
+            false;
+
+
+        showMessage(
+            "Bank details save nahi hui: " +
+            error.message,
+            "error"
+        );
+
+    }
 
 }
 
+
+/* =====================================================
+   INITIAL FORM CHECK
+===================================================== */
+
+checkForm();
+
 </script>
+
 
 </body>
 </html>
