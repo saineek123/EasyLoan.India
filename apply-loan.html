@@ -1,1510 +1,895 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Loan</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f4f6fa;
-            color: #172033;
-        }
-
-        .app {
-            max-width: 520px;
-            margin: auto;
-            min-height: 100vh;
-            padding-bottom: 30px;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #155eef, #4f8cff);
-            color: white;
-            padding: 20px 18px 25px;
-            border-radius: 0 0 25px 25px;
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .back {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.18);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .header h2 {
-            font-size: 20px;
-        }
-
-        .header p {
-            margin-top: 5px;
-            font-size: 12px;
-            opacity: .85;
-        }
-
-        .progress-area {
-            background: white;
-            margin: 15px;
-            padding: 18px;
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(0,0,0,.05);
-        }
-
-        .progress {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .progress::before {
-            content: "";
-            position: absolute;
-            top: 17px;
-            left: 5%;
-            right: 5%;
-            height: 3px;
-            background: #e5e8ee;
-            z-index: 0;
-        }
-
-        .progress-line {
-            position: absolute;
-            top: 17px;
-            left: 5%;
-            height: 3px;
-            width: 0%;
-            background: #155eef;
-            z-index: 1;
-            transition: .3s;
-        }
-
-        .step {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            font-size: 8px;
-            color: #8790a0;
-        }
-
-        .circle {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #e8ebf1;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .step.active {
-            color: #155eef;
-        }
-
-        .step.active .circle {
-            background: #155eef;
-            color: white;
-        }
-
-        .step.completed .circle {
-            background: #19a463;
-            color: white;
-        }
-
-        .step span {
-            display: block;
-            margin-top: 4px;
-        }
-
-        .form-card {
-            background: white;
-            margin: 0 15px;
-            padding: 20px;
-            border-radius: 18px;
-            box-shadow: 0 4px 18px rgba(0,0,0,.05);
-        }
-
-        .form-step {
-            display: none;
-        }
-
-        .form-step.active {
-            display: block;
-        }
-
-        .title {
-            margin-bottom: 18px;
-        }
-
-        .title h3 {
-            font-size: 19px;
-        }
-
-        .title p {
-            margin-top: 5px;
-            color: #7c8596;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        .loan-types {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .loan-type {
-            border: 1px solid #e0e4eb;
-            border-radius: 12px;
-            padding: 14px;
-            cursor: pointer;
-        }
-
-        .loan-type.selected {
-            border: 2px solid #155eef;
-            background: #f3f7ff;
-        }
-
-        .loan-type .icon {
-            font-size: 24px;
-        }
-
-        .loan-type h4 {
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        .loan-type p {
-            color: #7d8797;
-            font-size: 10px;
-            margin-top: 4px;
-        }
-
-        .field {
-            margin-bottom: 15px;
-        }
-
-        .field label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 7px;
-        }
-
-        .field label .required {
-            color: red;
-        }
-
-        .field input,
-        .field select {
-            width: 100%;
-            height: 45px;
-            border: 1px solid #dfe3ea;
-            border-radius: 10px;
-            padding: 0 13px;
-            outline: none;
-            font-size: 13px;
-            background: white;
-        }
-
-        .field input:focus,
-        .field select:focus {
-            border-color: #155eef;
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .amount-display {
-            text-align: center;
-            background: #f3f6fc;
-            padding: 18px;
-            border-radius: 13px;
-            margin-bottom: 15px;
-        }
-
-        .amount-display small {
-            color: #7d8797;
-        }
-
-        .amount-display h2 {
-            color: #155eef;
-            margin-top: 6px;
-        }
-
-        input[type="range"] {
-            width: 100%;
-        }
-
-        .upload-box {
-            border: 1.5px dashed #b8c1d0;
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
-            margin-bottom: 13px;
-            cursor: pointer;
-        }
-
-        .upload-box .upload-icon {
-            font-size: 28px;
-        }
-
-        .upload-box h4 {
-            font-size: 13px;
-            margin-top: 7px;
-        }
-
-        .upload-box p {
-            font-size: 10px;
-            color: #7c8596;
-            margin-top: 4px;
-        }
-
-        .upload-box input {
-            display: none;
-        }
-
-        .summary {
-            background: #f6f8fb;
-            border-radius: 13px;
-            padding: 15px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 9px 0;
-            border-bottom: 1px solid #e6e9ee;
-            font-size: 12px;
-        }
-
-        .summary-row:last-child {
-            border-bottom: none;
-        }
-
-        .summary-row span:first-child {
-            color: #788294;
-        }
-
-        .summary-row span:last-child {
-            font-weight: bold;
-        }
-
-        .consent {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
-            font-size: 11px;
-            color: #667085;
-            line-height: 1.5;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 22px;
-        }
-
-        .btn {
-            flex: 1;
-            height: 46px;
-            border-radius: 10px;
-            border: none;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn-back {
-            background: #eef0f4;
-            color: #4c5667;
-        }
-
-        .btn-next {
-            background: #155eef;
-            color: white;
-        }
-
-        .btn-submit {
-            background: #19a463;
-            color: white;
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* UPI Payment Styles */
-        .upi-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .upi-option {
-            border: 2px solid #e0e4eb;
-            border-radius: 12px;
-            padding: 14px 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: block;
-            color: #172033;
-        }
-
-        .upi-option:hover {
-            border-color: #155eef;
-            background: #f3f7ff;
-            transform: scale(1.02);
-        }
-
-        .upi-option.selected {
-            border-color: #155eef;
-            background: #e8efff;
-        }
-
-        .upi-option .upi-icon {
-            font-size: 28px;
-            display: block;
-        }
-
-        .upi-option .upi-name {
-            font-size: 11px;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .upi-option .upi-id {
-            font-size: 10px;
-            color: #7c8596;
-            margin-top: 2px;
-            word-break: break-all;
-        }
-
-        .upi-option .pay-badge {
-            display: inline-block;
-            background: #155eef;
-            color: white;
-            font-size: 8px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-top: 4px;
-        }
-
-        .payment-box {
-            background: #f0f4ff;
-            border-radius: 14px;
-            padding: 20px 18px;
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .payment-box .fee {
-            font-size: 32px;
-            font-weight: bold;
-            color: #155eef;
-        }
-
-        .payment-box .fee-label {
-            font-size: 13px;
-            color: #4a5a7a;
-            margin-top: 4px;
-        }
-
-        .payment-status {
-            text-align: center;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 12px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .payment-status.paid {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .payment-status.unpaid {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .payment-status.processing {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .utr-input {
-            margin-top: 15px;
-        }
-
-        .utr-input label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 7px;
-        }
-
-        .utr-input input {
-            width: 100%;
-            height: 45px;
-            border: 1px solid #dfe3ea;
-            border-radius: 10px;
-            padding: 0 13px;
-            outline: none;
-            font-size: 13px;
-            background: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .utr-input input:focus {
-            border-color: #155eef;
-        }
-
-        .utr-input .hint {
-            font-size: 10px;
-            color: #7c8596;
-            margin-top: 5px;
-        }
-
-        .upi-divider {
-            display: flex;
-            align-items: center;
-            margin: 12px 0;
-        }
-
-        .upi-divider::before,
-        .upi-divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #e0e4eb;
-        }
-
-        .upi-divider span {
-            padding: 0 12px;
-            font-size: 11px;
-            color: #7c8596;
-        }
-
-        .success {
-            display: none;
-            text-align: center;
-            padding: 35px 10px;
-        }
-
-        .success-icon {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            background: #e5f8ee;
-            color: #19a463;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: auto;
-            font-size: 38px;
-        }
-
-        .success h2 {
-            margin-top: 18px;
-            font-size: 21px;
-        }
-
-        .success p {
-            color: #737d8e;
-            font-size: 12px;
-            line-height: 1.6;
-            margin-top: 8px;
-        }
-
-        .application-id {
-            background: #f3f6fa;
-            padding: 13px;
-            border-radius: 10px;
-            margin-top: 18px;
-            font-size: 13px;
-        }
-
-        .home-btn {
-            width: 100%;
-            margin-top: 18px;
-            height: 46px;
-            border: none;
-            border-radius: 10px;
-            background: #155eef;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .account-details-box {
-            background: #f8faff;
-            border-radius: 12px;
-            padding: 16px;
-            margin: 12px 0;
-            border: 1px solid #e0e4eb;
-        }
-
-        .account-details-box .section-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #155eef;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .account-details-box .section-title .badge {
-            background: #155eef;
-            color: white;
-            font-size: 9px;
-            padding: 2px 10px;
-            border-radius: 12px;
-        }
-
-        @media(max-width:360px) {
-            .loan-types {
-                grid-template-columns: 1fr;
-            }
-            .row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-            .upi-options {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
-
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply for Loan | EasyLoan India</title>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <style>
+    /* ========== ROOT VARIABLES ========== */
+    :root {
+      --primary: #1565c0;
+      --primary-dark: #0d47a1;
+      --primary-light: #42a5f5;
+      --success: #2e7d32;
+      --danger: #c62828;
+      --warning: #f57c00;
+      --text-primary: #1a237e;
+      --text-secondary: #455a64;
+      --bg: #f0f4f8;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --radius: 16px;
+      --transition: all 0.3s ease;
+    }
+
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text-secondary);
+      min-height: 100vh;
+    }
+
+    /* ========== NAVBAR ========== */
+    .navbar {
+      background: white;
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--primary);
+    }
+    .navbar .brand i {
+      font-size: 28px;
+    }
+    .navbar .brand h1 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .navbar .brand small {
+      display: block;
+      font-size: 10px;
+      opacity: 0.6;
+      font-weight: 300;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    .navbar .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      font-size: 14px;
+    }
+    .navbar .nav-links a:hover {
+      color: var(--primary);
+    }
+    .navbar .nav-links .active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .navbar .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    /* ========== CONTAINER ========== */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .page-header h1 {
+      font-size: 36px;
+      color: var(--text-primary);
+      font-weight: 800;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* ========== PROGRESS STEPS ========== */
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 15%;
+      right: 15%;
+      height: 3px;
+      background: #e0e0e0;
+      z-index: 0;
+    }
+
+    .progress-steps .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .progress-steps .step .number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      transition: var(--transition);
+    }
+
+    .progress-steps .step.active .number {
+      background: var(--primary);
+      box-shadow: 0 4px 15px rgba(21, 101, 192, 0.3);
+    }
+
+    .progress-steps .step.completed .number {
+      background: var(--success);
+    }
+
+    .progress-steps .step .label {
+      font-size: 12px;
+      margin-top: 8px;
+      font-weight: 600;
+      color: #999;
+    }
+
+    .progress-steps .step.active .label {
+      color: var(--primary);
+    }
+    .progress-steps .step.completed .label {
+      color: var(--success);
+    }
+
+    /* ========== FORM CARD ========== */
+    .form-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 35px 40px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-card .form-title {
+      font-size: 20px;
+      color: var(--text-primary);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .form-group label .required {
+      color: var(--danger);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e8e8e8;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+      transition: var(--transition);
+      background: #fafafa;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.08);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group .hint {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ========== LOAN CALCULATOR ========== */
+    .calculator-box {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .calculator-box .calc-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .calculator-box .calc-row:last-child {
+      border-bottom: none;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-primary);
+    }
+
+    .calculator-box .calc-row .label {
+      color: var(--text-secondary);
+    }
+    .calculator-box .calc-row .value {
+      font-weight: 600;
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(21, 101, 192, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 15px;
+      background: transparent;
+      color: var(--text-secondary);
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .btn-group .btn-primary {
+      flex: 2;
+    }
+    .btn-group .btn-secondary {
+      flex: 1;
+    }
+
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 500;
+      z-index: 9999;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transform: translateX(120%);
+      transition: transform 0.4s ease;
+      max-width: 360px;
+      font-size: 14px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+    .toast.success {
+      background: var(--success);
+    }
+    .toast.error {
+      background: var(--danger);
+    }
+    .toast.info {
+      background: var(--primary);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media(max-width: 768px) {
+      .navbar .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+      }
+      .navbar .nav-links.open {
+        display: flex;
+      }
+      .navbar .mobile-toggle {
+        display: block;
+      }
+
+      .form-card {
+        padding: 25px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-steps {
+        gap: 20px;
+      }
+      .progress-steps .step .label {
+        font-size: 10px;
+      }
+
+      .page-header h1 {
+        font-size: 28px;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="app">
+  <!-- ========== TOAST ========== -->
+  <div id="toast" class="toast"></div>
 
-    <div class="header">
-        <div class="header-top">
-            <div class="back" onclick="goHome()">←</div>
-            <div>
-                <h2>Apply for Loan</h2>
-                <p>Complete your application carefully</p>
-            </div>
-        </div>
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar">
+    <a href="index.html" class="brand">
+      <i class="fa-solid fa-building-columns"></i>
+      <div>
+        <h1>EasyLoan</h1>
+        <small>India's Trusted Lender</small>
+      </div>
+    </a>
+
+    <button class="mobile-toggle" id="mobileToggle">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="my-loans.html">My Loans</a>
+      <a href="apply-loan.html" class="active">Apply</a>
+      <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+      <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
+    </div>
+  </nav>
+
+  <!-- ========== MAIN CONTAINER ========== -->
+  <div class="container">
+    <div class="page-header">
+      <h1>📝 Apply for Loan</h1>
+      <p>Fill in the details below and get approval in minutes.</p>
     </div>
 
-    <div class="progress-area">
-        <div class="progress">
-            <div class="progress-line" id="progressLine"></div>
-            <div class="step active" id="stepIcon1">
-                <div class="circle">1</div>
-                <span>Loan</span>
-            </div>
-            <div class="step" id="stepIcon2">
-                <div class="circle">2</div>
-                <span>Personal</span>
-            </div>
-            <div class="step" id="stepIcon3">
-                <div class="circle">3</div>
-                <span>Income</span>
-            </div>
-            <div class="step" id="stepIcon4">
-                <div class="circle">4</div>
-                <span>Docs</span>
-            </div>
-            <div class="step" id="stepIcon5">
-                <div class="circle">5</div>
-                <span>Account</span>
-            </div>
-            <div class="step" id="stepIcon6">
-                <div class="circle">6</div>
-                <span>Review</span>
-            </div>
-            <div class="step" id="stepIcon7">
-                <div class="circle">7</div>
-                <span>Payment</span>
-            </div>
-        </div>
+    <!-- ========== PROGRESS STEPS ========== -->
+    <div class="progress-steps">
+      <div class="step active" id="step1">
+        <div class="number">1</div>
+        <div class="label">Personal Info</div>
+      </div>
+      <div class="step" id="step2">
+        <div class="number">2</div>
+        <div class="label">Loan Details</div>
+      </div>
+      <div class="step" id="step3">
+        <div class="number">3</div>
+        <div class="label">Review & Submit</div>
+      </div>
     </div>
 
-    <div class="form-card">
+    <!-- ========== STEP 1: PERSONAL INFO ========== -->
+    <div class="form-card" id="step1Form">
+      <div class="form-title"><i class="fa-solid fa-user" style="color:var(--primary);"></i> Personal Information</div>
 
-        <!-- STEP 1: Loan -->
-        <div class="form-step active" id="step1">
-            <div class="title">
-                <h3>Choose Loan</h3>
-                <p>Select the type of loan and amount you need.</p>
-            </div>
+      <div class="form-group">
+        <label>Full Name <span class="required">*</span></label>
+        <input type="text" id="fullName" placeholder="Enter your full name as per PAN" required>
+      </div>
 
-            <div class="loan-types">
-                <div class="loan-type selected" onclick="selectLoan(this, 'Personal Loan')">
-                    <div class="icon">👤</div>
-                    <h4>Personal Loan</h4>
-                    <p>For personal needs</p>
-                </div>
-                <div class="loan-type" onclick="selectLoan(this, 'Business Loan')">
-                    <div class="icon">🏢</div>
-                    <h4>Business Loan</h4>
-                    <p>For business needs</p>
-                </div>
-                <div class="loan-type" onclick="selectLoan(this, 'Emergency Loan')">
-                    <div class="icon">🚨</div>
-                    <h4>Emergency Loan</h4>
-                    <p>Urgent expenses</p>
-                </div>
-                <div class="loan-type" onclick="selectLoan(this, 'Education Loan')">
-                    <div class="icon">🎓</div>
-                    <h4>Education Loan</h4>
-                    <p>Education expenses</p>
-                </div>
-            </div>
-
-            <div class="amount-display">
-                <small>Loan Amount</small>
-                <h2 id="amountText">₹50,000</h2>
-            </div>
-            <input type="range" id="amountRange" min="10000" max="500000" step="5000" value="50000" oninput="updateAmount()">
-
-            <div class="field" style="margin-top:20px;">
-                <label>Loan Tenure</label>
-                <select id="tenure">
-                    <option value="6">6 Months</option>
-                    <option value="12" selected>12 Months</option>
-                    <option value="18">18 Months</option>
-                    <option value="24">24 Months</option>
-                    <option value="36">36 Months</option>
-                    <option value="48">48 Months</option>
-                    <option value="60">60 Months</option>
-                </select>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
-            </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address <span class="required">*</span></label>
+          <input type="email" id="email" placeholder="Enter your email" required>
         </div>
-
-        <!-- STEP 2: Personal Details -->
-        <div class="form-step" id="step2">
-            <div class="title">
-                <h3>Personal Details</h3>
-                <p>Enter your personal information as shown on your documents.</p>
-            </div>
-
-            <div class="field">
-                <label>Full Name <span class="required">*</span></label>
-                <input type="text" id="fullName" placeholder="Enter your full name">
-            </div>
-
-            <div class="row">
-                <div class="field">
-                    <label>Date of Birth <span class="required">*</span></label>
-                    <input type="date" id="dob">
-                </div>
-                <div class="field">
-                    <label>Gender <span class="required">*</span></label>
-                    <select id="gender">
-                        <option value="">Select</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="field">
-                <label>Mobile Number <span class="required">*</span></label>
-                <input type="tel" id="mobile" maxlength="10" placeholder="10 digit mobile number">
-            </div>
-
-            <div class="field">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="Enter email address">
-            </div>
-
-            <div class="field">
-                <label>Current Address <span class="required">*</span></label>
-                <input type="text" id="address" placeholder="House no, street, area">
-            </div>
-
-            <div class="row">
-                <div class="field">
-                    <label>City <span class="required">*</span></label>
-                    <input type="text" id="city" placeholder="City">
-                </div>
-                <div class="field">
-                    <label>PIN Code <span class="required">*</span></label>
-                    <input type="tel" id="pincode" maxlength="6" placeholder="6 digit PIN">
-                </div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
-            </div>
+        <div class="form-group">
+          <label>Phone Number <span class="required">*</span></label>
+          <input type="tel" id="phone" placeholder="Enter your phone number" required>
         </div>
+      </div>
 
-        <!-- STEP 3: Income -->
-        <div class="form-step" id="step3">
-            <div class="title">
-                <h3>Income & Employment</h3>
-                <p>This information helps determine your eligibility.</p>
-            </div>
-
-            <div class="field">
-                <label>Employment Type <span class="required">*</span></label>
-                <select id="employment">
-                    <option value="">Select employment type</option>
-                    <option>Salaried</option>
-                    <option>Self Employed</option>
-                    <option>Business Owner</option>
-                    <option>Professional</option>
-                    <option>Other</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label>Company / Business Name</label>
-                <input type="text" id="company" placeholder="Enter company or business name">
-            </div>
-
-            <div class="field">
-                <label>Monthly Income <span class="required">*</span></label>
-                <input type="number" id="income" placeholder="₹ Monthly income">
-            </div>
-
-            <div class="field">
-                <label>Work Experience</label>
-                <select id="experience">
-                    <option value="">Select experience</option>
-                    <option>Less than 1 year</option>
-                    <option>1 - 2 years</option>
-                    <option>2 - 5 years</option>
-                    <option>5+ years</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label>Existing EMI</label>
-                <input type="number" id="existingEmi" placeholder="₹ Existing monthly EMI">
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
-            </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date of Birth <span class="required">*</span></label>
+          <input type="date" id="dob" required>
         </div>
-
-        <!-- STEP 4: Documents -->
-        <div class="form-step" id="step4">
-            <div class="title">
-                <h3>Documents</h3>
-                <p>Upload clear documents for verification.</p>
-            </div>
-
-            <label class="upload-box">
-                <div class="upload-icon">🪪</div>
-                <h4>Upload PAN Card <span style="color:red;">*</span></h4>
-                <p>JPG, PNG or PDF</p>
-                <input type="file" id="pan" accept="image/*,.pdf">
-            </label>
-
-            <label class="upload-box">
-                <div class="upload-icon">🆔</div>
-                <h4>Upload Identity / Address Proof <span style="color:red;">*</span></h4>
-                <p>JPG, PNG or PDF</p>
-                <input type="file" id="identity" accept="image/*,.pdf">
-            </label>
-
-            <label class="upload-box">
-                <div class="upload-icon">🏦</div>
-                <h4>Upload Bank Statement <span style="color:red;">*</span></h4>
-                <p>PDF or supported image format</p>
-                <input type="file" id="bankStatement" accept="image/*,.pdf">
-            </label>
-
-            <div class="buttons">
-                <button class="btn btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
-            </div>
+        <div class="form-group">
+          <label>PAN Number <span class="required">*</span></label>
+          <input type="text" id="pan" placeholder="ABCDE1234F" maxlength="10" required>
+          <div class="hint">Enter 10-character PAN number</div>
         </div>
+      </div>
 
-        <!-- STEP 5: Account Details -->
-        <div class="form-step" id="step5">
-            <div class="title">
-                <h3>Bank Account Details</h3>
-                <p>Add your bank account details for loan disbursement.</p>
-            </div>
+      <div class="form-group">
+        <label>Address <span class="required">*</span></label>
+        <textarea id="address" placeholder="Enter your complete address" required></textarea>
+      </div>
 
-            <div class="account-details-box">
-                <div class="section-title">
-                    🏦 Account Information
-                    <span class="badge">Required</span>
-                </div>
-
-                <div class="field">
-                    <label>Account Holder Name <span class="required">*</span></label>
-                    <input type="text" id="accHolderName" placeholder="Enter account holder name">
-                </div>
-
-                <div class="field">
-                    <label>Bank Name <span class="required">*</span></label>
-                    <input type="text" id="bankName" placeholder="Enter bank name">
-                </div>
-
-                <div class="row">
-                    <div class="field">
-                        <label>Account Number <span class="required">*</span></label>
-                        <input type="text" id="accNumber" placeholder="Enter account number" maxlength="20">
-                    </div>
-                    <div class="field">
-                        <label>Confirm Account Number <span class="required">*</span></label>
-                        <input type="text" id="accNumberConfirm" placeholder="Re-enter account number" maxlength="20">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="field">
-                        <label>IFSC Code <span class="required">*</span></label>
-                        <input type="text" id="ifscCode" placeholder="e.g. HDFC0001234" style="text-transform:uppercase;">
-                    </div>
-                    <div class="field">
-                        <label>Account Type</label>
-                        <select id="accType">
-                            <option value="Savings">Savings Account</option>
-                            <option value="Current">Current Account</option>
-                            <option value="Salary">Salary Account</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn btn-next" onclick="nextStep()">Continue →</button>
-            </div>
-        </div>
-
-        <!-- STEP 6: Review -->
-        <div class="form-step" id="step6">
-            <div class="title">
-                <h3>Review Application</h3>
-                <p>Please check your information before proceeding to payment.</p>
-            </div>
-
-            <div class="summary">
-                <div class="summary-row">
-                    <span>Loan Type</span>
-                    <span id="reviewLoan">-</span>
-                </div>
-                <div class="summary-row">
-                    <span>Loan Amount</span>
-                    <span id="reviewAmount">-</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tenure</span>
-                    <span id="reviewTenure">-</span>
-                </div>
-                <div class="summary-row">
-                    <span>Name</span>
-                    <span id="reviewName">-</span>
-                </div>
-                <div class="summary-row">
-                    <span>Mobile</span>
-                    <span id="reviewMobile">-</span>
-                </div>
-                <div class="summary-row">
-                    <span>Employment</span>
-                    <span id="reviewEmployment">-</span>
-                </div>
-                <div class="summary-row">
-                    <span>Monthly Income</span>
-                    <span id="reviewIncome">-</span>
-                </div>
-                <div class="summary-row" style="background:#f0f7ff; padding:10px; border-radius:8px; margin-top:5px;">
-                    <span>🏦 Bank Account</span>
-                    <span id="reviewAccount">-</span>
-                </div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn btn-next" onclick="nextStep()">Proceed to Payment →</button>
-            </div>
-        </div>
-
-        <!-- STEP 7: Payment + UTR -->
-        <div class="form-step" id="step7">
-            <div class="title">
-                <h3>Pay Processing Fee</h3>
-                <p>Pay ₹199 via any UPI app and enter the UTR number.</p>
-            </div>
-
-            <div class="payment-box">
-                <div class="fee-label">Processing Fee</div>
-                <div class="fee">₹199</div>
-                <div style="font-size:11px; color:#6b7a93; margin-top:6px;">One-time non-refundable fee</div>
-            </div>
-
-            <!-- UPI Options - Click to Redirect -->
-            <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:8px;">Pay using any UPI app (click to open):</label>
-            <div class="upi-options" id="upiOptions">
-                <a class="upi-option" href="paytmmp://pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Paytm')">
-                    <span class="upi-icon">📱</span>
-                    <div class="upi-name">Paytm</div>
-                    <div class="upi-id">amit.894@ptyes</div>
-                    <span class="pay-badge">Pay Now</span>
-                </a>
-                <a class="upi-option" href="gpay://upi/pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Google Pay')">
-                    <span class="upi-icon">💳</span>
-                    <div class="upi-name">Google Pay</div>
-                    <div class="upi-id">amit.894@ptyes</div>
-                    <span class="pay-badge">Pay Now</span>
-                </a>
-                <a class="upi-option" href="phonepe://pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'PhonePe')">
-                    <span class="upi-icon">📲</span>
-                    <div class="upi-name">PhonePe</div>
-                    <div class="upi-id">amit.894@ptyes</div>
-                    <span class="pay-badge">Pay Now</span>
-                </a>
-                <a class="upi-option" href="amazonpay://upi/pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Amazon Pay')">
-                    <span class="upi-icon">🛒</span>
-                    <div class="upi-name">Amazon Pay</div>
-                    <div class="upi-id">amit.894@ptyes</div>
-                    <span class="pay-badge">Pay Now</span>
-                </a>
-                <a class="upi-option" href="bhim://upi/pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'BHIM UPI')">
-                    <span class="upi-icon">🏦</span>
-                    <div class="upi-name">BHIM UPI</div>
-                    <div class="upi-id">amit.894@ptyes</div>
-                    <span class="pay-badge">Pay Now</span>
-                </a>
-                <a class="upi-option" href="upi://pay?pa=amit.894@ptyes&pn=EasyLoan&am=199&cu=INR" onclick="selectUPI(this, 'Other UPI')">
-                    <span class="upi-icon">🔗</span>
-                    <div class="upi-name">Other UPI</div>
-                    <div class="upi-id">amit.894@ptyes</div>
-                    <span class="pay-badge">Pay Now</span>
-                </a>
-            </div>
-
-            <div style="text-align:center; font-size:11px; color:#6b7a93; margin:8px 0;">
-                <span>💡 UPI ID: <strong style="color:#155eef;">amit.894@ptyes</strong></span>
-            </div>
-
-            <div class="upi-divider">
-                <span>OR Bank Transfer</span>
-            </div>
-
-            <!-- Bank Transfer Details -->
-            <div style="background:#f8faff; border-radius:10px; padding:14px; margin-bottom:12px; border:1px solid #e0e4eb;">
-                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
-                    <span style="color:#788294;">Bank</span>
-                    <span style="font-weight:bold;">HDFC Bank</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
-                    <span style="color:#788294;">Account No.</span>
-                    <span style="font-weight:bold; letter-spacing:1px;">1234567890</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
-                    <span style="color:#788294;">IFSC</span>
-                    <span style="font-weight:bold; letter-spacing:1px;">HDFC0001234</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
-                    <span style="color:#788294;">Account Holder</span>
-                    <span style="font-weight:bold;">EasyLoan India</span>
-                </div>
-            </div>
-
-            <!-- UTR Input -->
-            <div class="utr-input">
-                <label for="utrNumber">Enter UTR Number <span style="color:red;">*</span></label>
-                <input type="text" id="utrNumber" placeholder="e.g. HDFC1234567890" maxlength="25">
-                <div class="hint">UTR number is the 12-25 character transaction ID from your bank/UPI app</div>
-            </div>
-
-            <!-- Payment Status -->
-            <div id="paymentStatus" class="payment-status unpaid">
-                ⚠️ Pay ₹199 via UPI or Bank Transfer and enter UTR number.
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-back" onclick="prevStep()">← Back</button>
-                <button class="btn btn-submit" id="submitPaymentBtn" onclick="submitPaymentAndUTR()">
-                    ✅ Verify & Submit
-                </button>
-            </div>
-        </div>
-
-        <!-- SUCCESS -->
-        <div class="success" id="success">
-            <div class="success-icon">✓</div>
-            <h2>Application Submitted!</h2>
-            <p>
-                Your loan application has been submitted successfully.
-                We will verify your payment and documents.
-            </p>
-            <div class="application-id">
-                Application ID:
-                <strong id="applicationId">-</strong>
-            </div>
-            <div class="application-id" style="background:#f0f7ff; margin-top:8px;">
-                UTR Number:
-                <strong id="displayUtr">-</strong>
-            </div>
-            <div class="application-id" style="background:#f0faf0; margin-top:8px;">
-                🏦 Bank Account:
-                <strong id="displayAccount">-</strong>
-            </div>
-            <button class="home-btn" onclick="goHome()">Go to Home</button>
-        </div>
-
+      <button class="btn-primary" onclick="goToStep(2)">
+        Next Step <i class="fa-solid fa-arrow-right"></i>
+      </button>
     </div>
-</div>
 
-<script>
-const firebaseConfig = {
-    apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
-    authDomain: "easyloan-india.firebaseapp.com",
-    projectId: "easyloan-india",
-    storageBucket: "easyloan-india.firebasestorage.app",
-    messagingSenderId: "925263655882",
-    appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
-};
+    <!-- ========== STEP 2: LOAN DETAILS ========== -->
+    <div class="form-card" id="step2Form" style="display:none;">
+      <div class="form-title"><i class="fa-solid fa-file-invoice" style="color:var(--primary);"></i> Loan Details</div>
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+      <div class="form-group">
+        <label>Loan Type <span class="required">*</span></label>
+        <select id="loanType" required>
+          <option value="">Select Loan Type</option>
+          <option value="personal">Personal Loan</option>
+          <option value="home">Home Loan</option>
+          <option value="car">Car Loan</option>
+          <option value="education">Education Loan</option>
+          <option value="business">Business Loan</option>
+        </select>
+      </div>
 
-const auth = firebase.auth();
-const database = firebase.database();
+      <div class="form-row">
+        <div class="form-group">
+          <label>Loan Amount (₹) <span class="required">*</span></label>
+          <input type="number" id="loanAmount" placeholder="Enter amount" min="1000" required>
+          <div class="hint">Minimum ₹1,000</div>
+        </div>
+        <div class="form-group">
+          <label>Tenure (Months) <span class="required">*</span></label>
+          <select id="loanTenure" required>
+            <option value="6">6 Months</option>
+            <option value="12">12 Months</option>
+            <option value="24" selected>24 Months</option>
+            <option value="36">36 Months</option>
+            <option value="48">48 Months</option>
+            <option value="60">60 Months</option>
+          </select>
+        </div>
+      </div>
 
-let currentStep = 1;
-let selectedLoan = "Personal Loan";
-let currentUser = null;
-let submitting = false;
-let selectedUPIApp = "Paytm";
-let paymentVerified = false;
+      <div class="form-group">
+        <label>Purpose of Loan <span class="required">*</span></label>
+        <textarea id="loanPurpose" placeholder="Briefly describe why you need this loan" required></textarea>
+      </div>
 
-// UPI ID - YAHI CHANGE KARNA HAI
-const UPI_ID = "amit.894@ptyes";
+      <!-- Loan Calculator -->
+      <div class="calculator-box">
+        <h4 style="color:var(--text-primary);margin-bottom:12px;">💰 Loan Estimate</h4>
+        <div class="calc-row">
+          <span class="label">Loan Amount</span>
+          <span class="value" id="calcAmount">₹0</span>
+        </div>
+        <div class="calc-row">
+          <span class="label">Tenure</span>
+          <span class="value" id="calcTenure">0 Months</span>
+        </div>
+        <div class="calc-row">
+          <span class="label">Interest Rate</span>
+          <span class="value">10.5% p.a.</span>
+        </div>
+        <div class="calc-row">
+          <span class="label">Monthly EMI</span>
+          <span class="value" id="calcEMI">₹0</span>
+        </div>
+        <div class="calc-row">
+          <span class="label">Total Interest</span>
+          <span class="value" id="calcInterest">₹0</span>
+        </div>
+        <div class="calc-row">
+          <span class="label">Total Amount Payable</span>
+          <span class="value" id="calcTotal">₹0</span>
+        </div>
+      </div>
 
-function goHome() {
-    window.location.href = "index.html";
-}
+      <div class="btn-group">
+        <button class="btn-secondary" onclick="goToStep(1)">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <button class="btn-primary" onclick="goToStep(3)">
+          Next Step <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
 
-function selectLoan(element, loanName) {
-    document.querySelectorAll(".loan-type").forEach(function(item) {
-        item.classList.remove("selected");
-    });
-    element.classList.add("selected");
-    selectedLoan = loanName;
-}
+    <!-- ========== STEP 3: REVIEW & SUBMIT ========== -->
+    <div class="form-card" id="step3Form" style="display:none;">
+      <div class="form-title"><i class="fa-solid fa-check-circle" style="color:var(--success);"></i> Review & Submit</div>
 
-function selectUPI(element, appName) {
-    document.querySelectorAll(".upi-option").forEach(function(item) {
-        item.classList.remove("selected");
-    });
-    element.classList.add("selected");
-    selectedUPIApp = appName;
-    // Highlight selected
-}
+      <div style="background:#f8f9fa;border-radius:12px;padding:20px;margin-bottom:20px;">
+        <h4 style="color:var(--text-primary);margin-bottom:12px;">📋 Application Summary</h4>
+        <div id="summaryDetails">
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
+            <span>Full Name</span>
+            <span id="summaryName" style="font-weight:600;">-</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
+            <span>Email</span>
+            <span id="summaryEmail" style="font-weight:600;">-</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
+            <span>Loan Type</span>
+            <span id="summaryType" style="font-weight:600;">-</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
+            <span>Loan Amount</span>
+            <span id="summaryAmount" style="font-weight:600;">-</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
+            <span>Tenure</span>
+            <span id="summaryTenure" style="font-weight:600;">-</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;">
+            <span>Monthly EMI</span>
+            <span id="summaryEMI" style="font-weight:600;color:var(--primary);">-</span>
+          </div>
+        </div>
+      </div>
 
-function updateAmount() {
-    const amount = document.getElementById("amountRange").value;
-    document.getElementById("amountText").innerText = "₹" + Number(amount).toLocaleString("en-IN");
-}
+      <div style="background:#fff3e0;border-radius:12px;padding:16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;">
+        <i class="fa-solid fa-circle-info" style="color:var(--warning);font-size:20px;margin-top:2px;"></i>
+        <div>
+          <p style="font-size:14px;color:var(--text-secondary);">
+            <strong>Please verify all details carefully.</strong> Once submitted, you'll receive a
+            confirmation email and our team will review your application within 24 hours.
+          </p>
+        </div>
+      </div>
 
-function updateProgress() {
-    const totalSteps = 7;
-    for (let i = 1; i <= totalSteps; i++) {
-        const icon = document.getElementById("stepIcon" + i);
-        if (icon) {
-            icon.classList.remove("active");
-            icon.classList.remove("completed");
-            if (i < currentStep) {
-                icon.classList.add("completed");
-            }
-            if (i === currentStep) {
-                icon.classList.add("active");
-            }
-        }
-    }
-    const progress = ((currentStep - 1) / (totalSteps - 1)) * 92;
-    document.getElementById("progressLine").style.width = progress + "%";
-}
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:400;">
+          <input type="checkbox" id="termsCheck" required>
+          I agree to the <a href="terms.html" style="color:var(--primary);">Terms & Conditions</a> and
+          <a href="privacy-policy.html" style="color:var(--primary);">Privacy Policy</a>
+        </label>
+      </div>
 
-function showStep(step) {
-    document.querySelectorAll(".form-step").forEach(function(item) {
-        item.classList.remove("active");
-    });
-    const target = document.getElementById("step" + step);
-    if (target) {
-        target.classList.add("active");
-    }
-    updateProgress();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
+      <div class="btn-group">
+        <button class="btn-secondary" onclick="goToStep(2)">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <button class="btn-primary" id="submitLoanBtn">
+          <i class="fa-solid fa-paper-plane"></i> Submit Application
+        </button>
+      </div>
+    </div>
+  </div>
 
-function validateStep() {
-    if (currentStep === 1) {
-        const amount = document.getElementById("amountRange").value;
-        const tenure = document.getElementById("tenure").value;
-        if (!amount || !tenure) {
-            alert("Please select loan amount and tenure.");
-            return false;
-        }
-    }
-    if (currentStep === 2) {
-        const name = document.getElementById("fullName").value.trim();
-        const mobile = document.getElementById("mobile").value.trim();
-        const gender = document.getElementById("gender").value;
-        const dob = document.getElementById("dob").value;
-        const address = document.getElementById("address").value.trim();
-        const city = document.getElementById("city").value.trim();
-        const pincode = document.getElementById("pincode").value.trim();
-        if (!name || !mobile || !gender || !dob || !address || !city || !pincode) {
-            alert("Please fill all required personal details.");
-            return false;
-        }
-        if (!/^[6-9]\d{9}$/.test(mobile)) {
-            alert("Please enter a valid 10 digit Indian mobile number.");
-            return false;
-        }
-        const email = document.getElementById("email").value.trim();
-        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            alert("Please enter a valid email address.");
-            return false;
-        }
-        if (pincode && !/^\d{6}$/.test(pincode)) {
-            alert("Please enter a valid 6 digit PIN code.");
-            return false;
-        }
-    }
-    if (currentStep === 3) {
-        const employment = document.getElementById("employment").value;
-        const income = document.getElementById("income").value;
-        if (!employment || !income) {
-            alert("Please enter employment type and monthly income.");
-            return false;
-        }
-        if (Number(income) <= 0) {
-            alert("Please enter a valid monthly income.");
-            return false;
-        }
-    }
-    if (currentStep === 4) {
-        const pan = document.getElementById("pan").files[0];
-        const identity = document.getElementById("identity").files[0];
-        const bankStatement = document.getElementById("bankStatement").files[0];
-        if (!pan || !identity || !bankStatement) {
-            alert("Please upload PAN, identity/address proof and bank statement.");
-            return false;
-        }
-        const maxSize = 5 * 1024 * 1024;
-        const files = [pan, identity, bankStatement];
-        for (const file of files) {
-            if (file.size > maxSize) {
-                alert("Each document must be 5 MB or smaller.");
-                return false;
-            }
-        }
-    }
-    if (currentStep === 5) {
-        const accHolder = document.getElementById("accHolderName").value.trim();
-        const bankName = document.getElementById("bankName").value.trim();
-        const accNum = document.getElementById("accNumber").value.trim();
-        const accNumConfirm = document.getElementById("accNumberConfirm").value.trim();
-        const ifsc = document.getElementById("ifscCode").value.trim().toUpperCase();
-        if (!accHolder || !bankName || !accNum || !accNumConfirm || !ifsc) {
-            alert("Please fill all required bank account details.");
-            return false;
-        }
-        if (accNum !== accNumConfirm) {
-            alert("Account number and confirm account number do not match.");
-            return false;
-        }
-        if (accNum.length < 9 || accNum.length > 20) {
-            alert("Please enter a valid account number (9-20 digits).");
-            return false;
-        }
-        if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)) {
-            alert("Please enter a valid IFSC code (e.g. HDFC0001234).");
-            return false;
-        }
-    }
-    if (currentStep === 7) {
-        const utr = document.getElementById("utrNumber").value.trim();
-        if (!utr) {
-            alert("Please enter the UTR number after making the payment.");
-            return false;
-        }
-        if (utr.length < 8) {
-            alert("Please enter a valid UTR number (at least 8 characters).");
-            return false;
-        }
-    }
-    return true;
-}
-
-function nextStep() {
-    if (!validateStep()) {
-        return;
-    }
-    if (currentStep < 7) {
-        currentStep++;
-        if (currentStep === 6) {
-            prepareReview();
-        }
-        if (currentStep === 7) {
-            paymentVerified = false;
-            document.getElementById("paymentStatus").className = "payment-status unpaid";
-            document.getElementById("paymentStatus").innerText = "⚠️ Pay ₹199 via UPI or Bank Transfer and enter UTR number.";
-            document.getElementById("submitPaymentBtn").disabled = false;
-            document.getElementById("submitPaymentBtn").innerText = "✅ Verify & Submit";
-        }
-        showStep(currentStep);
-    }
-}
-
-function prevStep() {
-    if (currentStep > 1) {
-        currentStep--;
-        showStep(currentStep);
-    }
-}
-
-function prepareReview() {
-    const amount = document.getElementById("amountRange").value;
-    const tenure = document.getElementById("tenure").value;
-    const name = document.getElementById("fullName").value;
-    const mobile = document.getElementById("mobile").value;
-    const employment = document.getElementById("employment").value;
-    const income = document.getElementById("income").value;
-    const accHolder = document.getElementById("accHolderName").value.trim();
-    const bankName = document.getElementById("bankName").value.trim();
-    const accNum = document.getElementById("accNumber").value.trim();
-
-    document.getElementById("reviewLoan").innerText = selectedLoan;
-    document.getElementById("reviewAmount").innerText = "₹" + Number(amount).toLocaleString("en-IN");
-    document.getElementById("reviewTenure").innerText = tenure + " Months";
-    document.getElementById("reviewName").innerText = name || "-";
-    document.getElementById("reviewMobile").innerText = mobile || "-";
-    document.getElementById("reviewEmployment").innerText = employment || "-";
-    document.getElementById("reviewIncome").innerText = income ? "₹" + Number(income).toLocaleString("en-IN") : "-";
-    document.getElementById("reviewAccount").innerText = accHolder + " - " + bankName + " (" + accNum.slice(-4) + ")";
-}
-
-function getBankDetails() {
-    return {
-        accountHolder: document.getElementById("accHolderName").value.trim(),
-        bankName: document.getElementById("bankName").value.trim(),
-        accountNumber: document.getElementById("accNumber").value.trim(),
-        ifscCode: document.getElementById("ifscCode").value.trim().toUpperCase(),
-        accountType: document.getElementById("accType").value
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // ============================================================
+    // FIREBASE CONFIG
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+      authDomain: "easyloan-india.firebaseapp.com",
+      projectId: "easyloan-india",
+      storageBucket: "easyloan-india.firebasestorage.app",
+      messagingSenderId: "925263655882",
+      appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
     };
-}
 
-function getApplicationData(utr) {
-    const amount = Number(document.getElementById("amountRange").value);
-    const tenure = Number(document.getElementById("tenure").value);
-    const bank = getBankDetails();
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
 
-    return {
-        userId: currentUser.uid,
-        loanType: selectedLoan,
-        amount: amount,
-        tenure: tenure,
-        processingFeePaid: true,
-        processingFeeAmount: 199,
-        paymentMethod: "UPI - " + selectedUPIApp,
-        upiId: UPI_ID,
-        utrNumber: utr,
-        paymentStatus: "pending_verification",
-        bankDetails: bank,
-        personal: {
-            fullName: document.getElementById("fullName").value.trim(),
-            mobile: document.getElementById("mobile").value.trim(),
-            email: document.getElementById("email").value.trim(),
-            dob: document.getElementById("dob").value,
-            gender: document.getElementById("gender").value,
-            address: document.getElementById("address").value.trim(),
-            city: document.getElementById("city").value.trim(),
-            pincode: document.getElementById("pincode").value.trim()
-        },
-        employment: {
-            type: document.getElementById("employment").value,
-            company: document.getElementById("company").value.trim(),
-            monthlyIncome: Number(document.getElementById("income").value),
-            experience: document.getElementById("experience").value,
-            existingEmi: Number(document.getElementById("existingEmi").value) || 0
-        },
-        status: "pending",
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + type + ' show';
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // ============================================================
+    // MOBILE NAV
+    // ============================================================
+    document.getElementById('mobileToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // ============================================================
+    // AUTH STATE
+    // ============================================================
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        // Auto-fill user data
+        database.ref('users/' + user.uid).once('value').then((snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            document.getElementById('fullName').value = data.fullName || '';
+            document.getElementById('email').value = data.email || user.email;
+            document.getElementById('phone').value = data.phone || '';
+          }
+        });
+      }
+    });
+
+    document.getElementById('logoutNavBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        showToast('✅ Logged out', 'success');
+        setTimeout(() => window.location.href = 'login.html', 1000);
+      });
+    });
+
+    // ============================================================
+    // STEP NAVIGATION
+    // ============================================================
+    let currentStep = 1;
+
+    function goToStep(step) {
+      // Validate previous steps
+      if (step === 2) {
+        if (!validateStep1()) return;
+      }
+      if (step === 3) {
+        if (!validateStep2()) return;
+        updateSummary();
+      }
+
+      // Hide all forms
+      document.getElementById('step1Form').style.display = 'none';
+      document.getElementById('step2Form').style.display = 'none';
+      document.getElementById('step3Form').style.display = 'none';
+
+      // Show target form
+      document.getElementById('step' + step + 'Form').style.display = 'block';
+
+      // Update steps
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById('step' + i);
+        el.classList.remove('active', 'completed');
+        if (i < step) el.classList.add('completed');
+        if (i === step) el.classList.add('active');
+      }
+
+      currentStep = step;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ============================================================
+    // VALIDATION
+    // ============================================================
+    function validateStep1() {
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const dob = document.getElementById('dob').value;
+      const pan = document.getElementById('pan').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      if (!name) { showToast('⚠️ Please enter your full name', 'error'); return false; }
+      if (!email) { showToast('⚠️ Please enter your email', 'error'); return false; }
+      if (!phone || phone.length < 10) { showToast('⚠️ Please enter a valid phone number', 'error'); return false; }
+      if (!dob) { showToast('⚠️ Please select your date of birth', 'error'); return false; }
+      if (!pan || pan.length !== 10) { showToast('⚠️ Please enter a valid PAN number', 'error'); return false; }
+      if (!address) { showToast('⚠️ Please enter your address', 'error'); return false; }
+
+      return true;
+    }
+
+    function validateStep2() {
+      const type = document.getElementById('loanType').value;
+      const amount = parseInt(document.getElementById('loanAmount').value);
+      const purpose = document.getElementById('loanPurpose').value.trim();
+
+      if (!type) { showToast('⚠️ Please select loan type', 'error'); return false; }
+      if (!amount || amount < 1000) { showToast('⚠️ Please enter a valid loan amount (min ₹1,000)', 'error'); return false; }
+      if (!purpose) { showToast('⚠️ Please describe the purpose of the loan', 'error'); return false; }
+
+      return true;
+    }
+
+    // ============================================================
+    // CALCULATOR
+    // ============================================================
+    function calculateEMI() {
+      const amount = parseInt(document.getElementById('loanAmount').value) || 0;
+      const tenure = parseInt(document.getElementById('loanTenure').value) || 12;
+      const rate = 10.5 / 12 / 100;
+
+      document.getElementById('calcAmount').textContent = '₹' + amount.toLocaleString();
+      document.getElementById('calcTenure').textContent = tenure + ' Months';
+
+      if (amount > 0) {
+        const emi = amount * rate * Math.pow(1 + rate, tenure) / (Math.pow(1 + rate, tenure) - 1);
+        const totalPayable = emi * tenure;
+        const totalInterest = totalPayable - amount;
+
+        document.getElementById('calcEMI').textContent = '₹' + Math.round(emi).toLocaleString();
+        document.getElementById('calcInterest').textContent = '₹' + Math.round(totalInterest).toLocaleString();
+        document.getElementById('calcTotal').textContent = '₹' + Math.round(totalPayable).toLocaleString();
+      }
+    }
+
+    document.getElementById('loanAmount').addEventListener('input', calculateEMI);
+    document.getElementById('loanTenure').addEventListener('change', calculateEMI);
+
+    // ============================================================
+    // UPDATE SUMMARY
+    // ============================================================
+    function updateSummary() {
+      document.getElementById('summaryName').textContent = document.getElementById('fullName').value;
+      document.getElementById('summaryEmail').textContent = document.getElementById('email').value;
+      document.getElementById('summaryType').textContent = document.getElementById('loanType').value;
+      document.getElementById('summaryAmount').textContent = '₹' + parseInt(document.getElementById('loanAmount').value).toLocaleString();
+      document.getElementById('summaryTenure').textContent = document.getElementById('loanTenure').value + ' Months';
+      document.getElementById('summaryEMI').textContent = document.getElementById('calcEMI').textContent;
+    }
+
+    // ============================================================
+    // SUBMIT LOAN
+    // ============================================================
+    document.getElementById('submitLoanBtn').addEventListener('click', function() {
+      const user = auth.currentUser;
+      if (!user) {
+        showToast('⚠️ Please login first', 'error');
+        return;
+      }
+
+      const termsCheck = document.getElementById('termsCheck');
+      if (!termsCheck.checked) {
+        showToast('⚠️ Please agree to Terms & Conditions', 'error');
+        return;
+      }
+
+      const btn = this;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+
+      const loanData = {
+        userId: user.uid,
+        userEmail: user.email,
+        fullName: document.getElementById('fullName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        dob: document.getElementById('dob').value,
+        pan: document.getElementById('pan').value.trim().toUpperCase(),
+        address: document.getElementById('address').value.trim(),
+        loanType: document.getElementById('loanType').value,
+        loanAmount: parseInt(document.getElementById('loanAmount').value),
+        tenure: parseInt(document.getElementById('loanTenure').value),
+        purpose: document.getElementById('loanPurpose').value.trim(),
+        emiAmount: parseInt(document.getElementById('calcEMI').textContent.replace(/[₹,]/g, '')),
+        status: 'pending',
         createdAt: firebase.database.ServerValue.TIMESTAMP,
         updatedAt: firebase.database.ServerValue.TIMESTAMP
-    };
-}
+      };
 
-function submitPaymentAndUTR() {
-    if (!currentUser) {
-        alert("Please login first.");
-        window.location.replace("login.html");
-        return;
-    }
-
-    const utr = document.getElementById("utrNumber").value.trim();
-    if (!utr) {
-        alert("Please enter the UTR number after making the payment.");
-        return;
-    }
-    if (utr.length < 8) {
-        alert("Please enter a valid UTR number (at least 8 characters).");
-        return;
-    }
-
-    const submitBtn = document.getElementById("submitPaymentBtn");
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting...";
-
-    const statusDiv = document.getElementById("paymentStatus");
-
-    const paymentRef = database.ref("payments/" + currentUser.uid).push();
-    paymentRef.set({
-        amount: 199,
-        currency: "INR",
-        purpose: "Loan Application Processing Fee",
-        upiId: UPI_ID,
-        upiApp: selectedUPIApp,
-        utrNumber: utr,
-        bankDetails: getBankDetails(),
-        status: "pending_verification",
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        userId: currentUser.uid
-    }).then(function() {
-        statusDiv.className = "payment-status paid";
-        statusDiv.innerText = "✅ Payment recorded! UTR: " + utr + " - Submitting application...";
-        paymentVerified = true;
-        return submitFullApplication(utr);
-    }).then(function(applicationId) {
-        document.querySelectorAll(".form-step").forEach(function(item) {
-            item.classList.remove("active");
+      database.ref('loans').push(loanData)
+        .then(() => {
+          showToast('✅ Loan application submitted successfully!', 'success');
+          setTimeout(() => {
+            window.location.href = 'my-loans.html';
+          }, 1500);
+        })
+        .catch((error) => {
+          showToast('❌ Error submitting loan: ' + error.message, 'error');
+        })
+        .finally(() => {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Application';
         });
-        document.querySelector(".progress-area").style.display = "none";
-        document.getElementById("applicationId").innerText = applicationId;
-        document.getElementById("displayUtr").innerText = utr;
-        const bank = getBankDetails();
-        document.getElementById("displayAccount").innerText = bank.accountHolder + " - " + bank.bankName + " (" + bank.accountNumber.slice(-4) + ")";
-        document.getElementById("success").style.display = "block";
-    }).catch(function(error) {
-        console.error("Payment/Application submission failed:", error);
-        statusDiv.className = "payment-status unpaid";
-        statusDiv.innerText = "❌ Submission failed. Please try again.";
-        submitBtn.disabled = false;
-        submitBtn.innerText = "✅ Verify & Submit";
-        alert("Application submit nahi ho payi. Please try again. Error: " + error.message);
     });
-}
-
-async function submitFullApplication(utr) {
-    if (!currentUser) {
-        throw new Error("User not logged in");
-    }
-
-    const applicationRef = database.ref("loanApplications/" + currentUser.uid).push();
-    const applicationId = applicationRef.key;
-    const data = getApplicationData(utr);
-    data.applicationId = applicationId;
-
-    await applicationRef.set(data);
-
-    await database
-        .ref("loans/" + currentUser.uid + "/" + applicationId)
-        .set({
-            applicationId: applicationId,
-            userId: currentUser.uid,
-            loanType: data.loanType,
-            amount: data.amount,
-            tenure: data.tenure,
-            status: "pending",
-            processingFeePaid: true,
-            utrNumber: utr,
-            upiId: UPI_ID,
-            paymentStatus: "pending_verification",
-            bankDetails: data.bankDetails,
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt
-        });
-
-    return applicationId;
-}
-
-auth.onAuthStateChanged(async function(user) {
-    if (!user) {
-        window.location.replace("login.html");
-        return;
-    }
-    currentUser = user;
-    try {
-        const snapshot = await database.ref("users/" + user.uid).once("value");
-        const profile = snapshot.val() || {};
-        const name = profile.name || profile.fullName || user.displayName || "";
-        const email = profile.email || user.email || "";
-        const mobile = profile.mobile || profile.phone || "";
-        if (name) document.getElementById("fullName").value = name;
-        if (email) document.getElementById("email").value = email;
-        if (/^[6-9]\d{9}$/.test(String(mobile))) {
-            document.getElementById("mobile").value = mobile;
-        }
-        // Auto-fill account holder name
-        if (name) document.getElementById("accHolderName").value = name;
-    } catch (error) {
-        console.error("Could not load user profile:", error);
-    }
-});
-
-updateAmount();
-updateProgress();
-
-// Auto-select first UPI option
-document.addEventListener('DOMContentLoaded', function() {
-    const firstUPI = document.querySelector('.upi-option');
-    if (firstUPI) {
-        firstUPI.classList.add('selected');
-    }
-});
-</script>
+  </script>
 
 </body>
 </html>
