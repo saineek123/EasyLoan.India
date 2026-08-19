@@ -1,895 +1,3288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Apply for Loan | EasyLoan India</title>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<title>Apply for Loan | EasyLoan India</title>
 
-  <style>
-    /* ========== ROOT VARIABLES ========== */
-    :root {
-      --primary: #1565c0;
-      --primary-dark: #0d47a1;
-      --primary-light: #42a5f5;
-      --success: #2e7d32;
-      --danger: #c62828;
-      --warning: #f57c00;
-      --text-primary: #1a237e;
-      --text-secondary: #455a64;
-      --bg: #f0f4f8;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      --radius: 16px;
-      --transition: all 0.3s ease;
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fa;
+    color:#172033;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#155eef,#4f8cff);
+    color:white;
+    padding:20px 18px 25px;
+    border-radius:0 0 25px 25px;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.back{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.header-content{
+    flex:1;
+}
+
+.header h2{
+    font-size:20px;
+}
+
+.header p{
+    margin-top:5px;
+    font-size:10px;
+    opacity:.85;
+}
+
+/* STEPS */
+
+.steps{
+    display:flex;
+    justify-content:space-between;
+    padding:17px 15px 5px;
+}
+
+.step{
+    position:relative;
+    flex:1;
+    text-align:center;
+}
+
+.step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:14px;
+    left:55%;
+    width:90%;
+    height:2px;
+    background:#dce1ea;
+    z-index:0;
+}
+
+.step-circle{
+    position:relative;
+    z-index:2;
+    width:28px;
+    height:28px;
+    margin:auto;
+    border-radius:50%;
+    background:#e7ebf2;
+    color:#7d8798;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.step.active .step-circle{
+    background:#155eef;
+    color:white;
+}
+
+.step.completed .step-circle{
+    background:#168352;
+    color:white;
+}
+
+.step-label{
+    margin-top:5px;
+    font-size:7px;
+    color:#8992a1;
+}
+
+.step.active .step-label{
+    color:#155eef;
+    font-weight:bold;
+}
+
+/* SECTION */
+
+.section{
+    padding:15px;
+}
+
+.card{
+    background:white;
+    border-radius:17px;
+    padding:18px;
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+
+.card-title{
+    font-size:16px;
+    font-weight:bold;
+}
+
+.card-subtitle{
+    margin-top:5px;
+    color:#8992a1;
+    font-size:9px;
+    line-height:1.5;
+}
+
+/* FORM */
+
+.form-group{
+    margin-top:14px;
+}
+
+.form-group label{
+    display:block;
+    color:#667085;
+    font-size:9px;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    border:1px solid #dfe3e9;
+    border-radius:9px;
+    outline:none;
+    background:white;
+    padding:0 11px;
+    font-size:11px;
+}
+
+.form-group input,
+.form-group select{
+    height:43px;
+}
+
+.form-group textarea{
+    height:80px;
+    padding-top:11px;
+    resize:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#155eef;
+}
+
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* LOAN TYPES */
+
+.loan-types{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:15px;
+}
+
+.loan-type{
+    border:1px solid #e0e4eb;
+    border-radius:12px;
+    padding:14px 10px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.loan-type:hover{
+    border-color:#155eef;
+}
+
+.loan-type.selected{
+    border-color:#155eef;
+    background:#f2f6ff;
+}
+
+.loan-type-icon{
+    font-size:21px;
+}
+
+.loan-type strong{
+    display:block;
+    margin-top:7px;
+    font-size:10px;
+}
+
+.loan-type span{
+    display:block;
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+/* AMOUNT */
+
+.amount-display{
+    margin-top:15px;
+    background:#f5f7fb;
+    border-radius:12px;
+    padding:14px;
+    text-align:center;
+}
+
+.amount-display span{
+    color:#8992a1;
+    font-size:8px;
+}
+
+.amount-display strong{
+    display:block;
+    margin-top:5px;
+    font-size:25px;
+}
+
+input[type="range"]{
+    width:100%;
+    margin-top:15px;
+    accent-color:#155eef;
+}
+
+/* DOCUMENT */
+
+.document-box{
+    border:1px solid #e4e7ec;
+    border-radius:12px;
+    padding:13px;
+    margin-top:11px;
+}
+
+.document-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.document-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:#eef3ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.document-info{
+    flex:1;
+}
+
+.document-info strong{
+    font-size:10px;
+}
+
+.document-info p{
+    margin-top:3px;
+    color:#8992a1;
+    font-size:7px;
+}
+
+.file-input{
+    margin-top:10px;
+}
+
+.file-input input{
+    width:100%;
+    font-size:9px;
+}
+
+/* BANK */
+
+.bank-note{
+    margin-top:13px;
+    padding:11px;
+    border-radius:10px;
+    background:#eef7ff;
+    color:#42658e;
+    font-size:8px;
+    line-height:1.5;
+}
+
+/* FEE */
+
+.fee-card{
+    margin-top:15px;
+    border-radius:16px;
+    padding:18px;
+    background:linear-gradient(135deg,#155eef,#1746b8);
+    color:white;
+}
+
+.fee-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:12px;
+}
+
+.fee-label{
+    font-size:9px;
+    opacity:.85;
+}
+
+.fee-amount{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.fee-description{
+    margin-top:12px;
+    font-size:8px;
+    line-height:1.6;
+    color:#dce7ff;
+}
+
+.fee-status{
+    margin-top:13px;
+    padding:10px;
+    border-radius:9px;
+    background:rgba(255,255,255,.13);
+    font-size:8px;
+}
+
+/* PAYMENT */
+
+.payment-box{
+    margin-top:15px;
+    background:white;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+.payment-method{
+    border:1px solid #e0e4eb;
+    padding:13px;
+    border-radius:10px;
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.payment-method input{
+    accent-color:#155eef;
+}
+
+.payment-method strong{
+    font-size:10px;
+}
+
+.payment-method span{
+    display:block;
+    color:#8992a1;
+    font-size:7px;
+    margin-top:3px;
+}
+
+.pay-fee-btn{
+    width:100%;
+    height:46px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    background:#155eef;
+    color:white;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.pay-fee-btn:disabled{
+    background:#adb7c7;
+    cursor:not-allowed;
+}
+
+.payment-warning{
+    margin-top:10px;
+    padding:11px;
+    background:#fff7e6;
+    color:#8a6500;
+    border-radius:10px;
+    font-size:8px;
+    line-height:1.5;
+}
+
+/* REVIEW */
+
+.review-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:11px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.review-row:last-child{
+    border-bottom:none;
+}
+
+.review-row span{
+    color:#8992a1;
+    font-size:8px;
+}
+
+.review-row strong{
+    text-align:right;
+    font-size:9px;
+}
+
+.paid-badge{
+    display:inline-block;
+    padding:6px 9px;
+    background:#e7f8ef;
+    color:#168352;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+/* NAV BUTTONS */
+
+.buttons{
+    display:flex;
+    gap:10px;
+    padding:0 15px;
+}
+
+.btn{
+    flex:1;
+    height:46px;
+    border:none;
+    border-radius:10px;
+    font-size:11px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-back{
+    background:#e9edf3;
+    color:#4e596b;
+}
+
+.btn-next{
+    background:#155eef;
+    color:white;
+}
+
+.btn-next:disabled{
+    background:#adb7c7;
+    cursor:not-allowed;
+}
+
+/* PAGE */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* ALERT */
+
+.alert{
+    display:none;
+    margin:0 15px 10px;
+    padding:11px;
+    border-radius:9px;
+    font-size:8px;
+    line-height:1.5;
+}
+
+.alert.error{
+    display:block;
+    background:#fff0f0;
+    color:#b42318;
+}
+
+.alert.success{
+    display:block;
+    background:#e8f7ef;
+    color:#168352;
+}
+
+/* LOADING */
+
+.loading{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:999;
+    align-items:center;
+    justify-content:center;
+}
+
+.loading-box{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+}
+
+.spinner{
+    width:35px;
+    height:35px;
+    border:4px solid #e5e9f0;
+    border-top-color:#155eef;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:auto;
+}
+
+.loading-box p{
+    margin-top:10px;
+    font-size:9px;
+    color:#667085;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* SUCCESS MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.58);
+    z-index:800;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.success-icon{
+    width:68px;
+    height:68px;
+    margin:auto;
+    border-radius:50%;
+    background:#e4f8ed;
+    color:#168352;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:31px;
+}
+
+.modal-box h3{
+    margin-top:14px;
+    font-size:19px;
+}
+
+.modal-box p{
+    margin-top:8px;
+    color:#7b8494;
+    font-size:9px;
+    line-height:1.6;
+}
+
+.modal-btn{
+    width:100%;
+    height:44px;
+    margin-top:17px;
+    border:none;
+    border-radius:9px;
+    background:#155eef;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:380px){
+
+    .grid2{
+        grid-template-columns:1fr;
     }
 
-    /* ========== RESET & BASE ========== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    .loan-types{
+        grid-template-columns:1fr;
     }
 
-    body {
-      font-family: 'Segoe UI', 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text-secondary);
-      min-height: 100vh;
+    .step-label{
+        font-size:6px;
     }
 
-    /* ========== NAVBAR ========== */
-    .navbar {
-      background: white;
-      padding: 16px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+}
 
-    .navbar .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--primary);
-    }
-    .navbar .brand i {
-      font-size: 28px;
-    }
-    .navbar .brand h1 {
-      font-size: 22px;
-      font-weight: 700;
-    }
-    .navbar .brand small {
-      display: block;
-      font-size: 10px;
-      opacity: 0.6;
-      font-weight: 300;
-    }
+</style>
 
-    .navbar .nav-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
-    .navbar .nav-links a {
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-weight: 500;
-      transition: var(--transition);
-      font-size: 14px;
-    }
-    .navbar .nav-links a:hover {
-      color: var(--primary);
-    }
-    .navbar .nav-links .active {
-      color: var(--primary);
-      font-weight: 600;
-    }
-    .navbar .mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: var(--text-primary);
-      cursor: pointer;
-    }
+<!-- FIREBASE -->
 
-    /* ========== CONTAINER ========== */
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
-    .page-header {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .page-header h1 {
-      font-size: 36px;
-      color: var(--text-primary);
-      font-weight: 800;
-    }
-
-    .page-header p {
-      font-size: 16px;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
-    /* ========== PROGRESS STEPS ========== */
-    .progress-steps {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .progress-steps::before {
-      content: '';
-      position: absolute;
-      top: 24px;
-      left: 15%;
-      right: 15%;
-      height: 3px;
-      background: #e0e0e0;
-      z-index: 0;
-    }
-
-    .progress-steps .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 1;
-    }
-
-    .progress-steps .step .number {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #e0e0e0;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      transition: var(--transition);
-    }
-
-    .progress-steps .step.active .number {
-      background: var(--primary);
-      box-shadow: 0 4px 15px rgba(21, 101, 192, 0.3);
-    }
-
-    .progress-steps .step.completed .number {
-      background: var(--success);
-    }
-
-    .progress-steps .step .label {
-      font-size: 12px;
-      margin-top: 8px;
-      font-weight: 600;
-      color: #999;
-    }
-
-    .progress-steps .step.active .label {
-      color: var(--primary);
-    }
-    .progress-steps .step.completed .label {
-      color: var(--success);
-    }
-
-    /* ========== FORM CARD ========== */
-    .form-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 35px 40px;
-      box-shadow: var(--shadow);
-    }
-
-    .form-card .form-title {
-      font-size: 20px;
-      color: var(--text-primary);
-      margin-bottom: 25px;
-      padding-bottom: 15px;
-      border-bottom: 2px solid #f0f0f0;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .form-group label .required {
-      color: var(--danger);
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e8e8e8;
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      font-family: inherit;
-      transition: var(--transition);
-      background: #fafafa;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--primary);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.08);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-group .hint {
-      font-size: 12px;
-      color: #999;
-      margin-top: 4px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    /* ========== LOAN CALCULATOR ========== */
-    .calculator-box {
-      background: #f8f9fa;
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 10px;
-    }
-
-    .calculator-box .calc-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .calculator-box .calc-row:last-child {
-      border-bottom: none;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--text-primary);
-    }
-
-    .calculator-box .calc-row .label {
-      color: var(--text-secondary);
-    }
-    .calculator-box .calc-row .value {
-      font-weight: 600;
-    }
-
-    /* ========== BUTTONS ========== */
-    .btn-primary {
-      width: 100%;
-      padding: 15px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(21, 101, 192, 0.3);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-secondary {
-      width: 100%;
-      padding: 15px;
-      background: transparent;
-      color: var(--text-secondary);
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 15px;
-      margin-top: 10px;
-    }
-
-    .btn-group .btn-primary {
-      flex: 2;
-    }
-    .btn-group .btn-secondary {
-      flex: 1;
-    }
-
-    /* ========== TOAST ========== */
-    .toast {
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      padding: 16px 24px;
-      border-radius: 12px;
-      color: white;
-      font-weight: 500;
-      z-index: 9999;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      transform: translateX(120%);
-      transition: transform 0.4s ease;
-      max-width: 360px;
-      font-size: 14px;
-    }
-
-    .toast.show {
-      transform: translateX(0);
-    }
-    .toast.success {
-      background: var(--success);
-    }
-    .toast.error {
-      background: var(--danger);
-    }
-    .toast.info {
-      background: var(--primary);
-    }
-
-    /* ========== RESPONSIVE ========== */
-    @media(max-width: 768px) {
-      .navbar .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        right: 0;
-        background: white;
-        padding: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        gap: 15px;
-      }
-      .navbar .nav-links.open {
-        display: flex;
-      }
-      .navbar .mobile-toggle {
-        display: block;
-      }
-
-      .form-card {
-        padding: 25px;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .progress-steps {
-        gap: 20px;
-      }
-      .progress-steps .step .label {
-        font-size: 10px;
-      }
-
-      .page-header h1 {
-        font-size: 28px;
-      }
-
-      .btn-group {
-        flex-direction: column;
-      }
-    }
-  </style>
 </head>
+
 <body>
 
-  <!-- ========== TOAST ========== -->
-  <div id="toast" class="toast"></div>
+<div class="app">
 
-  <!-- ========== NAVBAR ========== -->
-  <nav class="navbar">
-    <a href="index.html" class="brand">
-      <i class="fa-solid fa-building-columns"></i>
-      <div>
-        <h1>EasyLoan</h1>
-        <small>India's Trusted Lender</small>
-      </div>
-    </a>
+<!-- HEADER -->
 
-    <button class="mobile-toggle" id="mobileToggle">
-      <i class="fa-solid fa-bars"></i>
+<div class="header">
+
+    <div class="header-top">
+
+        <div
+            class="back"
+            onclick="goDashboard()"
+        >
+            ←
+        </div>
+
+        <div class="header-content">
+
+            <h2>Apply for Loan</h2>
+
+            <p>
+                Complete your application step by step
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- STEPS -->
+
+<div class="steps">
+
+    <div class="step active" id="stepIndicator1">
+        <div class="step-circle">1</div>
+        <div class="step-label">Loan</div>
+    </div>
+
+    <div class="step" id="stepIndicator2">
+        <div class="step-circle">2</div>
+        <div class="step-label">Personal</div>
+    </div>
+
+    <div class="step" id="stepIndicator3">
+        <div class="step-circle">3</div>
+        <div class="step-label">Income</div>
+    </div>
+
+    <div class="step" id="stepIndicator4">
+        <div class="step-circle">4</div>
+        <div class="step-label">Documents</div>
+    </div>
+
+    <div class="step" id="stepIndicator5">
+        <div class="step-circle">5</div>
+        <div class="step-label">Account</div>
+    </div>
+
+    <div class="step" id="stepIndicator6">
+        <div class="step-circle">6</div>
+        <div class="step-label">Fee</div>
+    </div>
+
+    <div class="step" id="stepIndicator7">
+        <div class="step-circle">7</div>
+        <div class="step-label">Review</div>
+    </div>
+
+</div>
+
+
+<!-- ALERT -->
+
+<div id="alertBox" class="alert"></div>
+
+
+<!-- PAGE 1 -->
+
+<div class="page active" id="page1">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Choose Loan Type
+    </div>
+
+    <div class="card-subtitle">
+        Select the loan product you want to apply for.
+    </div>
+
+
+    <div class="loan-types">
+
+        <div
+            class="loan-type selected"
+            data-type="Personal Loan"
+            onclick="selectLoanType(this)"
+        >
+
+            <div class="loan-type-icon">💰</div>
+
+            <strong>Personal Loan</strong>
+
+            <span>For personal needs</span>
+
+        </div>
+
+
+        <div
+            class="loan-type"
+            data-type="Business Loan"
+            onclick="selectLoanType(this)"
+        >
+
+            <div class="loan-type-icon">🏢</div>
+
+            <strong>Business Loan</strong>
+
+            <span>For business needs</span>
+
+        </div>
+
+
+        <div
+            class="loan-type"
+            data-type="Education Loan"
+            onclick="selectLoanType(this)"
+        >
+
+            <div class="loan-type-icon">🎓</div>
+
+            <strong>Education Loan</strong>
+
+            <span>For education expenses</span>
+
+        </div>
+
+
+        <div
+            class="loan-type"
+            data-type="Emergency Loan"
+            onclick="selectLoanType(this)"
+        >
+
+            <div class="loan-type-icon">🚨</div>
+
+            <strong>Emergency Loan</strong>
+
+            <span>For urgent expenses</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="amount-display">
+
+        <span>Requested Loan Amount</span>
+
+        <strong id="amountText">
+            ₹50,000
+        </strong>
+
+        <input
+            type="range"
+            id="loanAmount"
+            min="10000"
+            max="500000"
+            step="5000"
+            value="50000"
+            oninput="updateAmount()"
+        >
+
+    </div>
+
+
+    <div class="grid2">
+
+        <div class="form-group">
+
+            <label>Loan Amount</label>
+
+            <input
+                id="amountInput"
+                type="number"
+                value="50000"
+                min="10000"
+                max="500000"
+                onchange="syncAmount()"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Tenure</label>
+
+            <select id="tenure">
+
+                <option value="">Select Tenure</option>
+                <option value="6 Months">6 Months</option>
+                <option value="12 Months">12 Months</option>
+                <option value="18 Months">18 Months</option>
+                <option value="24 Months">24 Months</option>
+                <option value="36 Months">36 Months</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE 2 -->
+
+<div class="page" id="page2">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Personal Details
+    </div>
+
+    <div class="card-subtitle">
+        Enter your details exactly as shown on your documents.
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Full Name</label>
+
+        <input
+            id="fullName"
+            type="text"
+            placeholder="Enter full name"
+        >
+
+    </div>
+
+
+    <div class="grid2">
+
+        <div class="form-group">
+
+            <label>Date of Birth</label>
+
+            <input
+                id="dob"
+                type="date"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Gender</label>
+
+            <select id="gender">
+
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Mobile Number</label>
+
+        <input
+            id="mobile"
+            type="tel"
+            maxlength="10"
+            placeholder="10 digit mobile number"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Email Address</label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="example@email.com"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Address</label>
+
+        <textarea
+            id="address"
+            placeholder="Enter full address"
+        ></textarea>
+
+    </div>
+
+
+    <div class="grid2">
+
+        <div class="form-group">
+
+            <label>City</label>
+
+            <input
+                id="city"
+                type="text"
+                placeholder="City"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>PIN Code</label>
+
+            <input
+                id="pin"
+                type="tel"
+                maxlength="6"
+                placeholder="6 digit PIN"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE 3 -->
+
+<div class="page" id="page3">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Income & Employment
+    </div>
+
+    <div class="card-subtitle">
+        Provide your current employment and income information.
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Employment Type</label>
+
+        <select id="employmentType">
+
+            <option value="">Select Employment</option>
+            <option>Salaried</option>
+            <option>Self Employed</option>
+            <option>Business Owner</option>
+            <option>Freelancer</option>
+            <option>Other</option>
+
+        </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Company / Business Name</label>
+
+        <input
+            id="company"
+            type="text"
+            placeholder="Enter company or business name"
+        >
+
+    </div>
+
+
+    <div class="grid2">
+
+        <div class="form-group">
+
+            <label>Monthly Income</label>
+
+            <input
+                id="income"
+                type="number"
+                min="0"
+                placeholder="₹ Monthly income"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Work Experience</label>
+
+            <select id="experience">
+
+                <option value="">Select</option>
+                <option>Less than 1 Year</option>
+                <option>1 - 2 Years</option>
+                <option>2 - 5 Years</option>
+                <option>5+ Years</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Existing EMI</label>
+
+        <input
+            id="existingEmi"
+            type="number"
+            min="0"
+            placeholder="₹ Existing monthly EMI"
+        >
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE 4 -->
+
+<div class="page" id="page4">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Upload Documents
+    </div>
+
+    <div class="card-subtitle">
+        Upload clear documents. Maximum recommended file size is 5 MB each.
+    </div>
+
+
+    <!-- PAN -->
+
+    <div class="document-box">
+
+        <div class="document-top">
+
+            <div class="document-icon">
+                🪪
+            </div>
+
+            <div class="document-info">
+
+                <strong>PAN Card</strong>
+
+                <p>
+                    Required for identity verification
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="file-input">
+
+            <input
+                type="file"
+                id="panFile"
+                accept="image/*,.pdf"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- ID -->
+
+    <div class="document-box">
+
+        <div class="document-top">
+
+            <div class="document-icon">
+                📄
+            </div>
+
+            <div class="document-info">
+
+                <strong>Identity / Address Proof</strong>
+
+                <p>
+                    Aadhaar / Passport / Driving Licence etc.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="file-input">
+
+            <input
+                type="file"
+                id="identityFile"
+                accept="image/*,.pdf"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- BANK STATEMENT -->
+
+    <div class="document-box">
+
+        <div class="document-top">
+
+            <div class="document-icon">
+                🏦
+            </div>
+
+            <div class="document-info">
+
+                <strong>Bank Statement</strong>
+
+                <p>
+                    Recent statement for income verification
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="file-input">
+
+            <input
+                type="file"
+                id="statementFile"
+                accept="image/*,.pdf"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE 5 -->
+
+<div class="page" id="page5">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Bank Account Details
+    </div>
+
+    <div class="card-subtitle">
+        Add the bank account that belongs to you. Do not enter another person's account.
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Account Holder Name</label>
+
+        <input
+            id="accountHolder"
+            type="text"
+            placeholder="As per bank records"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Bank Name</label>
+
+        <input
+            id="bankName"
+            type="text"
+            placeholder="Enter bank name"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Account Number</label>
+
+        <input
+            id="accountNumber"
+            type="password"
+            inputmode="numeric"
+            placeholder="Enter account number"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Confirm Account Number</label>
+
+        <input
+            id="confirmAccountNumber"
+            type="password"
+            inputmode="numeric"
+            placeholder="Re-enter account number"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>IFSC Code</label>
+
+        <input
+            id="ifsc"
+            type="text"
+            maxlength="11"
+            placeholder="Example: SBIN0000001"
+            style="text-transform:uppercase"
+        >
+
+    </div>
+
+
+    <div class="bank-note">
+
+        🔐 Your bank information should only be used for
+        legitimate loan processing and disbursement purposes.
+        Never share your ATM PIN, UPI PIN, CVV or OTP.
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE 6 FEE -->
+
+<div class="page" id="page6">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Processing Fee
+    </div>
+
+    <div class="card-subtitle">
+        Review the applicable fee before continuing.
+    </div>
+
+
+    <div class="fee-card">
+
+        <div class="fee-label">
+            Processing Fee
+        </div>
+
+        <div class="fee-row">
+
+            <div>
+                <div class="fee-label">
+                    Application processing
+                </div>
+            </div>
+
+            <div class="fee-amount">
+                ₹199
+            </div>
+
+        </div>
+
+
+        <div class="fee-description">
+
+            The fee must be clearly disclosed to the applicant
+            and charged only according to the applicable
+            terms and regulatory requirements.
+
+        </div>
+
+
+        <div class="fee-status" id="feeStatus">
+
+            Payment status: Not paid
+
+        </div>
+
+    </div>
+
+
+    <div class="payment-box">
+
+        <div class="card-title">
+            Select Payment Method
+        </div>
+
+
+        <label class="payment-method">
+
+            <input
+                type="radio"
+                name="paymentMethod"
+                value="UPI"
+                checked
+            >
+
+            <div>
+
+                <strong>UPI</strong>
+
+                <span>
+                    Pay through an authorized UPI payment gateway
+                </span>
+
+            </div>
+
+        </label>
+
+
+        <label class="payment-method">
+
+            <input
+                type="radio"
+                name="paymentMethod"
+                value="Card"
+            >
+
+            <div>
+
+                <strong>Debit / Credit Card</strong>
+
+                <span>
+                    Pay through the authorized payment gateway
+                </span>
+
+            </div>
+
+        </label>
+
+
+        <button
+            class="pay-fee-btn"
+            id="payFeeBtn"
+            onclick="startFeePayment()"
+        >
+            Continue to Pay ₹199
+        </button>
+
+
+        <div class="payment-warning">
+
+            ⚠️ This page does not generate a fake payment
+            success. Final payment status must come from your
+            authorized payment gateway/backend verification.
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAGE 7 REVIEW -->
+
+<div class="page" id="page7">
+
+<div class="section">
+
+<div class="card">
+
+    <div class="card-title">
+        Review Application
+    </div>
+
+    <div class="card-subtitle">
+        Check your information carefully before submitting.
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Loan Type</span>
+
+        <strong id="reviewLoanType">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Loan Amount</span>
+
+        <strong id="reviewAmount">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Tenure</span>
+
+        <strong id="reviewTenure">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Name</span>
+
+        <strong id="reviewName">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Mobile</span>
+
+        <strong id="reviewMobile">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Employment</span>
+
+        <strong id="reviewEmployment">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Monthly Income</span>
+
+        <strong id="reviewIncome">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Bank</span>
+
+        <strong id="reviewBank">-</strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Processing Fee</span>
+
+        <strong>
+
+            ₹199
+
+            <br>
+
+            <span class="paid-badge">
+                PAID / VERIFIED
+            </span>
+
+        </strong>
+
+    </div>
+
+
+    <div class="bank-note">
+
+        By submitting, you confirm that the information
+        provided by you is accurate and complete. Loan
+        approval/disbursement is subject to eligibility,
+        verification and applicable terms.
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+
+            <input
+                type="checkbox"
+                id="finalConsent"
+            >
+
+            I confirm that the information provided is correct.
+
+        </label>
+
+    </div>
+
+
+    <button
+        class="btn btn-next"
+        id="submitBtn"
+        onclick="submitApplication()"
+        disabled
+        style="width:100%;margin-top:10px"
+    >
+        Submit Loan Application
     </button>
 
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="my-loans.html">My Loans</a>
-      <a href="apply-loan.html" class="active">Apply</a>
-      <a href="profile.html"><i class="fa-solid fa-user"></i></a>
-      <a href="#" id="logoutNavBtn" style="color:#c62828;">Logout</a>
-    </div>
-  </nav>
+</div>
 
-  <!-- ========== MAIN CONTAINER ========== -->
-  <div class="container">
-    <div class="page-header">
-      <h1>📝 Apply for Loan</h1>
-      <p>Fill in the details below and get approval in minutes.</p>
-    </div>
+</div>
 
-    <!-- ========== PROGRESS STEPS ========== -->
-    <div class="progress-steps">
-      <div class="step active" id="step1">
-        <div class="number">1</div>
-        <div class="label">Personal Info</div>
-      </div>
-      <div class="step" id="step2">
-        <div class="number">2</div>
-        <div class="label">Loan Details</div>
-      </div>
-      <div class="step" id="step3">
-        <div class="number">3</div>
-        <div class="label">Review & Submit</div>
-      </div>
-    </div>
+</div>
 
-    <!-- ========== STEP 1: PERSONAL INFO ========== -->
-    <div class="form-card" id="step1Form">
-      <div class="form-title"><i class="fa-solid fa-user" style="color:var(--primary);"></i> Personal Information</div>
 
-      <div class="form-group">
-        <label>Full Name <span class="required">*</span></label>
-        <input type="text" id="fullName" placeholder="Enter your full name as per PAN" required>
-      </div>
+<!-- NAVIGATION -->
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>Email Address <span class="required">*</span></label>
-          <input type="email" id="email" placeholder="Enter your email" required>
-        </div>
-        <div class="form-group">
-          <label>Phone Number <span class="required">*</span></label>
-          <input type="tel" id="phone" placeholder="Enter your phone number" required>
-        </div>
-      </div>
+<div class="buttons">
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>Date of Birth <span class="required">*</span></label>
-          <input type="date" id="dob" required>
-        </div>
-        <div class="form-group">
-          <label>PAN Number <span class="required">*</span></label>
-          <input type="text" id="pan" placeholder="ABCDE1234F" maxlength="10" required>
-          <div class="hint">Enter 10-character PAN number</div>
-        </div>
-      </div>
+    <button
+        class="btn btn-back"
+        id="backBtn"
+        onclick="previousStep()"
+    >
+        ← Back
+    </button>
 
-      <div class="form-group">
-        <label>Address <span class="required">*</span></label>
-        <textarea id="address" placeholder="Enter your complete address" required></textarea>
-      </div>
 
-      <button class="btn-primary" onclick="goToStep(2)">
-        Next Step <i class="fa-solid fa-arrow-right"></i>
-      </button>
+    <button
+        class="btn btn-next"
+        id="nextBtn"
+        onclick="nextStep()"
+    >
+        Continue →
+    </button>
+
+</div>
+
+
+</div>
+
+
+<!-- LOADING -->
+
+<div
+    class="loading"
+    id="loading"
+>
+
+    <div class="loading-box">
+
+        <div class="spinner"></div>
+
+        <p id="loadingText">
+            Processing...
+        </p>
+
     </div>
 
-    <!-- ========== STEP 2: LOAN DETAILS ========== -->
-    <div class="form-card" id="step2Form" style="display:none;">
-      <div class="form-title"><i class="fa-solid fa-file-invoice" style="color:var(--primary);"></i> Loan Details</div>
+</div>
 
-      <div class="form-group">
-        <label>Loan Type <span class="required">*</span></label>
-        <select id="loanType" required>
-          <option value="">Select Loan Type</option>
-          <option value="personal">Personal Loan</option>
-          <option value="home">Home Loan</option>
-          <option value="car">Car Loan</option>
-          <option value="education">Education Loan</option>
-          <option value="business">Business Loan</option>
-        </select>
-      </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>Loan Amount (₹) <span class="required">*</span></label>
-          <input type="number" id="loanAmount" placeholder="Enter amount" min="1000" required>
-          <div class="hint">Minimum ₹1,000</div>
-        </div>
-        <div class="form-group">
-          <label>Tenure (Months) <span class="required">*</span></label>
-          <select id="loanTenure" required>
-            <option value="6">6 Months</option>
-            <option value="12">12 Months</option>
-            <option value="24" selected>24 Months</option>
-            <option value="36">36 Months</option>
-            <option value="48">48 Months</option>
-            <option value="60">60 Months</option>
-          </select>
-        </div>
-      </div>
+<!-- SUCCESS MODAL -->
 
-      <div class="form-group">
-        <label>Purpose of Loan <span class="required">*</span></label>
-        <textarea id="loanPurpose" placeholder="Briefly describe why you need this loan" required></textarea>
-      </div>
+<div
+    class="modal"
+    id="successModal"
+>
 
-      <!-- Loan Calculator -->
-      <div class="calculator-box">
-        <h4 style="color:var(--text-primary);margin-bottom:12px;">💰 Loan Estimate</h4>
-        <div class="calc-row">
-          <span class="label">Loan Amount</span>
-          <span class="value" id="calcAmount">₹0</span>
-        </div>
-        <div class="calc-row">
-          <span class="label">Tenure</span>
-          <span class="value" id="calcTenure">0 Months</span>
-        </div>
-        <div class="calc-row">
-          <span class="label">Interest Rate</span>
-          <span class="value">10.5% p.a.</span>
-        </div>
-        <div class="calc-row">
-          <span class="label">Monthly EMI</span>
-          <span class="value" id="calcEMI">₹0</span>
-        </div>
-        <div class="calc-row">
-          <span class="label">Total Interest</span>
-          <span class="value" id="calcInterest">₹0</span>
-        </div>
-        <div class="calc-row">
-          <span class="label">Total Amount Payable</span>
-          <span class="value" id="calcTotal">₹0</span>
-        </div>
-      </div>
+    <div class="modal-box">
 
-      <div class="btn-group">
-        <button class="btn-secondary" onclick="goToStep(1)">
-          <i class="fa-solid fa-arrow-left"></i> Back
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h3>
+            Application Submitted
+        </h3>
+
+        <p>
+
+            Your loan application has been submitted
+            successfully.
+
+            <br><br>
+
+            Application ID:
+
+            <strong id="finalApplicationId">
+                -
+            </strong>
+
+        </p>
+
+
+        <button
+            class="modal-btn"
+            onclick="goDashboard()"
+        >
+            Go to Dashboard
         </button>
-        <button class="btn-primary" onclick="goToStep(3)">
-          Next Step <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
+
     </div>
 
-    <!-- ========== STEP 3: REVIEW & SUBMIT ========== -->
-    <div class="form-card" id="step3Form" style="display:none;">
-      <div class="form-title"><i class="fa-solid fa-check-circle" style="color:var(--success);"></i> Review & Submit</div>
+</div>
 
-      <div style="background:#f8f9fa;border-radius:12px;padding:20px;margin-bottom:20px;">
-        <h4 style="color:var(--text-primary);margin-bottom:12px;">📋 Application Summary</h4>
-        <div id="summaryDetails">
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
-            <span>Full Name</span>
-            <span id="summaryName" style="font-weight:600;">-</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
-            <span>Email</span>
-            <span id="summaryEmail" style="font-weight:600;">-</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
-            <span>Loan Type</span>
-            <span id="summaryType" style="font-weight:600;">-</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
-            <span>Loan Amount</span>
-            <span id="summaryAmount" style="font-weight:600;">-</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;">
-            <span>Tenure</span>
-            <span id="summaryTenure" style="font-weight:600;">-</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;">
-            <span>Monthly EMI</span>
-            <span id="summaryEMI" style="font-weight:600;color:var(--primary);">-</span>
-          </div>
-        </div>
-      </div>
 
-      <div style="background:#fff3e0;border-radius:12px;padding:16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;">
-        <i class="fa-solid fa-circle-info" style="color:var(--warning);font-size:20px;margin-top:2px;"></i>
-        <div>
-          <p style="font-size:14px;color:var(--text-secondary);">
-            <strong>Please verify all details carefully.</strong> Once submitted, you'll receive a
-            confirmation email and our team will review your application within 24 hours.
-          </p>
-        </div>
-      </div>
+<script>
 
-      <div class="form-group">
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:400;">
-          <input type="checkbox" id="termsCheck" required>
-          I agree to the <a href="terms.html" style="color:var(--primary);">Terms & Conditions</a> and
-          <a href="privacy-policy.html" style="color:var(--primary);">Privacy Policy</a>
-        </label>
-      </div>
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
-      <div class="btn-group">
-        <button class="btn-secondary" onclick="goToStep(2)">
-          <i class="fa-solid fa-arrow-left"></i> Back
-        </button>
-        <button class="btn-primary" id="submitLoanBtn">
-          <i class="fa-solid fa-paper-plane"></i> Submit Application
-        </button>
-      </div>
-    </div>
-  </div>
+const firebaseConfig = {
 
-  <!-- ========== JAVASCRIPT ========== -->
-  <script>
-    // ============================================================
-    // FIREBASE CONFIG
-    // ============================================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
-      authDomain: "easyloan-india.firebaseapp.com",
-      projectId: "easyloan-india",
-      storageBucket: "easyloan-india.firebasestorage.app",
-      messagingSenderId: "925263655882",
-      appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* INIT */
+
+firebase.initializeApp(firebaseConfig);
+
+const db =
+    firebase.database();
+
+const storage =
+    firebase.storage();
+
+const auth =
+    firebase.auth();
+
+
+/* =====================================================
+   APP STATE
+===================================================== */
+
+let currentStep = 1;
+
+const totalSteps = 7;
+
+let selectedLoanType =
+    "Personal Loan";
+
+let applicationId = null;
+
+let currentUser = null;
+
+let documents = {
+
+    pan: null,
+    identity: null,
+    statement: null
+
+};
+
+
+/*
+   IMPORTANT
+
+   Fee remains false until a trusted backend/payment
+   gateway marks it verified.
+
+   Do NOT change this to true from browser console.
+*/
+
+let feeVerified = false;
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+auth.onAuthStateChanged(function(user){
+
+    if(user){
+
+        currentUser = user;
+
+        loadExistingApplication();
+
+    }else{
+
+        /*
+           Anonymous authentication is used only if
+           your Firebase Authentication settings allow it.
+        */
+
+        auth.signInAnonymously()
+        .catch(function(error){
+
+            showError(
+                "Firebase login failed: " +
+                error.message
+            );
+
+        });
+
+    }
+
+});
+
+
+/* =====================================================
+   LOAD EXISTING
+===================================================== */
+
+function loadExistingApplication(){
+
+    if(!currentUser){
+        return;
+    }
+
+    const uid =
+        currentUser.uid;
+
+    db.ref(
+        "loanApplications/" + uid
+    ).once("value")
+    .then(function(snapshot){
+
+        const data =
+            snapshot.val();
+
+        if(!data){
+            return;
+        }
+
+        applicationId =
+            data.applicationId || null;
+
+        /*
+           Never trust local/client data for fee verification.
+           Only a trusted backend should set:
+
+           feeStatus = "verified"
+        */
+
+        if(data.feeStatus === "verified"){
+
+            feeVerified = true;
+
+            document.getElementById(
+                "feeStatus"
+            ).innerText =
+                "Payment status: Verified";
+
+        }
+
+    })
+    .catch(function(error){
+
+        console.log(
+            "Load error:",
+            error
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function goDashboard(){
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+/* =====================================================
+   STEP DISPLAY
+===================================================== */
+
+function showStep(step){
+
+    currentStep = step;
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(function(page){
+
+            page.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(
+            "page" + step
+        )
+        .classList.add("active");
+
+
+    for(let i=1;i<=totalSteps;i++){
+
+        const indicator =
+            document.getElementById(
+                "stepIndicator" + i
+            );
+
+        indicator.classList.remove(
+            "active",
+            "completed"
+        );
+
+
+        if(i < step){
+
+            indicator.classList.add(
+                "completed"
+            );
+
+        }
+
+        if(i === step){
+
+            indicator.classList.add(
+                "active"
+            );
+
+        }
+
+    }
+
+
+    const backBtn =
+        document.getElementById(
+            "backBtn"
+        );
+
+    const nextBtn =
+        document.getElementById(
+            "nextBtn"
+        );
+
+
+    backBtn.style.display =
+        step === 1
+        ? "none"
+        : "block";
+
+
+    /*
+       Step 6 is payment page.
+       Step 7 is review.
+    */
+
+    if(step === 6){
+
+        nextBtn.style.display =
+            "none";
+
+    }else if(step === 7){
+
+        nextBtn.style.display =
+            "none";
+
+        updateReview();
+
+    }else{
+
+        nextBtn.style.display =
+            "block";
+
+        nextBtn.innerText =
+            "Continue →";
+
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+function nextStep(){
+
+    clearAlert();
+
+
+    if(!validateStep(currentStep)){
+
+        return;
+
+    }
+
+
+    /*
+       Documents completed -> Account
+    */
+
+    if(currentStep === 5){
+
+        /*
+           Before going to payment page,
+           save application as fee_pending.
+        */
+
+        saveDraftAndGoToFee();
+
+        return;
+
+    }
+
+
+    /*
+       Fee step cannot be skipped.
+    */
+
+    if(currentStep === 6){
+
+        if(!feeVerified){
+
+            showError(
+                "₹199 processing fee verification is required before review."
+            );
+
+            return;
+
+        }
+
+        showStep(7);
+
+        return;
+
+    }
+
+
+    if(currentStep < totalSteps){
+
+        showStep(
+            currentStep + 1
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+function previousStep(){
+
+    clearAlert();
+
+
+    if(currentStep > 1){
+
+        showStep(
+            currentStep - 1
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAN TYPE
+===================================================== */
+
+function selectLoanType(element){
+
+    document
+        .querySelectorAll(".loan-type")
+        .forEach(function(item){
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    element.classList.add(
+        "selected"
+    );
+
+
+    selectedLoanType =
+        element.getAttribute(
+            "data-type"
+        );
+
+}
+
+
+/* =====================================================
+   AMOUNT
+===================================================== */
+
+function updateAmount(){
+
+    const slider =
+        document.getElementById(
+            "loanAmount"
+        );
+
+    const amount =
+        Number(slider.value);
+
+
+    document.getElementById(
+        "amountText"
+    ).innerText =
+        formatMoney(amount);
+
+
+    document.getElementById(
+        "amountInput"
+    ).value =
+        amount;
+
+}
+
+
+function syncAmount(){
+
+    let amount =
+        Number(
+            document.getElementById(
+                "amountInput"
+            ).value
+        );
+
+
+    if(amount < 10000){
+        amount = 10000;
+    }
+
+    if(amount > 500000){
+        amount = 500000;
+    }
+
+
+    document.getElementById(
+        "amountInput"
+    ).value =
+        amount;
+
+
+    document.getElementById(
+        "loanAmount"
+    ).value =
+        amount;
+
+
+    document.getElementById(
+        "amountText"
+    ).innerText =
+        formatMoney(amount);
+
+}
+
+
+/* =====================================================
+   VALIDATION
+===================================================== */
+
+function validateStep(step){
+
+    if(step === 1){
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "amountInput"
+                ).value
+            );
+
+        const tenure =
+            document.getElementById(
+                "tenure"
+            ).value;
+
+
+        if(!amount ||
+           amount < 10000 ||
+           amount > 500000){
+
+            showError(
+                "Loan amount ₹10,000 से ₹5,00,000 के बीच होना चाहिए."
+            );
+
+            return false;
+
+        }
+
+
+        if(!tenure){
+
+            showError(
+                "Please select loan tenure."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if(step === 2){
+
+        const required = [
+
+            ["fullName","Full name"],
+            ["dob","Date of birth"],
+            ["gender","Gender"],
+            ["mobile","Mobile number"],
+            ["email","Email"],
+            ["address","Address"],
+            ["city","City"],
+            ["pin","PIN code"]
+
+        ];
+
+
+        for(const item of required){
+
+            const value =
+                document
+                .getElementById(item[0])
+                .value
+                .trim();
+
+
+            if(!value){
+
+                showError(
+                    item[1] +
+                    " is required."
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        const mobile =
+            document.getElementById(
+                "mobile"
+            ).value
+            .replace(/\D/g,"");
+
+
+        const pin =
+            document.getElementById(
+                "pin"
+            ).value
+            .replace(/\D/g,"");
+
+
+        if(mobile.length !== 10){
+
+            showError(
+                "Enter a valid 10 digit mobile number."
+            );
+
+            return false;
+
+        }
+
+
+        if(pin.length !== 6){
+
+            showError(
+                "Enter a valid 6 digit PIN code."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if(step === 3){
+
+        const required = [
+
+            ["employmentType","Employment type"],
+            ["company","Company / business name"],
+            ["income","Monthly income"],
+            ["experience","Work experience"]
+
+        ];
+
+
+        for(const item of required){
+
+            const value =
+                document
+                .getElementById(item[0])
+                .value
+                .trim();
+
+
+            if(!value){
+
+                showError(
+                    item[1] +
+                    " is required."
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        const income =
+            Number(
+                document.getElementById(
+                    "income"
+                ).value
+            );
+
+
+        if(income <= 0){
+
+            showError(
+                "Enter a valid monthly income."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if(step === 4){
+
+        const pan =
+            document.getElementById(
+                "panFile"
+            ).files[0];
+
+        const identity =
+            document.getElementById(
+                "identityFile"
+            ).files[0];
+
+        const statement =
+            document.getElementById(
+                "statementFile"
+            ).files[0];
+
+
+        if(!pan ||
+           !identity ||
+           !statement){
+
+            showError(
+                "Please upload all three required documents."
+            );
+
+            return false;
+
+        }
+
+
+        if(!checkFileSize(pan) ||
+           !checkFileSize(identity) ||
+           !checkFileSize(statement)){
+
+            return false;
+
+        }
+
+    }
+
+
+    if(step === 5){
+
+        const fields = [
+
+            ["accountHolder","Account holder name"],
+            ["bankName","Bank name"],
+            ["accountNumber","Account number"],
+            ["confirmAccountNumber","Confirm account number"],
+            ["ifsc","IFSC code"]
+
+        ];
+
+
+        for(const item of fields){
+
+            const value =
+                document
+                .getElementById(item[0])
+                .value
+                .trim();
+
+
+            if(!value){
+
+                showError(
+                    item[1] +
+                    " is required."
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        const account =
+            document.getElementById(
+                "accountNumber"
+            ).value.trim();
+
+
+        const confirm =
+            document.getElementById(
+                "confirmAccountNumber"
+            ).value.trim();
+
+
+        if(account !== confirm){
+
+            showError(
+                "Account numbers do not match."
+            );
+
+            return false;
+
+        }
+
+
+        const ifsc =
+            document.getElementById(
+                "ifsc"
+            ).value
+            .trim()
+            .toUpperCase();
+
+
+        if(!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)){
+
+            showError(
+                "Enter a valid IFSC code."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   FILE SIZE
+===================================================== */
+
+function checkFileSize(file){
+
+    const maxSize =
+        5 * 1024 * 1024;
+
+
+    if(file.size > maxSize){
+
+        showError(
+            file.name +
+            " is larger than 5 MB."
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   SAVE DRAFT
+===================================================== */
+
+async function saveDraftAndGoToFee(){
+
+    if(!currentUser){
+
+        showError(
+            "Please wait for Firebase login."
+        );
+
+        return;
+
+    }
+
+
+    showLoading(
+        "Saving application..."
+    );
+
+
+    try{
+
+        const uid =
+            currentUser.uid;
+
+
+        if(!applicationId){
+
+            applicationId =
+                "APP-" +
+                Date.now();
+
+        }
+
+
+        /*
+           Upload documents
+        */
+
+        const panURL =
+            await uploadDocument(
+                document.getElementById(
+                    "panFile"
+                ).files[0],
+                uid,
+                "pan"
+            );
+
+
+        const identityURL =
+            await uploadDocument(
+                document.getElementById(
+                    "identityFile"
+                ).files[0],
+                uid,
+                "identity"
+            );
+
+
+        const statementURL =
+            await uploadDocument(
+                document.getElementById(
+                    "statementFile"
+                ).files[0],
+                uid,
+                "statement"
+            );
+
+
+        const application =
+            collectApplicationData();
+
+
+        application.applicationId =
+            applicationId;
+
+        application.userId =
+            uid;
+
+        application.documentUrls = {
+
+            pan: panURL,
+            identity: identityURL,
+            statement: statementURL
+
+        };
+
+
+        /*
+           IMPORTANT:
+
+           Application remains fee_pending.
+        */
+
+        application.status =
+            "fee_pending";
+
+        application.feeAmount =
+            199;
+
+        application.feeStatus =
+            feeVerified
+            ? "verified"
+            : "pending";
+
+        application.updatedAt =
+            firebase.database.ServerValue.TIMESTAMP;
+
+
+        await db.ref(
+            "loanApplications/" +
+            uid
+        ).set(application);
+
+
+        hideLoading();
+
+        showStep(6);
+
+    }catch(error){
+
+        hideLoading();
+
+        console.error(error);
+
+        showError(
+            "Application save/upload failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   UPLOAD
+===================================================== */
+
+async function uploadDocument(
+    file,
+    uid,
+    type
+){
+
+    if(!file){
+
+        throw new Error(
+            type +
+            " document missing."
+        );
+
+    }
+
+
+    const path =
+        "loanDocuments/" +
+        uid +
+        "/" +
+        applicationId +
+        "/" +
+        type +
+        "_" +
+        Date.now() +
+        "_" +
+        file.name;
+
+
+    const ref =
+        storage.ref(path);
+
+
+    const result =
+        await ref.put(file);
+
+
+    return await result.ref.getDownloadURL();
+
+}
+
+
+/* =====================================================
+   COLLECT DATA
+===================================================== */
+
+function collectApplicationData(){
+
+    return {
+
+        loanType:
+            selectedLoanType,
+
+        loanAmount:
+            Number(
+                document.getElementById(
+                    "amountInput"
+                ).value
+            ),
+
+        tenure:
+            document.getElementById(
+                "tenure"
+            ).value,
+
+
+        personal: {
+
+            fullName:
+                document.getElementById(
+                    "fullName"
+                ).value.trim(),
+
+            dob:
+                document.getElementById(
+                    "dob"
+                ).value,
+
+            gender:
+                document.getElementById(
+                    "gender"
+                ).value,
+
+            mobile:
+                document.getElementById(
+                    "mobile"
+                ).value.trim(),
+
+            email:
+                document.getElementById(
+                    "email"
+                ).value.trim(),
+
+            address:
+                document.getElementById(
+                    "address"
+                ).value.trim(),
+
+            city:
+                document.getElementById(
+                    "city"
+                ).value.trim(),
+
+            pin:
+                document.getElementById(
+                    "pin"
+                ).value.trim()
+
+        },
+
+
+        income: {
+
+            employmentType:
+                document.getElementById(
+                    "employmentType"
+                ).value,
+
+            company:
+                document.getElementById(
+                    "company"
+                ).value.trim(),
+
+            monthlyIncome:
+                Number(
+                    document.getElementById(
+                        "income"
+                    ).value
+                ),
+
+            experience:
+                document.getElementById(
+                    "experience"
+                ).value,
+
+            existingEmi:
+                Number(
+                    document.getElementById(
+                        "existingEmi"
+                    ).value || 0
+                )
+
+        },
+
+
+        bankAccount: {
+
+            accountHolder:
+                document.getElementById(
+                    "accountHolder"
+                ).value.trim(),
+
+            bankName:
+                document.getElementById(
+                    "bankName"
+                ).value.trim(),
+
+            /*
+               In a production system, do not store
+               sensitive banking information in plain text.
+            */
+
+            accountNumber:
+                document.getElementById(
+                    "accountNumber"
+                ).value.trim(),
+
+            ifsc:
+                document.getElementById(
+                    "ifsc"
+                ).value.trim().toUpperCase()
+
+        }
+
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const database = firebase.database();
+}
 
-    // ============================================================
-    // TOAST
-    // ============================================================
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = 'toast ' + type + ' show';
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
-    }
 
-    // ============================================================
-    // MOBILE NAV
-    // ============================================================
-    document.getElementById('mobileToggle').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
+/* =====================================================
+   PAYMENT
+===================================================== */
 
-    // ============================================================
-    // AUTH STATE
-    // ============================================================
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        window.location.href = 'login.html';
-      } else {
-        // Auto-fill user data
-        database.ref('users/' + user.uid).once('value').then((snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            document.getElementById('fullName').value = data.fullName || '';
-            document.getElementById('email').value = data.email || user.email;
-            document.getElementById('phone').value = data.phone || '';
-          }
-        });
-      }
-    });
+function startFeePayment(){
 
-    document.getElementById('logoutNavBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      auth.signOut().then(() => {
-        showToast('✅ Logged out', 'success');
-        setTimeout(() => window.location.href = 'login.html', 1000);
-      });
-    });
+    if(!currentUser){
 
-    // ============================================================
-    // STEP NAVIGATION
-    // ============================================================
-    let currentStep = 1;
+        showError(
+            "Please wait for Firebase authentication."
+        );
 
-    function goToStep(step) {
-      // Validate previous steps
-      if (step === 2) {
-        if (!validateStep1()) return;
-      }
-      if (step === 3) {
-        if (!validateStep2()) return;
-        updateSummary();
-      }
-
-      // Hide all forms
-      document.getElementById('step1Form').style.display = 'none';
-      document.getElementById('step2Form').style.display = 'none';
-      document.getElementById('step3Form').style.display = 'none';
-
-      // Show target form
-      document.getElementById('step' + step + 'Form').style.display = 'block';
-
-      // Update steps
-      for (let i = 1; i <= 3; i++) {
-        const el = document.getElementById('step' + i);
-        el.classList.remove('active', 'completed');
-        if (i < step) el.classList.add('completed');
-        if (i === step) el.classList.add('active');
-      }
-
-      currentStep = step;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ============================================================
-    // VALIDATION
-    // ============================================================
-    function validateStep1() {
-      const name = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const dob = document.getElementById('dob').value;
-      const pan = document.getElementById('pan').value.trim();
-      const address = document.getElementById('address').value.trim();
-
-      if (!name) { showToast('⚠️ Please enter your full name', 'error'); return false; }
-      if (!email) { showToast('⚠️ Please enter your email', 'error'); return false; }
-      if (!phone || phone.length < 10) { showToast('⚠️ Please enter a valid phone number', 'error'); return false; }
-      if (!dob) { showToast('⚠️ Please select your date of birth', 'error'); return false; }
-      if (!pan || pan.length !== 10) { showToast('⚠️ Please enter a valid PAN number', 'error'); return false; }
-      if (!address) { showToast('⚠️ Please enter your address', 'error'); return false; }
-
-      return true;
-    }
-
-    function validateStep2() {
-      const type = document.getElementById('loanType').value;
-      const amount = parseInt(document.getElementById('loanAmount').value);
-      const purpose = document.getElementById('loanPurpose').value.trim();
-
-      if (!type) { showToast('⚠️ Please select loan type', 'error'); return false; }
-      if (!amount || amount < 1000) { showToast('⚠️ Please enter a valid loan amount (min ₹1,000)', 'error'); return false; }
-      if (!purpose) { showToast('⚠️ Please describe the purpose of the loan', 'error'); return false; }
-
-      return true;
-    }
-
-    // ============================================================
-    // CALCULATOR
-    // ============================================================
-    function calculateEMI() {
-      const amount = parseInt(document.getElementById('loanAmount').value) || 0;
-      const tenure = parseInt(document.getElementById('loanTenure').value) || 12;
-      const rate = 10.5 / 12 / 100;
-
-      document.getElementById('calcAmount').textContent = '₹' + amount.toLocaleString();
-      document.getElementById('calcTenure').textContent = tenure + ' Months';
-
-      if (amount > 0) {
-        const emi = amount * rate * Math.pow(1 + rate, tenure) / (Math.pow(1 + rate, tenure) - 1);
-        const totalPayable = emi * tenure;
-        const totalInterest = totalPayable - amount;
-
-        document.getElementById('calcEMI').textContent = '₹' + Math.round(emi).toLocaleString();
-        document.getElementById('calcInterest').textContent = '₹' + Math.round(totalInterest).toLocaleString();
-        document.getElementById('calcTotal').textContent = '₹' + Math.round(totalPayable).toLocaleString();
-      }
-    }
-
-    document.getElementById('loanAmount').addEventListener('input', calculateEMI);
-    document.getElementById('loanTenure').addEventListener('change', calculateEMI);
-
-    // ============================================================
-    // UPDATE SUMMARY
-    // ============================================================
-    function updateSummary() {
-      document.getElementById('summaryName').textContent = document.getElementById('fullName').value;
-      document.getElementById('summaryEmail').textContent = document.getElementById('email').value;
-      document.getElementById('summaryType').textContent = document.getElementById('loanType').value;
-      document.getElementById('summaryAmount').textContent = '₹' + parseInt(document.getElementById('loanAmount').value).toLocaleString();
-      document.getElementById('summaryTenure').textContent = document.getElementById('loanTenure').value + ' Months';
-      document.getElementById('summaryEMI').textContent = document.getElementById('calcEMI').textContent;
-    }
-
-    // ============================================================
-    // SUBMIT LOAN
-    // ============================================================
-    document.getElementById('submitLoanBtn').addEventListener('click', function() {
-      const user = auth.currentUser;
-      if (!user) {
-        showToast('⚠️ Please login first', 'error');
         return;
-      }
 
-      const termsCheck = document.getElementById('termsCheck');
-      if (!termsCheck.checked) {
-        showToast('⚠️ Please agree to Terms & Conditions', 'error');
-        return;
-      }
+    }
 
-      const btn = this;
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
-      const loanData = {
-        userId: user.uid,
-        userEmail: user.email,
-        fullName: document.getElementById('fullName').value.trim(),
-        phone: document.getElementById('phone').value.trim(),
-        dob: document.getElementById('dob').value,
-        pan: document.getElementById('pan').value.trim().toUpperCase(),
-        address: document.getElementById('address').value.trim(),
-        loanType: document.getElementById('loanType').value,
-        loanAmount: parseInt(document.getElementById('loanAmount').value),
-        tenure: parseInt(document.getElementById('loanTenure').value),
-        purpose: document.getElementById('loanPurpose').value.trim(),
-        emiAmount: parseInt(document.getElementById('calcEMI').textContent.replace(/[₹,]/g, '')),
-        status: 'pending',
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
-        updatedAt: firebase.database.ServerValue.TIMESTAMP
-      };
+    /*
+       REAL PAYMENT FLOW:
 
-      database.ref('loans').push(loanData)
-        .then(() => {
-          showToast('✅ Loan application submitted successfully!', 'success');
-          setTimeout(() => {
-            window.location.href = 'my-loans.html';
-          }, 1500);
-        })
-        .catch((error) => {
-          showToast('❌ Error submitting loan: ' + error.message, 'error');
-        })
-        .finally(() => {
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Application';
-        });
+       1. Frontend asks your backend to create ₹199 order.
+       2. Backend creates gateway order.
+       3. Gateway checkout opens.
+       4. Gateway sends payment response.
+       5. Backend verifies signature/webhook.
+       6. Backend updates Firebase:
+
+          feeStatus: "verified"
+
+       7. Only then this page can move to Review.
+
+       This demo intentionally DOES NOT fake a successful payment.
+    */
+
+
+    const method =
+        document.querySelector(
+            'input[name="paymentMethod"]:checked'
+        ).value;
+
+
+    db.ref(
+        "loanApplications/" +
+        currentUser.uid +
+        "/paymentRequest"
+    ).set({
+
+        applicationId:
+            applicationId,
+
+        amount:
+            199,
+
+        currency:
+            "INR",
+
+        method:
+            method,
+
+        status:
+            "payment_pending",
+
+        createdAt:
+            firebase.database.ServerValue.TIMESTAMP
+
+    })
+    .then(function(){
+
+        showError(
+            "Payment gateway backend is not connected yet. ₹199 को paid दिखाने के लिए server-side gateway verification जोड़ना जरूरी है."
+        );
+
+    })
+    .catch(function(error){
+
+        showError(
+            "Payment request failed: " +
+            error.message
+        );
+
     });
-  </script>
+
+}
+
+
+/* =====================================================
+   REVIEW
+===================================================== */
+
+function updateReview(){
+
+    document.getElementById(
+        "reviewLoanType"
+    ).innerText =
+        selectedLoanType;
+
+
+    document.getElementById(
+        "reviewAmount"
+    ).innerText =
+        formatMoney(
+            Number(
+                document.getElementById(
+                    "amountInput"
+                ).value
+            )
+        );
+
+
+    document.getElementById(
+        "reviewTenure"
+    ).innerText =
+        document.getElementById(
+            "tenure"
+        ).value;
+
+
+    document.getElementById(
+        "reviewName"
+    ).innerText =
+        document.getElementById(
+            "fullName"
+        ).value;
+
+
+    document.getElementById(
+        "reviewMobile"
+    ).innerText =
+        document.getElementById(
+            "mobile"
+        ).value;
+
+
+    document.getElementById(
+        "reviewEmployment"
+    ).innerText =
+        document.getElementById(
+            "employmentType"
+        ).value;
+
+
+    document.getElementById(
+        "reviewIncome"
+    ).innerText =
+        formatMoney(
+            Number(
+                document.getElementById(
+                    "income"
+                ).value
+            )
+        );
+
+
+    document.getElementById(
+        "reviewBank"
+    ).innerText =
+        document.getElementById(
+            "bankName"
+        ).value;
+
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    submitBtn.disabled =
+        !feeVerified;
+
+}
+
+
+/* =====================================================
+   FINAL SUBMIT
+===================================================== */
+
+async function submitApplication(){
+
+    if(!feeVerified){
+
+        showError(
+            "Verified ₹199 payment is required before submission."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !document.getElementById(
+            "finalConsent"
+        ).checked
+    ){
+
+        showError(
+            "Please confirm that your information is correct."
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        showError(
+            "Firebase authentication is not ready."
+        );
+
+        return;
+
+    }
+
+
+    showLoading(
+        "Submitting application..."
+    );
+
+
+    try{
+
+        const uid =
+            currentUser.uid;
+
+
+        const application =
+            collectApplicationData();
+
+
+        application.applicationId =
+            applicationId;
+
+
+        application.userId =
+            uid;
+
+
+        application.status =
+            "submitted";
+
+
+        application.feeAmount =
+            199;
+
+
+        /*
+           Fee was previously verified by trusted backend.
+        */
+
+        application.feeStatus =
+            "verified";
+
+
+        application.submittedAt =
+            firebase.database.ServerValue.TIMESTAMP;
+
+
+        await db.ref(
+            "loanApplications/" +
+            uid
+        ).update(application);
+
+
+        hideLoading();
+
+
+        document.getElementById(
+            "finalApplicationId"
+        ).innerText =
+            applicationId;
+
+
+        document.getElementById(
+            "successModal"
+        ).style.display =
+            "flex";
+
+
+    }catch(error){
+
+        hideLoading();
+
+        console.error(error);
+
+        showError(
+            "Application submission failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function formatMoney(amount){
+
+    return "₹" +
+        Number(amount || 0)
+        .toLocaleString(
+            "en-IN"
+        );
+
+}
+
+
+function showError(message){
+
+    const box =
+        document.getElementById(
+            "alertBox"
+        );
+
+    box.className =
+        "alert error";
+
+    box.innerText =
+        message;
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function clearAlert(){
+
+    const box =
+        document.getElementById(
+            "alertBox"
+        );
+
+    box.className =
+        "alert";
+
+    box.innerText =
+        "";
+
+}
+
+
+function showLoading(message){
+
+    document.getElementById(
+        "loadingText"
+    ).innerText =
+        message;
+
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "flex";
+
+}
+
+
+function hideLoading(){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   CONSENT
+===================================================== */
+
+document
+    .getElementById(
+        "finalConsent"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            if(currentStep === 7){
+
+                document.getElementById(
+                    "submitBtn"
+                ).disabled =
+                    !this.checked ||
+                    !feeVerified;
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+showStep(1);
+
+updateAmount();
+
+
+</script>
 
 </body>
 </html>
