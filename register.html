@@ -3,473 +3,952 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Register | EasyLoan India</title>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1565c0, #0d47a1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        body{
+            font-family:Arial,sans-serif;
+            background:linear-gradient(135deg,#1565c0,#0d47a1);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            padding:20px;
         }
 
-        .register-container {
-            width: 100%;
-            max-width: 450px;
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-            margin: 20px;
+        .register-container{
+            width:100%;
+            max-width:450px;
+            background:#fff;
+            border-radius:20px;
+            padding:40px;
+            box-shadow:0 20px 50px rgba(0,0,0,.25);
         }
 
-        .logo {
-            text-align: center;
-            color: #1565c0;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .logo{
+            text-align:center;
+            color:#1565c0;
+            font-size:28px;
+            font-weight:700;
+            margin-bottom:10px;
         }
 
-        .logo i {
-            font-size: 40px;
-            margin-bottom: 10px;
-            display: block;
+        .logo i{
+            font-size:40px;
+            margin-bottom:10px;
+            display:block;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 5px;
+        h2{
+            text-align:center;
+            margin-bottom:5px;
+            color:#172033;
         }
 
-        p {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:25px;
+            font-size:14px;
         }
 
-        .input-group {
-            margin-bottom: 18px;
-            position: relative;
+        .input-group{
+            margin-bottom:18px;
+            position:relative;
         }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            font-size: 14px;
+        .input-group label{
+            display:block;
+            margin-bottom:6px;
+            font-weight:600;
+            font-size:14px;
+            color:#222;
         }
 
-        .input-group input {
-            width: 100%;
-            padding: 13px 45px 13px 15px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            outline: none;
-            font-size: 15px;
-            box-sizing: border-box;
+        .input-group input{
+            width:100%;
+            padding:13px 45px 13px 15px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            outline:none;
+            font-size:15px;
         }
 
-        .input-group input:focus {
-            border-color: #1565c0;
+        .input-group input:focus{
+            border-color:#1565c0;
+            box-shadow:0 0 0 3px rgba(21,94,239,.08);
         }
 
-        .input-group i {
-            position: absolute;
-            right: 15px;
-            top: 42px;
-            color: #777;
-            cursor: pointer;
+        .input-group .input-icon{
+            position:absolute;
+            right:15px;
+            top:42px;
+            color:#777;
         }
 
-        .input-group .input-icon {
-            position: absolute;
-            right: 15px;
-            top: 42px;
-            color: #777;
+        #togglePassword{
+            cursor:pointer;
         }
 
-        .password-hint {
-            font-size: 12px;
-            color: #888;
-            margin-top: 4px;
+        .password-hint{
+            font-size:12px;
+            color:#888;
+            margin-top:5px;
         }
 
-        .register-btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            background: #1565c0;
-            color: #fff;
-            font-size: 17px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: .3s;
-            font-weight: 600;
+        .register-btn{
+            width:100%;
+            padding:15px;
+            border:none;
+            background:#1565c0;
+            color:white;
+            font-size:17px;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
         }
 
-        .register-btn:hover {
-            background: #0d47a1;
+        .register-btn:hover{
+            background:#0d47a1;
         }
 
-        .register-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .register-btn:disabled{
+            opacity:.6;
+            cursor:not-allowed;
         }
 
-        .divider {
-            text-align: center;
-            margin: 25px 0;
-            color: #999;
+        .divider{
+            text-align:center;
+            margin:25px 0;
+            color:#999;
         }
 
-        .google-btn {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            background: #fff;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: .3s;
+        .google-btn{
+            width:100%;
+            padding:14px;
+            border:1px solid #ddd;
+            background:#fff;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
         }
 
-        .google-btn:hover {
-            background: #f5f5f5;
+        .google-btn:hover{
+            background:#f5f5f5;
         }
 
-        .google-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .google-btn:disabled{
+            opacity:.6;
+            cursor:not-allowed;
         }
 
-        .google-btn i {
-            color: red;
-            margin-right: 8px;
+        .google-btn i{
+            color:#db4437;
+            margin-right:8px;
         }
 
-        .login-link {
-            margin-top: 25px;
-            text-align: center;
+        .login-link{
+            margin-top:25px;
+            text-align:center;
+            color:#555;
+            font-size:14px;
         }
 
-        .login-link a {
-            color: #1565c0;
-            text-decoration: none;
-            font-weight: 600;
+        .login-link a{
+            color:#1565c0;
+            text-decoration:none;
+            font-weight:600;
         }
 
-        .login-link a:hover {
-            text-decoration: underline;
+        .login-link a:hover{
+            text-decoration:underline;
         }
 
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            z-index: 999;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transform: translateX(120%);
-            transition: transform 0.4s ease;
-            max-width: 360px;
+        /* TOAST */
+
+        .toast{
+            position:fixed;
+            top:20px;
+            right:20px;
+            padding:15px 20px;
+            border-radius:12px;
+            color:white;
+            font-weight:500;
+            z-index:9999;
+            box-shadow:0 8px 24px rgba(0,0,0,.2);
+            transform:translateX(120%);
+            transition:.4s;
+            max-width:360px;
+            font-size:14px;
         }
 
-        .toast.show {
-            transform: translateX(0);
+        .toast.show{
+            transform:translateX(0);
         }
 
-        .toast.success {
-            background: #2e7d32;
+        .toast.success{
+            background:#2e7d32;
         }
 
-        .toast.error {
-            background: #c62828;
+        .toast.error{
+            background:#c62828;
         }
 
-        .toast.info {
-            background: #0d47a1;
+        .toast.info{
+            background:#0d47a1;
         }
 
-        @media(max-width:500px) {
-            .register-container {
-                padding: 30px 20px;
+        @media(max-width:500px){
+
+            .register-container{
+                padding:30px 20px;
             }
+
+            .toast{
+                left:15px;
+                right:15px;
+                max-width:none;
+                text-align:center;
+            }
+
         }
+
     </style>
 </head>
 
 <body>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
+<div id="toast" class="toast"></div>
 
-    <div class="register-container">
+<div class="register-container">
 
-        <div class="logo">
-            <i class="fa-solid fa-building-columns"></i>
-            EasyLoan India
-        </div>
+    <div class="logo">
 
-        <h2>Create Account</h2>
-        <p>Register to get started with EasyLoan India.</p>
+        <i class="fa-solid fa-building-columns"></i>
 
-        <form id="registerForm">
-
-            <div class="input-group">
-                <label>Full Name</label>
-                <input type="text" id="fullName" placeholder="Enter your full name" required>
-                <i class="fa-solid fa-user input-icon"></i>
-            </div>
-
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-                <i class="fa-solid fa-envelope input-icon"></i>
-            </div>
-
-            <div class="input-group">
-                <label>Phone Number</label>
-                <input type="tel" id="phone" placeholder="Enter your phone number" required>
-                <i class="fa-solid fa-phone input-icon"></i>
-            </div>
-
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="Create a password" required>
-                <i class="fa-solid fa-eye" id="togglePassword"></i>
-                <div class="password-hint">Password must be at least 6 characters</div>
-            </div>
-
-            <button type="submit" class="register-btn" id="registerBtn">
-                <i class="fa-solid fa-spinner fa-spin" style="display:none;"></i>
-                Create Account
-            </button>
-
-        </form>
-
-        <div class="divider">OR</div>
-
-        <button class="google-btn" id="googleBtn">
-            <i class="fa-brands fa-google"></i>
-            Continue with Google
-        </button>
-
-        <div class="login-link">
-            Already have an account?
-            <a href="login.html">Login Here</a>
-        </div>
+        EasyLoan India
 
     </div>
 
-    <script>
-        // ============================================================
-        // FIREBASE CONFIGURATION
-        // ============================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
-            authDomain: "easyloan-india.firebaseapp.com",
-            projectId: "easyloan-india",
-            storageBucket: "easyloan-india.firebasestorage.app",
-            messagingSenderId: "925263655882",
-            appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
-        };
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
+    <h2>
+        Create Account
+    </h2>
 
-        // ============================================================
-        // TOAST NOTIFICATION
-        // ============================================================
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast ' + type + ' show';
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
+    <p class="subtitle">
+        Register to get started with EasyLoan India.
+    </p>
+
+
+    <!-- REGISTER FORM -->
+
+    <form id="registerForm">
+
+        <div class="input-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+            >
+
+            <i class="fa-solid fa-user input-icon"></i>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+            <i class="fa-solid fa-envelope input-icon"></i>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter your phone number"
+                maxlength="10"
+                autocomplete="tel"
+                required
+            >
+
+            <i class="fa-solid fa-phone input-icon"></i>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                required
+            >
+
+            <i
+                class="fa-solid fa-eye input-icon"
+                id="togglePassword"
+            ></i>
+
+            <div class="password-hint">
+                Password must be at least 6 characters
+            </div>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="register-btn"
+            id="registerBtn"
+        >
+            Create Account
+        </button>
+
+    </form>
+
+
+    <div class="divider">
+        OR
+    </div>
+
+
+    <!-- GOOGLE -->
+
+    <button
+        type="button"
+        class="google-btn"
+        id="googleBtn"
+    >
+
+        <i class="fa-brands fa-google"></i>
+
+        Continue with Google
+
+    </button>
+
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a href="login.html">
+            Login Here
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ============================================================
+   FIREBASE CONFIG
+============================================================ */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* INITIALIZE FIREBASE */
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+const auth =
+    firebase.auth();
+
+const database =
+    firebase.database();
+
+
+/* ============================================================
+   TOAST
+============================================================ */
+
+function showToast(message,type="info"){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.className =
+        "toast " + type + " show";
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },4000);
+
+}
+
+
+/* ============================================================
+   PASSWORD SHOW / HIDE
+============================================================ */
+
+const passwordInput =
+    document.getElementById("password");
+
+const togglePassword =
+    document.getElementById("togglePassword");
+
+
+togglePassword.addEventListener("click",function(){
+
+    if(passwordInput.type === "password"){
+
+        passwordInput.type =
+            "text";
+
+        togglePassword.classList.remove(
+            "fa-eye"
+        );
+
+        togglePassword.classList.add(
+            "fa-eye-slash"
+        );
+
+    }else{
+
+        passwordInput.type =
+            "password";
+
+        togglePassword.classList.remove(
+            "fa-eye-slash"
+        );
+
+        togglePassword.classList.add(
+            "fa-eye"
+        );
+
+    }
+
+});
+
+
+/* ============================================================
+   PHONE - ONLY NUMBERS
+============================================================ */
+
+document
+    .getElementById("phone")
+    .addEventListener("input",function(){
+
+        this.value =
+            this.value.replace(
+                /\D/g,
+                ""
+            ).slice(0,10);
+
+    });
+
+
+/* ============================================================
+   EMAIL + PASSWORD REGISTER
+============================================================ */
+
+document
+    .getElementById("registerForm")
+    .addEventListener("submit",function(e){
+
+        e.preventDefault();
+
+
+        const fullName =
+            document
+            .getElementById("fullName")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const phone =
+            document
+            .getElementById("phone")
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        const registerBtn =
+            document
+            .getElementById("registerBtn");
+
+
+        /* VALIDATION */
+
+        if(
+            !fullName ||
+            !email ||
+            !phone ||
+            !password
+        ){
+
+            showToast(
+                "⚠️ Please fill all fields.",
+                "error"
+            );
+
+            return;
+
         }
 
-        // ============================================================
-        // TOGGLE PASSWORD
-        // ============================================================
-        const passwordInput = document.getElementById("password");
-        const togglePassword = document.getElementById("togglePassword");
 
-        togglePassword.onclick = function() {
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                togglePassword.classList.remove("fa-eye");
-                togglePassword.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                togglePassword.classList.remove("fa-eye-slash");
-                togglePassword.classList.add("fa-eye");
-            }
-        };
+        if(password.length < 6){
 
-        // ============================================================
-        // REGISTER WITH EMAIL & PASSWORD
-        // ============================================================
-        document.getElementById("registerForm").addEventListener("submit", function(e) {
-            e.preventDefault();
+            showToast(
+                "⚠️ Password must be at least 6 characters.",
+                "error"
+            );
 
-            const fullName = document.getElementById("fullName").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const phone = document.getElementById("phone").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const registerBtn = document.getElementById("registerBtn");
+            return;
 
-            // Validate
-            if (!fullName || !email || !phone || !password) {
-                showToast('⚠️ Please fill all fields', 'error');
-                return;
-            }
+        }
 
-            if (password.length < 6) {
-                showToast('⚠️ Password must be at least 6 characters', 'error');
-                return;
-            }
 
-            if (phone.length < 10) {
-                showToast('⚠️ Please enter a valid phone number', 'error');
-                return;
-            }
+        if(phone.length !== 10){
 
-            // Show loading
-            registerBtn.disabled = true;
-            registerBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating Account...';
+            showToast(
+                "⚠️ Please enter a valid 10 digit phone number.",
+                "error"
+            );
 
-            // Create user with Firebase Auth
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
+            return;
 
-                    // Save user data to Realtime Database
-                    return database.ref('users/' + user.uid).set({
-                        fullName: fullName,
-                        email: email,
-                        phone: phone,
-                        uid: user.uid,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP,
-                        role: 'user'
-                    });
-                })
-                .then(() => {
-                    showToast('✅ Account created successfully! Redirecting...', 'success');
+        }
 
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                })
-                .catch((error) => {
-                    console.error('Registration Error:', error);
 
-                    let errorMsg = '❌ Registration failed. ';
-                    switch (error.code) {
-                        case 'auth/email-already-in-use':
-                            errorMsg += 'This email is already registered. Please login.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMsg += 'Invalid email format.';
-                            break;
-                        case 'auth/weak-password':
-                            errorMsg += 'Password is too weak. Use at least 6 characters.';
-                            break;
-                        default:
-                            errorMsg += error.message;
-                    }
-                    showToast(errorMsg, 'error');
-                })
-                .finally(() => {
-                    registerBtn.disabled = false;
-                    registerBtn.innerHTML = 'Create Account';
+        /* LOADING */
+
+        registerBtn.disabled =
+            true;
+
+        registerBtn.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> Creating Account...';
+
+
+        /* FIREBASE AUTH */
+
+        auth
+        .createUserWithEmailAndPassword(
+            email,
+            password
+        )
+
+        .then(function(userCredential){
+
+            const user =
+                userCredential.user;
+
+
+            /*
+              Save user profile
+              in Realtime Database
+            */
+
+            return database
+                .ref("users/" + user.uid)
+                .set({
+
+                    uid:
+                        user.uid,
+
+                    fullName:
+                        fullName,
+
+                    email:
+                        email,
+
+                    phone:
+                        phone,
+
+                    role:
+                        "user",
+
+                    createdAt:
+                        firebase
+                        .database
+                        .ServerValue
+                        .TIMESTAMP
+
                 });
-        });
 
-        // ============================================================
-        // GOOGLE SIGN-UP
-        // ============================================================
-        document.getElementById("googleBtn").addEventListener("click", function() {
-            const googleBtn = this;
-            googleBtn.disabled = true;
-            googleBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting...';
+        })
 
-            const provider = new firebase.auth.GoogleAuthProvider();
+        .then(function(){
 
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    const user = result.user;
+            showToast(
+                "✅ Account created successfully! Opening Home...",
+                "success"
+            );
 
-                    // Check if user already exists in database
-                    return database.ref('users/' + user.uid).once('value')
-                        .then((snapshot) => {
-                            if (!snapshot.exists()) {
-                                // New user - save to database
-                                return database.ref('users/' + user.uid).set({
-                                    fullName: user.displayName || 'Google User',
-                                    email: user.email,
-                                    phone: user.phoneNumber || 'Not provided',
-                                    uid: user.uid,
-                                    createdAt: firebase.database.ServerValue.TIMESTAMP,
-                                    role: 'user'
-                                });
-                            }
-                        });
-                })
-                .then(() => {
-                    showToast('✅ Google sign-up successful! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                })
-                .catch((error) => {
-                    console.error('Google Sign-up Error:', error);
-                    let errorMsg = '❌ Google sign-up failed. ';
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        errorMsg += 'Popup was closed. Please try again.';
-                    } else if (error.code === 'auth/popup-blocked') {
-                        errorMsg += 'Popup was blocked. Please allow popups.';
-                    } else {
-                        errorMsg += error.message;
-                    }
-                    showToast(errorMsg, 'error');
-                })
-                .finally(() => {
-                    googleBtn.disabled = false;
-                    googleBtn.innerHTML = '<i class="fa-brands fa-google"></i> Continue with Google';
-                });
-        });
 
-        // ============================================================
-        // CHECK IF USER IS ALREADY LOGGED IN
-        // ============================================================
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                window.location.href = 'dashboard.html';
+            /*
+              IMPORTANT:
+              Registration ke baad
+              dashboard nahi,
+              HOME PAGE index.html
+            */
+
+            setTimeout(function(){
+
+                window.location.href =
+                    "index.html";
+
+            },1200);
+
+        })
+
+        .catch(function(error){
+
+            console.error(
+                "Registration Error:",
+                error
+            );
+
+
+            let errorMsg =
+                "❌ Registration failed. ";
+
+
+            switch(error.code){
+
+                case "auth/email-already-in-use":
+
+                    errorMsg +=
+                        "This email is already registered. Please login.";
+
+                    break;
+
+
+                case "auth/invalid-email":
+
+                    errorMsg +=
+                        "Invalid email address.";
+
+                    break;
+
+
+                case "auth/weak-password":
+
+                    errorMsg +=
+                        "Password is too weak. Use at least 6 characters.";
+
+                    break;
+
+
+                case "auth/network-request-failed":
+
+                    errorMsg +=
+                        "Internet connection problem.";
+
+                    break;
+
+
+                default:
+
+                    errorMsg +=
+                        error.message;
+
             }
+
+
+            showToast(
+                errorMsg,
+                "error"
+            );
+
+        })
+
+        .finally(function(){
+
+            registerBtn.disabled =
+                false;
+
+            registerBtn.innerHTML =
+                "Create Account";
+
         });
-    </script>
+
+});
+
+
+/* ============================================================
+   GOOGLE SIGN UP
+============================================================ */
+
+document
+    .getElementById("googleBtn")
+    .addEventListener("click",function(){
+
+        const googleBtn =
+            this;
+
+
+        googleBtn.disabled =
+            true;
+
+
+        googleBtn.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> Connecting...';
+
+
+        const provider =
+            new firebase
+            .auth
+            .GoogleAuthProvider();
+
+
+        auth
+        .signInWithPopup(provider)
+
+        .then(function(result){
+
+            const user =
+                result.user;
+
+
+            /*
+              Check if user already exists
+            */
+
+            return database
+                .ref("users/" + user.uid)
+                .once("value")
+
+                .then(function(snapshot){
+
+                    if(!snapshot.exists()){
+
+                        return database
+                            .ref("users/" + user.uid)
+                            .set({
+
+                                uid:
+                                    user.uid,
+
+                                fullName:
+                                    user.displayName ||
+                                    "Google User",
+
+                                email:
+                                    user.email || "",
+
+                                phone:
+                                    user.phoneNumber ||
+                                    "",
+
+                                role:
+                                    "user",
+
+                                createdAt:
+                                    firebase
+                                    .database
+                                    .ServerValue
+                                    .TIMESTAMP
+
+                            });
+
+                    }
+
+                });
+
+        })
+
+        .then(function(){
+
+            showToast(
+                "✅ Google signup successful! Opening Home...",
+                "success"
+            );
+
+
+            /*
+              Google signup bhi
+              index.html par jayega
+            */
+
+            setTimeout(function(){
+
+                window.location.href =
+                    "index.html";
+
+            },1200);
+
+        })
+
+        .catch(function(error){
+
+            console.error(
+                "Google Sign-up Error:",
+                error
+            );
+
+
+            let errorMsg =
+                "❌ Google sign-up failed. ";
+
+
+            if(
+                error.code ===
+                "auth/popup-closed-by-user"
+            ){
+
+                errorMsg +=
+                    "Popup was closed. Please try again.";
+
+            }
+
+            else if(
+                error.code ===
+                "auth/popup-blocked"
+            ){
+
+                errorMsg +=
+                    "Popup was blocked. Please allow popups.";
+
+            }
+
+            else{
+
+                errorMsg +=
+                    error.message;
+
+            }
+
+
+            showToast(
+                errorMsg,
+                "error"
+            );
+
+        })
+
+        .finally(function(){
+
+            googleBtn.disabled =
+                false;
+
+            googleBtn.innerHTML =
+                '<i class="fa-brands fa-google"></i> Continue with Google';
+
+        });
+
+});
+
+
+/* ============================================================
+   IMPORTANT
+   ============================================================
+
+   Yahan jaan-bujhkar auth.onAuthStateChanged() nahi lagaya hai.
+
+   Agar ye lagaya hota:
+
+   auth.onAuthStateChanged((user)=>{
+       if(user){
+           window.location.href="dashboard.html";
+       }
+   });
+
+   to registered user ko automatically
+   dashboard par bhej deta.
+
+   Ab registration page par aisa automatic
+   redirect nahi hoga.
+
+============================================================ */
+
+
+</script>
 
 </body>
 </html>
