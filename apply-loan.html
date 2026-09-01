@@ -1477,7 +1477,7 @@ input[type="range"]{
     </div>
 
     <div class="card-subtitle">
-        Check your information carefully before submitting.
+        Review your details, payment UTR and documents carefully before final submission.
     </div>
 
 
@@ -1568,6 +1568,15 @@ input[type="range"]{
             </span>
 
         </strong>
+
+    </div>
+
+
+    <div class="review-row">
+
+        <span>Payment Status</span>
+
+        <strong id="reviewPaymentStatus">UTR Submitted</strong>
 
     </div>
 
@@ -2077,15 +2086,7 @@ function nextStep(){
 
     if(currentStep === 6){
 
-        if(!feeVerified){
-
-            showError(
-                "₹199 processing fee verification is required before review."
-            );
-
-            return;
-
-        }
+        
 
         showStep(7);
 
@@ -3057,6 +3058,17 @@ function updateReview(){
         ).value;
 
 
+    const paymentStatus =
+        document.getElementById("reviewPaymentStatus");
+
+    if(paymentStatus){
+
+        paymentStatus.innerText =
+            "UTR Submitted — Verification Pending";
+
+    }
+
+
     const submitBtn =
         document.getElementById(
             "submitBtn"
@@ -3064,7 +3076,7 @@ function updateReview(){
 
 
     submitBtn.disabled =
-        !feeVerified;
+        !document.getElementById("finalConsent").checked;
 
 }
 
@@ -3075,31 +3087,18 @@ function updateReview(){
 
 async function submitApplication(){
 
-    if(!feeVerified){
+    const consent =
+        document.getElementById("finalConsent");
+
+    if(!consent || !consent.checked){
 
         showError(
-            "Verified ₹199 payment is required before submission."
+            "Please tick the confirmation checkbox before submitting."
         );
 
         return;
 
     }
-
-
-    if(
-        !document.getElementById(
-            "finalConsent"
-        ).checked
-    ){
-
-        showError(
-            "Please confirm that your information is correct."
-        );
-
-        return;
-
-    }
-
 
     if(!currentUser){
 
@@ -3111,70 +3110,152 @@ async function submitApplication(){
 
     }
 
+    if(!applicationId){
+
+        applicationId =
+            "APP-" +
+            Date.now();
+
+    }
 
     showLoading(
-        "Submitting application..."
+        "Submitting your loan application..."
     );
-
 
     try{
 
         const uid =
             currentUser.uid;
 
-
         const application =
             collectApplicationData();
-
 
         application.applicationId =
             applicationId;
 
-
         application.userId =
             uid;
-
 
         application.status =
             "submitted";
 
-
-        application.feeAmount =
-            199;
-
-
-        /*
-           Fee was previously verified by trusted backend.
-        */
-
-        application.feeStatus =
-            "verified";
-
-
         application.submittedAt =
             firebase.database.ServerValue.TIMESTAMP;
 
+        application.updatedAt =
+            firebase.database.ServerValue.TIMESTAMP;
+
+        // UTR remains part of the application/payment record.
+        // Payment verification is NOT required to submit the application.
+        const utr =
+            document.getElementById("utrInput");
+
+        if(utr){
+            application.utr =
+                utr.value.trim();
+        }
+
+        application.paymentStatus =
+            "submitted";
 
         await db.ref(
             "loanApplications/" +
             uid
         ).update(application);
 
+        // In-app notification for the applicant.
+        const notificationKey =
+            db.ref("userNotifications/" + uid).push().key;
+
+        await db.ref(
+            "userNotifications/" +
+            uid + "/" +
+            notificationKey
+        ).set({
+
+            title: "Loan Application Submitted",
+
+            message:
+                "Your loan application " +
+                applicationId +
+                " has been submitted successfully. " +
+                "Your application is now under review.",
+
+            applicationId:
+                applicationId,
+
+            type:
+                "loan_application",
+
+            status:
+                "unread",
+
+            createdAt:
+                firebase.database.ServerValue.TIMESTAMP
+
+        });
+
+        // Queue an SMS for a trusted SMS backend/provider.
+        const mobile =
+            document.getElementById("mobile").value.trim();
+
+        const smsKey =
+            db.ref("smsQueue").push().key;
+
+        await db.ref(
+            "smsQueue/" + smsKey
+        ).set({
+
+            uid:
+                uid,
+
+            mobile:
+                mobile,
+
+            applicationId:
+                applicationId,
+
+            message:
+                "Your loan application " +
+                applicationId +
+                " has been submitted successfully and is now under review.",
+
+            status:
+                "pending",
+
+            createdAt:
+                firebase.database.ServerValue.TIMESTAMP
+
+        });
 
         hideLoading();
-
 
         document.getElementById(
             "finalApplicationId"
         ).innerText =
             applicationId;
 
+        const successMessage =
+            document.getElementById("successMessage");
+
+        if(successMessage){
+
+            successMessage.innerHTML =
+                "Your loan application has been submitted successfully." +
+                "<br><br>" +
+                "Application ID: <strong>" +
+                applicationId +
+                "</strong>" +
+                "<br><br>" +
+                "Your application is now under review. " +
+                "You will receive an update when the status changes.";
+
+        }
 
         document.getElementById(
             "successModal"
         ).style.display =
             "flex";
-
 
     }catch(error){
 
@@ -3276,9 +3357,7 @@ function hideLoading(){
 ===================================================== */
 
 document
-    .getElementById(
-        "finalConsent"
-    )
+    .getElementById("finalConsent")
     .addEventListener(
         "change",
         function(){
@@ -3288,8 +3367,7 @@ document
                 document.getElementById(
                     "submitBtn"
                 ).disabled =
-                    !this.checked ||
-                    !feeVerified;
+                    !this.checked;
 
             }
 
