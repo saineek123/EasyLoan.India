@@ -1422,52 +1422,14 @@ input[type="range"]{
     <div class="payment-box">
 
         <div class="card-title">
-            Select Payment Method
+            Pay Processing Fee
         </div>
 
-
-        <label class="payment-method">
-
-            <input
-                type="radio"
-                name="paymentMethod"
-                value="UPI"
-                checked
-            >
-
-            <div>
-
-                <strong>UPI</strong>
-
-                <span>
-                    Pay through an authorized UPI payment gateway
-                </span>
-
-            </div>
-
-        </label>
-
-
-        <label class="payment-method">
-
-            <input
-                type="radio"
-                name="paymentMethod"
-                value="Card"
-            >
-
-            <div>
-
-                <strong>Debit / Credit Card</strong>
-
-                <span>
-                    Pay through the authorized payment gateway
-                </span>
-
-            </div>
-
-        </label>
-
+        <div style="margin:14px 0;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.04);">
+            <div style="font-size:13px;opacity:.75;margin-bottom:6px;">UPI ID</div>
+            <div style="font-size:18px;font-weight:700;letter-spacing:.3px;">9792368894@ybl</div>
+            <div style="font-size:12px;opacity:.7;margin-top:6px;">Amount: ₹199</div>
+        </div>
 
         <button
             class="pay-fee-btn"
@@ -1477,13 +1439,10 @@ input[type="range"]{
             Continue to Pay ₹199
         </button>
 
-
         <div class="payment-warning">
-
-            ⚠️ This page does not generate a fake payment
-            success. Final payment status must come from your
-            authorized payment gateway/backend verification.
-
+            📱 Continue दबाने पर आपके device में installed compatible UPI app
+            (जैसे Google Pay, PhonePe, Paytm आदि) को खोलने की कोशिश की जाएगी।
+            Payment complete होने के बाद इस page पर वापस आएँ।
         </div>
 
     </div>
@@ -2847,78 +2806,40 @@ function collectApplicationData(){
 function startFeePayment(){
 
     if(!currentUser){
-
-        showError(
-            "Please wait for Firebase authentication."
-        );
-
+        showError("Please wait for Firebase authentication.");
         return;
-
     }
 
+    const uid = currentUser.uid;
+    const upiId = "9792368894@ybl";
+    const amount = "199.00";
+    const payeeName = "EasyLoan India";
 
-    /*
-       REAL PAYMENT FLOW:
+    // Record a payment request, but never mark it as paid from the client.
+    db.ref("loanApplications/" + uid + "/paymentRequest").set({
+        applicationId: applicationId,
+        amount: 199,
+        currency: "INR",
+        method: "UPI",
+        upiId: upiId,
+        status: "payment_pending",
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+    }).then(function(){
 
-       1. Frontend asks your backend to create ₹199 order.
-       2. Backend creates gateway order.
-       3. Gateway checkout opens.
-       4. Gateway sends payment response.
-       5. Backend verifies signature/webhook.
-       6. Backend updates Firebase:
+        const upiUrl =
+            "upi://pay" +
+            "?pa=" + encodeURIComponent(upiId) +
+            "&pn=" + encodeURIComponent(payeeName) +
+            "&am=" + encodeURIComponent(amount) +
+            "&cu=INR";
 
-          feeStatus: "verified"
+        // Android/iOS will hand the UPI URI to a compatible installed app.
+        window.location.href = upiUrl;
 
-       7. Only then this page can move to Review.
+    }).catch(function(error){
 
-       This demo intentionally DOES NOT fake a successful payment.
-    */
-
-
-    const method =
-        document.querySelector(
-            'input[name="paymentMethod"]:checked'
-        ).value;
-
-
-    db.ref(
-        "loanApplications/" +
-        currentUser.uid +
-        "/paymentRequest"
-    ).set({
-
-        applicationId:
-            applicationId,
-
-        amount:
-            199,
-
-        currency:
-            "INR",
-
-        method:
-            method,
-
-        status:
-            "payment_pending",
-
-        createdAt:
-            firebase.database.ServerValue.TIMESTAMP
-
-    })
-    .then(function(){
-
-        showError(
-            "Payment gateway backend is not connected yet. ₹199 को paid दिखाने के लिए server-side gateway verification जोड़ना जरूरी है."
-        );
-
-    })
-    .catch(function(error){
-
-        showError(
-            "Payment request failed: " +
-            error.message
-        );
+        console.error(error);
+        showError("Payment request failed: " + error.message);
 
     });
 
