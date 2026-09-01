@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Payment Verification</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:#fff}.wrap{max-width:1100px;margin:auto;padding:20px}.card{background:#141b2f;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:18px;margin-bottom:16px}.login{max-width:420px;margin:70px auto}.title{font-size:24px;font-weight:800;margin-bottom:8px}.muted{opacity:.7;font-size:13px;line-height:1.5}.input{width:100%;padding:13px;margin:7px 0;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0d1426;color:#fff}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer;margin:4px}.approve{background:#20c997;color:#06140f}.reject{background:#ef476f;color:#fff}.refresh{background:#33415f;color:#fff}.hidden{display:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.status{display:inline-block;padding:5px 9px;border-radius:20px;background:#263352;font-size:12px}.actions{margin-top:12px}.utr{font-size:18px;font-weight:800;word-break:break-all}.empty{text-align:center;padding:30px;opacity:.65}@media(max-width:700px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="loginBox" class="card login">
+    <div class="title">Admin Login</div>
+    <div class="muted">Use the Firebase admin account. The account must also exist under <b>admins/&lt;uid&gt; = true</b>.</div>
+    <input id="email" class="input" type="email" placeholder="Admin email">
+    <input id="password" class="input" type="password" placeholder="Password">
+    <button class="btn refresh" onclick="login()">Login</button>
+    <div id="loginError" class="muted"></div>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="card">
+      <div class="title">Loan Payment Verification</div>
+      <div class="muted">UTR submitted by users. Verify the payment in your UPI/bank statement before approving.</div>
+      <button class="btn refresh" onclick="loadPayments()">Refresh</button>
+      <button class="btn reject" onclick="logout()">Logout</button>
+    </div>
+    <div id="list"></div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig={
+ apiKey:"AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+ authDomain:"easyloan-india.firebaseapp.com",
+ projectId:"easyloan-india",
+ storageBucket:"easyloan-india.firebasestorage.app",
+ messagingSenderId:"925263655882",
+ appId:"1:925263655882:web:0dd41e9964bd9a7a93d533"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.database();
+
+function esc(v){
+ return String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+}
+function login(){
+ const email=document.getElementById('email').value.trim();
+ const password=document.getElementById('password').value;
+ document.getElementById('loginError').innerText='Logging in...';
+ auth.signInWithEmailAndPassword(email,password).then(checkAdmin).catch(e=>document.getElementById('loginError').innerText=e.message);
+}
+function checkAdmin(user){
+ return db.ref('admins/'+user.uid).once('value').then(s=>{
+   if(s.val()!==true){
+     return auth.signOut().then(()=>{throw new Error('This account is not an admin. Set admins/'+user.uid+' to true first.');});
+   }
+   document.getElementById('loginBox').classList.add('hidden');
+   document.getElementById('app').classList.remove('hidden');
+   loadPayments();
+ }).catch(e=>document.getElementById('loginError').innerText=e.message);
+}
+auth.onAuthStateChanged(user=>{ if(user && !document.getElementById('app').classList.contains('hidden')) return; if(user) checkAdmin(user); });
+function logout(){auth.signOut().then(()=>location.reload())}
+
+function loadPayments(){
+ const list=document.getElementById('list');
+ list.innerHTML='<div class="card">Loading...</div>';
+ db.ref('loanApplications').once('value').then(s=>{
+   const all=s.val()||{}; const items=[];
+   Object.keys(all).forEach(uid=>{
+     const a=all[uid]||{}; const p=a.paymentRequest||{};
+     if(p.utr && (p.status==='utr_submitted' || a.feeStatus==='pending')) items.push({uid,a,p});
+   });
+   items.sort((x,y)=>(y.p.submittedAt||0)-(x.p.submittedAt||0));
+   if(!items.length){list.innerHTML='<div class="card empty">No UTR payment requests found.</div>';return;}
+   list.innerHTML=items.map(x=>card(x)).join('');
+ }).catch(e=>list.innerHTML='<div class="card">Error: '+esc(e.message)+'</div>');
+}
+function card(x){
+ const a=x.a,p=x.p;
+ return `<div class="card">
+  <div class="row">
+   <div><div class="muted">Application ID</div><b>${esc(a.applicationId||p.applicationId||'-')}</b></div>
+   <div><div class="muted">User ID</div><b>${esc(x.uid)}</b></div>
+   <div><div class="muted">Amount</div><b>₹${esc(p.amount||199)}</b></div>
+   <div><div class="muted">Status</div><span class="status">${esc(p.status||a.feeStatus||'-')}</span></div>
+  </div>
+  <div style="margin-top:15px" class="muted">UTR / Transaction ID</div>
+  <div class="utr">${esc(p.utr||'-')}</div>
+  <div style="margin-top:10px" class="muted">UPI ID: ${esc(p.upiId||'9792368894@ybl')}</div>
+  <div class="actions">
+   <button class="btn approve" onclick="approve('${esc(x.uid)}')">Approve Payment</button>
+   <button class="btn reject" onclick="rejectPayment('${esc(x.uid)}')">Reject</button>
+  </div>
+ </div>`;
+}
+function approve(uid){
+ if(!confirm('Verify the ₹199 payment against your UPI/bank statement and approve this UTR?')) return;
+ db.ref('loanApplications/'+uid).update({
+   feeStatus:'verified',
+   status:'review_pending',
+   'paymentRequest/status':'verified',
+   'paymentRequest/verifiedAt':firebase.database.ServerValue.TIMESTAMP,
+   updatedAt:firebase.database.ServerValue.TIMESTAMP
+ }).then(loadPayments).catch(e=>alert(e.message));
+}
+function rejectPayment(uid){
+ if(!confirm('Reject this payment request?')) return;
+ db.ref('loanApplications/'+uid).update({
+   feeStatus:'rejected',
+   status:'payment_rejected',
+   'paymentRequest/status':'rejected',
+   'paymentRequest/rejectedAt':firebase.database.ServerValue.TIMESTAMP,
+   updatedAt:firebase.database.ServerValue.TIMESTAMP
+ }).then(loadPayments).catch(e=>alert(e.message));
+}
+</script>
+</body>
+</html>
