@@ -2590,37 +2590,22 @@ async function saveDraftAndGoToFee(){
 
 
         /*
-           Upload documents
+           Documents stay LOCAL in the user's browser.
+           Nothing is uploaded to Firebase Storage.
         */
 
-        const panURL =
-            await uploadDocument(
-                document.getElementById(
-                    "panFile"
-                ).files[0],
-                uid,
-                "pan"
-            );
+        const panFile =
+            document.getElementById("panFile").files[0];
 
+        const identityFile =
+            document.getElementById("identityFile").files[0];
 
-        const identityURL =
-            await uploadDocument(
-                document.getElementById(
-                    "identityFile"
-                ).files[0],
-                uid,
-                "identity"
-            );
+        const statementFile =
+            document.getElementById("statementFile").files[0];
 
-
-        const statementURL =
-            await uploadDocument(
-                document.getElementById(
-                    "statementFile"
-                ).files[0],
-                uid,
-                "statement"
-            );
+        validateLocalDocument(panFile, "PAN");
+        validateLocalDocument(identityFile, "Identity/Address");
+        validateLocalDocument(statementFile, "Bank Statement");
 
 
         const application =
@@ -2633,11 +2618,15 @@ async function saveDraftAndGoToFee(){
         application.userId =
             uid;
 
-        application.documentUrls = {
+        /*
+           Only document metadata is saved in Firebase Realtime Database.
+           The actual files remain on this browser/device only.
+        */
+        application.documents = {
 
-            pan: panURL,
-            identity: identityURL,
-            statement: statementURL
+            pan: panFile.name,
+            identity: identityFile.name,
+            statement: statementFile.name
 
         };
 
@@ -2693,44 +2682,23 @@ async function saveDraftAndGoToFee(){
    UPLOAD
 ===================================================== */
 
-async function uploadDocument(
-    file,
-    uid,
-    type
-){
+function validateLocalDocument(file, label){
 
     if(!file){
 
         throw new Error(
-            type +
+            label +
             " document missing."
         );
 
     }
 
-
-    const path =
-        "loanDocuments/" +
-        uid +
-        "/" +
-        applicationId +
-        "/" +
-        type +
-        "_" +
-        Date.now() +
-        "_" +
-        file.name;
-
-
-    const ref =
-        storage.ref(path);
-
-
-    const result =
-        await ref.put(file);
-
-
-    return await result.ref.getDownloadURL();
+    if(!checkFileSize(file)){
+        throw new Error(
+            label +
+            " document must be 5 MB or smaller."
+        );
+    }
 
 }
 
