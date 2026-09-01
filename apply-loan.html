@@ -1442,7 +1442,17 @@ input[type="range"]{
         <div class="payment-warning">
             📱 Continue दबाने पर आपके device में installed compatible UPI app
             (जैसे Google Pay, PhonePe, Paytm आदि) को खोलने की कोशिश की जाएगी।
-            Payment complete होने के बाद इस page पर वापस आएँ।
+            Payment करने के बाद इसी page पर वापस आएँ और नीचे अपना UTR / Transaction ID डालें।
+        </div>
+
+        <div id="utrBox" style="display:none;margin-top:16px;padding:15px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.04);">
+            <div style="font-size:14px;font-weight:700;margin-bottom:8px;">Payment के बाद UTR डालें</div>
+            <div style="font-size:12px;opacity:.72;margin-bottom:10px;line-height:1.5;">
+                ₹199 payment करने के बाद UTR / Transaction ID यहाँ डालें। UTR submit करते ही आप Review page पर जा सकेंगे। Payment verification के बाद ही final application submit होगी।
+            </div>
+            <input id="utrInput" type="text" maxlength="100" placeholder="Enter UTR / Transaction ID" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.18);color:inherit;outline:none;">
+            <button type="button" class="pay-fee-btn" id="submitUtrBtn" onclick="submitUTR()" style="margin-top:10px;">Submit UTR & Continue to Review</button>
+            <div id="utrStatus" style="font-size:12px;margin-top:9px;opacity:.8;"></div>
         </div>
 
     </div>
@@ -1787,6 +1797,7 @@ auth.onAuthStateChanged(function(user){
         currentUser = user;
 
         loadExistingApplication();
+        watchFeeVerification();
 
     }else{
 
@@ -1866,6 +1877,41 @@ function loadExistingApplication(){
 
     });
 
+}
+
+
+/* =====================================================
+   PAYMENT VERIFICATION LISTENER
+===================================================== */
+
+function watchFeeVerification(){
+
+    if(!currentUser){
+        return;
+    }
+
+    db.ref("loanApplications/" + currentUser.uid + "/feeStatus")
+      .on("value", function(snapshot){
+
+          const status = snapshot.val();
+
+          if(status === "verified"){
+
+              feeVerified = true;
+
+              const feeStatus = document.getElementById("feeStatus");
+              if(feeStatus){
+                  feeStatus.innerText = "Payment status: Verified";
+              }
+
+              const submitBtn = document.getElementById("submitBtn");
+              if(submitBtn){
+                  submitBtn.disabled = false;
+              }
+
+          }
+
+      });
 }
 
 
@@ -2815,8 +2861,7 @@ function startFeePayment(){
     const amount = "199.00";
     const payeeName = "EasyLoan India";
 
-    // Record a payment request, but never mark it as paid from the client.
-    db.ref("loanApplications/" + uid + "/paymentRequest").set({
+    const request = {
         applicationId: applicationId,
         amount: 199,
         currency: "INR",
@@ -2824,26 +2869,116 @@ function startFeePayment(){
         upiId: upiId,
         status: "payment_pending",
         createdAt: firebase.database.ServerValue.TIMESTAMP
-    }).then(function(){
+    };
 
-        const upiUrl =
-            "upi://pay" +
-            "?pa=" + encodeURIComponent(upiId) +
-            "&pn=" + encodeURIComponent(payeeName) +
-            "&am=" + encodeURIComponent(amount) +
-            "&cu=INR";
+    db.ref("loanApplications/" + uid + "/paymentRequest")
+      .update(request)
+      .then(function(){
 
-        // Android/iOS will hand the UPI URI to a compatible installed app.
-        window.location.href = upiUrl;
+          const utrBox = document.getElementById("utrBox");
+          if(utrBox){
+              utrBox.style.display = "block";
+          }
 
-    }).catch(function(error){
+          const utrStatus = document.getElementById("utrStatus");
+          if(utrStatus){
+              utrStatus.innerText = "Payment के बाद UTR / Transaction ID डालें।";
+          }
+
+          const upiUrl =
+              "upi://pay" +
+              "?pa=" + encodeURIComponent(upiId) +
+              "&pn=" + encodeURIComponent(payeeName) +
+              "&am=" + encodeURIComponent(amount) +
+              "&cu=INR";
+
+          // Compatible installed UPI app को खोलने की कोशिश।
+          window.location.href = upiUrl;
+
+      })
+      .catch(function(error){
+
+          console.error(error);
+          showError("Payment request failed: " + error.message);
+
+      });
+}
+
+
+/* =====================================================
+   UTR SUBMISSION
+===================================================== */
+
+async function submitUTR(){
+
+    if(!currentUser){
+        showError("Please wait for Firebase authentication.");
+        return;
+    }
+
+    const input = document.getElementById("utrInput");
+    const utr = input ? input.value.trim() : "";
+
+    if(!utr){
+        showError("Please enter your UTR / Transaction ID.");
+        return;
+    }
+
+    if(utr.length < 6){
+        showError("Please enter a valid UTR / Transaction ID.");
+        return;
+    }
+
+    const btn = document.getElementById("submitUtrBtn");
+    if(btn) btn.disabled = true;
+
+    try{
+
+        const uid = currentUser.uid;
+
+        await db.ref("loanApplications/" + uid + "/paymentRequest").update({
+            applicationId: applicationId,
+            amount: 199,
+            currency: "INR",
+            method: "UPI",
+            upiId: "dailylgrow@axl",
+            utr: utr,
+            status: "utr_submitted",
+            submittedAt: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        await db.ref("loanApplications/" + uid).update({
+            status: "review_pending",
+            feeAmount: 199,
+            feeStatus: "pending",
+            updatedAt: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        feeVerified = false;
+
+        const feeStatus = document.getElementById("feeStatus");
+        if(feeStatus){
+            feeStatus.innerText = "Payment status: UTR submitted — verification pending";
+        }
+
+        const utrStatus = document.getElementById("utrStatus");
+        if(utrStatus){
+            utrStatus.innerText = "UTR submitted successfully. Payment verification pending.";
+        }
+
+        // UTR submit होते ही Review page पर जाएँ।
+        showStep(7);
+
+    }catch(error){
 
         console.error(error);
-        showError("Payment request failed: " + error.message);
+        showError("UTR submission failed: " + error.message);
 
-    });
+        if(btn) btn.disabled = false;
 
+    }
 }
+
 
 
 /* =====================================================
