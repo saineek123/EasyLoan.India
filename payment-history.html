@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Payment History - LoanApp</title>
+<title>Payment History - EasyLoan India</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -66,6 +65,50 @@ body{
     margin-top:5px;
     font-size:11px;
     opacity:.85;
+}
+
+/* LOAN INFO */
+
+.loan-info{
+    margin:15px;
+    background:white;
+    border-radius:15px;
+    padding:14px;
+    box-shadow:0 3px 15px rgba(0,0,0,.04);
+}
+
+.loan-info-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.loan-label{
+    color:#858e9e;
+    font-size:8px;
+}
+
+.loan-id{
+    margin-top:5px;
+    font-size:10px;
+    font-weight:bold;
+    word-break:break-all;
+}
+
+.loan-status{
+    padding:5px 9px;
+    border-radius:20px;
+    background:#eef3ff;
+    color:#155eef;
+    font-size:7px;
+    font-weight:bold;
+    height:max-content;
+}
+
+.loan-amount{
+    margin-top:12px;
+    font-size:18px;
+    font-weight:bold;
 }
 
 /* SUMMARY */
@@ -148,6 +191,17 @@ body{
 .section-title{
     font-size:16px;
     margin-bottom:10px;
+}
+
+/* LOADING */
+
+.loading{
+    background:white;
+    border-radius:15px;
+    padding:30px 15px;
+    text-align:center;
+    color:#7c8596;
+    font-size:10px;
 }
 
 /* PAYMENT */
@@ -275,6 +329,18 @@ body{
     font-size:9px;
 }
 
+/* ERROR */
+
+.error-box{
+    display:none;
+    margin-bottom:12px;
+    background:#ffe9e9;
+    color:#b42318;
+    border-radius:12px;
+    padding:12px;
+    font-size:9px;
+}
+
 /* MODAL */
 
 .modal{
@@ -391,16 +457,6 @@ body{
     cursor:pointer;
 }
 
-/* CLOSE MODAL OUTSIDE */
-
-.modal{
-    cursor:pointer;
-}
-
-.modal-box{
-    cursor:default;
-}
-
 /* MOBILE */
 
 @media(max-width:360px){
@@ -423,10 +479,8 @@ body{
     }
 
 }
-
 </style>
 </head>
-
 
 <body>
 
@@ -462,6 +516,46 @@ body{
     </div>
 
 
+    <!-- LOAN INFO -->
+
+    <div class="loan-info">
+
+        <div class="loan-info-top">
+
+            <div>
+
+                <div class="loan-label">
+                    LOAN APPLICATION
+                </div>
+
+                <div
+                    class="loan-id"
+                    id="loanId"
+                >
+                    Loading...
+                </div>
+
+            </div>
+
+            <div
+                class="loan-status"
+                id="loanStatus"
+            >
+                Loading
+            </div>
+
+        </div>
+
+        <div
+            class="loan-amount"
+            id="loanAmount"
+        >
+            ₹0
+        </div>
+
+    </div>
+
+
     <!-- SUMMARY -->
 
     <div class="summary">
@@ -472,8 +566,11 @@ body{
                 Total Paid
             </span>
 
-            <strong class="green" id="totalPaid">
-                ₹23,750
+            <strong
+                class="green"
+                id="totalPaid"
+            >
+                ₹0
             </strong>
 
         </div>
@@ -486,7 +583,7 @@ body{
             </span>
 
             <strong id="paidCount">
-                5
+                0
             </strong>
 
         </div>
@@ -498,8 +595,11 @@ body{
                 Pending
             </span>
 
-            <strong class="orange" id="pendingCount">
-                1
+            <strong
+                class="orange"
+                id="pendingCount"
+            >
+                0
             </strong>
 
         </div>
@@ -511,7 +611,10 @@ body{
                 Failed
             </span>
 
-            <strong class="red" id="failedCount">
+            <strong
+                class="red"
+                id="failedCount"
+            >
                 0
             </strong>
 
@@ -520,9 +623,17 @@ body{
     </div>
 
 
-    <!-- FILTER -->
+    <!-- SECTION -->
 
     <div class="section">
+
+        <div
+            class="error-box"
+            id="errorBox"
+        ></div>
+
+
+        <!-- FILTER -->
 
         <div class="filter">
 
@@ -557,379 +668,24 @@ body{
         </div>
 
 
-        <!-- TITLE -->
-
         <div class="section-title">
             Transactions
         </div>
 
 
-        <!-- PAYMENT 1 -->
+        <!-- LOADING -->
 
         <div
-            class="payment paid"
-            data-status="paid"
+            class="loading"
+            id="loading"
         >
-
-            <div class="payment-icon">
-                ✓
-            </div>
-
-            <div class="payment-content">
-
-                <div class="payment-title">
-                    EMI #5
-                </div>
-
-                <div class="payment-meta">
-
-                    15 Aug 2026<br>
-
-                    <span class="payment-time">
-                        10:35 AM •
-                    </span>
-
-                    UPI • TXN20260815001
-
-                </div>
-
-            </div>
-
-            <div class="payment-right">
-
-                <div class="payment-amount">
-                    ₹4,750
-                </div>
-
-                <div class="payment-status">
-                    Paid
-                </div>
-
-                <br>
-
-                <button
-                    class="view-btn"
-                    onclick="openReceipt(
-                        'EMI #5',
-                        '₹4,750',
-                        '15 Aug 2026',
-                        '10:35 AM',
-                        'UPI',
-                        'TXN20260815001',
-                        'Paid'
-                    )"
-                >
-                    View
-                </button>
-
-            </div>
-
+            Loading payment history...
         </div>
 
 
-        <!-- PAYMENT 2 -->
+        <!-- PAYMENT CONTAINER -->
 
-        <div
-            class="payment paid"
-            data-status="paid"
-        >
-
-            <div class="payment-icon">
-                ✓
-            </div>
-
-            <div class="payment-content">
-
-                <div class="payment-title">
-                    EMI #4
-                </div>
-
-                <div class="payment-meta">
-
-                    15 Jul 2026<br>
-
-                    <span class="payment-time">
-                        09:48 AM •
-                    </span>
-
-                    UPI • TXN20260715001
-
-                </div>
-
-            </div>
-
-            <div class="payment-right">
-
-                <div class="payment-amount">
-                    ₹4,750
-                </div>
-
-                <div class="payment-status">
-                    Paid
-                </div>
-
-                <br>
-
-                <button
-                    class="view-btn"
-                    onclick="openReceipt(
-                        'EMI #4',
-                        '₹4,750',
-                        '15 Jul 2026',
-                        '09:48 AM',
-                        'UPI',
-                        'TXN20260715001',
-                        'Paid'
-                    )"
-                >
-                    View
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PAYMENT 3 -->
-
-        <div
-            class="payment paid"
-            data-status="paid"
-        >
-
-            <div class="payment-icon">
-                ✓
-            </div>
-
-            <div class="payment-content">
-
-                <div class="payment-title">
-                    EMI #3
-                </div>
-
-                <div class="payment-meta">
-
-                    15 Jun 2026<br>
-
-                    <span class="payment-time">
-                        11:22 AM •
-                    </span>
-
-                    Bank Account • TXN20260615001
-
-                </div>
-
-            </div>
-
-            <div class="payment-right">
-
-                <div class="payment-amount">
-                    ₹4,750
-                </div>
-
-                <div class="payment-status">
-                    Paid
-                </div>
-
-                <br>
-
-                <button
-                    class="view-btn"
-                    onclick="openReceipt(
-                        'EMI #3',
-                        '₹4,750',
-                        '15 Jun 2026',
-                        '11:22 AM',
-                        'Bank Account',
-                        'TXN20260615001',
-                        'Paid'
-                    )"
-                >
-                    View
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PAYMENT 4 -->
-
-        <div
-            class="payment pending"
-            data-status="pending"
-        >
-
-            <div class="payment-icon">
-                ⏳
-            </div>
-
-            <div class="payment-content">
-
-                <div class="payment-title">
-                    EMI #6
-                </div>
-
-                <div class="payment-meta">
-
-                    Due 15 Sep 2026<br>
-
-                    <span class="payment-time">
-                        Payment not completed
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="payment-right">
-
-                <div class="payment-amount">
-                    ₹4,750
-                </div>
-
-                <div class="payment-status">
-                    Pending
-                </div>
-
-                <br>
-
-                <button
-                    class="view-btn"
-                    onclick="go('repayment.html')"
-                >
-                    Pay Now
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PAYMENT 5 -->
-
-        <div
-            class="payment paid"
-            data-status="paid"
-        >
-
-            <div class="payment-icon">
-                ✓
-            </div>
-
-            <div class="payment-content">
-
-                <div class="payment-title">
-                    EMI #2
-                </div>
-
-                <div class="payment-meta">
-
-                    15 May 2026<br>
-
-                    <span class="payment-time">
-                        10:11 AM •
-                    </span>
-
-                    UPI • TXN20260515001
-
-                </div>
-
-            </div>
-
-            <div class="payment-right">
-
-                <div class="payment-amount">
-                    ₹4,750
-                </div>
-
-                <div class="payment-status">
-                    Paid
-                </div>
-
-                <br>
-
-                <button
-                    class="view-btn"
-                    onclick="openReceipt(
-                        'EMI #2',
-                        '₹4,750',
-                        '15 May 2026',
-                        '10:11 AM',
-                        'UPI',
-                        'TXN20260515001',
-                        'Paid'
-                    )"
-                >
-                    View
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PAYMENT 6 -->
-
-        <div
-            class="payment paid"
-            data-status="paid"
-        >
-
-            <div class="payment-icon">
-                ✓
-            </div>
-
-            <div class="payment-content">
-
-                <div class="payment-title">
-                    EMI #1
-                </div>
-
-                <div class="payment-meta">
-
-                    15 Apr 2026<br>
-
-                    <span class="payment-time">
-                        02:45 PM •
-                    </span>
-
-                    UPI • TXN20260415001
-
-                </div>
-
-            </div>
-
-            <div class="payment-right">
-
-                <div class="payment-amount">
-                    ₹4,750
-                </div>
-
-                <div class="payment-status">
-                    Paid
-                </div>
-
-                <br>
-
-                <button
-                    class="view-btn"
-                    onclick="openReceipt(
-                        'EMI #1',
-                        '₹4,750',
-                        '15 Apr 2026',
-                        '02:45 PM',
-                        'UPI',
-                        'TXN20260415001',
-                        'Paid'
-                    )"
-                >
-                    View
-                </button>
-
-            </div>
-
-        </div>
+        <div id="paymentsList"></div>
 
 
         <!-- EMPTY -->
@@ -966,9 +722,7 @@ body{
     onclick="closeOutside(event)"
 >
 
-    <div
-        class="modal-box"
-    >
+    <div class="modal-box">
 
         <div class="modal-header">
 
@@ -988,19 +742,21 @@ body{
 
         <div class="receipt">
 
-
             <div class="receipt-top">
 
-                <div class="receipt-success">
+                <div
+                    class="receipt-success"
+                    id="receiptIcon"
+                >
                     ✓
                 </div>
 
-                <h4>
+                <h4 id="receiptTitle">
                     Payment Successful
                 </h4>
 
-                <p>
-                    Your payment has been recorded successfully.
+                <p id="receiptMessage">
+                    Payment details from Firebase.
                 </p>
 
             </div>
@@ -1114,9 +870,73 @@ body{
 </div>
 
 
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+
 <script>
 
-/* GO */
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    databaseURL:
+        "https://easyloan-india-default-rtdb.firebaseio.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+/* INIT */
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+
+/* =========================================
+   GLOBAL DATA
+========================================= */
+
+let currentUser = null;
+
+let allPayments = [];
+
+let currentFilter = "all";
+
+let currentLoan = null;
+
+
+/* =========================================
+   GO
+========================================= */
 
 function go(page){
 
@@ -1125,138 +945,1112 @@ function go(page){
 }
 
 
-/* FILTER */
+/* =========================================
+   FORMAT MONEY
+========================================= */
+
+function money(value){
+
+    const number =
+        Number(value) || 0;
+
+    return "₹" +
+        number.toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+function formatDate(timestamp){
+
+    if(!timestamp){
+
+        return "--";
+
+    }
+
+    let date;
+
+    if(
+        typeof timestamp === "number"
+    ){
+
+        date =
+            new Date(timestamp);
+
+    }else{
+
+        const parsed =
+            new Date(timestamp);
+
+        if(!isNaN(parsed.getTime())){
+
+            date = parsed;
+
+        }else{
+
+            return "--";
+
+        }
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================
+   TIME
+========================================= */
+
+function formatTime(timestamp){
+
+    if(!timestamp){
+
+        return "--";
+
+    }
+
+    let date;
+
+    if(
+        typeof timestamp === "number"
+    ){
+
+        date =
+            new Date(timestamp);
+
+    }else{
+
+        date =
+            new Date(timestamp);
+
+    }
+
+    if(isNaN(date.getTime())){
+
+        return "--";
+
+    }
+
+    return date.toLocaleTimeString(
+        "en-IN",
+        {
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* =========================================
+   STATUS TYPE
+========================================= */
+
+function getPaymentType(status){
+
+    const s =
+        String(status || "")
+        .toLowerCase()
+        .trim();
+
+
+    if(
+        s === "completed" ||
+        s === "complete" ||
+        s === "verified" ||
+        s === "success" ||
+        s === "successful" ||
+        s === "paid"
+    ){
+
+        return "paid";
+
+    }
+
+
+    if(
+        s === "failed" ||
+        s === "failure" ||
+        s === "rejected" ||
+        s === "cancelled" ||
+        s === "canceled"
+    ){
+
+        return "failed";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+/* =========================================
+   DISPLAY STATUS
+========================================= */
+
+function displayStatus(status){
+
+    const type =
+        getPaymentType(status);
+
+
+    if(type === "paid"){
+
+        return "Paid";
+
+    }
+
+
+    if(type === "failed"){
+
+        return "Failed";
+
+    }
+
+
+    return "Pending";
+
+}
+
+
+/* =========================================
+   PAYMENT TIMESTAMP
+========================================= */
+
+function getPaymentTime(payment){
+
+    return (
+        payment.completedAt ||
+        payment.paidAt ||
+        payment.updatedAt ||
+        payment.createdAt ||
+        payment.timestamp ||
+        payment.date ||
+        null
+    );
+
+}
+
+
+/* =========================================
+   AUTH
+========================================= */
+
+auth.onAuthStateChanged(
+    async function(user){
+
+        try{
+
+            if(user){
+
+                currentUser = user;
+
+                await loadFirebaseData();
+
+                return;
+
+            }
+
+
+            /*
+             * Same auth flow as your loan app.
+             * If user is not logged in, anonymous login
+             * will be created.
+             */
+
+            const result =
+                await auth.signInAnonymously();
+
+            currentUser =
+                result.user;
+
+            await loadFirebaseData();
+
+        }catch(error){
+
+            console.error(
+                "Auth Error:",
+                error
+            );
+
+            showError(
+                "Login/Auth error: " +
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   LOAD ALL FIREBASE DATA
+========================================= */
+
+async function loadFirebaseData(){
+
+    document.getElementById(
+        "loading"
+    ).style.display = "block";
+
+
+    try{
+
+        await loadLoan();
+
+        await loadPayments();
+
+    }catch(error){
+
+        console.error(
+            "Firebase Load Error:",
+            error
+        );
+
+        showError(
+            "Firebase data load nahi ho saka: " +
+            error.message
+        );
+
+    }finally{
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+    }
+
+}
+
+
+/* =========================================
+   LOAD LOAN
+========================================= */
+
+async function loadLoan(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const uid =
+        currentUser.uid;
+
+
+    const snapshot =
+        await db
+            .ref(
+                "loanApplications/" +
+                uid
+            )
+            .once("value");
+
+
+    if(!snapshot.exists()){
+
+        currentLoan = null;
+
+        document.getElementById(
+            "loanId"
+        ).innerText =
+            "No loan application";
+
+        document.getElementById(
+            "loanStatus"
+        ).innerText =
+            "Not Found";
+
+        document.getElementById(
+            "loanAmount"
+        ).innerText =
+            "₹0";
+
+        return;
+
+    }
+
+
+    currentLoan =
+        snapshot.val();
+
+
+    const applicationId =
+        currentLoan.applicationId ||
+        currentLoan.loanId ||
+        uid;
+
+
+    document.getElementById(
+        "loanId"
+    ).innerText =
+        applicationId;
+
+
+    document.getElementById(
+        "loanStatus"
+    ).innerText =
+        formatLoanStatus(
+            currentLoan.status
+        );
+
+
+    const amount =
+        currentLoan.loanAmount ||
+        currentLoan.amount ||
+        0;
+
+
+    document.getElementById(
+        "loanAmount"
+    ).innerText =
+        money(amount);
+
+}
+
+
+/* =========================================
+   LOAN STATUS
+========================================= */
+
+function formatLoanStatus(status){
+
+    if(!status){
+
+        return "Unknown";
+
+    }
+
+
+    return String(status)
+        .replace(/_/g," ")
+        .replace(/\b\w/g,function(c){
+
+            return c.toUpperCase();
+
+        });
+
+}
+
+
+/* =========================================
+   LOAD PAYMENTS
+========================================= */
+
+async function loadPayments(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const uid =
+        currentUser.uid;
+
+
+    allPayments = [];
+
+
+    /*
+     * Existing structure:
+     *
+     * payments
+     *   paymentId
+     *      userId
+     *      loanId
+     *      amount
+     *      status
+     *      method
+     *      transactionId
+     *      createdAt
+     */
+
+    const snapshot =
+        await db
+            .ref("payments")
+            .orderByChild("userId")
+            .equalTo(uid)
+            .once("value");
+
+
+    if(snapshot.exists()){
+
+        snapshot.forEach(
+            function(child){
+
+                const payment =
+                    child.val() || {};
+
+                payment._id =
+                    child.key;
+
+                allPayments.push(
+                    payment
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+     * Newest payment first
+     */
+
+    allPayments.sort(
+        function(a,b){
+
+            const ta =
+                Number(
+                    getPaymentTime(a)
+                ) || 0;
+
+            const tb =
+                Number(
+                    getPaymentTime(b)
+                ) || 0;
+
+
+            return tb - ta;
+
+        }
+    );
+
+
+    updateSummary();
+
+    renderPayments();
+
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+function updateSummary(){
+
+    let totalPaid = 0;
+
+    let paidCount = 0;
+
+    let pendingCount = 0;
+
+    let failedCount = 0;
+
+
+    allPayments.forEach(
+        function(payment){
+
+            const type =
+                getPaymentType(
+                    payment.status
+                );
+
+
+            const amount =
+                Number(
+                    payment.amount ||
+                    payment.paidAmount ||
+                    0
+                );
+
+
+            if(type === "paid"){
+
+                totalPaid += amount;
+
+                paidCount++;
+
+            }
+
+
+            if(type === "pending"){
+
+                pendingCount++;
+
+            }
+
+
+            if(type === "failed"){
+
+                failedCount++;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalPaid"
+    ).innerText =
+        money(totalPaid);
+
+
+    document.getElementById(
+        "paidCount"
+    ).innerText =
+        paidCount;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).innerText =
+        pendingCount;
+
+
+    document.getElementById(
+        "failedCount"
+    ).innerText =
+        failedCount;
+
+}
+
+
+/* =========================================
+   RENDER PAYMENTS
+========================================= */
+
+function renderPayments(){
+
+    const container =
+        document.getElementById(
+            "paymentsList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    let visiblePayments =
+        allPayments.filter(
+            function(payment){
+
+                const type =
+                    getPaymentType(
+                        payment.status
+                    );
+
+
+                return (
+                    currentFilter === "all" ||
+                    currentFilter === type
+                );
+
+            }
+        );
+
+
+    if(visiblePayments.length === 0){
+
+        document.getElementById(
+            "emptyState"
+        ).style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "none";
+
+
+    visiblePayments.forEach(
+        function(payment){
+
+            container.appendChild(
+                createPaymentCard(
+                    payment
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   CREATE PAYMENT CARD
+========================================= */
+
+function createPaymentCard(payment){
+
+    const type =
+        getPaymentType(
+            payment.status
+        );
+
+
+    const statusText =
+        displayStatus(
+            payment.status
+        );
+
+
+    const amount =
+        Number(
+            payment.amount ||
+            payment.paidAmount ||
+            0
+        );
+
+
+    const timestamp =
+        getPaymentTime(
+            payment
+        );
+
+
+    const date =
+        formatDate(
+            timestamp
+        );
+
+
+    const time =
+        formatTime(
+            timestamp
+        );
+
+
+    const method =
+        payment.method ||
+        payment.paymentMethod ||
+        payment.mode ||
+        "UPI";
+
+
+    const txn =
+        payment.transactionId ||
+        payment.txnId ||
+        payment.utr ||
+        payment.referenceId ||
+        payment._id ||
+        "--";
+
+
+    const emiNumber =
+        payment.emiNumber ||
+        payment.emiNo ||
+        payment.installment ||
+        payment.emi ||
+        null;
+
+
+    let title =
+        emiNumber
+        ? "EMI #" + emiNumber
+        : "Loan Payment";
+
+
+    /*
+     * For pending payment that has no completed time,
+     * show created date.
+     */
+
+    let metaDate =
+        date;
+
+
+    if(!timestamp){
+
+        metaDate =
+            "Date not available";
+
+    }
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "payment " + type;
+
+
+    card.setAttribute(
+        "data-status",
+        type
+    );
+
+
+    let icon = "✓";
+
+
+    if(type === "pending"){
+
+        icon = "⏳";
+
+    }
+
+
+    if(type === "failed"){
+
+        icon = "✕";
+
+    }
+
+
+    card.innerHTML = `
+
+        <div class="payment-icon">
+            ${icon}
+        </div>
+
+        <div class="payment-content">
+
+            <div class="payment-title">
+                ${escapeHTML(title)}
+            </div>
+
+            <div class="payment-meta">
+
+                ${escapeHTML(metaDate)}<br>
+
+                <span class="payment-time">
+                    ${escapeHTML(time)} •
+                </span>
+
+                ${escapeHTML(method)}
+                •
+                ${escapeHTML(txn)}
+
+            </div>
+
+        </div>
+
+        <div class="payment-right">
+
+            <div class="payment-amount">
+                ${money(amount)}
+            </div>
+
+            <div class="payment-status">
+                ${statusText}
+            </div>
+
+            <br>
+
+            <button class="view-btn">
+                View
+            </button>
+
+        </div>
+
+    `;
+
+
+    const viewButton =
+        card.querySelector(
+            ".view-btn"
+        );
+
+
+    viewButton.addEventListener(
+        "click",
+        function(){
+
+            openReceipt(
+                payment
+            );
+
+        }
+    );
+
+
+    return card;
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+    if(value === null ||
+       value === undefined){
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   FILTER
+========================================= */
 
 function filterPayments(
     status,
     button
 ){
 
+    currentFilter =
+        status;
+
+
     document
-        .querySelectorAll(".filter-btn")
-        .forEach(function(btn){
+        .querySelectorAll(
+            ".filter-btn"
+        )
+        .forEach(
+            function(btn){
 
-            btn.classList.remove("active");
+                btn.classList.remove(
+                    "active"
+                );
 
-        });
-
-    button.classList.add("active");
-
-
-    const payments =
-        document.querySelectorAll(".payment");
-
-    let visible = 0;
+            }
+        );
 
 
-    payments.forEach(function(payment){
-
-        const paymentStatus =
-            payment.getAttribute(
-                "data-status"
-            );
+    button.classList.add(
+        "active"
+    );
 
 
-        if(
-            status === "all" ||
-            status === paymentStatus
-        ){
-
-            payment.style.display = "flex";
-
-            visible++;
-
-        }else{
-
-            payment.style.display = "none";
-
-        }
-
-    });
-
-
-    document.getElementById(
-        "emptyState"
-    ).style.display =
-        visible === 0
-        ? "block"
-        : "none";
+    renderPayments();
 
 }
 
 
-/* OPEN RECEIPT */
+/* =========================================
+   OPEN RECEIPT
+========================================= */
 
-function openReceipt(
-    payment,
-    amount,
-    date,
-    time,
-    method,
-    txn,
-    status
-){
+function openReceipt(payment){
+
+    const type =
+        getPaymentType(
+            payment.status
+        );
+
+
+    const status =
+        displayStatus(
+            payment.status
+        );
+
+
+    const timestamp =
+        getPaymentTime(
+            payment
+        );
+
+
+    const amount =
+        Number(
+            payment.amount ||
+            payment.paidAmount ||
+            0
+        );
+
+
+    const method =
+        payment.method ||
+        payment.paymentMethod ||
+        payment.mode ||
+        "UPI";
+
+
+    const txn =
+        payment.transactionId ||
+        payment.txnId ||
+        payment.utr ||
+        payment.referenceId ||
+        payment._id ||
+        "--";
+
+
+    const emiNumber =
+        payment.emiNumber ||
+        payment.emiNo ||
+        payment.installment ||
+        payment.emi ||
+        null;
+
+
+    const paymentName =
+        emiNumber
+        ? "EMI #" + emiNumber
+        : "Loan Payment";
+
 
     document.getElementById(
         "rPayment"
-    ).innerText = payment;
+    ).innerText =
+        paymentName;
 
 
     document.getElementById(
         "rAmount"
-    ).innerText = amount;
+    ).innerText =
+        money(amount);
 
 
     document.getElementById(
         "rDate"
-    ).innerText = date;
+    ).innerText =
+        formatDate(timestamp);
 
 
     document.getElementById(
         "rTime"
-    ).innerText = time;
+    ).innerText =
+        formatTime(timestamp);
 
 
     document.getElementById(
         "rMethod"
-    ).innerText = method;
+    ).innerText =
+        method;
 
 
     document.getElementById(
         "rTxn"
-    ).innerText = txn;
+    ).innerText =
+        txn;
 
 
     document.getElementById(
         "rStatus"
-    ).innerText = status;
+    ).innerText =
+        status;
+
+
+    const receiptTitle =
+        document.getElementById(
+            "receiptTitle"
+        );
+
+
+    const receiptMessage =
+        document.getElementById(
+            "receiptMessage"
+        );
+
+
+    const receiptIcon =
+        document.getElementById(
+            "receiptIcon"
+        );
+
+
+    if(type === "paid"){
+
+        receiptTitle.innerText =
+            "Payment Successful";
+
+        receiptMessage.innerText =
+            "Your payment has been verified successfully.";
+
+        receiptIcon.innerText =
+            "✓";
+
+    }else if(type === "pending"){
+
+        receiptTitle.innerText =
+            "Payment Pending";
+
+        receiptMessage.innerText =
+            "This payment is waiting for verification.";
+
+        receiptIcon.innerText =
+            "⏳";
+
+    }else{
+
+        receiptTitle.innerText =
+            "Payment Failed";
+
+        receiptMessage.innerText =
+            "This payment was not completed successfully.";
+
+        receiptIcon.innerText =
+            "✕";
+
+    }
 
 
     document.getElementById(
         "receiptModal"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 
 }
 
 
-/* CLOSE RECEIPT */
+/* =========================================
+   CLOSE RECEIPT
+========================================= */
 
 function closeReceipt(){
 
     document.getElementById(
         "receiptModal"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 }
 
 
-/* CLOSE OUTSIDE */
+/* =========================================
+   CLOSE OUTSIDE
+========================================= */
 
 function closeOutside(event){
 
     if(
         event.target ===
-        document.getElementById("receiptModal")
+        document.getElementById(
+            "receiptModal"
+        )
     ){
 
         closeReceipt();
@@ -1266,13 +2060,37 @@ function closeOutside(event){
 }
 
 
-/* DOWNLOAD */
+/* =========================================
+   DOWNLOAD RECEIPT
+========================================= */
 
 function downloadReceipt(){
 
     alert(
-        "Demo: Actual PDF receipt backend se generate hogi."
+        "Receipt download feature backend/PDF system se connect ki ja sakti hai."
     );
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+function showError(message){
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+
+    box.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
 
 }
 
