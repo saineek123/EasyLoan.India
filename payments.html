@@ -1,3 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payments - EasyLoan India</title>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+:root{
+    --primary:#155eef;
+    --primary-dark:#0d47a1;
+    --success:#168352;
+    --danger:#d23b3b;
+    --warning:#c77900;
+    --text:#172033;
+    --muted:#7c8596;
+    --bg:#f4f6fa;
+    --white:#fff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+.app{
+    max-width:900px;
+    margin:auto;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#155eef,#4f8cff);
+    color:white;
+    padding:18px 20px 28px;
+    border-radius:0 0 25px 25px;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.back{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.header-content{
+    flex:1;
+}
+
+.header h2{
+    font-size:20px;
+}
+
+.header p{
+    margin-top:5px;
+    font-size:11px;
+    opacity:.85;
+}
+
+/* CONTENT */
+
+.content{
+    padding:18px;
+}
+
+/* LOAN CARD */
+
+.loan-card{
+    background:white;
+    border-radius:17px;
+    padding:17px;
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
+    margin-bottom:15px;
+}
+
+.loan-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.loan-title{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.loan-id{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:9px;
+}
+
+.loan-status{
+    padding:6px 10px;
+    border-radius:20px;
+    background:#e7f8ef;
+    color:var(--success);
+    font-size:8px;
+    font-weight:bold;
+}
+
+/* SUMMARY */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.summary-card{
+    background:white;
+    border-radius:15px;
+    padding:15px 12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.summary-card span{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+}
+
+.summary-card strong{
+    display:block;
+    margin-top:6px;
+    font-size:17px;
+}
+
+.green{
+    color:var(--success);
+}
+
+.red{
+    color:var(--danger);
+}
+
+.orange{
+    color:var(--warning);
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:17px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+    margin-bottom:15px;
+}
+
+.card-title{
+    font-size:15px;
+    font-weight:bold;
+    padding-bottom:12px;
+    border-bottom:1px solid #edf0f4;
+    margin-bottom:10px;
+}
+
+.card-title i{
+    color:var(--primary);
+    margin-right:7px;
+}
+
+/* EMI */
+
+.emi-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.emi-item:last-child{
+    border-bottom:none;
+}
+
+.emi-icon{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    background:#eef3ff;
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.emi-info{
+    flex:1;
+}
+
+.emi-number{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.emi-date{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:8px;
+}
+
+.emi-right{
+    text-align:right;
+}
+
+.emi-amount{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.status{
+    display:inline-block;
+    margin-top:5px;
+    padding:4px 7px;
+    border-radius:20px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.status.paid{
+    background:#e7f8ef;
+    color:var(--success);
+}
+
+.status.pending{
+    background:#fff4dd;
+    color:var(--warning);
+}
+
+.status.upcoming{
+    background:#eef3ff;
+    color:var(--primary);
+}
+
+.status.overdue{
+    background:#ffe9e9;
+    color:var(--danger);
+}
+
+/* PAYMENT METHODS */
+
+.methods{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px;
+    margin-top:14px;
+}
+
+.method{
+    border:2px solid #edf0f4;
+    background:#f8f9fb;
+    border-radius:12px;
+    padding:14px 7px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.method i{
+    display:block;
+    font-size:20px;
+    color:var(--primary);
+    margin-bottom:6px;
+}
+
+.method span{
+    font-size:8px;
+    font-weight:bold;
+}
+
+.method.selected{
+    border-color:var(--primary);
+    background:#eef3ff;
+}
+
+/* AMOUNT */
+
+.amount-box{
+    margin-top:15px;
+}
+
+.amount-box label{
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.amount-box input{
+    width:100%;
+    height:45px;
+    border:1px solid #dfe3e9;
+    border-radius:10px;
+    padding:0 13px;
+    font-size:14px;
+    outline:none;
+}
+
+.amount-box input:focus{
+    border-color:var(--primary);
+}
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    gap:9px;
+    margin-top:13px;
+}
+
+.btn{
+    flex:1;
+    height:44px;
+    border:none;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-secondary{
+    background:#eef3ff;
+    color:var(--primary);
+}
+
+.btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* INFO */
+
+.info{
+    background:#fff8e8;
+    color:#80672a;
+    border-radius:12px;
+    padding:13px;
+    font-size:9px;
+    line-height:1.6;
+}
+
+/* LOADER */
+
+.loader{
+    text-align:center;
+    padding:50px;
+}
+
+.loader i{
+    font-size:30px;
+    color:var(--primary);
+}
+
+/* EMPTY */
+
+.empty{
+    display:none;
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:20px;
+    transform:translate(-50%,120px);
+    background:#172033;
+    color:white;
+    padding:12px 17px;
+    border-radius:10px;
+    font-size:10px;
+    z-index:9999;
+    transition:.3s;
+    max-width:90%;
+    text-align:center;
+}
+
+.toast.show{
+    transform:translate(-50%,0);
+}
+
+.toast.success{
+    background:var(--success);
+}
+
+.toast.error{
+    background:var(--danger);
+}
+
+.toast.info{
+    background:var(--primary);
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:5000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:50%;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.receipt{
+    margin-top:15px;
+    background:#f6f8fb;
+    border-radius:12px;
+    padding:13px;
+}
+
+.receipt-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid #e5e8ed;
+    font-size:9px;
+}
+
+.receipt-row:last-child{
+    border-bottom:none;
+}
+
+.receipt-row span{
+    color:var(--muted);
+}
+
+.modal-btn{
+    width:100%;
+    height:43px;
+    margin-top:15px;
+    border:none;
+    border-radius:9px;
+    background:var(--primary);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:650px){
+
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+    .methods{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .emi-item{
+        align-items:flex-start;
+    }
+
+}
+
+@media(max-width:400px){
+
+    .content{
+        padding:12px;
+    }
+
+    .header{
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="toast" class="toast"></div>
+
+<div class="app">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-top">
+
+            <div class="back" onclick="go('my-loans.html')">
+                ←
+            </div>
+
+            <div class="header-content">
+
+                <h2>
+                    Loan Payments
+                </h2>
+
+                <p>
+                    Manage your EMI payments
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="content">
+
+        <!-- LOADER -->
+
+        <div class="loader" id="loader">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            <p style="margin-top:10px;font-size:10px;">
+                Loading payment details...
+            </p>
+
+        </div>
+
+
+        <!-- MAIN CONTENT -->
+
+        <div id="paymentContent" style="display:none;">
+
+            <!-- LOAN -->
+
+            <div class="loan-card">
+
+                <div class="loan-top">
+
+                    <div>
+
+                        <div class="loan-title">
+                            Personal Loan
+                        </div>
+
+                        <div class="loan-id" id="loanIdText">
+                            Loan ID: --
+                        </div>
+
+                    </div>
+
+                    <div class="loan-status">
+                        Active
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary">
+
+                <div class="summary-card">
+
+                    <span>
+                        Loan Amount
+                    </span>
+
+                    <strong id="loanAmount">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>
+                        Total Paid
+                    </span>
+
+                    <strong class="green" id="totalPaid">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>
+                        Remaining
+                    </span>
+
+                    <strong class="red" id="remaining">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMI SCHEDULE -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    EMI Schedule
+
+                </div>
+
+                <div id="emiList"></div>
+
+                <div
+                    class="empty"
+                    id="emptyEmi"
+                >
+                    No EMI schedule available.
+                </div>
+
+            </div>
+
+
+            <!-- MAKE PAYMENT -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-credit-card"></i>
+
+                    Make Payment
+
+                </div>
+
+
+                <div style="font-size:9px;color:#7c8596;">
+                    Select your payment method
+                </div>
+
+
+                <!-- METHODS -->
+
+                <div class="methods">
+
+                    <div
+                        class="method selected"
+                        data-method="upi"
+                    >
+
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+
+                        <span>
+                            UPI
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="method"
+                        data-method="card"
+                    >
+
+                        <i class="fa-solid fa-credit-card"></i>
+
+                        <span>
+                            Card
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="method"
+                        data-method="netbanking"
+                    >
+
+                        <i class="fa-solid fa-building-columns"></i>
+
+                        <span>
+                            Net Banking
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="method"
+                        data-method="wallet"
+                    >
+
+                        <i class="fa-solid fa-wallet"></i>
+
+                        <span>
+                            Wallet
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AMOUNT -->
+
+                <div class="amount-box">
+
+                    <label>
+                        Amount to Pay
+                    </label>
+
+                    <input
+                        type="number"
+                        id="payAmount"
+                        placeholder="Enter amount"
+                        min="100"
+                    >
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="buttons">
+
+                    <button
+                        class="btn btn-primary"
+                        id="payNowBtn"
+                    >
+                        <i class="fa-solid fa-lock"></i>
+                        Pay Now
+                    </button>
+
+
+                    <button
+                        class="btn btn-secondary"
+                        id="payAllBtn"
+                    >
+                        Pay All Due
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- INFORMATION -->
+
+            <div class="info">
+
+                <strong>Important:</strong>
+
+                Payment request submit hone ke baad transaction
+                verification ke liye pending rahegi. Actual payment
+                gateway/backend confirmation ke bina payment ko
+                successful mark nahi kiya jayega.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RECEIPT MODAL -->
+
+<div
+    class="modal"
+    id="receiptModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Payment Details
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeReceipt()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="receipt">
+
+            <div class="receipt-row">
+
+                <span>
+                    Amount
+                </span>
+
+                <strong id="rAmount">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Method
+                </span>
+
+                <strong id="rMethod">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Transaction ID
+                </span>
+
+                <strong id="rTxn">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Status
+                </span>
+
+                <strong
+                    id="rStatus"
+                    class="orange"
+                >
+                    Pending
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Date
+                </span>
+
+                <strong id="rDate">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="modal-btn"
+            onclick="closeReceipt()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
 <script>
 
 /* =========================================================
@@ -1222,3 +2167,6 @@ document
 );
 
 </script>
+
+</body>
+</html>
