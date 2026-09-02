@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Loans - LoanApp</title>
+
+    <title>My Loans - EasyLoan India</title>
 
     <style>
         * {
@@ -117,6 +118,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            gap: 10px;
         }
 
         .loan-title {
@@ -134,6 +136,7 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
+            flex-shrink: 0;
         }
 
         .loan-title h3 {
@@ -144,13 +147,17 @@
             margin-top: 4px;
             font-size: 10px;
             color: #7c8596;
+            word-break: break-word;
         }
+
+        /* STATUS */
 
         .status {
             padding: 6px 9px;
             border-radius: 20px;
             font-size: 9px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .pending {
@@ -173,7 +180,7 @@
             color: #155eef;
         }
 
-        /* LOAN AMOUNT */
+        /* AMOUNT */
 
         .amount-section {
             margin-top: 20px;
@@ -207,6 +214,7 @@
             background: #f7f8fa;
             border-radius: 10px;
             padding: 10px;
+            min-width: 0;
         }
 
         .info small {
@@ -219,6 +227,7 @@
             display: block;
             margin-top: 5px;
             font-size: 12px;
+            word-break: break-word;
         }
 
         /* PROGRESS */
@@ -245,7 +254,6 @@
 
         .progress-fill {
             height: 100%;
-            width: 35%;
             background: #155eef;
             border-radius: 20px;
         }
@@ -278,7 +286,7 @@
             color: #4f596a;
         }
 
-        /* NEXT EMI */
+        /* EMI */
 
         .emi-card {
             background: linear-gradient(135deg, #102a67, #155eef);
@@ -338,12 +346,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
         .history-left {
             display: flex;
             align-items: center;
             gap: 10px;
+            min-width: 0;
         }
 
         .history-icon {
@@ -355,6 +365,7 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            flex-shrink: 0;
         }
 
         .history-left h4 {
@@ -365,10 +376,12 @@
             color: #7d8796;
             font-size: 9px;
             margin-top: 4px;
+            word-break: break-word;
         }
 
         .history-amount {
             text-align: right;
+            flex-shrink: 0;
         }
 
         .history-amount strong {
@@ -480,6 +493,18 @@
             font-weight: bold;
         }
 
+        /* ERROR */
+
+        .error-box {
+            background: #fff0f0;
+            border: 1px solid #ffd0d0;
+            color: #c43333;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
         @media(max-width:360px) {
 
             .info-grid {
@@ -490,8 +515,14 @@
                 grid-template-columns: 1fr;
                 gap: 8px;
             }
+
+            .history-top {
+                align-items: flex-start;
+            }
         }
     </style>
+
+    <!-- FIREBASE -->
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -527,11 +558,13 @@
 
     <div class="tabs">
 
-        <div class="tab active" onclick="showTab('active', this)">
+        <div class="tab active"
+             onclick="showTab('active', this)">
             Active
         </div>
 
-        <div class="tab" onclick="showTab('history', this)">
+        <div class="tab"
+             onclick="showTab('history', this)">
             History
         </div>
 
@@ -540,28 +573,47 @@
 
     <div class="content">
 
-        <!-- ACTIVE LOANS -->
+        <!-- ACTIVE -->
 
         <div class="tab-content active" id="active">
+
             <div id="activeLoading" class="empty">
+
                 <div class="empty-icon">⏳</div>
+
                 <h3>Loading your loans...</h3>
-                <p>Please wait while we load your real loan data.</p>
+
+                <p>
+                    Please wait while we load your real loan data.
+                </p>
+
             </div>
+
             <div id="activeLoans"></div>
+
         </div>
 
 
         <!-- HISTORY -->
 
         <div class="tab-content" id="history">
+
             <div id="historyLoading" class="empty">
+
                 <div class="empty-icon">⏳</div>
+
                 <h3>Loading history...</h3>
-                <p>Please wait while we load your real loan history.</p>
+
+                <p>
+                    Please wait while we load your loan history.
+                </p>
+
             </div>
+
             <div id="loanHistory"></div>
+
         </div>
+
     </div>
 
 
@@ -569,29 +621,47 @@
 
     <div class="bottom-nav">
 
-        <div class="nav-item" onclick="go('index.html')">
+        <div class="nav-item"
+             onclick="go('index.html')">
+
             <div class="icon">🏠</div>
             Home
+
         </div>
+
 
         <div class="nav-item active">
+
             <div class="icon">📋</div>
             My Loans
+
         </div>
 
-        <div class="nav-item" onclick="go('apply-loan.html')">
+
+        <div class="nav-item"
+             onclick="go('apply-loan.html')">
+
             <div class="icon">➕</div>
             Apply
+
         </div>
 
-        <div class="nav-item" onclick="go('support.html')">
+
+        <div class="nav-item"
+             onclick="go('support.html')">
+
             <div class="icon">🎧</div>
             Support
+
         </div>
 
-        <div class="nav-item" onclick="go('profile.html')">
+
+        <div class="nav-item"
+             onclick="go('profile.html')">
+
             <div class="icon">👤</div>
             Profile
+
         </div>
 
     </div>
@@ -600,342 +670,1251 @@
 
 
 <script>
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
 const firebaseConfig = {
+
     apiKey: "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
     authDomain: "easyloan-india.firebaseapp.com",
+
     projectId: "easyloan-india",
+
     storageBucket: "easyloan-india.firebasestorage.app",
+
     messagingSenderId: "925263655882",
+
     appId: "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
 };
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const auth = firebase.auth();
+
 const database = firebase.database();
 
 let currentUser = null;
 
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
 function go(page) {
+
     window.location.href = page;
+
 }
+
+
+/* =====================================================
+   TABS
+===================================================== */
 
 function showTab(tabName, element) {
-    document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab => {
+            tab.classList.remove("active");
+        });
+
     element.classList.add("active");
-    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-    document.getElementById(tabName).classList.add("active");
+
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(content => {
+            content.classList.remove("active");
+        });
+
+
+    document
+        .getElementById(tabName)
+        .classList.add("active");
+
 }
+
+
+/* =====================================================
+   MONEY
+===================================================== */
 
 function money(value) {
-    if (value === undefined || value === null || value === "") return "—";
+
+    if (
+        value === undefined ||
+        value === null ||
+        value === ""
+    ) {
+        return "—";
+    }
+
     const n = Number(value);
-    return Number.isNaN(n) ? String(value) : "₹" + n.toLocaleString("en-IN");
+
+    if (Number.isNaN(n)) {
+        return String(value);
+    }
+
+    return "₹" + n.toLocaleString("en-IN");
+
 }
+
+
+/* =====================================================
+   DATE
+===================================================== */
 
 function dateText(value) {
-    if (!value) return "—";
-    const d = new Date(Number(value));
-    if (Number.isNaN(d.getTime())) return "—";
-    return d.toLocaleDateString("en-IN", {
-        day: "2-digit", month: "short", year: "numeric"
-    });
+
+    if (!value) {
+        return "—";
+    }
+
+    let d;
+
+    /*
+     * Firebase timestamp
+     */
+    if (
+        typeof value === "number" ||
+        !isNaN(Number(value))
+    ) {
+
+        d = new Date(Number(value));
+
+    } else {
+
+        d = new Date(value);
+
+    }
+
+
+    if (Number.isNaN(d.getTime())) {
+        return "—";
+    }
+
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
 }
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function esc(value) {
+
     return String(value ?? "")
-        .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;").replaceAll('"', "&quot;")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+
 }
+
+
+/* =====================================================
+   STATUS CLASS
+===================================================== */
 
 function statusClass(status) {
-    const s = String(status || "").toLowerCase();
-    if (s.includes("approved")) return "approved";
-    if (s.includes("disbursed") || s.includes("active")) return "disbursed";
-    if (s.includes("reject")) return "rejected";
+
+    const s =
+        String(status || "")
+        .toLowerCase()
+        .replaceAll("_", " ");
+
+    if (s.includes("approved")) {
+        return "approved";
+    }
+
+    if (
+        s.includes("disbursed") ||
+        s.includes("active")
+    ) {
+        return "disbursed";
+    }
+
+    if (
+        s.includes("reject")
+    ) {
+        return "rejected";
+    }
+
     return "pending";
+
 }
+
+
+/* =====================================================
+   STATUS TEXT
+===================================================== */
 
 function statusText(status) {
-    const s = String(status || "pending").toLowerCase();
+
+    const s =
+        String(status || "pending")
+        .toLowerCase()
+        .replaceAll("_", " ")
+        .trim();
+
+
     const map = {
+
         pending: "Pending",
+
+        "fee pending": "Payment Pending",
+
+        "review pending": "Under Review",
+
+        submitted: "Submitted",
+
         "under review": "Under Review",
+
         processing: "Processing",
+
         approved: "Approved",
+
         rejected: "Rejected",
+
         disbursed: "Disbursed",
+
         active: "Active",
+
         completed: "Completed",
+
         closed: "Closed"
+
     };
-    return map[s] || status || "Pending";
+
+
+    return map[s] || (
+        status || "Pending"
+    );
+
 }
+
+
+/* =====================================================
+   GET AMOUNT
+===================================================== */
 
 function amountOf(loan) {
-    return loan.amount ?? loan.loanAmount ?? loan.principal ?? null;
+
+    return (
+        loan.amount ??
+        loan.loanAmount ??
+        loan.requestedAmount ??
+        loan.principal ??
+        null
+    );
+
 }
+
+
+/* =====================================================
+   GET EMI
+===================================================== */
 
 function emiOf(loan) {
-    return loan.emi ?? loan.monthlyEmi ?? loan.monthlyEMI ?? null;
+
+    return (
+        loan.emi ??
+        loan.monthlyEmi ??
+        loan.monthlyEMI ??
+        loan.monthlyPayment ??
+        null
+    );
+
 }
+
+
+/* =====================================================
+   GET TENURE
+===================================================== */
 
 function tenureOf(loan) {
-    return loan.tenure ?? loan.tenureMonths ?? loan.durationMonths ?? null;
+
+    return (
+        loan.tenure ??
+        loan.tenureMonths ??
+        loan.durationMonths ??
+        null
+    );
+
 }
+
+
+/* =====================================================
+   GET INTEREST
+===================================================== */
 
 function interestOf(loan) {
-    return loan.interestRate ?? loan.interest ?? loan.rate ?? null;
+
+    return (
+        loan.interestRate ??
+        loan.interest ??
+        loan.rate ??
+        null
+    );
+
 }
+
+
+/* =====================================================
+   GET APPLICATION ID
+===================================================== */
 
 function idOf(loan) {
-    return loan.applicationId ?? loan.loanNumber ??
-        loan.applicationNumber ?? loan.loanId ?? loan._id;
+
+    return (
+        loan.applicationId ??
+        loan.applicationNumber ??
+        loan.loanNumber ??
+        loan.loanId ??
+        loan._id ??
+        "Application"
+    );
+
 }
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
 
 function progressOf(loan) {
-    const s = String(loan.status || "").toLowerCase();
-    if (s === "completed" || s === "closed" || s === "rejected") return 100;
-    if (s === "disbursed" || s === "active") return 90;
-    if (s === "approved") return 70;
+
+    const s =
+        String(loan.status || "")
+        .toLowerCase()
+        .replaceAll("_", " ")
+        .trim();
+
+
+    if (
+        s === "completed" ||
+        s === "closed"
+    ) {
+        return 100;
+    }
+
+
+    if (s === "rejected") {
+        return 100;
+    }
+
+
+    if (
+        s === "disbursed" ||
+        s === "active"
+    ) {
+        return 90;
+    }
+
+
+    if (s === "approved") {
+        return 70;
+    }
+
+
+    if (
+        s === "processing" ||
+        s === "under review" ||
+        s === "review pending"
+    ) {
+        return 60;
+    }
+
+
+    if (
+        s === "submitted"
+    ) {
+        return 50;
+    }
+
+
     return 35;
+
 }
+
+
+/* =====================================================
+   VIEW DETAILS
+===================================================== */
 
 function viewDetails(id) {
-    window.location.href = "loan-details.html?id=" + encodeURIComponent(id);
+
+    if (!id) return;
+
+    window.location.href =
+        "loan-details.html?id=" +
+        encodeURIComponent(id);
+
 }
+
+
+/* =====================================================
+   REPAYMENT
+===================================================== */
 
 function openRepayment(id) {
-    window.location.href = "repayment.html?id=" + encodeURIComponent(id);
+
+    if (!id) return;
+
+    window.location.href =
+        "repayment.html?id=" +
+        encodeURIComponent(id);
+
 }
+
+
+/* =====================================================
+   ACTIVE LOANS
+===================================================== */
 
 function renderActive(loans) {
-    const box = document.getElementById("activeLoans");
-    document.getElementById("activeLoading").style.display = "none";
+
+    const box =
+        document.getElementById("activeLoans");
+
+    document.getElementById(
+        "activeLoading"
+    ).style.display = "none";
+
+
     box.innerHTML = "";
 
-    const active = loans.filter(loan => {
-        const s = String(loan.status || "").toLowerCase();
-        return ["pending", "under review", "processing", "approved",
-                "disbursed", "active"].includes(s);
-    });
+
+    const active =
+        loans.filter(loan => {
+
+            const s =
+                String(loan.status || "")
+                .toLowerCase()
+                .replaceAll("_", " ")
+                .trim();
+
+
+            return [
+
+                "pending",
+
+                "fee pending",
+
+                "review pending",
+
+                "under review",
+
+                "processing",
+
+                "approved",
+
+                "disbursed",
+
+                "active"
+
+            ].includes(s);
+
+        });
+
 
     if (!active.length) {
+
         box.innerHTML = `
+
             <div class="empty">
-                <div class="empty-icon">📋</div>
-                <h3>No active loan</h3>
-                <p>You do not have any active or pending loan application.</p>
-                <button onclick="go('apply-loan.html')">Apply for Loan</button>
-            </div>`;
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                <h3>
+                    No active loan
+                </h3>
+
+                <p>
+                    You do not have any active
+                    or pending loan application.
+                </p>
+
+                <button
+                    onclick="go('apply-loan.html')">
+                    Apply for Loan
+                </button>
+
+            </div>
+
+        `;
+
         return;
+
     }
+
 
     active.forEach(loan => {
-        const id = loan._id;
-        const amount = amountOf(loan);
-        const emi = emiOf(loan);
-        const tenure = tenureOf(loan);
-        const interest = interestOf(loan);
-        const progress = progressOf(loan);
-        const status = statusText(loan.status);
-        const title = loan.loanType || "Loan";
-        const loanId = idOf(loan);
 
-        const card = document.createElement("div");
+        const id = loan._id;
+
+        const amount = amountOf(loan);
+
+        const emi = emiOf(loan);
+
+        const tenure = tenureOf(loan);
+
+        const interest = interestOf(loan);
+
+        const progress = progressOf(loan);
+
+        const status =
+            statusText(loan.status);
+
+        const title =
+            loan.loanType ||
+            loan.loanCategory ||
+            "Personal Loan";
+
+        const loanId =
+            idOf(loan);
+
+
+        const card =
+            document.createElement("div");
+
         card.className = "loan-card";
+
+
         card.innerHTML = `
+
             <div class="loan-card-top">
+
                 <div class="loan-title">
-                    <div class="loan-icon">💰</div>
-                    <div>
-                        <h3>${esc(title)}</h3>
-                        <p>Application #${esc(loanId)}</p>
+
+                    <div class="loan-icon">
+                        💰
                     </div>
+
+                    <div>
+
+                        <h3>
+                            ${esc(title)}
+                        </h3>
+
+                        <p>
+                            Application #
+                            ${esc(loanId)}
+                        </p>
+
+                    </div>
+
                 </div>
-                <div class="status ${statusClass(loan.status)}">${esc(status)}</div>
+
+
+                <div class="status
+                    ${statusClass(loan.status)}">
+
+                    ${esc(status)}
+
+                </div>
+
             </div>
+
 
             <div class="amount-section">
-                <small>${String(loan.status || "").toLowerCase() === "approved" ? "Approved Amount" : "Loan Amount"}</small>
-                <h2>${money(amount)}</h2>
+
+                <small>
+                    Loan Amount
+                </small>
+
+                <h2>
+                    ${money(amount)}
+                </h2>
+
             </div>
+
 
             <div class="info-grid">
+
                 <div class="info">
-                    <small>Tenure</small>
-                    <strong>${tenure !== null ? esc(tenure) + " Months" : "—"}</strong>
+
+                    <small>
+                        Tenure
+                    </small>
+
+                    <strong>
+                        ${
+                            tenure !== null
+                            ? esc(tenure) + " Months"
+                            : "—"
+                        }
+                    </strong>
+
                 </div>
+
+
                 <div class="info">
-                    <small>Interest</small>
-                    <strong>${interest !== null ? esc(interest) + (String(interest).includes("%") ? "" : "% p.a.") : "—"}</strong>
+
+                    <small>
+                        Interest
+                    </small>
+
+                    <strong>
+
+                        ${
+                            interest !== null
+                            ? esc(interest) +
+                              (
+                                String(interest)
+                                .includes("%")
+                                ? ""
+                                : "% p.a."
+                              )
+                            : "—"
+                        }
+
+                    </strong>
+
                 </div>
+
+
                 <div class="info">
-                    <small>EMI</small>
-                    <strong>${money(emi)}</strong>
+
+                    <small>
+                        EMI
+                    </small>
+
+                    <strong>
+                        ${money(emi)}
+                    </strong>
+
                 </div>
+
             </div>
+
 
             <div class="loan-progress">
+
                 <div class="progress-label">
-                    <span>Application Progress</span><span>${progress}%</span>
+
+                    <span>
+                        Application Progress
+                    </span>
+
+                    <span>
+                        ${progress}%
+                    </span>
+
                 </div>
+
+
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width:${progress}%"></div>
+
+                    <div
+                        class="progress-fill"
+                        style="width:${progress}%">
+                    </div>
+
                 </div>
+
             </div>
+
 
             <div class="card-buttons">
-                <button class="btn secondary" onclick="viewDetails('${String(id).replaceAll("'", "\\'")}')">View Details</button>
-                <button class="btn primary" onclick="openRepayment('${String(id).replaceAll("'", "\\'")}')">
-                    ${["approved", "disbursed", "active"].includes(String(loan.status || "").toLowerCase()) ? "Repayment" : "View"}
+
+                <button
+                    class="btn secondary"
+                    onclick="viewDetails('${String(id).replaceAll("'", "\\'")}')">
+
+                    View Details
+
                 </button>
-            </div>`;
+
+
+                <button
+                    class="btn primary"
+                    onclick="openRepayment('${String(id).replaceAll("'", "\\'")}')">
+
+                    ${
+                        [
+                            "approved",
+                            "disbursed",
+                            "active"
+                        ].includes(
+                            String(loan.status || "")
+                            .toLowerCase()
+                        )
+                        ? "Repayment"
+                        : "View"
+                    }
+
+                </button>
+
+            </div>
+
+        `;
+
+
         box.appendChild(card);
+
     });
+
 }
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
 
 function renderHistory(loans) {
-    const box = document.getElementById("loanHistory");
-    document.getElementById("historyLoading").style.display = "none";
+
+    const box =
+        document.getElementById("loanHistory");
+
+
+    document.getElementById(
+        "historyLoading"
+    ).style.display = "none";
+
+
     box.innerHTML = "";
 
-    const history = loans.filter(loan =>
-        ["completed", "closed", "rejected"].includes(
-            String(loan.status || "").toLowerCase()
-        )
-    );
+
+    /*
+     * IMPORTANT:
+     *
+     * Submitted application is also history.
+     */
+
+    const history =
+        loans.filter(loan => {
+
+            const s =
+                String(loan.status || "")
+                .toLowerCase()
+                .replaceAll("_", " ")
+                .trim();
+
+
+            return [
+
+                "submitted",
+
+                "completed",
+
+                "closed",
+
+                "rejected"
+
+            ].includes(s);
+
+        });
+
 
     if (!history.length) {
+
         box.innerHTML = `
+
             <div class="empty">
-                <div class="empty-icon">🗂️</div>
-                <h3>No loan history</h3>
-                <p>Your completed or rejected loan applications will appear here.</p>
-            </div>`;
+
+                <div class="empty-icon">
+                    🗂️
+                </div>
+
+                <h3>
+                    No loan history
+                </h3>
+
+                <p>
+                    Your submitted, completed,
+                    closed or rejected loan
+                    applications will appear here.
+                </p>
+
+            </div>
+
+        `;
+
         return;
+
     }
+
 
     history.forEach(loan => {
+
         const id = loan._id;
-        const card = document.createElement("div");
-        card.className = "history-card";
+
+        const status =
+            statusText(loan.status);
+
+        const title =
+            loan.loanType ||
+            loan.loanCategory ||
+            "Personal Loan";
+
+
+        const applicationId =
+            idOf(loan);
+
+
+        const amount =
+            amountOf(loan);
+
+
+        const tenure =
+            tenureOf(loan);
+
+
+        const emi =
+            emiOf(loan);
+
+
+        const date =
+            loan.submittedAt ||
+            loan.updatedAt ||
+            loan.createdAt ||
+            loan.timestamp;
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "history-card";
+
+
         card.innerHTML = `
+
             <div class="history-top">
+
                 <div class="history-left">
-                    <div class="history-icon">💰</div>
-                    <div>
-                        <h4>${esc(loan.loanType || "Loan")}</h4>
-                        <p>${esc(idOf(loan))} • ${esc(statusText(loan.status))}</p>
+
+                    <div class="history-icon">
+                        💰
                     </div>
+
+                    <div>
+
+                        <h4>
+                            ${esc(title)}
+                        </h4>
+
+                        <p>
+                            ${esc(applicationId)}
+                            •
+                            ${esc(status)}
+                        </p>
+
+                    </div>
+
                 </div>
+
+
                 <div class="history-amount">
-                    <strong>${money(amountOf(loan))}</strong>
-                    <small>${esc(statusText(loan.status))}</small>
+
+                    <strong>
+                        ${money(amount)}
+                    </strong>
+
+                    <small>
+                        ${esc(status)}
+                    </small>
+
                 </div>
+
             </div>
+
 
             <div class="history-details">
+
                 <div>
-                    <small>Tenure</small>
-                    <strong>${tenureOf(loan) !== null ? esc(tenureOf(loan)) + " Months" : "—"}</strong>
+
+                    <small>
+                        Tenure
+                    </small>
+
+                    <strong>
+                        ${
+                            tenure !== null
+                            ? esc(tenure) + " Months"
+                            : "—"
+                        }
+                    </strong>
+
                 </div>
+
+
                 <div>
-                    <small>EMI</small>
-                    <strong>${money(emiOf(loan))}</strong>
+
+                    <small>
+                        EMI
+                    </small>
+
+                    <strong>
+                        ${money(emi)}
+                    </strong>
+
                 </div>
+
+
                 <div>
-                    <small>Date</small>
-                    <strong>${esc(dateText(loan.completedAt || loan.updatedAt || loan.createdAt))}</strong>
+
+                    <small>
+                        Date
+                    </small>
+
+                    <strong>
+                        ${esc(dateText(date))}
+                    </strong>
+
                 </div>
-            </div>`;
+
+            </div>
+
+
+            <div class="card-buttons">
+
+                <button
+                    class="btn primary"
+                    onclick="viewDetails('${String(id).replaceAll("'", "\\'")}')">
+
+                    View Details
+
+                </button>
+
+            </div>
+
+        `;
+
+
         box.appendChild(card);
+
     });
+
 }
+
+
+/* =====================================================
+   NEXT EMI
+===================================================== */
 
 function renderNextEmi(loans) {
-    const loan = loans.find(l =>
-        ["approved", "disbursed", "active"].includes(
-            String(l.status || "").toLowerCase()
-        )
-    );
 
-    if (!loan) return;
+    const loan =
+        loans.find(l => {
 
-    const emi = emiOf(loan);
-    const due = loan.nextEmiDate || loan.nextDueDate || loan.dueDate;
+            const s =
+                String(l.status || "")
+                .toLowerCase()
+                .replaceAll("_", " ")
+                .trim();
 
-    if (emi === null && !due) return;
 
-    const card = document.createElement("div");
-    card.className = "emi-card";
-    card.innerHTML = `
-        <div class="emi-top">
-            <div>
-                <small>Next EMI</small>
-                <h3>${money(emi)}</h3>
-            </div>
-            <div class="calendar">📅</div>
-        </div>
-        <div class="emi-bottom">
-            <span>Due Date</span>
-            <strong>${esc(dateText(due))}</strong>
-        </div>`;
+            return [
 
-    document.getElementById("activeLoans").before(card);
-}
+                "approved",
+                "disbursed",
+                "active"
 
-async function loadLoans() {
-    if (!currentUser) return;
+            ].includes(s);
 
-    try {
-        const snap = await database.ref("loans/" + currentUser.uid).once("value");
-        const raw = snap.val() || {};
+        });
 
-        const loans = Object.entries(raw).map(([id, loan]) => ({
-            ...(loan || {}),
-            _id: id
-        }));
 
-        loans.sort((a, b) =>
-            Number(b.createdAt || b.timestamp || 0) -
-            Number(a.createdAt || a.timestamp || 0)
-        );
-
-        renderActive(loans);
-        renderHistory(loans);
-        renderNextEmi(loans);
-
-    } catch (error) {
-        console.error("Firebase loan loading error:", error);
-
-        document.getElementById("activeLoading").innerHTML = `
-            <div class="empty">
-                <div class="empty-icon">⚠️</div>
-                <h3>Unable to load loans</h3>
-                <p>Firebase permission or connection problem.</p>
-                <button onclick="loadLoans()">Retry</button>
-            </div>`;
-
-        document.getElementById("historyLoading").innerHTML = `
-            <div class="empty">
-                <div class="empty-icon">⚠️</div>
-                <h3>Unable to load history</h3>
-                <p>Check your Firebase Realtime Database Rules.</p>
-            </div>`;
-    }
-}
-
-auth.onAuthStateChanged(user => {
-    if (!user) {
-        window.location.replace("login.html");
+    if (!loan) {
         return;
     }
 
+
+    const emi =
+        emiOf(loan);
+
+
+    const due =
+        loan.nextEmiDate ||
+        loan.nextDueDate ||
+        loan.dueDate;
+
+
+    if (
+        emi === null &&
+        !due
+    ) {
+        return;
+    }
+
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "emi-card";
+
+
+    card.innerHTML = `
+
+        <div class="emi-top">
+
+            <div>
+
+                <small>
+                    Next EMI
+                </small>
+
+                <h3>
+                    ${money(emi)}
+                </h3>
+
+            </div>
+
+            <div class="calendar">
+                📅
+            </div>
+
+        </div>
+
+
+        <div class="emi-bottom">
+
+            <span>
+                Due Date
+            </span>
+
+            <strong>
+                ${esc(dateText(due))}
+            </strong>
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById("activeLoans")
+        .before(card);
+
+}
+
+
+/* =====================================================
+   LOAD LOANS
+===================================================== */
+
+async function loadLoans() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    try {
+
+        /*
+         * IMPORTANT:
+         *
+         * apply-loan.html saves here:
+         *
+         * loanApplications/{uid}
+         *
+         * NOT:
+         * loans/{uid}
+         */
+
+        const ref =
+            database.ref(
+                "loanApplications/" +
+                currentUser.uid
+            );
+
+
+        const snap =
+            await ref.once("value");
+
+
+        const data =
+            snap.val();
+
+
+        let loans = [];
+
+
+        /*
+         * Current LoanApp structure:
+         *
+         * loanApplications
+         *     └── UID
+         *          ├── loanType
+         *          ├── amount
+         *          ├── status
+         *          └── ...
+         */
+
+        if (data) {
+
+            loans.push({
+
+                ...(data || {}),
+
+                _id: currentUser.uid
+
+            });
+
+        }
+
+
+        /*
+         * Sort newest first
+         */
+
+        loans.sort((a, b) => {
+
+            const dateA =
+                Number(
+                    a.submittedAt ||
+                    a.updatedAt ||
+                    a.createdAt ||
+                    a.timestamp ||
+                    0
+                );
+
+
+            const dateB =
+                Number(
+                    b.submittedAt ||
+                    b.updatedAt ||
+                    b.createdAt ||
+                    b.timestamp ||
+                    0
+                );
+
+
+            return dateB - dateA;
+
+        });
+
+
+        /*
+         * Render everything
+         */
+
+        renderActive(loans);
+
+        renderHistory(loans);
+
+        renderNextEmi(loans);
+
+
+        console.log(
+            "Loan application loaded:",
+            data
+        );
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Firebase loanApplications error:",
+            error
+        );
+
+
+        document.getElementById(
+            "activeLoading"
+        ).innerHTML = `
+
+            <div class="error-box">
+
+                <strong>
+                    ⚠️ Unable to load loans
+                </strong>
+
+                <br><br>
+
+                Firebase error:
+
+                <br>
+
+                ${esc(error.message)}
+
+                <br><br>
+
+                Please check Firebase
+                Realtime Database Rules.
+
+                <br><br>
+
+                <button
+                    onclick="loadLoans()">
+
+                    Retry
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        document.getElementById(
+            "historyLoading"
+        ).style.display = "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+auth.onAuthStateChanged(user => {
+
+    if (!user) {
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
     currentUser = user;
+
+
+    console.log(
+        "Logged in UID:",
+        currentUser.uid
+    );
+
+
     loadLoans();
+
 });
+
 </script>
 
 </body>
