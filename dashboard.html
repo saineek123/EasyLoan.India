@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>My Loans | LoanApp</title>
+<title>My Loans | EasyLoan India</title>
 
 <style>
 
@@ -47,11 +48,9 @@ body{
     height:40px;
     border-radius:50%;
     background:rgba(255,255,255,.18);
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:21px;
     cursor:pointer;
 }
@@ -76,6 +75,29 @@ body{
     padding:20px;
 }
 
+/* ERROR */
+
+.error-box{
+    display:none;
+    background:#ffe9e9;
+    color:#b42318;
+    padding:13px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-size:10px;
+}
+
+/* LOADING */
+
+.loading{
+    background:white;
+    border-radius:17px;
+    padding:35px 20px;
+    text-align:center;
+    color:#8992a1;
+    font-size:10px;
+}
+
 /* SUMMARY */
 
 .summary{
@@ -98,11 +120,9 @@ body{
     border-radius:10px;
     background:#eef3ff;
     color:#155eef;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:17px;
 }
 
@@ -187,11 +207,9 @@ body{
     border-radius:11px;
     background:#eef3ff;
     color:#155eef;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:20px;
 }
 
@@ -204,6 +222,7 @@ body{
     margin-top:4px;
     color:#8992a1;
     font-size:7px;
+    word-break:break-all;
 }
 
 .loan-status{
@@ -213,19 +232,24 @@ body{
     font-weight:bold;
 }
 
-.active{
+.status-active{
     background:#e7f8ef;
     color:#168352;
 }
 
-.pending{
+.status-pending{
     background:#fff4dd;
     color:#b96c00;
 }
 
-.closed{
+.status-closed{
     background:#edf0f4;
     color:#667085;
+}
+
+.status-rejected{
+    background:#ffe9e9;
+    color:#d23b3b;
 }
 
 /* DETAILS */
@@ -253,6 +277,7 @@ body{
     display:block;
     margin-top:5px;
     font-size:10px;
+    word-break:break-word;
 }
 
 /* PROGRESS */
@@ -278,9 +303,10 @@ body{
 
 .progress-bar{
     height:100%;
-    width:47.5%;
+    width:0%;
     background:#155eef;
     border-radius:20px;
+    transition:.4s;
 }
 
 .progress-note{
@@ -295,7 +321,6 @@ body{
     margin-top:17px;
     padding-top:15px;
     border-top:1px solid #edf0f4;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -336,7 +361,7 @@ body{
     color:white;
 }
 
-/* EMPTY / CLOSED */
+/* CLOSED */
 
 .closed-section{
     margin-top:25px;
@@ -366,7 +391,6 @@ body{
     height:38px;
     border-radius:10px;
     background:#f0f2f5;
-
     display:flex;
     align-items:center;
     justify-content:center;
@@ -396,6 +420,31 @@ body{
     font-weight:bold;
 }
 
+/* EMPTY */
+
+.empty{
+    background:white;
+    border-radius:17px;
+    padding:45px 20px;
+    text-align:center;
+    display:none;
+}
+
+.empty-icon{
+    font-size:42px;
+}
+
+.empty h3{
+    margin-top:10px;
+    font-size:15px;
+}
+
+.empty p{
+    margin-top:6px;
+    color:#8992a1;
+    font-size:9px;
+}
+
 /* MODAL */
 
 .modal{
@@ -404,10 +453,8 @@ body{
     inset:0;
     background:rgba(0,0,0,.55);
     z-index:500;
-
     align-items:center;
     justify-content:center;
-
     padding:20px;
 }
 
@@ -446,6 +493,7 @@ body{
 .modal-row{
     display:flex;
     justify-content:space-between;
+    gap:15px;
     padding:11px 0;
     border-bottom:1px solid #edf0f4;
     font-size:9px;
@@ -453,6 +501,11 @@ body{
 
 .modal-row span{
     color:#8992a1;
+}
+
+.modal-row strong{
+    text-align:right;
+    word-break:break-word;
 }
 
 .modal-row:last-child{
@@ -571,7 +624,7 @@ body{
                 </h2>
 
                 <p>
-                    View and manage all your loan accounts
+                    View and manage your loan accounts
                 </p>
 
             </div>
@@ -582,6 +635,11 @@ body{
 
 
     <div class="content">
+
+        <div
+            class="error-box"
+            id="errorBox"
+        ></div>
 
 
         <!-- SUMMARY -->
@@ -598,8 +656,11 @@ body{
                     Total Borrowed
                 </div>
 
-                <div class="summary-value">
-                    ₹1,50,000
+                <div
+                    class="summary-value"
+                    id="totalBorrowed"
+                >
+                    ₹0
                 </div>
 
             </div>
@@ -615,8 +676,11 @@ body{
                     Total Repaid
                 </div>
 
-                <div class="summary-value">
-                    ₹47,500
+                <div
+                    class="summary-value"
+                    id="totalRepaid"
+                >
+                    ₹0
                 </div>
 
             </div>
@@ -632,8 +696,11 @@ body{
                     Outstanding
                 </div>
 
-                <div class="summary-value">
-                    ₹1,02,500
+                <div
+                    class="summary-value"
+                    id="outstanding"
+                >
+                    ₹0
                 </div>
 
             </div>
@@ -649,8 +716,11 @@ body{
                     Total Loans
                 </div>
 
-                <div class="summary-value">
-                    3
+                <div
+                    class="summary-value"
+                    id="totalLoans"
+                >
+                    0
                 </div>
 
             </div>
@@ -658,12 +728,12 @@ body{
         </div>
 
 
-        <!-- ACTIVE LOANS -->
+        <!-- ACTIVE -->
 
         <div class="section-title">
 
             <h3>
-                Active Loans
+                My Loan Application
             </h3>
 
             <button
@@ -676,361 +746,72 @@ body{
         </div>
 
 
-        <!-- ACTIVE LOAN 1 -->
+        <!-- LOADING -->
 
-        <div class="loan-card">
-
-            <div class="loan-top">
-
-                <div class="loan-title">
-
-                    <div class="loan-icon">
-                        💰
-                    </div>
-
-                    <div>
-
-                        <div class="loan-name">
-                            Personal Loan
-                        </div>
-
-                        <div class="loan-id">
-                            Loan ID: LN-10243
-                        </div>
-
-                    </div>
-
-                </div>
+        <div
+            class="loading"
+            id="loading"
+        >
+            Loading your loan data...
+        </div>
 
 
-                <div class="loan-status active">
-                    Active
-                </div>
+        <!-- LOAN CONTAINER -->
 
+        <div id="loanContainer"></div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="empty"
+            id="emptyState"
+        >
+
+            <div class="empty-icon">
+                💰
             </div>
 
+            <h3>
+                No Loan Found
+            </h3>
 
-            <div class="loan-details">
+            <p>
+                You don't have any loan application yet.
+            </p>
 
-                <div class="detail">
-
-                    <span>
-                        Loan Amount
-                    </span>
-
-                    <strong>
-                        ₹1,00,000
-                    </strong>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        Outstanding
-                    </span>
-
-                    <strong>
-                        ₹52,500
-                    </strong>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        EMI
-                    </span>
-
-                    <strong>
-                        ₹8,250
-                    </strong>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        Interest
-                    </span>
-
-                    <strong>
-                        18% p.a.
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="progress-box">
-
-                <div class="progress-top">
-
-                    <span>
-                        Repayment Progress
-                    </span>
-
-                    <strong>
-                        47.5%
-                    </strong>
-
-                </div>
-
-                <div class="progress">
-
-                    <div
-                        class="progress-bar"
-                        style="width:47.5%"
-                    ></div>
-
-                </div>
-
-                <div class="progress-note">
-                    5 of 12 EMIs completed
-                </div>
-
-            </div>
-
-
-            <div class="loan-bottom">
-
-                <div class="next-emi">
-
-                    <span>
-                        Next EMI
-                    </span>
-
-                    <strong>
-                        ₹8,250 • 10 Sep 2026
-                    </strong>
-
-                </div>
-
-
-                <div class="loan-actions">
-
-                    <button
-                        class="btn"
-                        onclick="showDetails()"
-                    >
-                        View Details
-                    </button>
-
-                    <button
-                        class="btn primary"
-                        onclick="go('repayment.html')"
-                    >
-                        Pay EMI
-                    </button>
-
-                </div>
-
-            </div>
+            <button
+                class="modal-btn"
+                onclick="go('apply-loan.html')"
+            >
+                Apply For Loan
+            </button>
 
         </div>
 
 
-        <!-- SECOND ACTIVE LOAN -->
+        <!-- CLOSED -->
 
-        <div class="loan-card">
-
-            <div class="loan-top">
-
-                <div class="loan-title">
-
-                    <div
-                        class="loan-icon"
-                        style="
-                        background:#f1eaff;
-                        color:#7544d8;
-                        "
-                    >
-                        🛍️
-                    </div>
-
-                    <div>
-
-                        <div class="loan-name">
-                            Consumer Loan
-                        </div>
-
-                        <div class="loan-id">
-                            Loan ID: LN-10087
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="loan-status pending">
-                    Processing
-                </div>
-
-            </div>
-
-
-            <div class="loan-details">
-
-                <div class="detail">
-
-                    <span>
-                        Loan Amount
-                    </span>
-
-                    <strong>
-                        ₹50,000
-                    </strong>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        Status
-                    </span>
-
-                    <strong>
-                        Under Review
-                    </strong>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        Applied On
-                    </span>
-
-                    <strong>
-                        14 Aug 2026
-                    </strong>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        Application ID
-                    </span>
-
-                    <strong>
-                        APP-20481
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="loan-bottom">
-
-                <div class="next-emi">
-
-                    <span>
-                        Current Status
-                    </span>
-
-                    <strong>
-                        Documents under review
-                    </strong>
-
-                </div>
-
-
-                <div class="loan-actions">
-
-                    <button
-                        class="btn"
-                        onclick="showPending()"
-                    >
-                        View Status
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- CLOSED LOANS -->
-
-        <div class="closed-section">
+        <div
+            class="closed-section"
+            id="closedSection"
+            style="display:none"
+        >
 
             <div class="section-title">
 
                 <h3>
-                    Closed Loans
+                    Loan History
                 </h3>
 
             </div>
 
-
-            <div class="closed-card">
-
-
-                <div class="closed-loan">
-
-                    <div class="closed-icon">
-                        ✓
-                    </div>
-
-                    <div class="closed-info">
-
-                        <strong>
-                            Personal Loan
-                        </strong>
-
-                        <p>
-                            LN-09821 • ₹50,000 • Closed 15 Jan 2026
-                        </p>
-
-                    </div>
-
-                    <div class="closed-status">
-                        Closed
-                    </div>
-
-                </div>
-
-
-                <div class="closed-loan">
-
-                    <div class="closed-icon">
-                        ✓
-                    </div>
-
-                    <div class="closed-info">
-
-                        <strong>
-                            Emergency Loan
-                        </strong>
-
-                        <p>
-                            LN-08452 • ₹25,000 • Closed 20 Sep 2025
-                        </p>
-
-                    </div>
-
-                    <div class="closed-status">
-                        Closed
-                    </div>
-
-                </div>
-
-
-            </div>
+            <div
+                class="closed-card"
+                id="closedContainer"
+            ></div>
 
         </div>
-
 
     </div>
 
@@ -1042,6 +823,7 @@ body{
 <div
     class="modal"
     id="detailsModal"
+    onclick="outsideModal(event,'detailsModal')"
 >
 
     <div class="modal-box">
@@ -1062,121 +844,10 @@ body{
         </div>
 
 
-        <div class="modal-loan">
-
-
-            <div class="modal-row">
-
-                <span>
-                    Loan ID
-                </span>
-
-                <strong>
-                    LN-10243
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Loan Type
-                </span>
-
-                <strong>
-                    Personal Loan
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Principal Amount
-                </span>
-
-                <strong>
-                    ₹1,00,000
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Outstanding
-                </span>
-
-                <strong>
-                    ₹52,500
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Interest Rate
-                </span>
-
-                <strong>
-                    18% p.a.
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Tenure
-                </span>
-
-                <strong>
-                    12 Months
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    EMI
-                </span>
-
-                <strong>
-                    ₹8,250 / month
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Next Due Date
-                </span>
-
-                <strong>
-                    10 Sep 2026
-                </strong>
-
-            </div>
-
-
-            <button
-                class="modal-btn"
-                onclick="go('repayment.html')"
-            >
-                Pay Next EMI
-            </button>
-
-        </div>
+        <div
+            class="modal-loan"
+            id="detailsContent"
+        ></div>
 
     </div>
 
@@ -1188,6 +859,7 @@ body{
 <div
     class="modal"
     id="pendingModal"
+    onclick="outsideModal(event,'pendingModal')"
 >
 
     <div class="modal-box">
@@ -1208,163 +880,1829 @@ body{
         </div>
 
 
-        <div class="modal-loan">
-
-            <div class="modal-row">
-
-                <span>
-                    Application ID
-                </span>
-
-                <strong>
-                    APP-20481
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Loan Type
-                </span>
-
-                <strong>
-                    Consumer Loan
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Amount
-                </span>
-
-                <strong>
-                    ₹50,000
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Status
-                </span>
-
-                <strong style="color:#b96c00">
-                    Under Review
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Applied Date
-                </span>
-
-                <strong>
-                    14 Aug 2026
-                </strong>
-
-            </div>
-
-
-            <button
-                class="modal-btn"
-                onclick="closePending()"
-            >
-                Done
-            </button>
-
-        </div>
+        <div
+            class="modal-loan"
+            id="pendingContent"
+        ></div>
 
     </div>
 
 </div>
 
 
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+
 <script>
 
-/* NAVIGATION */
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+
+    authDomain:
+        "easyloan-india.firebaseapp.com",
+
+    databaseURL:
+        "https://easyloan-india-default-rtdb.firebaseio.com",
+
+    projectId:
+        "easyloan-india",
+
+    storageBucket:
+        "easyloan-india.firebasestorage.app",
+
+    messagingSenderId:
+        "925263655882",
+
+    appId:
+        "1:925263655882:web:0dd41e9964bd9a7a93d533"
+
+};
+
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+
+const auth =
+    firebase.auth();
+
+const db =
+    firebase.database();
+
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+let currentUser = null;
+
+let loanData = null;
+
+let paymentData = [];
+
+let currentLoanId = null;
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
 
 function go(page){
 
-    window.location.href = page;
+    window.location.href =
+        page;
 
 }
 
 
-/* LOAN DETAILS */
+/* =========================================
+   MONEY
+========================================= */
+
+function money(value){
+
+    const number =
+        Number(value) || 0;
+
+    return "₹" +
+        number.toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+function formatDate(value){
+
+    if(!value){
+
+        return "--";
+
+    }
+
+    let date;
+
+
+    if(typeof value === "number"){
+
+        date =
+            new Date(value);
+
+    }else{
+
+        date =
+            new Date(value);
+
+    }
+
+
+    if(isNaN(date.getTime())){
+
+        return "--";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================
+   GET DATE VALUE
+========================================= */
+
+function getDateValue(data){
+
+    return (
+        data.submittedAt ||
+        data.createdAt ||
+        data.appliedAt ||
+        data.applicationDate ||
+        data.updatedAt ||
+        null
+    );
+
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+function normalizeStatus(status){
+
+    return String(
+        status || "pending"
+    )
+    .toLowerCase()
+    .replace(/-/g,"_")
+    .trim();
+
+}
+
+
+function statusText(status){
+
+    const s =
+        normalizeStatus(status);
+
+
+    const map = {
+
+        pending:"Pending",
+
+        review_pending:"Under Review",
+
+        under_review:"Under Review",
+
+        processing:"Processing",
+
+        submitted:"Submitted",
+
+        approved:"Approved",
+
+        disbursed:"Disbursed",
+
+        active:"Active",
+
+        completed:"Completed",
+
+        closed:"Closed",
+
+        rejected:"Rejected",
+
+        cancelled:"Cancelled",
+
+        canceled:"Cancelled"
+
+    };
+
+
+    return map[s] ||
+        String(status || "Pending")
+            .replace(/_/g," ")
+            .replace(/\b\w/g,function(c){
+                return c.toUpperCase();
+            });
+
+}
+
+
+/* =========================================
+   STATUS CLASS
+========================================= */
+
+function statusClass(status){
+
+    const s =
+        normalizeStatus(status);
+
+
+    if(
+        s === "active" ||
+        s === "approved" ||
+        s === "disbursed"
+    ){
+
+        return "status-active";
+
+    }
+
+
+    if(
+        s === "closed" ||
+        s === "completed"
+    ){
+
+        return "status-closed";
+
+    }
+
+
+    if(
+        s === "rejected" ||
+        s === "cancelled" ||
+        s === "canceled"
+    ){
+
+        return "status-rejected";
+
+    }
+
+
+    return "status-pending";
+
+}
+
+
+/* =========================================
+   IS PAID PAYMENT
+========================================= */
+
+function isPaidPayment(payment){
+
+    const s =
+        String(
+            payment.status || ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    return (
+        s === "completed" ||
+        s === "complete" ||
+        s === "verified" ||
+        s === "success" ||
+        s === "successful" ||
+        s === "paid"
+    );
+
+}
+
+
+/* =========================================
+   AUTH
+========================================= */
+
+auth.onAuthStateChanged(
+    async function(user){
+
+        try{
+
+            if(user){
+
+                currentUser =
+                    user;
+
+                await loadAll();
+
+                return;
+
+            }
+
+
+            /*
+             * Same anonymous-login flow
+             * used by your loan application.
+             */
+
+            const result =
+                await auth.signInAnonymously();
+
+            currentUser =
+                result.user;
+
+            await loadAll();
+
+        }catch(error){
+
+            console.error(error);
+
+            showError(
+                "Authentication error: " +
+                error.message
+            );
+
+            hideLoading();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   LOAD ALL
+========================================= */
+
+async function loadAll(){
+
+    showLoading();
+
+
+    try{
+
+        await loadLoan();
+
+        await loadPayments();
+
+        renderPage();
+
+    }catch(error){
+
+        console.error(
+            "Firebase error:",
+            error
+        );
+
+        showError(
+            "Firebase se data load nahi ho saka: " +
+            error.message
+        );
+
+    }
+
+
+    hideLoading();
+
+}
+
+
+/* =========================================
+   LOAD LOAN
+========================================= */
+
+async function loadLoan(){
+
+    const uid =
+        currentUser.uid;
+
+
+    const snapshot =
+        await db
+            .ref(
+                "loanApplications/" +
+                uid
+            )
+            .once("value");
+
+
+    if(!snapshot.exists()){
+
+        loanData = null;
+
+        return;
+
+    }
+
+
+    loanData =
+        snapshot.val() || {};
+
+
+    currentLoanId =
+        loanData.applicationId ||
+        loanData.loanId ||
+        uid;
+
+}
+
+
+/* =========================================
+   LOAD PAYMENTS
+========================================= */
+
+async function loadPayments(){
+
+    paymentData = [];
+
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const uid =
+        currentUser.uid;
+
+
+    /*
+     * Payment records can use:
+     * userId OR uid.
+     *
+     * We first use userId because
+     * your payment page uses userId.
+     */
+
+    try{
+
+        const snapshot =
+            await db
+                .ref("payments")
+                .orderByChild("userId")
+                .equalTo(uid)
+                .once("value");
+
+
+        if(snapshot.exists()){
+
+            snapshot.forEach(
+                function(child){
+
+                    const p =
+                        child.val() || {};
+
+                    p._id =
+                        child.key;
+
+                    paymentData.push(
+                        p
+                    );
+
+                }
+            );
+
+        }
+
+    }catch(error){
+
+        console.warn(
+            "userId payment query:",
+            error
+        );
+
+    }
+
+
+    /*
+     * If no records were found,
+     * also check uid field.
+     */
+
+    if(paymentData.length === 0){
+
+        try{
+
+            const snapshot =
+                await db
+                    .ref("payments")
+                    .orderByChild("uid")
+                    .equalTo(uid)
+                    .once("value");
+
+
+            if(snapshot.exists()){
+
+                snapshot.forEach(
+                    function(child){
+
+                        const p =
+                            child.val() || {};
+
+                        p._id =
+                            child.key;
+
+                        paymentData.push(
+                            p
+                        );
+
+                    }
+                );
+
+            }
+
+        }catch(error){
+
+            console.warn(
+                "uid payment query:",
+                error
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================
+   RENDER PAGE
+========================================= */
+
+function renderPage(){
+
+    if(!loanData){
+
+        renderEmpty();
+
+        updateSummary(
+            null
+        );
+
+        return;
+
+    }
+
+
+    renderLoan();
+
+    updateSummary(
+        loanData
+    );
+
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+function updateSummary(loan){
+
+    if(!loan){
+
+        document.getElementById(
+            "totalBorrowed"
+        ).innerText = "₹0";
+
+        document.getElementById(
+            "totalRepaid"
+        ).innerText = "₹0";
+
+        document.getElementById(
+            "outstanding"
+        ).innerText = "₹0";
+
+        document.getElementById(
+            "totalLoans"
+        ).innerText = "0";
+
+        return;
+
+    }
+
+
+    const amount =
+        Number(
+            loan.loanAmount ||
+            loan.amount ||
+            0
+        );
+
+
+    let totalRepaid = 0;
+
+
+    paymentData.forEach(
+        function(payment){
+
+            if(
+                isPaidPayment(payment)
+            ){
+
+                totalRepaid +=
+                    Number(
+                        payment.amount ||
+                        payment.paidAmount ||
+                        0
+                    );
+
+            }
+
+        }
+    );
+
+
+    /*
+     * If backend has an exact outstanding
+     * value, use it. Otherwise calculate.
+     */
+
+    let outstanding;
+
+
+    if(
+        loan.outstanding !== undefined &&
+        loan.outstanding !== null
+    ){
+
+        outstanding =
+            Number(
+                loan.outstanding
+            );
+
+    }else{
+
+        outstanding =
+            Math.max(
+                amount - totalRepaid,
+                0
+            );
+
+    }
+
+
+    document.getElementById(
+        "totalBorrowed"
+    ).innerText =
+        money(amount);
+
+
+    document.getElementById(
+        "totalRepaid"
+    ).innerText =
+        money(totalRepaid);
+
+
+    document.getElementById(
+        "outstanding"
+    ).innerText =
+        money(outstanding);
+
+
+    document.getElementById(
+        "totalLoans"
+    ).innerText =
+        "1";
+
+}
+
+
+/* =========================================
+   RENDER LOAN
+========================================= */
+
+function renderLoan(){
+
+    const container =
+        document.getElementById(
+            "loanContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "none";
+
+
+    const loan =
+        loanData;
+
+
+    const amount =
+        Number(
+            loan.loanAmount ||
+            loan.amount ||
+            0
+        );
+
+
+    const tenure =
+        Number(
+            loan.tenure ||
+            loan.loanTenure ||
+            loan.term ||
+            0
+        );
+
+
+    const emi =
+        Number(
+            loan.emiAmount ||
+            loan.emi ||
+            0
+        );
+
+
+    const interest =
+        loan.interestRate ||
+        loan.interest ||
+        loan.rate ||
+        "--";
+
+
+    const status =
+        statusText(
+            loan.status
+        );
+
+
+    const statusCls =
+        statusClass(
+            loan.status
+        );
+
+
+    const applicationId =
+        loan.applicationId ||
+        loan.loanId ||
+        currentUser.uid;
+
+
+    const loanType =
+        loan.loanType ||
+        loan.type ||
+        "Loan";
+
+
+    const appliedDate =
+        formatDate(
+            getDateValue(loan)
+        );
+
+
+    /*
+     * Real paid amount
+     */
+
+    let totalPaid = 0;
+
+
+    paymentData.forEach(
+        function(payment){
+
+            if(
+                isPaidPayment(payment)
+            ){
+
+                totalPaid +=
+                    Number(
+                        payment.amount ||
+                        payment.paidAmount ||
+                        0
+                    );
+
+            }
+
+        }
+    );
+
+
+    /*
+     * Repayment progress.
+     *
+     * If total loan amount exists,
+     * calculate from actual payments.
+     */
+
+    let progress = 0;
+
+
+    if(amount > 0){
+
+        progress =
+            (totalPaid / amount) *
+            100;
+
+    }
+
+
+    progress =
+        Math.min(
+            Math.max(progress,0),
+            100
+        );
+
+
+    /*
+     * EMI count
+     */
+
+    const paidEmis =
+        paymentData.filter(
+            function(payment){
+
+                return isPaidPayment(
+                    payment
+                );
+
+            }
+        ).length;
+
+
+    /*
+     * Next payment
+     */
+
+    const nextPayment =
+        getNextPayment();
+
+
+    const nextText =
+        nextPayment
+        ? money(
+            nextPayment.amount ||
+            nextPayment.paidAmount ||
+            emi
+          ) +
+          " • " +
+          formatDate(
+              nextPayment.dueDate ||
+              nextPayment.nextDueDate ||
+              nextPayment.dueAt
+          )
+        : (
+            emi > 0
+            ? money(emi)
+            : "Not available"
+          );
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "loan-card";
+
+
+    card.innerHTML = `
+
+        <div class="loan-top">
+
+            <div class="loan-title">
+
+                <div class="loan-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <div class="loan-name">
+                        ${escapeHTML(loanType)}
+                    </div>
+
+                    <div class="loan-id">
+                        Loan ID: ${escapeHTML(applicationId)}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="loan-status ${statusCls}">
+                ${escapeHTML(status)}
+            </div>
+
+        </div>
+
+
+        <div class="loan-details">
+
+            <div class="detail">
+
+                <span>
+                    Loan Amount
+                </span>
+
+                <strong>
+                    ${money(amount)}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Outstanding
+                </span>
+
+                <strong>
+                    ${money(
+                        Math.max(
+                            amount - totalPaid,
+                            0
+                        )
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    EMI
+                </span>
+
+                <strong>
+                    ${emi > 0
+                        ? money(emi)
+                        : "--"
+                    }
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Interest
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        String(interest)
+                    )}${interest !== "--" ? "%" : ""}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="loan-details">
+
+            <div class="detail">
+
+                <span>
+                    Tenure
+                </span>
+
+                <strong>
+                    ${tenure > 0
+                        ? tenure + " Months"
+                        : "--"
+                    }
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Paid EMIs
+                </span>
+
+                <strong>
+                    ${paidEmis}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Applied On
+                </span>
+
+                <strong>
+                    ${escapeHTML(appliedDate)}
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <span>
+                    Fee Status
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        formatFeeStatus(
+                            loan.feeStatus
+                        )
+                    )}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-box">
+
+            <div class="progress-top">
+
+                <span>
+                    Repayment Progress
+                </span>
+
+                <strong>
+                    ${progress.toFixed(1)}%
+                </strong>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:${progress}%"
+                ></div>
+
+            </div>
+
+            <div class="progress-note">
+                ${paidEmis} payment${paidEmis === 1 ? "" : "s"} completed
+            </div>
+
+        </div>
+
+
+        <div class="loan-bottom">
+
+            <div class="next-emi">
+
+                <span>
+                    ${isActiveLoan(loan.status)
+                        ? "Next EMI"
+                        : "Application Status"
+                    }
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        isActiveLoan(loan.status)
+                        ? nextText
+                        : status
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="loan-actions">
+
+                <button
+                    class="btn"
+                    id="detailsBtn"
+                >
+                    View Details
+                </button>
+
+                ${
+                    isActiveLoan(loan.status)
+                    ?
+                    `
+                    <button
+                        class="btn primary"
+                        id="payBtn"
+                    >
+                        Pay EMI
+                    </button>
+                    `
+                    :
+                    `
+                    <button
+                        class="btn primary"
+                        id="statusBtn"
+                    >
+                        View Status
+                    </button>
+                    `
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    container.appendChild(
+        card
+    );
+
+
+    document.getElementById(
+        "detailsBtn"
+    ).onclick =
+        showDetails;
+
+
+    const payBtn =
+        document.getElementById(
+            "payBtn"
+        );
+
+
+    if(payBtn){
+
+        payBtn.onclick =
+            function(){
+
+                window.location.href =
+                    "repayment.html?loanId=" +
+                    encodeURIComponent(
+                        applicationId
+                    );
+
+            };
+
+    }
+
+
+    const statusBtn =
+        document.getElementById(
+            "statusBtn"
+        );
+
+
+    if(statusBtn){
+
+        statusBtn.onclick =
+            showPending;
+
+    }
+
+}
+
+
+/* =========================================
+   ACTIVE LOAN
+========================================= */
+
+function isActiveLoan(status){
+
+    const s =
+        normalizeStatus(status);
+
+
+    return (
+        s === "active" ||
+        s === "approved" ||
+        s === "disbursed"
+    );
+
+}
+
+
+/* =========================================
+   NEXT PAYMENT
+========================================= */
+
+function getNextPayment(){
+
+    if(!paymentData.length){
+
+        return null;
+
+    }
+
+
+    const pending =
+        paymentData
+            .filter(
+                function(payment){
+
+                    return !isPaidPayment(
+                        payment
+                    );
+
+                }
+            )
+            .sort(
+                function(a,b){
+
+                    return (
+                        Number(
+                            a.dueDate ||
+                            a.dueAt ||
+                            a.createdAt ||
+                            0
+                        ) -
+                        Number(
+                            b.dueDate ||
+                            b.dueAt ||
+                            b.createdAt ||
+                            0
+                        )
+                    );
+
+                }
+            );
+
+
+    return pending[0] || null;
+
+}
+
+
+/* =========================================
+   FEE STATUS
+========================================= */
+
+function formatFeeStatus(status){
+
+    if(!status){
+
+        return "Not available";
+
+    }
+
+
+    const s =
+        String(status)
+        .replace(/_/g," ");
+
+
+    return s.charAt(0).toUpperCase() +
+        s.slice(1);
+
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+function renderEmpty(){
+
+    document.getElementById(
+        "loanContainer"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =========================================
+   DETAILS
+========================================= */
 
 function showDetails(){
 
-    document
-        .getElementById("detailsModal")
-        .style.display = "flex";
+    if(!loanData){
+
+        return;
+
+    }
+
+
+    const loan =
+        loanData;
+
+
+    const amount =
+        Number(
+            loan.loanAmount ||
+            loan.amount ||
+            0
+        );
+
+
+    const emi =
+        Number(
+            loan.emiAmount ||
+            loan.emi ||
+            0
+        );
+
+
+    const tenure =
+        Number(
+            loan.tenure ||
+            loan.loanTenure ||
+            0
+        );
+
+
+    const applicationId =
+        loan.applicationId ||
+        loan.loanId ||
+        currentUser.uid;
+
+
+    const interest =
+        loan.interestRate ||
+        loan.interest ||
+        loan.rate ||
+        "--";
+
+
+    let paid = 0;
+
+
+    paymentData.forEach(
+        function(payment){
+
+            if(
+                isPaidPayment(payment)
+            ){
+
+                paid +=
+                    Number(
+                        payment.amount ||
+                        payment.paidAmount ||
+                        0
+                    );
+
+            }
+
+        }
+    );
+
+
+    const outstanding =
+        Math.max(
+            amount - paid,
+            0
+        );
+
+
+    document.getElementById(
+        "detailsContent"
+    ).innerHTML = `
+
+        <div class="modal-row">
+
+            <span>
+                Loan ID
+            </span>
+
+            <strong>
+                ${escapeHTML(applicationId)}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Loan Type
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    loan.loanType ||
+                    loan.type ||
+                    "Loan"
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Principal Amount
+            </span>
+
+            <strong>
+                ${money(amount)}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Total Repaid
+            </span>
+
+            <strong>
+                ${money(paid)}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Outstanding
+            </span>
+
+            <strong>
+                ${money(outstanding)}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Interest Rate
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    String(interest)
+                )}${interest !== "--" ? "%" : ""}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Tenure
+            </span>
+
+            <strong>
+                ${tenure > 0
+                    ? tenure + " Months"
+                    : "--"
+                }
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                EMI
+            </span>
+
+            <strong>
+                ${emi > 0
+                    ? money(emi) + " / month"
+                    : "--"
+                }
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    statusText(
+                        loan.status
+                    )
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Applied On
+            </span>
+
+            <strong>
+                ${formatDate(
+                    getDateValue(loan)
+                )}
+            </strong>
+
+        </div>
+
+
+        ${
+            isActiveLoan(loan.status)
+            ?
+            `
+            <button
+                class="modal-btn"
+                onclick="go(
+                    'repayment.html?loanId=${encodeURIComponent(applicationId)}'
+                )"
+            >
+                Pay EMI
+            </button>
+            `
+            :
+            ""
+        }
+
+    `;
+
+
+    document.getElementById(
+        "detailsModal"
+    ).style.display =
+        "flex";
 
 }
 
 
-function closeModal(){
-
-    document
-        .getElementById("detailsModal")
-        .style.display = "none";
-
-}
-
-
-/* PENDING */
+/* =========================================
+   PENDING STATUS
+========================================= */
 
 function showPending(){
 
-    document
-        .getElementById("pendingModal")
-        .style.display = "flex";
+    if(!loanData){
+
+        return;
+
+    }
+
+
+    const applicationId =
+        loanData.applicationId ||
+        loanData.loanId ||
+        currentUser.uid;
+
+
+    document.getElementById(
+        "pendingContent"
+    ).innerHTML = `
+
+        <div class="modal-row">
+
+            <span>
+                Application ID
+            </span>
+
+            <strong>
+                ${escapeHTML(applicationId)}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Loan Type
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    loanData.loanType ||
+                    loanData.type ||
+                    "Loan"
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Amount
+            </span>
+
+            <strong>
+                ${money(
+                    loanData.loanAmount ||
+                    loanData.amount ||
+                    0
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    statusText(
+                        loanData.status
+                    )
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Fee Status
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    formatFeeStatus(
+                        loanData.feeStatus
+                    )
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <span>
+                Applied Date
+            </span>
+
+            <strong>
+                ${formatDate(
+                    getDateValue(
+                        loanData
+                    )
+                )}
+            </strong>
+
+        </div>
+
+
+        <button
+            class="modal-btn"
+            onclick="closePending()"
+        >
+            Done
+        </button>
+
+    `;
+
+
+    document.getElementById(
+        "pendingModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =========================================
+   CLOSE MODALS
+========================================= */
+
+function closeModal(){
+
+    document.getElementById(
+        "detailsModal"
+    ).style.display =
+        "none";
 
 }
 
 
 function closePending(){
 
-    document
-        .getElementById("pendingModal")
-        .style.display = "none";
+    document.getElementById(
+        "pendingModal"
+    ).style.display =
+        "none";
 
 }
 
 
-/* CLOSE MODAL WHEN CLICK OUTSIDE */
+function outsideModal(
+    event,
+    id
+){
 
-window.addEventListener("click",function(event){
-
-    const details =
-        document.getElementById("detailsModal");
-
-    const pending =
-        document.getElementById("pendingModal");
+    const modal =
+        document.getElementById(
+            id
+        );
 
 
-    if(event.target === details){
+    if(event.target === modal){
 
-        details.style.display = "none";
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+function showLoading(){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "block";
+
+}
+
+
+function hideLoading(){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+function showError(message){
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+
+    box.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
 
     }
 
 
-    if(event.target === pending){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
-        pending.style.display = "none";
-
-    }
-
-});
+}
 
 </script>
 
