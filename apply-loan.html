@@ -1,2957 +1,733 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>Apply for Loan | EasyLoan India</title>
 
 <style>
 :root{
-  --blue:#3157ff;--purple:#713cf0;--cyan:#13c8ff;--green:#18c978;
-  --orange:#ff9f43;--pink:#ff4f9a;--ink:#17213a;--muted:#74819a;
-  --bg:#f4f7ff;--card:#fff;--line:#e6ebf7;
+  --primary:#155eef;--primary2:#6d5dfc;--cyan:#08b6d8;--green:#12a86b;
+  --ink:#172033;--muted:#748096;--line:#e7ebf2;--bg:#f5f7fb;
+  --card:#fff;--danger:#c92a2a;--shadow:0 18px 55px rgba(35,55,95,.10);
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-  background:radial-gradient(circle at 8% 5%,rgba(113,60,240,.12),transparent 25%),
-             radial-gradient(circle at 95% 20%,rgba(19,200,255,.10),transparent 22%),var(--bg);
-  color:var(--ink)
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(109,93,252,.13),transparent 28%),
+    radial-gradient(circle at 90% 8%,rgba(8,182,216,.12),transparent 25%),var(--bg);
+  color:var(--ink);min-height:100vh;
 }
-button,input,select{font-family:inherit}
-.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:35px}
-
-/* PREMIUM HEADER */
+button,input,select,textarea{font:inherit}
+button{border:0}
+.app{width:min(100%,560px);margin:auto;min-height:100vh;padding-bottom:28px}
 .header{
-  position:relative;overflow:hidden;color:#fff;
-  padding:20px 18px 25px;border-radius:0 0 30px 30px;
-  background:radial-gradient(circle at 90% 5%,rgba(19,200,255,.35),transparent 25%),
-             linear-gradient(140deg,#263bd9,#5837e8 55%,#7939ed);
-  box-shadow:0 14px 35px rgba(55,56,190,.20)
+  position:relative;overflow:hidden;color:#fff;padding:18px 18px 28px;
+  border-radius:0 0 30px 30px;
+  background:linear-gradient(135deg,#0d55d9 0%,#155eef 48%,#735cf7 100%);
+  box-shadow:0 12px 35px rgba(21,94,239,.22);
 }
-.header:after{
-  content:"₹";position:absolute;right:-8px;bottom:-35px;
-  font-size:125px;font-weight:900;color:rgba(255,255,255,.06)
+.header:before,.header:after{
+  content:"";position:absolute;border-radius:50%;pointer-events:none;
+  background:rgba(255,255,255,.09);animation:float 7s ease-in-out infinite;
 }
-.header-top{display:flex;align-items:center;gap:13px;position:relative;z-index:2}
+.header:before{width:180px;height:180px;right:-70px;top:-80px}
+.header:after{width:120px;height:120px;left:-65px;bottom:-65px;animation-delay:-2s}
+.header-top{position:relative;z-index:2;display:flex;align-items:center;gap:12px}
 .back{
-  width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.16);
-  border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;
-  justify-content:center;font-size:21px;cursor:pointer
+  width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+  color:#fff;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18);
+  cursor:pointer;font-size:21px;transition:.2s
 }
-.header-content{flex:1}
-.header h2{font-size:22px;letter-spacing:-.3px}
-.header p{margin-top:5px;font-size:11px;opacity:.84}
+.back:active{transform:scale(.93)}
+.brand{flex:1}.brand small{font-size:10px;opacity:.8;letter-spacing:.6px}
+.brand h1{font-size:20px;line-height:1.15;margin-top:2px}
+.secure-pill{
+  font-size:10px;padding:8px 10px;border-radius:99px;background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.18);white-space:nowrap
+}
+.hero-copy{position:relative;z-index:2;margin-top:22px}
+.hero-copy h2{font-size:25px;line-height:1.15;letter-spacing:-.5px}
+.hero-copy p{font-size:12px;line-height:1.55;opacity:.88;margin-top:7px;max-width:440px}
+.trust-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.trust{
+  display:flex;align-items:center;gap:5px;font-size:9px;font-weight:700;
+  padding:7px 9px;border-radius:99px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.16)
+}
 
-/* STEPS */
-.steps{
-  display:flex;justify-content:space-between;padding:17px 9px 7px;
-  background:rgba(255,255,255,.72);margin:0 10px;border-radius:0 0 20px 20px
+/* progress */
+.progress-wrap{padding:14px 15px 4px}
+.progress-card{
+  background:#fff;border:1px solid rgba(225,230,240,.9);border-radius:18px;padding:13px 12px;
+  box-shadow:0 8px 25px rgba(25,45,85,.06)
 }
-.step{position:relative;flex:1;text-align:center}
-.step:not(:last-child)::after{
-  content:"";position:absolute;top:15px;left:55%;width:90%;height:3px;
-  background:#dce3f2;border-radius:5px;z-index:0
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.progress-top strong{font-size:11px}.progress-top span{font-size:9px;color:var(--muted)}
+.progress-track{height:6px;background:#edf0f5;border-radius:99px;overflow:hidden}
+.progress-fill{
+  height:100%;width:14.28%;border-radius:99px;background:linear-gradient(90deg,var(--primary),var(--primary2));
+  transition:width .45s cubic-bezier(.2,.8,.2,1)
 }
+.steps{display:flex;justify-content:space-between;margin-top:12px}
+.step{flex:1;text-align:center;position:relative;min-width:0}
+.step:not(:last-child):after{
+  content:"";position:absolute;top:13px;left:55%;width:90%;height:2px;background:#e4e8ef;z-index:0
+}
+.step.done:not(:last-child):after{background:#75cba8}
 .step-circle{
-  position:relative;z-index:1;width:31px;height:31px;margin:auto;border-radius:50%;
-  background:#e8edf8;color:#7d899e;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:900;border:3px solid #fff
+  position:relative;z-index:2;width:27px;height:27px;margin:auto;border-radius:50%;
+  display:grid;place-items:center;background:#edf0f5;color:#8b95a5;font-size:9px;font-weight:800;
+  border:3px solid #fff;box-shadow:0 0 0 1px #e2e6ed;transition:.35s
 }
-.step.active .step-circle,.step.completed .step-circle{
-  background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;
-  box-shadow:0 5px 13px rgba(49,87,255,.25)
-}
-.step-label{font-size:8px;color:#7c879b;margin-top:5px;font-weight:800}
-.step.active .step-label,.step.completed .step-label{color:var(--blue)}
+.step.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 4px rgba(21,94,239,.12);animation:pulse 1.8s infinite}
+.step.done .step-circle{background:var(--green);color:#fff;box-shadow:none}
+.step-label{font-size:7px;color:#929aaa;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step.active .step-label{color:var(--primary);font-weight:800}
 
-/* ALERT */
-.alert{margin:12px 15px 0;padding:0;display:none;border-radius:13px;font-size:12px;font-weight:700}
-.alert.error{display:block;padding:12px 14px;background:#fff0f3;color:#d8345f;border:1px solid #ffd5df}
-.alert.success{display:block;padding:12px 14px;background:#eafbf3;color:#168b5b}
+/* alerts */
+.alert{display:none;margin:10px 15px 0;padding:11px 13px;border-radius:13px;font-size:10px;line-height:1.5;animation:drop .3s ease}
+.alert.error{display:block;background:#fff0f0;color:#a82424;border:1px solid #ffd2d2}
+.alert.success{display:block;background:#ebfbf4;color:#08754b;border:1px solid #c8f1dd}
 
-/* PAGE / SECTION */
-.section{padding:15px}
-.page{display:none}
+/* pages */
+.page{display:none;animation:pageIn .42s cubic-bezier(.2,.75,.2,1)}
 .page.active{display:block}
+.section{padding:15px}
 .card{
-  background:rgba(255,255,255,.96);border:1px solid var(--line);
-  border-radius:21px;padding:18px;margin-bottom:13px;
-  box-shadow:0 10px 28px rgba(32,52,110,.07)
+  background:var(--card);border:1px solid rgba(226,231,240,.9);border-radius:22px;padding:18px;
+  box-shadow:var(--shadow)
 }
-.card-title{font-size:18px;font-weight:900;letter-spacing:-.25px}
-.card-subtitle{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.card-head{display:flex;align-items:flex-start;gap:11px}
+.card-icon{
+  width:42px;height:42px;flex:0 0 42px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#edf3ff,#f2efff);font-size:20px
+}
+.card-title{font-size:17px;font-weight:850;letter-spacing:-.2px}
+.card-subtitle{font-size:10px;color:var(--muted);line-height:1.55;margin-top:4px}
 
-/* LOAN TYPES */
-.loan-types{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
+/* loan types */
+.loan-types{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 .loan-type{
-  border:2px solid #edf0f7;border-radius:17px;padding:14px 11px;
-  cursor:pointer;background:#fff;transition:.2s
+  position:relative;overflow:hidden;border:1.5px solid var(--line);border-radius:17px;padding:14px 12px;
+  cursor:pointer;transition:.25s;background:#fff
 }
-.loan-type:hover{transform:translateY(-2px)}
-.loan-type.selected{
-  border-color:var(--blue);background:linear-gradient(145deg,#f0f3ff,#faf9ff);
-  box-shadow:0 8px 20px rgba(49,87,255,.10)
-}
-.loan-type:nth-child(2).selected{border-color:#713cf0}
-.loan-type:nth-child(3).selected{border-color:#13aee0}
-.loan-type:nth-child(4).selected{border-color:#ff8e31}
-.loan-type-icon{
-  width:43px;height:43px;border-radius:13px;background:#edf1ff;
-  display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:9px
-}
-.loan-type:nth-child(2) .loan-type-icon{background:#f0eaff}
-.loan-type:nth-child(3) .loan-type-icon{background:#e8faff}
-.loan-type:nth-child(4) .loan-type-icon{background:#fff1df}
-.loan-type strong{display:block;font-size:13px}
-.loan-type span{display:block;color:#7b879c;font-size:9.5px;margin-top:4px}
+.loan-type:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(21,94,239,.07),transparent);opacity:0;transition:.25s}
+.loan-type:hover{transform:translateY(-2px);border-color:#a8bff5}
+.loan-type.selected{border-color:var(--primary);box-shadow:0 8px 22px rgba(21,94,239,.13)}
+.loan-type.selected:before{opacity:1}
+.loan-type .tick{position:absolute;right:9px;top:9px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#fff;font-size:11px;opacity:0;transform:scale(.6);transition:.25s}
+.loan-type.selected .tick{opacity:1;transform:scale(1)}
+.loan-type-icon{font-size:23px;position:relative}
+.loan-type strong{display:block;font-size:11px;margin-top:8px;position:relative}
+.loan-type span{display:block;font-size:8px;color:#8b95a5;margin-top:3px;position:relative}
 
-/* AMOUNT */
-.amount-display{
-  margin-top:14px;padding:17px;border-radius:17px;
-  background:linear-gradient(135deg,#eef2ff,#f8f5ff);border:1px solid #e0e6ff
+/* amount */
+.amount-card{
+  margin-top:13px;padding:16px;border-radius:18px;
+  background:linear-gradient(135deg,#f1f6ff,#f8f5ff);border:1px solid #e4e9f6
 }
-.amount-display span{font-size:10px;color:#6f7c94;font-weight:800}
-.amount-display strong{
-  display:block;font-size:29px;margin:5px 0 12px;
-  background:linear-gradient(90deg,var(--blue),var(--purple));
-  -webkit-background-clip:text;background-clip:text;color:transparent
+.amount-top{display:flex;justify-content:space-between;align-items:center}
+.amount-top span{font-size:9px;color:var(--muted)}.amount-top b{font-size:9px;color:var(--primary)}
+.amount-value{text-align:center;font-size:30px;font-weight:900;letter-spacing:-1px;margin:5px 0 4px}
+.range{width:100%;accent-color:var(--primary);cursor:pointer}
+.range-labels{display:flex;justify-content:space-between;color:#9099a8;font-size:8px;margin-top:3px}
+.emi-preview{
+  margin-top:12px;background:#fff;border:1px solid #e6eaf1;border-radius:13px;padding:10px;
+  display:flex;justify-content:space-between;gap:8px
 }
-input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}
-.range-labels{display:flex;justify-content:space-between;color:#8a94a7;font-size:9px;margin-top:5px}
+.mini-stat span{display:block;font-size:8px;color:#8a94a5}.mini-stat strong{font-size:10px;display:block;margin-top:3px}
 
-/* INPUTS */
-label{display:block;font-size:11px;font-weight:800;color:#45536d;margin:14px 0 7px}
-input:not([type=range]):not([type=file]),select,textarea{
-  width:100%;padding:13px 13px;border:1px solid #dfe5f0;border-radius:12px;
-  background:#fbfcff;color:#17213a;font-size:12px;outline:none;transition:.2s
+/* forms */
+.form-group{margin-top:14px}.form-group label{display:block;font-size:9px;font-weight:750;color:#5d687a;margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;height:45px;border:1px solid #dfe4ec;border-radius:12px;outline:none;background:#fff;
+  padding:0 12px;color:var(--ink);font-size:11px;transition:.2s
 }
-input:not([type=range]):not([type=file]):focus,select:focus,textarea:focus{
-  border-color:#5875ff;box-shadow:0 0 0 4px rgba(49,87,255,.08);background:#fff
+.form-group textarea{height:82px;padding-top:11px;resize:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:#5e88ed;box-shadow:0 0 0 4px rgba(21,94,239,.08)
 }
-textarea{min-height:85px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.helper{font-size:8px;color:#8a94a5;margin-top:5px}
+.input-wrap{position:relative}.input-wrap input{padding-right:48px}.input-action{position:absolute;right:8px;top:8px;height:29px;padding:0 8px;border-radius:8px;background:#f0f3f8;color:#526078;font-size:9px;cursor:pointer}
 
-/* FILE UPLOAD */
-.file-box{
-  border:2px dashed #d9e1f1;border-radius:16px;padding:14px;
-  background:#fafbff;margin-top:10px
+/* docs */
+.doc-list{margin-top:14px;display:grid;gap:10px}
+.document-box{
+  border:1px solid #e4e8ef;border-radius:16px;padding:13px;transition:.25s;background:#fff
 }
-.file-box input[type=file]{width:100%;font-size:10px;color:#68758d}
-.file-box small{display:block;color:#8a95a8;font-size:9px;margin-top:6px}
+.document-box:focus-within{border-color:#9bb6ef;box-shadow:0 7px 20px rgba(21,94,239,.07)}
+.document-top{display:flex;align-items:center;gap:10px}.document-icon{width:40px;height:40px;border-radius:12px;background:#eff4ff;display:grid;place-items:center;font-size:19px}
+.document-info{flex:1}.document-info strong{font-size:10px}.document-info p{font-size:8px;color:#8993a4;margin-top:3px;line-height:1.4}
+.file-input{margin-top:10px}.file-input input{width:100%;font-size:9px}
+.file-name{font-size:8px;color:var(--green);margin-top:6px;display:none}
+.doc-tip{margin-top:13px;padding:11px;border-radius:12px;background:#f6f8fc;color:#69758a;font-size:8px;line-height:1.55}
 
-/* TWO COLUMN */
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.form-row>div{min-width:0}
+/* bank */
+.bank-note{margin-top:14px;padding:12px;border-radius:13px;background:#eef7ff;color:#486789;font-size:8px;line-height:1.55}
 
-/* BUTTONS */
-.btn{
-  width:100%;border:0;border-radius:13px;padding:14px;margin-top:14px;
-  font-size:13px;font-weight:900;cursor:pointer
+/* fee */
+.fee-card{
+  margin-top:15px;border-radius:20px;padding:18px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#114fd0,#5e50df)
 }
-.btn-primary{
-  color:#fff;background:linear-gradient(90deg,var(--blue),var(--purple));
-  box-shadow:0 9px 22px rgba(49,87,255,.22)
+.fee-card:after{content:"₹";position:absolute;right:14px;bottom:-28px;font-size:125px;font-weight:900;opacity:.07}
+.fee-label{font-size:9px;opacity:.78}.fee-row{display:flex;justify-content:space-between;align-items:end;margin-top:9px;position:relative;z-index:1}
+.fee-amount{font-size:31px;font-weight:900}.fee-description{font-size:8px;line-height:1.6;color:#e4ebff;margin-top:11px;max-width:420px}
+.fee-status{margin-top:12px;padding:9px;border-radius:10px;background:rgba(255,255,255,.13);font-size:8px;position:relative;z-index:1}
+.payment-box{margin-top:13px;padding:17px;background:#fff;border:1px solid #e3e8f0;border-radius:20px;box-shadow:var(--shadow)}
+.upi-box{margin-top:12px;padding:13px;border-radius:14px;background:#f7f8fb;border:1px dashed #cfd6e2}
+.upi-box small{font-size:8px;color:#7e8899}.upi-id{font-size:17px;font-weight:850;margin-top:3px;letter-spacing:.2px}
+.pay-fee-btn,.primary-btn{
+  width:100%;height:48px;margin-top:14px;border-radius:13px;color:#fff;font-size:11px;font-weight:850;
+  cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:0 9px 22px rgba(21,94,239,.22);
+  transition:.2s
 }
-.btn-secondary{background:#eef2f8;color:#4c5a73}
-.btn-success{color:#fff;background:linear-gradient(90deg,#16b96e,#23cf83)}
-.btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.pay-fee-btn:active,.primary-btn:active{transform:scale(.985)}
+.pay-fee-btn:disabled,.primary-btn:disabled{background:#aab4c4;box-shadow:none;cursor:not-allowed}
+.payment-warning{margin-top:10px;padding:10px;border-radius:11px;background:#fff8e8;color:#8a6500;font-size:8px;line-height:1.55}
+.utr-box{display:none;margin-top:13px;padding:14px;border:1px solid #e1e6ee;border-radius:15px;background:#fafbfc}
+.utr-box h4{font-size:12px}.utr-box p{font-size:8px;color:#7b8596;line-height:1.5;margin-top:5px}
+.utr-box input{width:100%;height:44px;margin-top:10px;border:1px solid #dce2eb;border-radius:11px;padding:0 11px;outline:none;font-size:11px}
+.utr-status{font-size:8px;margin-top:8px;color:#627087}
 
-/* REVIEW */
-.review-card{
-  border-radius:15px;background:linear-gradient(145deg,#f7f9ff,#fff);
-  border:1px solid #e8edf7;padding:13px;margin-top:10px
+/* review */
+.review-list{margin-top:13px;border:1px solid #e6eaf0;border-radius:15px;overflow:hidden}
+.review-row{display:flex;justify-content:space-between;gap:15px;padding:11px 12px;border-bottom:1px solid #edf0f4}
+.review-row:last-child{border-bottom:0}.review-row span{font-size:8px;color:#8a94a5}.review-row strong{font-size:9px;text-align:right;max-width:60%;word-break:break-word}
+.status-badge{display:inline-block;padding:5px 8px;border-radius:99px;background:#fff4d9;color:#956900;font-size:7px;font-weight:850}
+.consent{
+  margin-top:14px;padding:12px;border-radius:13px;background:#f7f9fc;border:1px solid #e8ecf2;
+  font-size:9px;line-height:1.5;color:#5f6c80
 }
-.review-row{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px solid #edf0f6}
-.review-row:last-child{border-bottom:0}
-.review-row span{font-size:10px;color:#7a879d}
-.review-row strong{font-size:11px;text-align:right}
+.consent label{display:flex;align-items:flex-start;gap:9px;cursor:pointer}.consent input{margin-top:2px;accent-color:var(--primary)}
 
-/* FEE / TRUST */
-.fee-box{
-  text-align:center;padding:22px;border-radius:19px;
-  background:linear-gradient(135deg,#f0f3ff,#f8f0ff);border:1px solid #e0e5ff
-}
-.fee-icon{font-size:38px;margin-bottom:7px}
-.fee-amount{font-size:31px;font-weight:900;color:var(--blue);margin:5px}
-.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}
-.trust{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 5px;text-align:center}
-.trust b{display:block;font-size:16px}.trust span{font-size:8px;color:#77849a;font-weight:700}
+/* nav */
+.buttons{display:flex;gap:10px;padding:0 15px}
+.btn{flex:1;height:48px;border-radius:13px;font-size:11px;font-weight:850;cursor:pointer;transition:.2s}
+.btn-back{background:#e9edf3;color:#4f5b6e}.btn-next{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 9px 22px rgba(21,94,239,.18)}
+.btn:active{transform:scale(.985)}
 
-/* LOADING / MODAL */
-#loading,.loading{
-  position:fixed!important;inset:0;background:rgba(17,26,55,.48);
-  display:none;align-items:center;justify-content:center;z-index:9999;
-  backdrop-filter:blur(5px)
+/* loading/modal */
+.loading,.modal{
+  display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:20px;
+  background:rgba(9,18,35,.55);backdrop-filter:blur(8px)
 }
-.loading-card{
-  width:270px;background:#fff;border-radius:21px;padding:24px;text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.2)
-}
-.spinner{
-  width:38px;height:38px;border:4px solid #e5e9f3;border-top-color:var(--blue);
-  border-radius:50%;margin:0 auto 13px;animation:spin .8s linear infinite
+.loading-box{width:min(100%,280px);background:#fff;border-radius:22px;padding:25px;text-align:center;box-shadow:0 20px 70px rgba(0,0,0,.2)}
+.spinner{width:42px;height:42px;margin:auto;border:4px solid #e8edf5;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+.loading-box p{margin-top:12px;font-size:10px;color:#69758a}
+.modal-box{width:min(100%,400px);background:#fff;border-radius:26px;padding:26px;text-align:center;box-shadow:0 25px 90px rgba(0,0,0,.22);animation:modalIn .45s cubic-bezier(.2,.8,.2,1)}
+.success-icon{width:76px;height:76px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#e7f9f0;color:var(--green);font-size:36px;animation:successPop .65s cubic-bezier(.2,1.5,.4,1)}
+.modal-box h3{font-size:21px;margin-top:15px}.modal-box p{font-size:10px;line-height:1.65;color:#768196;margin-top:8px}
+.modal-btn{width:100%;height:46px;margin-top:17px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;font-weight:850;cursor:pointer}
+.confetti{position:absolute;width:7px;height:13px;top:45%;left:50%;opacity:0;animation:confetti 1.5s ease-out forwards}
+@media(max-width:390px){
+  .hero-copy h2{font-size:22px}.grid2{grid-template-columns:1fr}.step-label{font-size:6px}
+  .loan-types{gap:8px}.loan-type{padding:12px 9px}.secure-pill{display:none}
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* SUCCESS */
-#successModal{
-  position:fixed!important;inset:0;background:rgba(17,26,55,.55);
-  display:none;align-items:center;justify-content:center;z-index:10000;padding:20px
-}
-.success-modal{
-  width:100%;max-width:390px;background:#fff;border-radius:24px;padding:26px;
-  text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.22)
-}
-.success-icon{
-  width:67px;height:67px;margin:0 auto 13px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:32px;
-  background:#e9fbf2;color:#17a965
-}
-.success-modal h3{font-size:20px}.success-modal p{color:#718099;font-size:11px;line-height:1.6;margin-top:8px}
-
-/* MOBILE */
-@media(max-width:390px){
-  .steps{padding-left:4px;padding-right:4px}
-  .step-label{font-size:7px}
-  .loan-types{gap:8px}
-  .loan-type{padding:12px 9px}
-  .form-row{grid-template-columns:1fr}
-}
+@keyframes float{50%{transform:translate3d(0,15px,0) scale(1.04)}}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(21,94,239,.04)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes successPop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes confetti{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(540deg)}}
 </style>
-
-<!-- FIREBASE -->
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-
 </head>
 
 <body>
-
 <div class="app">
 
-<!-- HEADER -->
-
-<div class="header">
-
-    <div class="header-top">
-
-        <div
-            class="back"
-            onclick="goDashboard()"
-        >
-            ←
-        </div>
-
-        <div class="header-content">
-
-            <h2>Apply for Loan</h2>
-
-            <p>
-                Complete your application step by step
-            </p>
-
-        </div>
-
+<header class="header">
+  <div class="header-top">
+    <button class="back" onclick="goDashboard()" aria-label="Back">←</button>
+    <div class="brand"><small>EASYLOAN INDIA</small><h1>Loan Application</h1></div>
+    <div class="secure-pill">🔒 Secure</div>
+  </div>
+  <div class="hero-copy">
+    <h2>Let's get your application started ✨</h2>
+    <p>Complete each step carefully. Your eligibility, verification and final decision are subject to applicable terms.</p>
+    <div class="trust-row">
+      <div class="trust">⚡ Simple process</div><div class="trust">📱 Online apply</div><div class="trust">🛡️ Protected flow</div>
     </div>
+  </div>
+</header>
 
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="progress-top"><strong id="progressTitle">Loan Details</strong><span id="progressText">Step 1 of 7</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="steps">
+      <div class="step active" id="stepIndicator1"><div class="step-circle">1</div><div class="step-label">Loan</div></div>
+      <div class="step" id="stepIndicator2"><div class="step-circle">2</div><div class="step-label">Personal</div></div>
+      <div class="step" id="stepIndicator3"><div class="step-circle">3</div><div class="step-label">Income</div></div>
+      <div class="step" id="stepIndicator4"><div class="step-circle">4</div><div class="step-label">Documents</div></div>
+      <div class="step" id="stepIndicator5"><div class="step-circle">5</div><div class="step-label">Account</div></div>
+      <div class="step" id="stepIndicator6"><div class="step-circle">6</div><div class="step-label">Fee</div></div>
+      <div class="step" id="stepIndicator7"><div class="step-circle">7</div><div class="step-label">Review</div></div>
+    </div>
+  </div>
 </div>
-
-
-<!-- STEPS -->
-
-<div class="steps">
-
-    <div class="step active" id="stepIndicator1">
-        <div class="step-circle">1</div>
-        <div class="step-label">Loan</div>
-    </div>
-
-    <div class="step" id="stepIndicator2">
-        <div class="step-circle">2</div>
-        <div class="step-label">Personal</div>
-    </div>
-
-    <div class="step" id="stepIndicator3">
-        <div class="step-circle">3</div>
-        <div class="step-label">Income</div>
-    </div>
-
-    <div class="step" id="stepIndicator4">
-        <div class="step-circle">4</div>
-        <div class="step-label">Documents</div>
-    </div>
-
-    <div class="step" id="stepIndicator5">
-        <div class="step-circle">5</div>
-        <div class="step-label">Account</div>
-    </div>
-
-    <div class="step" id="stepIndicator6">
-        <div class="step-circle">6</div>
-        <div class="step-label">Fee</div>
-    </div>
-
-    <div class="step" id="stepIndicator7">
-        <div class="step-circle">7</div>
-        <div class="step-label">Review</div>
-    </div>
-
-</div>
-
-
-<div class="trust-grid" style="margin:10px 15px 0">
-  <div class="trust"><b>🔒</b><span>Secure</span></div>
-  <div class="trust"><b>⚡</b><span>Fast Process</span></div>
-  <div class="trust"><b>📱</b><span>100% Online</span></div>
-</div>
-
-<!-- ALERT -->
 
 <div id="alertBox" class="alert"></div>
 
+<!-- 1 -->
+<section class="page active" id="page1">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">💰</div><div><div class="card-title">Choose your loan</div><div class="card-subtitle">Select the purpose that best matches your application.</div></div></div>
 
-<!-- PAGE 1 -->
+  <div class="loan-types">
+    <div class="loan-type selected" data-type="Personal Loan" onclick="selectLoanType(this)"><div class="tick">✓</div><div class="loan-type-icon">💰</div><strong>Personal Loan</strong><span>Personal needs</span></div>
+    <div class="loan-type" data-type="Business Loan" onclick="selectLoanType(this)"><div class="tick">✓</div><div class="loan-type-icon">🏢</div><strong>Business Loan</strong><span>Business needs</span></div>
+    <div class="loan-type" data-type="Education Loan" onclick="selectLoanType(this)"><div class="tick">✓</div><div class="loan-type-icon">🎓</div><strong>Education Loan</strong><span>Education expenses</span></div>
+    <div class="loan-type" data-type="Emergency Loan" onclick="selectLoanType(this)"><div class="tick">✓</div><div class="loan-type-icon">🚨</div><strong>Emergency Loan</strong><span>Urgent expenses</span></div>
+  </div>
 
-<div class="page active" id="page1">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Choose Loan Type
+  <div class="amount-card">
+    <div class="amount-top"><span>Requested loan amount</span><b>₹10K – ₹5L</b></div>
+    <div class="amount-value" id="amountText">₹50,000</div>
+    <input class="range" type="range" id="loanAmount" min="10000" max="500000" step="5000" value="50000" oninput="updateAmount()">
+    <div class="range-labels"><span>₹10,000</span><span>₹5,00,000</span></div>
+    <div class="emi-preview">
+      <div class="mini-stat"><span>Tenure</span><strong id="miniTenure">Not selected</strong></div>
+      <div class="mini-stat"><span>Illustrative EMI</span><strong id="miniEmi">—</strong></div>
+      <div class="mini-stat"><span>Amount</span><strong id="miniAmount">₹50,000</strong></div>
     </div>
-
-    <div class="card-subtitle">
-        Select the loan product you want to apply for.
-    </div>
-
-
-    <div class="loan-types">
-
-        <div
-            class="loan-type selected"
-            data-type="Personal Loan"
-            onclick="selectLoanType(this)"
-        >
-
-            <div class="loan-type-icon">💰</div>
-
-            <strong>Personal Loan</strong>
-
-            <span>For personal needs</span>
-
-        </div>
-
-
-        <div
-            class="loan-type"
-            data-type="Business Loan"
-            onclick="selectLoanType(this)"
-        >
-
-            <div class="loan-type-icon">🏢</div>
-
-            <strong>Business Loan</strong>
-
-            <span>For business needs</span>
-
-        </div>
-
-
-        <div
-            class="loan-type"
-            data-type="Education Loan"
-            onclick="selectLoanType(this)"
-        >
-
-            <div class="loan-type-icon">🎓</div>
-
-            <strong>Education Loan</strong>
-
-            <span>For education expenses</span>
-
-        </div>
-
-
-        <div
-            class="loan-type"
-            data-type="Emergency Loan"
-            onclick="selectLoanType(this)"
-        >
-
-            <div class="loan-type-icon">🚨</div>
-
-            <strong>Emergency Loan</strong>
-
-            <span>For urgent expenses</span>
-
-        </div>
-
-    </div>
-
-
-    <div class="amount-display">
-
-        <span>Requested Loan Amount</span>
-
-        <strong id="amountText">
-            ₹50,000
-        </strong>
-
-        <input
-            type="range"
-            id="loanAmount"
-            min="10000"
-            max="500000"
-            step="5000"
-            value="50000"
-            oninput="updateAmount()"
-        >
-
-    </div>
-
-
-    <div class="grid2">
-
-        <div class="form-group">
-
-            <label>Loan Amount</label>
-
-            <input
-                id="amountInput"
-                type="number"
-                value="50000"
-                min="10000"
-                max="500000"
-                onchange="syncAmount()"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Tenure</label>
-
-            <select id="tenure">
-
-                <option value="">Select Tenure</option>
-                <option value="6 Months">6 Months</option>
-                <option value="12 Months">12 Months</option>
-                <option value="18 Months">18 Months</option>
-                <option value="24 Months">24 Months</option>
-                <option value="36 Months">36 Months</option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- PAGE 2 -->
-
-<div class="page" id="page2">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Personal Details
-    </div>
-
-    <div class="card-subtitle">
-        Enter your details exactly as shown on your documents.
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Full Name</label>
-
-        <input
-            id="fullName"
-            type="text"
-            placeholder="Enter full name"
-        >
-
-    </div>
-
-
-    <div class="grid2">
-
-        <div class="form-group">
-
-            <label>Date of Birth</label>
-
-            <input
-                id="dob"
-                type="date"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Gender</label>
-
-            <select id="gender">
-
-                <option value="">Select Gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Mobile Number</label>
-
-        <input
-            id="mobile"
-            type="tel"
-            maxlength="10"
-            placeholder="10 digit mobile number"
-        >
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Email Address</label>
-
-        <input
-            id="email"
-            type="email"
-            placeholder="example@email.com"
-        >
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Address</label>
-
-        <textarea
-            id="address"
-            placeholder="Enter full address"
-        ></textarea>
-
-    </div>
-
-
-    <div class="grid2">
-
-        <div class="form-group">
-
-            <label>City</label>
-
-            <input
-                id="city"
-                type="text"
-                placeholder="City"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>PIN Code</label>
-
-            <input
-                id="pin"
-                type="tel"
-                maxlength="6"
-                placeholder="6 digit PIN"
-            >
-
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- PAGE 3 -->
-
-<div class="page" id="page3">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Income & Employment
-    </div>
-
-    <div class="card-subtitle">
-        Provide your current employment and income information.
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Employment Type</label>
-
-        <select id="employmentType">
-
-            <option value="">Select Employment</option>
-            <option>Salaried</option>
-            <option>Self Employed</option>
-            <option>Business Owner</option>
-            <option>Freelancer</option>
-            <option>Other</option>
-
-        </select>
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Company / Business Name</label>
-
-        <input
-            id="company"
-            type="text"
-            placeholder="Enter company or business name"
-        >
-
-    </div>
-
-
-    <div class="grid2">
-
-        <div class="form-group">
-
-            <label>Monthly Income</label>
-
-            <input
-                id="income"
-                type="number"
-                min="0"
-                placeholder="₹ Monthly income"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Work Experience</label>
-
-            <select id="experience">
-
-                <option value="">Select</option>
-                <option>Less than 1 Year</option>
-                <option>1 - 2 Years</option>
-                <option>2 - 5 Years</option>
-                <option>5+ Years</option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Existing EMI</label>
-
-        <input
-            id="existingEmi"
-            type="number"
-            min="0"
-            placeholder="₹ Existing monthly EMI"
-        >
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- PAGE 4 -->
-
-<div class="page" id="page4">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Upload Documents
-    </div>
-
-    <div class="card-subtitle">
-        Upload clear documents. Maximum recommended file size is 5 MB each.
-    </div>
-
-
-    <!-- PAN -->
-
-    <div class="document-box">
-
-        <div class="document-top">
-
-            <div class="document-icon">
-                🪪
-            </div>
-
-            <div class="document-info">
-
-                <strong>PAN Card</strong>
-
-                <p>
-                    Required for identity verification
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="file-input">
-
-            <input
-                type="file"
-                id="panFile"
-                accept="image/*,.pdf"
-            >
-
-        </div>
-
-    </div>
-
-
-    <!-- ID -->
-
-    <div class="document-box">
-
-        <div class="document-top">
-
-            <div class="document-icon">
-                📄
-            </div>
-
-            <div class="document-info">
-
-                <strong>Identity / Address Proof</strong>
-
-                <p>
-                    Aadhaar / Passport / Driving Licence etc.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="file-input">
-
-            <input
-                type="file"
-                id="identityFile"
-                accept="image/*,.pdf"
-            >
-
-        </div>
-
-    </div>
-
-
-    <!-- BANK STATEMENT -->
-
-    <div class="document-box">
-
-        <div class="document-top">
-
-            <div class="document-icon">
-                🏦
-            </div>
-
-            <div class="document-info">
-
-                <strong>Bank Statement</strong>
-
-                <p>
-                    Recent statement for income verification
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="file-input">
-
-            <input
-                type="file"
-                id="statementFile"
-                accept="image/*,.pdf"
-            >
-
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- PAGE 5 -->
-
-<div class="page" id="page5">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Bank Account Details
-    </div>
-
-    <div class="card-subtitle">
-        Add the bank account that belongs to you. Do not enter another person's account.
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Account Holder Name</label>
-
-        <input
-            id="accountHolder"
-            type="text"
-            placeholder="As per bank records"
-        >
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Bank Name</label>
-
-        <input
-            id="bankName"
-            type="text"
-            placeholder="Enter bank name"
-        >
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Account Number</label>
-
-        <input
-            id="accountNumber"
-            type="password"
-            inputmode="numeric"
-            placeholder="Enter account number"
-        >
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>Confirm Account Number</label>
-
-        <input
-            id="confirmAccountNumber"
-            type="password"
-            inputmode="numeric"
-            placeholder="Re-enter account number"
-        >
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>IFSC Code</label>
-
-        <input
-            id="ifsc"
-            type="text"
-            maxlength="11"
-            placeholder="Example: SBIN0000001"
-            style="text-transform:uppercase"
-        >
-
-    </div>
-
-
-    <div class="bank-note">
-
-        🔐 Your bank information should only be used for
-        legitimate loan processing and disbursement purposes.
-        Never share your ATM PIN, UPI PIN, CVV or OTP.
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- PAGE 6 FEE -->
-
-<div class="page" id="page6">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Processing Fee
-    </div>
-
-    <div class="card-subtitle">
-        Review the applicable fee before continuing.
-    </div>
-
-
-    <div class="fee-card">
-
-        <div class="fee-label">
-            Processing Fee
-        </div>
-
-        <div class="fee-row">
-
-            <div>
-                <div class="fee-label">
-                    Application processing
-                </div>
-            </div>
-
-            <div class="fee-amount">
-                ₹199
-            </div>
-
-        </div>
-
-
-        <div class="fee-description">
-
-            The fee must be clearly disclosed to the applicant
-            and charged only according to the applicable
-            terms and regulatory requirements.
-
-        </div>
-
-
-        <div class="fee-status" id="feeStatus">
-
-            Payment status: Not paid
-
-        </div>
-
-    </div>
-
-
-    <div class="payment-box">
-
-        <div class="card-title">
-            Pay Processing Fee
-        </div>
-
-        <div style="margin:14px 0;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.04);">
-            <div style="font-size:13px;opacity:.75;margin-bottom:6px;">UPI ID</div>
-            <div style="font-size:18px;font-weight:700;letter-spacing:.3px;">dailylgrow@axl</div>
-            <div style="font-size:12px;opacity:.7;margin-top:6px;">Amount: ₹199</div>
-        </div>
-
-        <button
-            class="pay-fee-btn"
-            id="payFeeBtn"
-            onclick="startFeePayment()"
-        >
-            Continue to Pay ₹199
-        </button>
-
-        <div class="payment-warning">
-            📱 Continue दबाने पर आपके device में installed compatible UPI app
-            (जैसे Google Pay, PhonePe, Paytm आदि) को खोलने की कोशिश की जाएगी।
-            Payment करने के बाद इसी page पर वापस आएँ और नीचे अपना UTR / Transaction ID डालें।
-        </div>
-
-        <div id="utrBox" style="display:none;margin-top:16px;padding:15px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.04);">
-            <div style="font-size:14px;font-weight:700;margin-bottom:8px;">Payment के बाद UTR डालें</div>
-            <div style="font-size:12px;opacity:.72;margin-bottom:10px;line-height:1.5;">
-                ₹199 payment करने के बाद UTR / Transaction ID यहाँ डालें। UTR submit करते ही आप Review page पर जा सकेंगे। Payment verification के बाद ही final application submit होगी।
-            </div>
-            <input id="utrInput" type="text" maxlength="100" placeholder="Enter UTR / Transaction ID" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.18);color:inherit;outline:none;">
-            <button type="button" class="pay-fee-btn" id="submitUtrBtn" onclick="submitUTR()" style="margin-top:10px;">Submit UTR & Continue to Review</button>
-            <div id="utrStatus" style="font-size:12px;margin-top:9px;opacity:.8;"></div>
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- PAGE 7 REVIEW -->
-
-<div class="page" id="page7">
-
-<div class="section">
-
-<div class="card">
-
-    <div class="card-title">
-        Review Application
-    </div>
-
-    <div class="card-subtitle">
-        Review your details, payment UTR and documents carefully before final submission.
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Loan Type</span>
-
-        <strong id="reviewLoanType">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Loan Amount</span>
-
-        <strong id="reviewAmount">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Tenure</span>
-
-        <strong id="reviewTenure">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Name</span>
-
-        <strong id="reviewName">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Mobile</span>
-
-        <strong id="reviewMobile">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Employment</span>
-
-        <strong id="reviewEmployment">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Monthly Income</span>
-
-        <strong id="reviewIncome">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Bank</span>
-
-        <strong id="reviewBank">-</strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Processing Fee</span>
-
-        <strong>
-
-            ₹199
-
-            <br>
-
-            <span class="paid-badge">
-                PAID / VERIFIED
-            </span>
-
-        </strong>
-
-    </div>
-
-
-    <div class="review-row">
-
-        <span>Payment Status</span>
-
-        <strong id="reviewPaymentStatus">UTR Submitted</strong>
-
-    </div>
-
-
-    <div class="bank-note">
-
-        By submitting, you confirm that the information
-        provided by you is accurate and complete. Loan
-        approval/disbursement is subject to eligibility,
-        verification and applicable terms.
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label>
-
-            <input
-                type="checkbox"
-                id="finalConsent"
-            >
-
-            I confirm that the information provided is correct.
-
-        </label>
-
-    </div>
-
-
-    <button
-        class="btn btn-next"
-        id="submitBtn"
-        onclick="submitApplication()"
-        disabled
-        style="width:100%;margin-top:10px"
-    >
-        Submit Loan Application
-    </button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- NAVIGATION -->
+  </div>
+
+  <div class="grid2">
+    <div class="form-group"><label>Loan Amount</label><input id="amountInput" type="number" value="50000" min="10000" max="500000" onchange="syncAmount()"></div>
+    <div class="form-group"><label>Tenure</label><select id="tenure" onchange="updateMiniEmi()"><option value="">Select Tenure</option><option value="6 Months">6 Months</option><option value="12 Months">12 Months</option><option value="18 Months">18 Months</option><option value="24 Months">24 Months</option><option value="36 Months">36 Months</option></select></div>
+  </div>
+ </div></div>
+</section>
+
+<!-- 2 -->
+<section class="page" id="page2">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">👤</div><div><div class="card-title">Personal details</div><div class="card-subtitle">Enter information exactly as it appears on your documents.</div></div></div>
+  <div class="form-group"><label>Full Name</label><input id="fullName" type="text" placeholder="Enter full name" autocomplete="name"></div>
+  <div class="grid2">
+    <div class="form-group"><label>Date of Birth</label><input id="dob" type="date"></div>
+    <div class="form-group"><label>Gender</label><select id="gender"><option value="">Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+  </div>
+  <div class="form-group"><label>Mobile Number</label><input id="mobile" type="tel" inputmode="numeric" maxlength="10" placeholder="10 digit mobile number" oninput="digitsOnly(this,10)"></div>
+  <div class="form-group"><label>Email Address</label><input id="email" type="email" placeholder="example@email.com" autocomplete="email"></div>
+  <div class="form-group"><label>Address</label><textarea id="address" placeholder="Enter full address"></textarea></div>
+  <div class="grid2">
+    <div class="form-group"><label>City</label><input id="city" type="text" placeholder="City"></div>
+    <div class="form-group"><label>PIN Code</label><input id="pin" type="tel" inputmode="numeric" maxlength="6" placeholder="6 digit PIN" oninput="digitsOnly(this,6)"></div>
+  </div>
+ </div></div>
+</section>
+
+<!-- 3 -->
+<section class="page" id="page3">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">📊</div><div><div class="card-title">Income & employment</div><div class="card-subtitle">Provide your current income and work information.</div></div></div>
+  <div class="form-group"><label>Employment Type</label><select id="employmentType"><option value="">Select Employment</option><option>Salaried</option><option>Self Employed</option><option>Business Owner</option><option>Freelancer</option><option>Other</option></select></div>
+  <div class="form-group"><label>Company / Business Name</label><input id="company" type="text" placeholder="Enter company or business name"></div>
+  <div class="grid2">
+    <div class="form-group"><label>Monthly Income</label><input id="income" type="number" min="0" placeholder="₹ Monthly income"></div>
+    <div class="form-group"><label>Work Experience</label><select id="experience"><option value="">Select</option><option>Less than 1 Year</option><option>1 - 2 Years</option><option>2 - 5 Years</option><option>5+ Years</option></select></div>
+  </div>
+  <div class="form-group"><label>Existing EMI <span style="font-weight:400;color:#8b95a5">(optional)</span></label><input id="existingEmi" type="number" min="0" placeholder="₹ Existing monthly EMI"></div>
+  <div class="bank-note">💡 Please provide accurate income information. Eligibility is determined during the applicable verification process.</div>
+ </div></div>
+</section>
+
+<!-- 4 -->
+<section class="page" id="page4">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">📄</div><div><div class="card-title">Upload documents</div><div class="card-subtitle">Choose clear files. Maximum recommended size is 5 MB each.</div></div></div>
+  <div class="doc-list">
+   <div class="document-box"><div class="document-top"><div class="document-icon">🪪</div><div class="document-info"><strong>PAN Card</strong><p>Required for identity verification</p></div></div><div class="file-input"><input type="file" id="panFile" accept="image/*,.pdf" onchange="showFileName(this,'panName')"></div><div id="panName" class="file-name">✓ File selected</div></div>
+   <div class="document-box"><div class="document-top"><div class="document-icon">📑</div><div class="document-info"><strong>Identity / Address Proof</strong><p>Aadhaar / Passport / Driving Licence etc.</p></div></div><div class="file-input"><input type="file" id="identityFile" accept="image/*,.pdf" onchange="showFileName(this,'identityName')"></div><div id="identityName" class="file-name">✓ File selected</div></div>
+   <div class="document-box"><div class="document-top"><div class="document-icon">🏦</div><div class="document-info"><strong>Bank Statement</strong><p>Recent statement for income verification</p></div></div><div class="file-input"><input type="file" id="statementFile" accept="image/*,.pdf" onchange="showFileName(this,'statementName')"></div><div id="statementName" class="file-name">✓ File selected</div></div>
+  </div>
+  <div class="doc-tip">🔐 For privacy, this version keeps the selected document files in the browser and saves only their file names with the application data. Do not upload documents you are not authorized to share.</div>
+ </div></div>
+</section>
+
+<!-- 5 -->
+<section class="page" id="page5">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">🏦</div><div><div class="card-title">Bank account details</div><div class="card-subtitle">Use an account belonging to the applicant.</div></div></div>
+  <div class="form-group"><label>Account Holder Name</label><input id="accountHolder" type="text" placeholder="As per bank records"></div>
+  <div class="form-group"><label>Bank Name</label><input id="bankName" type="text" placeholder="Enter bank name"></div>
+  <div class="form-group"><label>Account Number</label><div class="input-wrap"><input id="accountNumber" type="password" inputmode="numeric" placeholder="Enter account number"><button type="button" class="input-action" onclick="toggleInput('accountNumber',this)">Show</button></div></div>
+  <div class="form-group"><label>Confirm Account Number</label><div class="input-wrap"><input id="confirmAccountNumber" type="password" inputmode="numeric" placeholder="Re-enter account number"><button type="button" class="input-action" onclick="toggleInput('confirmAccountNumber',this)">Show</button></div></div>
+  <div class="form-group"><label>IFSC Code</label><input id="ifsc" type="text" maxlength="11" placeholder="Example: SBIN0000001" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"></div>
+  <div class="bank-note">🔐 Never share your ATM PIN, UPI PIN, CVV or OTP. Bank details should only be used for legitimate, authorized loan processing and disbursement.</div>
+ </div></div>
+</section>
+
+<!-- 6 -->
+<section class="page" id="page6">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">💳</div><div><div class="card-title">Processing fee</div><div class="card-subtitle">Review the applicable fee and payment details before continuing.</div></div></div>
+  <div class="fee-card">
+   <div class="fee-label">Application processing fee</div>
+   <div class="fee-row"><div><div class="fee-label">Amount payable</div></div><div class="fee-amount">₹199</div></div>
+   <div class="fee-description">Only pay a fee if it is genuinely applicable to your service and clearly disclosed in your terms. Payment of a processing fee does not guarantee loan approval or disbursement.</div>
+   <div class="fee-status" id="feeStatus">Payment status: Not paid</div>
+  </div>
+  <div class="payment-box">
+   <div class="card-title">Pay processing fee</div>
+   <div class="upi-box"><small>UPI ID</small><div class="upi-id">dailylgrow@axl</div><small style="display:block;margin-top:5px">Amount: ₹199</small></div>
+   <button class="pay-fee-btn" id="payFeeBtn" onclick="startFeePayment()">Continue to Pay ₹199</button>
+   <div class="payment-warning">📱 Your device may open a compatible UPI app. After completing payment, return here and enter the UTR / Transaction ID.</div>
+   <div class="utr-box" id="utrBox">
+     <h4>Payment ke baad UTR enter karein</h4>
+     <p>Enter the UTR / Transaction ID shown by your payment app. The application can then move to review; verification status is stored separately.</p>
+     <input id="utrInput" type="text" maxlength="100" placeholder="Enter UTR / Transaction ID">
+     <button type="button" class="pay-fee-btn" id="submitUtrBtn" onclick="submitUTR()">Submit UTR & Continue</button>
+     <div id="utrStatus" class="utr-status"></div>
+   </div>
+  </div>
+ </div></div>
+</section>
+
+<!-- 7 -->
+<section class="page" id="page7">
+ <div class="section"><div class="card">
+  <div class="card-head"><div class="card-icon">✅</div><div><div class="card-title">Review application</div><div class="card-subtitle">Check your information carefully before final submission.</div></div></div>
+  <div class="review-list">
+   <div class="review-row"><span>Loan Type</span><strong id="reviewLoanType">-</strong></div>
+   <div class="review-row"><span>Loan Amount</span><strong id="reviewAmount">-</strong></div>
+   <div class="review-row"><span>Tenure</span><strong id="reviewTenure">-</strong></div>
+   <div class="review-row"><span>Name</span><strong id="reviewName">-</strong></div>
+   <div class="review-row"><span>Mobile</span><strong id="reviewMobile">-</strong></div>
+   <div class="review-row"><span>Employment</span><strong id="reviewEmployment">-</strong></div>
+   <div class="review-row"><span>Monthly Income</span><strong id="reviewIncome">-</strong></div>
+   <div class="review-row"><span>Bank</span><strong id="reviewBank">-</strong></div>
+   <div class="review-row"><span>Processing Fee</span><strong>₹199</strong></div>
+   <div class="review-row"><span>Payment Status</span><strong><span class="status-badge" id="reviewPaymentStatus">UTR Submitted — Verification Pending</span></strong></div>
+  </div>
+  <div class="bank-note">By submitting, you confirm that the information you provided is accurate and complete. Approval/disbursement is subject to eligibility, verification and applicable terms. A submitted application is not a guarantee of approval.</div>
+  <div class="consent"><label><input type="checkbox" id="finalConsent"><span>I confirm that the information provided by me is correct and I agree to the applicable application terms.</span></label></div>
+  <button class="primary-btn" id="submitBtn" onclick="submitApplication()" disabled>Submit Loan Application</button>
+ </div></div>
+</section>
 
 <div class="buttons">
-
-    <button
-        class="btn btn-back"
-        id="backBtn"
-        onclick="previousStep()"
-    >
-        ← Back
-    </button>
-
-
-    <button
-        class="btn btn-next"
-        id="nextBtn"
-        onclick="nextStep()"
-    >
-        Continue →
-    </button>
+ <button class="btn btn-back" id="backBtn" onclick="previousStep()">← Back</button>
+ <button class="btn btn-next" id="nextBtn" onclick="nextStep()">Continue →</button>
+</div>
 
 </div>
 
+<div class="loading" id="loading"><div class="loading-box"><div class="spinner"></div><p id="loadingText">Processing...</p></div></div>
 
+<div class="modal" id="successModal">
+ <div class="modal-box" id="modalBox">
+  <div class="success-icon">✓</div>
+  <h3>Application Submitted 🎉</h3>
+  <p id="successMessage">Your loan application has been submitted successfully.</p>
+  <button class="modal-btn" onclick="goDashboard()">Go to Dashboard</button>
+ </div>
 </div>
-
-
-<!-- LOADING -->
-
-<div
-    class="loading"
-    id="loading"
->
-
-    <div class="loading-box">
-
-        <div class="spinner"></div>
-
-        <p id="loadingText">
-            Processing...
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- SUCCESS MODAL -->
-
-<div
-    class="modal"
-    id="successModal"
->
-
-    <div class="modal-box">
-
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <h3>
-            Application Submitted
-        </h3>
-
-        <p>
-
-            Your loan application has been submitted
-            successfully.
-
-            <br><br>
-
-            Application ID:
-
-            <strong id="finalApplicationId">
-                -
-            </strong>
-
-        </p>
-
-
-        <button
-            class="modal-btn"
-            onclick="goDashboard()"
-        >
-            Go to Dashboard
-        </button>
-
-    </div>
-
-</div>
-
 
 <script>
-
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
-
-const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
-
-    authDomain:
-        "easyloan-india.firebaseapp.com",
-
-    projectId:
-        "easyloan-india",
-
-    storageBucket:
-        "easyloan-india.firebasestorage.app",
-
-    messagingSenderId:
-        "925263655882",
-
-    appId:
-        "1:925263655882:web:0dd41e9964bd9a7a93d533"
-
+const firebaseConfig={
+ apiKey:"AIzaSyCCSSnvJ1w9CGd68TAy9ZVH9Taw1J0-xdE",
+ authDomain:"easyloan-india.firebaseapp.com",
+ projectId:"easyloan-india",
+ storageBucket:"easyloan-india.firebasestorage.app",
+ messagingSenderId:"925263655882",
+ appId:"1:925263655882:web:0dd41e9964bd9a7a93d533"
 };
-
-
-/* INIT */
-
 firebase.initializeApp(firebaseConfig);
+const db=firebase.database(),auth=firebase.auth();
 
-const db =
-    firebase.database();
+let currentStep=1,totalSteps=7,selectedLoanType="Personal Loan",applicationId=null,currentUser=null;
 
-const storage =
-    firebase.storage();
+const stepNames=["Loan Details","Personal Details","Income & Employment","Documents","Bank Account","Processing Fee","Review & Submit"];
 
-const auth =
-    firebase.auth();
-
-
-/* =====================================================
-   APP STATE
-===================================================== */
-
-let currentStep = 1;
-
-const totalSteps = 7;
-
-let selectedLoanType =
-    "Personal Loan";
-
-let applicationId = null;
-
-let currentUser = null;
-
-let documents = {
-
-    pan: null,
-    identity: null,
-    statement: null
-
-};
-
-
-/*
-   IMPORTANT
-
-   Fee remains false until a trusted backend/payment
-   gateway marks it verified.
-
-   Do NOT change this to true from browser console.
-*/
-
-let feeVerified = false;
-
-
-/* =====================================================
-   AUTH
-===================================================== */
-
-auth.onAuthStateChanged(function(user){
-
-    if(user){
-
-        currentUser = user;
-
-        loadExistingApplication();
-        watchFeeVerification();
-
-    }else{
-
-        /*
-           Anonymous authentication is used only if
-           your Firebase Authentication settings allow it.
-        */
-
-        auth.signInAnonymously()
-        .catch(function(error){
-
-            showError(
-                "Firebase login failed: " +
-                error.message
-            );
-
-        });
-
-    }
-
+auth.onAuthStateChanged(user=>{
+ if(user){currentUser=user;loadExistingApplication();}
+ else auth.signInAnonymously().catch(e=>showError("Firebase login failed: "+e.message));
 });
 
-
-/* =====================================================
-   LOAD EXISTING
-===================================================== */
-
 function loadExistingApplication(){
-
-    if(!currentUser){
-        return;
-    }
-
-    const uid =
-        currentUser.uid;
-
-    db.ref(
-        "loanApplications/" + uid
-    ).once("value")
-    .then(function(snapshot){
-
-        const data =
-            snapshot.val();
-
-        if(!data){
-            return;
-        }
-
-        applicationId =
-            data.applicationId || null;
-
-        /*
-           Never trust local/client data for fee verification.
-           Only a trusted backend should set:
-
-           feeStatus = "verified"
-        */
-
-        if(data.feeStatus === "verified"){
-
-            feeVerified = true;
-
-            document.getElementById(
-                "feeStatus"
-            ).innerText =
-                "Payment status: Verified";
-
-        }
-
-    })
-    .catch(function(error){
-
-        console.log(
-            "Load error:",
-            error
-        );
-
-    });
-
+ if(!currentUser)return;
+ db.ref("loanApplications/"+currentUser.uid).once("value").then(s=>{
+   const d=s.val();if(!d)return;
+   applicationId=d.applicationId||null;
+   if(d.feeStatus==="verified"){
+     document.getElementById("feeStatus").innerText="Payment status: Verified";
+   }
+ }).catch(()=>{});
 }
 
-
-/* =====================================================
-   PAYMENT VERIFICATION LISTENER
-===================================================== */
-
-function watchFeeVerification(){
-
-    if(!currentUser){
-        return;
-    }
-
-    db.ref("loanApplications/" + currentUser.uid + "/feeStatus")
-      .on("value", function(snapshot){
-
-          const status = snapshot.val();
-
-          if(status === "verified"){
-
-              feeVerified = true;
-
-              const feeStatus = document.getElementById("feeStatus");
-              if(feeStatus){
-                  feeStatus.innerText = "Payment status: Verified";
-              }
-
-              const submitBtn = document.getElementById("submitBtn");
-              if(submitBtn){
-                  submitBtn.disabled = false;
-              }
-
-          }
-
-      });
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-function goDashboard(){
-
-    window.location.href =
-        "dashboard.html";
-
-}
-
-
-/* =====================================================
-   STEP DISPLAY
-===================================================== */
+function goDashboard(){window.location.href="dashboard.html"}
 
 function showStep(step){
+ currentStep=step;
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById("page"+step).classList.add("active");
 
-    currentStep = step;
+ const pct=(step/totalSteps)*100;
+ document.getElementById("progressFill").style.width=pct+"%";
+ document.getElementById("progressText").innerText="Step "+step+" of "+totalSteps;
+ document.getElementById("progressTitle").innerText=stepNames[step-1];
 
-
-    document
-        .querySelectorAll(".page")
-        .forEach(function(page){
-
-            page.classList.remove("active");
-
-        });
-
-
-    document
-        .getElementById(
-            "page" + step
-        )
-        .classList.add("active");
-
-
-    for(let i=1;i<=totalSteps;i++){
-
-        const indicator =
-            document.getElementById(
-                "stepIndicator" + i
-            );
-
-        indicator.classList.remove(
-            "active",
-            "completed"
-        );
-
-
-        if(i < step){
-
-            indicator.classList.add(
-                "completed"
-            );
-
-        }
-
-        if(i === step){
-
-            indicator.classList.add(
-                "active"
-            );
-
-        }
-
-    }
-
-
-    const backBtn =
-        document.getElementById(
-            "backBtn"
-        );
-
-    const nextBtn =
-        document.getElementById(
-            "nextBtn"
-        );
-
-
-    backBtn.style.display =
-        step === 1
-        ? "none"
-        : "block";
-
-
-    /*
-       Step 6 is payment page.
-       Step 7 is review.
-    */
-
-    if(step === 6){
-
-        nextBtn.style.display =
-            "none";
-
-    }else if(step === 7){
-
-        nextBtn.style.display =
-            "none";
-
-        updateReview();
-
-    }else{
-
-        nextBtn.style.display =
-            "block";
-
-        nextBtn.innerText =
-            "Continue →";
-
-    }
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+ for(let i=1;i<=totalSteps;i++){
+   const el=document.getElementById("stepIndicator"+i);
+   el.classList.remove("active","done");
+   if(i<step)el.classList.add("done");
+   if(i===step)el.classList.add("active");
+   const circle=el.querySelector(".step-circle");
+   circle.innerText=i<step?"✓":i;
+ }
+ document.getElementById("backBtn").style.display=step===1?"none":"block";
+ document.getElementById("nextBtn").style.display=(step===6||step===7)?"none":"block";
+ if(step===7)updateReview();
+ window.scrollTo({top:0,behavior:"smooth"});
 }
-
-
-/* =====================================================
-   NEXT
-===================================================== */
 
 function nextStep(){
-
-    clearAlert();
-
-
-    if(!validateStep(currentStep)){
-
-        return;
-
-    }
-
-
-    /*
-       Documents completed -> Account
-    */
-
-    if(currentStep === 5){
-
-        /*
-           Before going to payment page,
-           save application as fee_pending.
-        */
-
-        saveDraftAndGoToFee();
-
-        return;
-
-    }
-
-
-    /*
-       Fee step cannot be skipped.
-    */
-
-    if(currentStep === 6){
-
-        
-
-        showStep(7);
-
-        return;
-
-    }
-
-
-    if(currentStep < totalSteps){
-
-        showStep(
-            currentStep + 1
-        );
-
-    }
-
+ clearAlert();
+ if(!validateStep(currentStep))return;
+ if(currentStep===5){saveDraftAndGoToFee();return;}
+ if(currentStep<totalSteps)showStep(currentStep+1);
 }
+function previousStep(){clearAlert();if(currentStep>1)showStep(currentStep-1)}
 
-
-/* =====================================================
-   PREVIOUS
-===================================================== */
-
-function previousStep(){
-
-    clearAlert();
-
-
-    if(currentStep > 1){
-
-        showStep(
-            currentStep - 1
-        );
-
-    }
-
+function selectLoanType(el){
+ document.querySelectorAll(".loan-type").forEach(x=>x.classList.remove("selected"));
+ el.classList.add("selected");selectedLoanType=el.dataset.type;
 }
-
-
-/* =====================================================
-   LOAN TYPE
-===================================================== */
-
-function selectLoanType(element){
-
-    document
-        .querySelectorAll(".loan-type")
-        .forEach(function(item){
-
-            item.classList.remove(
-                "selected"
-            );
-
-        });
-
-
-    element.classList.add(
-        "selected"
-    );
-
-
-    selectedLoanType =
-        element.getAttribute(
-            "data-type"
-        );
-
-}
-
-
-/* =====================================================
-   AMOUNT
-===================================================== */
-
+function formatMoney(n){return "₹"+Number(n||0).toLocaleString("en-IN")}
 function updateAmount(){
-
-    const slider =
-        document.getElementById(
-            "loanAmount"
-        );
-
-    const amount =
-        Number(slider.value);
-
-
-    document.getElementById(
-        "amountText"
-    ).innerText =
-        formatMoney(amount);
-
-
-    document.getElementById(
-        "amountInput"
-    ).value =
-        amount;
-
+ const a=Number(document.getElementById("loanAmount").value);
+ document.getElementById("amountText").innerText=formatMoney(a);
+ document.getElementById("amountInput").value=a;
+ document.getElementById("miniAmount").innerText=formatMoney(a);
+ updateMiniEmi();
 }
-
-
 function syncAmount(){
-
-    let amount =
-        Number(
-            document.getElementById(
-                "amountInput"
-            ).value
-        );
-
-
-    if(amount < 10000){
-        amount = 10000;
-    }
-
-    if(amount > 500000){
-        amount = 500000;
-    }
-
-
-    document.getElementById(
-        "amountInput"
-    ).value =
-        amount;
-
-
-    document.getElementById(
-        "loanAmount"
-    ).value =
-        amount;
-
-
-    document.getElementById(
-        "amountText"
-    ).innerText =
-        formatMoney(amount);
-
+ let a=Number(document.getElementById("amountInput").value)||10000;
+ a=Math.max(10000,Math.min(500000,Math.round(a/5000)*5000));
+ document.getElementById("amountInput").value=a;
+ document.getElementById("loanAmount").value=a;
+ document.getElementById("amountText").innerText=formatMoney(a);
+ document.getElementById("miniAmount").innerText=formatMoney(a);
+ updateMiniEmi();
 }
-
-
-/* =====================================================
-   VALIDATION
-===================================================== */
+function updateMiniEmi(){
+ const amount=Number(document.getElementById("amountInput").value)||0;
+ const t=document.getElementById("tenure").value;
+ document.getElementById("miniTenure").innerText=t||"Not selected";
+ if(!t){document.getElementById("miniEmi").innerText="—";return}
+ const months=parseInt(t),annual=.12,r=annual/12;
+ const emi=amount*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1);
+ document.getElementById("miniEmi").innerText=formatMoney(Math.round(emi));
+}
+function digitsOnly(el,max){el.value=el.value.replace(/\D/g,"").slice(0,max)}
+function toggleInput(id,btn){
+ const el=document.getElementById(id);el.type=el.type==="password"?"text":"password";btn.innerText=el.type==="password"?"Show":"Hide";
+}
+function showFileName(input,id){
+ const box=document.getElementById(id);
+ if(input.files[0]){box.innerText="✓ "+input.files[0].name;box.style.display="block"}else box.style.display="none";
+}
+function checkFileSize(file){
+ if(file.size>5*1024*1024){showError(file.name+" is larger than 5 MB.");return false}return true
+}
 
 function validateStep(step){
-
-    if(step === 1){
-
-        const amount =
-            Number(
-                document.getElementById(
-                    "amountInput"
-                ).value
-            );
-
-        const tenure =
-            document.getElementById(
-                "tenure"
-            ).value;
-
-
-        if(!amount ||
-           amount < 10000 ||
-           amount > 500000){
-
-            showError(
-                "Loan amount ₹10,000 से ₹5,00,000 के बीच होना चाहिए."
-            );
-
-            return false;
-
-        }
-
-
-        if(!tenure){
-
-            showError(
-                "Please select loan tenure."
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    if(step === 2){
-
-        const required = [
-
-            ["fullName","Full name"],
-            ["dob","Date of birth"],
-            ["gender","Gender"],
-            ["mobile","Mobile number"],
-            ["email","Email"],
-            ["address","Address"],
-            ["city","City"],
-            ["pin","PIN code"]
-
-        ];
-
-
-        for(const item of required){
-
-            const value =
-                document
-                .getElementById(item[0])
-                .value
-                .trim();
-
-
-            if(!value){
-
-                showError(
-                    item[1] +
-                    " is required."
-                );
-
-                return false;
-
-            }
-
-        }
-
-
-        const mobile =
-            document.getElementById(
-                "mobile"
-            ).value
-            .replace(/\D/g,"");
-
-
-        const pin =
-            document.getElementById(
-                "pin"
-            ).value
-            .replace(/\D/g,"");
-
-
-        if(mobile.length !== 10){
-
-            showError(
-                "Enter a valid 10 digit mobile number."
-            );
-
-            return false;
-
-        }
-
-
-        if(pin.length !== 6){
-
-            showError(
-                "Enter a valid 6 digit PIN code."
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    if(step === 3){
-
-        const required = [
-
-            ["employmentType","Employment type"],
-            ["company","Company / business name"],
-            ["income","Monthly income"],
-            ["experience","Work experience"]
-
-        ];
-
-
-        for(const item of required){
-
-            const value =
-                document
-                .getElementById(item[0])
-                .value
-                .trim();
-
-
-            if(!value){
-
-                showError(
-                    item[1] +
-                    " is required."
-                );
-
-                return false;
-
-            }
-
-        }
-
-
-        const income =
-            Number(
-                document.getElementById(
-                    "income"
-                ).value
-            );
-
-
-        if(income <= 0){
-
-            showError(
-                "Enter a valid monthly income."
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    if(step === 4){
-
-        const pan =
-            document.getElementById(
-                "panFile"
-            ).files[0];
-
-        const identity =
-            document.getElementById(
-                "identityFile"
-            ).files[0];
-
-        const statement =
-            document.getElementById(
-                "statementFile"
-            ).files[0];
-
-
-        if(!pan ||
-           !identity ||
-           !statement){
-
-            showError(
-                "Please upload all three required documents."
-            );
-
-            return false;
-
-        }
-
-
-        if(!checkFileSize(pan) ||
-           !checkFileSize(identity) ||
-           !checkFileSize(statement)){
-
-            return false;
-
-        }
-
-    }
-
-
-    if(step === 5){
-
-        const fields = [
-
-            ["accountHolder","Account holder name"],
-            ["bankName","Bank name"],
-            ["accountNumber","Account number"],
-            ["confirmAccountNumber","Confirm account number"],
-            ["ifsc","IFSC code"]
-
-        ];
-
-
-        for(const item of fields){
-
-            const value =
-                document
-                .getElementById(item[0])
-                .value
-                .trim();
-
-
-            if(!value){
-
-                showError(
-                    item[1] +
-                    " is required."
-                );
-
-                return false;
-
-            }
-
-        }
-
-
-        const account =
-            document.getElementById(
-                "accountNumber"
-            ).value.trim();
-
-
-        const confirm =
-            document.getElementById(
-                "confirmAccountNumber"
-            ).value.trim();
-
-
-        if(account !== confirm){
-
-            showError(
-                "Account numbers do not match."
-            );
-
-            return false;
-
-        }
-
-
-        const ifsc =
-            document.getElementById(
-                "ifsc"
-            ).value
-            .trim()
-            .toUpperCase();
-
-
-        if(!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)){
-
-            showError(
-                "Enter a valid IFSC code."
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    return true;
-
+ if(step===1){
+   const amount=Number(document.getElementById("amountInput").value),tenure=document.getElementById("tenure").value;
+   if(amount<10000||amount>500000){showError("Loan amount ₹10,000 से ₹5,00,000 के बीच होना चाहिए.");return false}
+   if(!tenure){showError("Please select loan tenure.");return false}
+ }
+ if(step===2){
+   const req=[["fullName","Full name"],["dob","Date of birth"],["gender","Gender"],["mobile","Mobile number"],["email","Email"],["address","Address"],["city","City"],["pin","PIN code"]];
+   for(const [id,label] of req){if(!document.getElementById(id).value.trim()){showError(label+" is required.");return false}}
+   const mobile=document.getElementById("mobile").value.replace(/\D/g,""),pin=document.getElementById("pin").value.replace(/\D/g,"");
+   if(mobile.length!==10){showError("Enter a valid 10 digit mobile number.");return false}
+   if(pin.length!==6){showError("Enter a valid 6 digit PIN code.");return false}
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById("email").value)){showError("Enter a valid email address.");return false}
+ }
+ if(step===3){
+   const req=[["employmentType","Employment type"],["company","Company / business name"],["income","Monthly income"],["experience","Work experience"]];
+   for(const [id,label] of req){if(!document.getElementById(id).value.trim()){showError(label+" is required.");return false}}
+   if(Number(document.getElementById("income").value)<=0){showError("Enter a valid monthly income.");return false}
+ }
+ if(step===4){
+   const files=[["panFile","PAN"],["identityFile","Identity/Address"],["statementFile","Bank Statement"]];
+   for(const [id,label] of files){const f=document.getElementById(id).files[0];if(!f){showError(label+" document is required.");return false}if(!checkFileSize(f))return false}
+ }
+ if(step===5){
+   const req=[["accountHolder","Account holder name"],["bankName","Bank name"],["accountNumber","Account number"],["confirmAccountNumber","Confirm account number"],["ifsc","IFSC code"]];
+   for(const [id,label] of req){if(!document.getElementById(id).value.trim()){showError(label+" is required.");return false}}
+   const a=document.getElementById("accountNumber").value.trim(),c=document.getElementById("confirmAccountNumber").value.trim(),ifsc=document.getElementById("ifsc").value.trim().toUpperCase();
+   if(a!==c){showError("Account numbers do not match.");return false}
+   if(!/^\d{6,20}$/.test(a)){showError("Enter a valid account number.");return false}
+   if(!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)){showError("Enter a valid IFSC code.");return false}
+ }
+ return true;
 }
-
-
-/* =====================================================
-   FILE SIZE
-===================================================== */
-
-function checkFileSize(file){
-
-    const maxSize =
-        5 * 1024 * 1024;
-
-
-    if(file.size > maxSize){
-
-        showError(
-            file.name +
-            " is larger than 5 MB."
-        );
-
-        return false;
-
-    }
-
-
-    return true;
-
-}
-
-
-/* =====================================================
-   SAVE DRAFT
-===================================================== */
-
-async function saveDraftAndGoToFee(){
-
-    if(!currentUser){
-
-        showError(
-            "Please wait for Firebase login."
-        );
-
-        return;
-
-    }
-
-
-    showLoading(
-        "Saving application..."
-    );
-
-
-    try{
-
-        const uid =
-            currentUser.uid;
-
-
-        if(!applicationId){
-
-            applicationId =
-                "APP-" +
-                Date.now();
-
-        }
-
-
-        /*
-           Documents stay LOCAL in the user's browser.
-           Nothing is uploaded to Firebase Storage.
-        */
-
-        const panFile =
-            document.getElementById("panFile").files[0];
-
-        const identityFile =
-            document.getElementById("identityFile").files[0];
-
-        const statementFile =
-            document.getElementById("statementFile").files[0];
-
-        validateLocalDocument(panFile, "PAN");
-        validateLocalDocument(identityFile, "Identity/Address");
-        validateLocalDocument(statementFile, "Bank Statement");
-
-
-        const application =
-            collectApplicationData();
-
-
-        application.applicationId =
-            applicationId;
-
-        application.userId =
-            uid;
-
-        /*
-           Only document metadata is saved in Firebase Realtime Database.
-           The actual files remain on this browser/device only.
-        */
-        application.documents = {
-
-            pan: panFile.name,
-            identity: identityFile.name,
-            statement: statementFile.name
-
-        };
-
-
-        /*
-           IMPORTANT:
-
-           Application remains fee_pending.
-        */
-
-        application.status =
-            "fee_pending";
-
-        application.feeAmount =
-            199;
-
-        application.feeStatus =
-            feeVerified
-            ? "verified"
-            : "pending";
-
-        application.updatedAt =
-            firebase.database.ServerValue.TIMESTAMP;
-
-
-        await db.ref(
-            "loanApplications/" +
-            uid
-        ).set(application);
-
-
-        hideLoading();
-
-        showStep(6);
-
-    }catch(error){
-
-        hideLoading();
-
-        console.error(error);
-
-        showError(
-            "Application save/upload failed: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   UPLOAD
-===================================================== */
-
-function validateLocalDocument(file, label){
-
-    if(!file){
-
-        throw new Error(
-            label +
-            " document missing."
-        );
-
-    }
-
-    if(!checkFileSize(file)){
-        throw new Error(
-            label +
-            " document must be 5 MB or smaller."
-        );
-    }
-
-}
-
-
-/* =====================================================
-   COLLECT DATA
-===================================================== */
 
 function collectApplicationData(){
-
-    return {
-
-        loanType:
-            selectedLoanType,
-
-        loanAmount:
-            Number(
-                document.getElementById(
-                    "amountInput"
-                ).value
-            ),
-
-        tenure:
-            document.getElementById(
-                "tenure"
-            ).value,
-
-
-        personal: {
-
-            fullName:
-                document.getElementById(
-                    "fullName"
-                ).value.trim(),
-
-            dob:
-                document.getElementById(
-                    "dob"
-                ).value,
-
-            gender:
-                document.getElementById(
-                    "gender"
-                ).value,
-
-            mobile:
-                document.getElementById(
-                    "mobile"
-                ).value.trim(),
-
-            email:
-                document.getElementById(
-                    "email"
-                ).value.trim(),
-
-            address:
-                document.getElementById(
-                    "address"
-                ).value.trim(),
-
-            city:
-                document.getElementById(
-                    "city"
-                ).value.trim(),
-
-            pin:
-                document.getElementById(
-                    "pin"
-                ).value.trim()
-
-        },
-
-
-        income: {
-
-            employmentType:
-                document.getElementById(
-                    "employmentType"
-                ).value,
-
-            company:
-                document.getElementById(
-                    "company"
-                ).value.trim(),
-
-            monthlyIncome:
-                Number(
-                    document.getElementById(
-                        "income"
-                    ).value
-                ),
-
-            experience:
-                document.getElementById(
-                    "experience"
-                ).value,
-
-            existingEmi:
-                Number(
-                    document.getElementById(
-                        "existingEmi"
-                    ).value || 0
-                )
-
-        },
-
-
-        bankAccount: {
-
-            accountHolder:
-                document.getElementById(
-                    "accountHolder"
-                ).value.trim(),
-
-            bankName:
-                document.getElementById(
-                    "bankName"
-                ).value.trim(),
-
-            /*
-               In a production system, do not store
-               sensitive banking information in plain text.
-            */
-
-            accountNumber:
-                document.getElementById(
-                    "accountNumber"
-                ).value.trim(),
-
-            ifsc:
-                document.getElementById(
-                    "ifsc"
-                ).value.trim().toUpperCase()
-
-        }
-
-    };
-
+ return {
+  loanType:selectedLoanType,
+  loanAmount:Number(document.getElementById("amountInput").value),
+  tenure:document.getElementById("tenure").value,
+  personal:{
+   fullName:document.getElementById("fullName").value.trim(),
+   dob:document.getElementById("dob").value,
+   gender:document.getElementById("gender").value,
+   mobile:document.getElementById("mobile").value.trim(),
+   email:document.getElementById("email").value.trim(),
+   address:document.getElementById("address").value.trim(),
+   city:document.getElementById("city").value.trim(),
+   pin:document.getElementById("pin").value.trim()
+  },
+  income:{
+   employmentType:document.getElementById("employmentType").value,
+   company:document.getElementById("company").value.trim(),
+   monthlyIncome:Number(document.getElementById("income").value),
+   experience:document.getElementById("experience").value,
+   existingEmi:Number(document.getElementById("existingEmi").value||0)
+  },
+  bankAccount:{
+   accountHolder:document.getElementById("accountHolder").value.trim(),
+   bankName:document.getElementById("bankName").value.trim(),
+   accountNumber:document.getElementById("accountNumber").value.trim(),
+   ifsc:document.getElementById("ifsc").value.trim().toUpperCase()
+  }
+ };
 }
 
-
-/* =====================================================
-   PAYMENT
-===================================================== */
+async function saveDraftAndGoToFee(){
+ if(!currentUser){showError("Please wait for Firebase authentication.");return}
+ showLoading("Saving application...");
+ try{
+  if(!applicationId)applicationId="APP-"+Date.now();
+  const app=collectApplicationData();
+  app.applicationId=applicationId;app.userId=currentUser.uid;
+  app.documents={
+    pan:document.getElementById("panFile").files[0].name,
+    identity:document.getElementById("identityFile").files[0].name,
+    statement:document.getElementById("statementFile").files[0].name
+  };
+  app.status="fee_pending";app.feeAmount=199;app.feeStatus="pending";
+  app.updatedAt=firebase.database.ServerValue.TIMESTAMP;
+  await db.ref("loanApplications/"+currentUser.uid).set(app);
+  hideLoading();showStep(6);
+ }catch(e){hideLoading();console.error(e);showError("Application save failed: "+e.message)}
+}
 
 function startFeePayment(){
-
-    if(!currentUser){
-        showError("Please wait for Firebase authentication.");
-        return;
-    }
-
-    const uid = currentUser.uid;
-    const upiId = "dailylgrow@axl";
-    const amount = "199.00";
-    const payeeName = "EasyLoan India";
-
-    const request = {
-        applicationId: applicationId,
-        amount: 199,
-        currency: "INR",
-        method: "UPI",
-        upiId: upiId,
-        status: "payment_pending",
-        createdAt: firebase.database.ServerValue.TIMESTAMP
-    };
-
-    db.ref("loanApplications/" + uid + "/paymentRequest")
-      .update(request)
-      .then(function(){
-
-          const utrBox = document.getElementById("utrBox");
-          if(utrBox){
-              utrBox.style.display = "block";
-          }
-
-          const utrStatus = document.getElementById("utrStatus");
-          if(utrStatus){
-              utrStatus.innerText = "Payment के बाद UTR / Transaction ID डालें।";
-          }
-
-          const upiUrl =
-              "upi://pay" +
-              "?pa=" + encodeURIComponent(upiId) +
-              "&pn=" + encodeURIComponent(payeeName) +
-              "&am=" + encodeURIComponent(amount) +
-              "&cu=INR";
-
-          // Compatible installed UPI app को खोलने की कोशिश।
-          window.location.href = upiUrl;
-
-      })
-      .catch(function(error){
-
-          console.error(error);
-          showError("Payment request failed: " + error.message);
-
-      });
+ if(!currentUser){showError("Please wait for Firebase authentication.");return}
+ const uid=currentUser.uid,upiId="dailylgrow@axl",amount="199.00",payeeName="EasyLoan India";
+ db.ref("loanApplications/"+uid+"/paymentRequest").update({
+  applicationId,amount:199,currency:"INR",method:"UPI",upiId,status:"payment_pending",
+  createdAt:firebase.database.ServerValue.TIMESTAMP
+ }).then(()=>{
+  document.getElementById("utrBox").style.display="block";
+  document.getElementById("utrStatus").innerText="Payment ke baad UTR / Transaction ID enter karein.";
+  window.location.href="upi://pay?pa="+encodeURIComponent(upiId)+"&pn="+encodeURIComponent(payeeName)+"&am="+amount+"&cu=INR";
+ }).catch(e=>showError("Payment request failed: "+e.message));
 }
-
-
-/* =====================================================
-   UTR SUBMISSION
-===================================================== */
 
 async function submitUTR(){
-
-    if(!currentUser){
-        showError("Please wait for Firebase authentication.");
-        return;
-    }
-
-    const input = document.getElementById("utrInput");
-    const utr = input ? input.value.trim() : "";
-
-    if(!utr){
-        showError("Please enter your UTR / Transaction ID.");
-        return;
-    }
-
-    if(utr.length < 6){
-        showError("Please enter a valid UTR / Transaction ID.");
-        return;
-    }
-
-    const btn = document.getElementById("submitUtrBtn");
-    if(btn) btn.disabled = true;
-
-    try{
-
-        const uid = currentUser.uid;
-
-        await db.ref("loanApplications/" + uid + "/paymentRequest").update({
-            applicationId: applicationId,
-            amount: 199,
-            currency: "INR",
-            method: "UPI",
-            upiId: "dailylgrow@axl",
-            utr: utr,
-            status: "utr_submitted",
-            submittedAt: firebase.database.ServerValue.TIMESTAMP
-        });
-
-        await db.ref("loanApplications/" + uid).update({
-            status: "review_pending",
-            feeAmount: 199,
-            feeStatus: "pending",
-            updatedAt: firebase.database.ServerValue.TIMESTAMP
-        });
-
-        feeVerified = false;
-
-        const feeStatus = document.getElementById("feeStatus");
-        if(feeStatus){
-            feeStatus.innerText = "Payment status: UTR submitted — verification pending";
-        }
-
-        const utrStatus = document.getElementById("utrStatus");
-        if(utrStatus){
-            utrStatus.innerText = "UTR submitted successfully. Payment verification pending.";
-        }
-
-        // UTR submit होते ही Review page पर जाएँ।
-        showStep(7);
-
-    }catch(error){
-
-        console.error(error);
-        showError("UTR submission failed: " + error.message);
-
-        if(btn) btn.disabled = false;
-
-    }
+ if(!currentUser){showError("Please wait for Firebase authentication.");return}
+ const utr=document.getElementById("utrInput").value.trim();
+ if(utr.length<6){showError("Please enter a valid UTR / Transaction ID.");return}
+ const btn=document.getElementById("submitUtrBtn");btn.disabled=true;
+ try{
+  await db.ref("loanApplications/"+currentUser.uid+"/paymentRequest").update({
+   applicationId,amount:199,currency:"INR",method:"UPI",upiId:"dailylgrow@axl",
+   utr,status:"utr_submitted",submittedAt:firebase.database.ServerValue.TIMESTAMP
+  });
+  await db.ref("loanApplications/"+currentUser.uid).update({
+   status:"review_pending",feeAmount:199,feeStatus:"pending",
+   utr,paymentStatus:"submitted",updatedAt:firebase.database.ServerValue.TIMESTAMP
+  });
+  document.getElementById("feeStatus").innerText="Payment status: UTR submitted — verification pending";
+  document.getElementById("utrStatus").innerText="UTR submitted successfully.";
+  showStep(7);
+ }catch(e){showError("UTR submission failed: "+e.message);btn.disabled=false}
 }
-
-
-
-/* =====================================================
-   REVIEW
-===================================================== */
 
 function updateReview(){
-
-    document.getElementById(
-        "reviewLoanType"
-    ).innerText =
-        selectedLoanType;
-
-
-    document.getElementById(
-        "reviewAmount"
-    ).innerText =
-        formatMoney(
-            Number(
-                document.getElementById(
-                    "amountInput"
-                ).value
-            )
-        );
-
-
-    document.getElementById(
-        "reviewTenure"
-    ).innerText =
-        document.getElementById(
-            "tenure"
-        ).value;
-
-
-    document.getElementById(
-        "reviewName"
-    ).innerText =
-        document.getElementById(
-            "fullName"
-        ).value;
-
-
-    document.getElementById(
-        "reviewMobile"
-    ).innerText =
-        document.getElementById(
-            "mobile"
-        ).value;
-
-
-    document.getElementById(
-        "reviewEmployment"
-    ).innerText =
-        document.getElementById(
-            "employmentType"
-        ).value;
-
-
-    document.getElementById(
-        "reviewIncome"
-    ).innerText =
-        formatMoney(
-            Number(
-                document.getElementById(
-                    "income"
-                ).value
-            )
-        );
-
-
-    document.getElementById(
-        "reviewBank"
-    ).innerText =
-        document.getElementById(
-            "bankName"
-        ).value;
-
-
-    const paymentStatus =
-        document.getElementById("reviewPaymentStatus");
-
-    if(paymentStatus){
-
-        paymentStatus.innerText =
-            "UTR Submitted — Verification Pending";
-
-    }
-
-
-    const submitBtn =
-        document.getElementById(
-            "submitBtn"
-        );
-
-
-    submitBtn.disabled =
-        !document.getElementById("finalConsent").checked;
-
+ const set=(id,v)=>document.getElementById(id).innerText=v||"-";
+ set("reviewLoanType",selectedLoanType);
+ set("reviewAmount",formatMoney(Number(document.getElementById("amountInput").value)));
+ set("reviewTenure",document.getElementById("tenure").value);
+ set("reviewName",document.getElementById("fullName").value);
+ set("reviewMobile",document.getElementById("mobile").value);
+ set("reviewEmployment",document.getElementById("employmentType").value);
+ set("reviewIncome",formatMoney(Number(document.getElementById("income").value)));
+ set("reviewBank",document.getElementById("bankName").value);
+ document.getElementById("finalConsent").checked=false;
+ document.getElementById("submitBtn").disabled=true;
 }
-
-
-/* =====================================================
-   FINAL SUBMIT
-===================================================== */
 
 async function submitApplication(){
+ if(!document.getElementById("finalConsent").checked){showError("Please tick the confirmation checkbox before submitting.");return}
+ if(!currentUser){showError("Firebase authentication is not ready.");return}
+ if(!applicationId)applicationId="APP-"+Date.now();
+ showLoading("Submitting your loan application...");
+ try{
+  const app=collectApplicationData();
+  app.applicationId=applicationId;app.userId=currentUser.uid;app.status="submitted";
+  app.submittedAt=firebase.database.ServerValue.TIMESTAMP;app.updatedAt=firebase.database.ServerValue.TIMESTAMP;
+  app.utr=document.getElementById("utrInput").value.trim();
+  app.paymentStatus="submitted";
+  await db.ref("loanApplications/"+currentUser.uid).update(app);
 
-    const consent =
-        document.getElementById("finalConsent");
+  const notificationKey=db.ref("userNotifications/"+currentUser.uid).push().key;
+  await db.ref("userNotifications/"+currentUser.uid+"/"+notificationKey).set({
+    title:"Loan Application Submitted",
+    message:"Your loan application "+applicationId+" has been submitted successfully. Your application is now under review.",
+    applicationId,type:"loan_application",status:"unread",
+    createdAt:firebase.database.ServerValue.TIMESTAMP
+  });
 
-    if(!consent || !consent.checked){
-
-        showError(
-            "Please tick the confirmation checkbox before submitting."
-        );
-
-        return;
-
-    }
-
-    if(!currentUser){
-
-        showError(
-            "Firebase authentication is not ready."
-        );
-
-        return;
-
-    }
-
-    if(!applicationId){
-
-        applicationId =
-            "APP-" +
-            Date.now();
-
-    }
-
-    showLoading(
-        "Submitting your loan application..."
-    );
-
-    try{
-
-        const uid =
-            currentUser.uid;
-
-        const application =
-            collectApplicationData();
-
-        application.applicationId =
-            applicationId;
-
-        application.userId =
-            uid;
-
-        application.status =
-            "submitted";
-
-        application.submittedAt =
-            firebase.database.ServerValue.TIMESTAMP;
-
-        application.updatedAt =
-            firebase.database.ServerValue.TIMESTAMP;
-
-        // UTR remains part of the application/payment record.
-        // Payment verification is NOT required to submit the application.
-        const utr =
-            document.getElementById("utrInput");
-
-        if(utr){
-            application.utr =
-                utr.value.trim();
-        }
-
-        application.paymentStatus =
-            "submitted";
-
-        await db.ref(
-            "loanApplications/" +
-            uid
-        ).update(application);
-
-        // In-app notification for the applicant.
-        const notificationKey =
-            db.ref("userNotifications/" + uid).push().key;
-
-        await db.ref(
-            "userNotifications/" +
-            uid + "/" +
-            notificationKey
-        ).set({
-
-            title: "Loan Application Submitted",
-
-            message:
-                "Your loan application " +
-                applicationId +
-                " has been submitted successfully. " +
-                "Your application is now under review.",
-
-            applicationId:
-                applicationId,
-
-            type:
-                "loan_application",
-
-            status:
-                "unread",
-
-            createdAt:
-                firebase.database.ServerValue.TIMESTAMP
-
-        });
-
-        // Queue an SMS for a trusted SMS backend/provider.
-        const mobile =
-            document.getElementById("mobile").value.trim();
-
-        const smsKey =
-            db.ref("smsQueue").push().key;
-
-        await db.ref(
-            "smsQueue/" + smsKey
-        ).set({
-
-            uid:
-                uid,
-
-            mobile:
-                mobile,
-
-            applicationId:
-                applicationId,
-
-            message:
-                "Your loan application " +
-                applicationId +
-                " has been submitted successfully and is now under review.",
-
-            status:
-                "pending",
-
-            createdAt:
-                firebase.database.ServerValue.TIMESTAMP
-
-        });
-
-        hideLoading();
-
-        document.getElementById(
-            "finalApplicationId"
-        ).innerText =
-            applicationId;
-
-        const successMessage =
-            document.getElementById("successMessage");
-
-        if(successMessage){
-
-            successMessage.innerHTML =
-                "Your loan application has been submitted successfully." +
-                "<br><br>" +
-                "Application ID: <strong>" +
-                applicationId +
-                "</strong>" +
-                "<br><br>" +
-                "Your application is now under review. " +
-                "You will receive an update when the status changes.";
-
-        }
-
-        document.getElementById(
-            "successModal"
-        ).style.display =
-            "flex";
-
-    }catch(error){
-
-        hideLoading();
-
-        console.error(error);
-
-        showError(
-            "Application submission failed: " +
-            error.message
-        );
-
-    }
-
+  hideLoading();
+  document.getElementById("successMessage").innerHTML="Your application has been submitted successfully.<br><br>Application ID: <strong>"+applicationId+"</strong><br><br>Your application is now under review. Approval and disbursement remain subject to eligibility and verification.";
+  document.getElementById("successModal").style.display="flex";
+  makeConfetti();
+ }catch(e){hideLoading();console.error(e);showError("Application submission failed: "+e.message)}
 }
 
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function formatMoney(amount){
-
-    return "₹" +
-        Number(amount || 0)
-        .toLocaleString(
-            "en-IN"
-        );
-
-}
-
+document.getElementById("finalConsent").addEventListener("change",function(){
+ document.getElementById("submitBtn").disabled=!this.checked;
+});
 
 function showError(message){
-
-    const box =
-        document.getElementById(
-            "alertBox"
-        );
-
-    box.className =
-        "alert error";
-
-    box.innerText =
-        message;
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+ const b=document.getElementById("alertBox");b.className="alert error";b.innerText=message;
+ window.scrollTo({top:0,behavior:"smooth"});
 }
+function clearAlert(){const b=document.getElementById("alertBox");b.className="alert";b.innerText=""}
+function showLoading(msg){document.getElementById("loadingText").innerText=msg;document.getElementById("loading").style.display="flex"}
+function hideLoading(){document.getElementById("loading").style.display="none"}
 
-
-function clearAlert(){
-
-    const box =
-        document.getElementById(
-            "alertBox"
-        );
-
-    box.className =
-        "alert";
-
-    box.innerText =
-        "";
-
+function makeConfetti(){
+ const box=document.getElementById("modalBox");
+ for(let i=0;i<22;i++){
+   const s=document.createElement("i");s.className="confetti";
+   s.style.setProperty("--x",(Math.random()*260-130)+"px");
+   s.style.setProperty("--y",(Math.random()*-220-40)+"px");
+   s.style.left=(50+Math.random()*8-4)+"%";
+   s.style.background=["#155eef","#735cf7","#12a86b","#f4a62a","#08b6d8"][i%5];
+   s.style.animationDelay=(Math.random()*.25)+"s";
+   box.appendChild(s);setTimeout(()=>s.remove(),1900);
+ }
 }
-
-
-function showLoading(message){
-
-    document.getElementById(
-        "loadingText"
-    ).innerText =
-        message;
-
-
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "flex";
-
-}
-
-
-function hideLoading(){
-
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "none";
-
-}
-
-
-/* =====================================================
-   CONSENT
-===================================================== */
-
-document
-    .getElementById("finalConsent")
-    .addEventListener(
-        "change",
-        function(){
-
-            if(currentStep === 7){
-
-                document.getElementById(
-                    "submitBtn"
-                ).disabled =
-                    !this.checked;
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   START
-===================================================== */
-
-showStep(1);
-
-updateAmount();
-
-
+showStep(1);updateAmount();
 </script>
-
 </body>
-</html>f
+</html>
